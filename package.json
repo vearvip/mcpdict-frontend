@@ -1,0 +1,34 @@
+{
+  "name": "@icedesign/ice-antd-scaffold",
+  "version": "0.1.0",
+  "description": "Ant Design and icejs scaffold, use TypeScript.",
+  "dependencies": {
+    "@ant-design/icons": "^4.0.2",
+    "antd": "^4.0.0",
+    "prop-types": "^15.5.8",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@iceworks/spec": "^1.0.1",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "build-plugin-antd": "^0.1.2",
+    "eslint": "^7.30.0",
+    "ice.js": "^2.0.0",
+    "stylelint": "^13.1.0"
+  },
+  "scripts": {
+    "start": "icejs start",
+    "build": "icejs build",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "eslint --cache --ext .js,.jsx ./",
+    "stylelint": "stylelint ./**/*.scss"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ice-lab/react-materials/tree/master/scaffolds/antd-lite"
+  },
+  "private": true,
+  "originTemplate": "@icedesign/ice-antd-scaffold"
+}

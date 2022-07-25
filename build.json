@@ -1,0 +1,14 @@
+{
+  "ssr": true,
+  "plugins": [
+    [
+      "build-plugin-antd",
+      {
+        "disableModularImport": true,
+        "themeConfig": {
+          "primary-color": "#36BFEF"
+        }
+      }
+    ]
+  ]
+}
