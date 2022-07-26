@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { SettingOutlined } from "@ant-design/icons";
-import { Button, Divider, Input } from "antd";
+import { useEffect, useState } from "react"; 
+import {  Divider, } from "antd";
 import Book from "../../components/Book";
-import logo from "./imgs/logo.png";
-import logoText from "./imgs/logo_text.png";
+import SearchInput from "../../components/SearchInput";
+import logo from "../../assets/logo.png";
+import logoText from "../../assets/logo_text.png";
 import styles from "./index.module.less";
 import { getRandomColor } from '../../utils/index'
 
@@ -59,21 +59,9 @@ const Index: React.FC = () => {
           <img className={styles.logo} src={logo as any} />
           <img className={styles.logo_text} src={logoText as any} />
         </div>
-        <Input.Group compact className={styles.input_box}>
-          <Input
-            size="large"
-            addonBefore={
-              <Button className={styles.setting}>
-                <SettingOutlined  />
-              </Button>
-            }
-            className={styles.input}
-          />
-          <Button size="large" type="primary">
-            {/* 搜&nbsp;索 */}
-            搜 索
-          </Button>
-        </Input.Group>
+        <SearchInput style={{
+          marginTop: 100
+        }} />
       </div>
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录方言</Divider>

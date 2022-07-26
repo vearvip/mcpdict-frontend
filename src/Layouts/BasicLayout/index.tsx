@@ -5,30 +5,25 @@ import styles from "./index.module.less";
 
 const items: MenuProps["items"] = [
   {
+    label: "首页",
+    key: "0"
+  },
+  {
     label: "字音查询",
     key: "1"
-    // icon: <SearchOutlined />,
   },
   {
     label: "长文注音",
     key: "2"
-    // icon: <ProfileOutlined />,
   },
   {
     label: "字典模式",
     key: "3"
-    // icon: <ReadOutlined />,
   },
   {
     label: "参与注音",
     key: "4"
-    // icon: <SmileOutlined />,
   },
-  {
-    label: "关于本站",
-    key: "5"
-    // icon: <MailOutlined />,
-  }
 ];
 
 export default function BasicLayout({ children, location }) {
@@ -48,9 +43,11 @@ export default function BasicLayout({ children, location }) {
         mode="horizontal"
         items={items}
       />
-      阿喀琉斯的反馈疗法埃里克对方克莱斯勒的苻坚
       {children}
-      <div className={styles.foot}></div>
+      <div className={styles.foot}>
+        本站由vear支持 | 反馈请联系：<br />
+        邮箱：vear.vip@qq.com，微信：vear-vip。
+      </div>
     </div>
   );
 }
