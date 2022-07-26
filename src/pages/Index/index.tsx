@@ -1,9 +1,55 @@
 import { useEffect, useState } from "react";
 import { SettingOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
+import Book from "../../components/Book";
 import logo from "./imgs/logo.png";
 import logoText from "./imgs/logo_text.png";
 import styles from "./index.module.less";
+import { getRandomColor } from '../../utils/index'
+
+const langs = [{
+  name: '镇头',
+  color: getRandomColor()
+},{
+  name: '官桥',
+  color: getRandomColor()
+},{
+  name: '长沙',
+  color: getRandomColor()
+},{
+  name: '湘潭',
+  color: getRandomColor()
+},{
+  name: '宁乡',
+  color: getRandomColor()
+},{
+  name: '浏阳',
+  color: getRandomColor()
+},{
+  name: '韶山',
+  color: getRandomColor()
+},{
+  name: '衡阳',
+  color: getRandomColor()
+},{
+  name: '大瑶',
+  color: getRandomColor()
+},{
+  name: '望城',
+  color: getRandomColor()
+},{
+  name: '湘音检字',
+  color: getRandomColor()
+},{
+  name: '训诂谐音',
+  color: getRandomColor()
+},{
+  name: '老国音',
+  color: getRandomColor()
+},{
+  name: '粤语',
+  color: getRandomColor()
+}]
 
 const Index: React.FC = () => {
   return (
@@ -16,15 +62,28 @@ const Index: React.FC = () => {
         <Input.Group compact className={styles.input_box}>
           <Input
             size="large"
-            addonBefore={<SettingOutlined className={styles.setting} />}
+            addonBefore={
+              <Button className={styles.setting}>
+                <SettingOutlined  />
+              </Button>
+            }
             className={styles.input}
           />
           <Button size="large" type="primary">
-            搜&nbsp;索
+            {/* 搜&nbsp;索 */}
+            搜 索
           </Button>
         </Input.Group>
       </div>
-      <div className={styles.book_box}></div>
+      <div className={styles.book_box}>
+        {
+          langs.map((ele, index) => {
+            return <div key={ele.name + index} className={styles.book_item}>
+              <Book name={ele.name} color={ele.color} />
+            </div>
+          })
+        }
+      </div>
     </div>
   );
 };

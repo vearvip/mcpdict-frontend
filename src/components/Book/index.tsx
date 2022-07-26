@@ -22,8 +22,11 @@ function Book(props: BookProps) {
     borderRadius: 3,
     background: linearColor,
     position: "relative",
-    boxShadow: "4px 4px 4px #ddd",
-    fontFamily: "宋体-简, 新宋体"
+    boxShadow: "4px 4px 4px #eee",
+    fontFamily: "宋体-简, 新宋体",
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    display: 'inline-block'
   };
 
   const bookNameContainer: CSSProperties = {
@@ -131,7 +134,10 @@ function Book(props: BookProps) {
 
   const textSpan: CSSProperties = {
     width: "100%",
-    height: 18
+    height: 18,
+    position: 'relative',
+    left: -1,
+    top: -1
   };
 
   return (
