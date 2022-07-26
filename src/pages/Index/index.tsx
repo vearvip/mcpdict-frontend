@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button, Divider, Input } from "antd";
 import Book from "../../components/Book";
 import logo from "./imgs/logo.png";
 import logoText from "./imgs/logo_text.png";
@@ -76,6 +76,7 @@ const Index: React.FC = () => {
         </Input.Group>
       </div>
       <div className={styles.book_box}>
+        <Divider className={styles.book_divider}>已收录方言</Divider>
         {
           langs.map((ele, index) => {
             return <div key={ele.name + index} className={styles.book_item}>

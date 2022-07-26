@@ -11,5 +11,5 @@ export function random(Min,Max){
 }
 
 export var getRandomColor = function() {
-    return `rgb(${random(20, 100)}, ${random(20, 100)}, ${random(20, 100)})`
+    return `rgb(${random(40, 160)}, ${random(40, 160)}, ${random(40, 160)})`
 }

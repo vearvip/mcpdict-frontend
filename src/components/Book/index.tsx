@@ -5,16 +5,17 @@ import React, { CSSProperties } from "react";
 interface BookProps {
   color?: string;
   name: string;
+  style?: CSSProperties
 }
 
 function Book(props: BookProps) {
-  const { color = "red", name } = props;
+  const { color = "red", name, style } = props;
 
   // const linearColor = `linear-gradient(140deg, ${color} , #36BFEF)`
   const linearColor = `linear-gradient(100deg, ${color} , #f9f9f9)`;
   // color = `linear-gradient(140deg, #EADEDB 0%, #BC70A4 50%, #BFD641 75%)`
 
-  console.log({ color });
+  // console.log({ color });
 
   const bookContainer: CSSProperties = {
     width: 130,
@@ -26,7 +27,9 @@ function Book(props: BookProps) {
     fontFamily: "宋体-简, 新宋体",
     fontWeight: 'bold',
     cursor: 'pointer',
-    display: 'inline-block'
+    display: 'inline-block',
+
+    ...style
   };
 
   const bookNameContainer: CSSProperties = {

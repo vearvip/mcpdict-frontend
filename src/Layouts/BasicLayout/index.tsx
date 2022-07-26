@@ -48,7 +48,9 @@ export default function BasicLayout({ children, location }) {
         mode="horizontal"
         items={items}
       />
+      阿喀琉斯的反馈疗法埃里克对方克莱斯勒的苻坚
       {children}
+      <div className={styles.foot}></div>
     </div>
   );
 }
