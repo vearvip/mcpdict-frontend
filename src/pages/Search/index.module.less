@@ -2,22 +2,80 @@
   background-color: white;
   border: 1px solid #eee;
   border-radius: 8px;
-  margin: 10px; 
+  margin: 10px;
   padding: 20px;
   display: flex;
   justify-content: flex-start;
-  align-items: center; 
-  .logo {
-    width: 40px;
-  }
-  .logo_text {
-    height: 50px;
+  align-items: center;
+
+  .logo_box {
+    width: 160px;
+    // border: 1px solid red;
+    margin-right: 20px;
+
+    .logo {
+      width: 40px;
+    }
+
+    .logo_text {
+      height: 50px;
+    }
   }
 }
+
 .search_content {
+  padding: 20px;
+  padding-left: 200px;
   background-color: white;
   border: 1px solid #eee;
   border-radius: 8px;
-  margin: 10px; 
-  
+  margin: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  .left_box {
+    // flex: 1;
+    width: 650px;
+    margin-right: 150px;
+    box-sizing: border-box;
+    padding: 20px;
+    // box-shadow: 0 2px 3px rgb(0 0 0 / 1%);
+    border: 1px solid rgba(150, 150, 150, 0.2);
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  .right_box {
+    width: 400px;
+    position: relative;
+    // box-shadow: 0 2px 3px rgb(0 0 0 / 1%);
+    border: 1px solid rgba(150, 150, 150, 0.2);
+    border-radius: 4px;
+    padding: 20px;
+  }
 }
+
+/* 表示屏幕尺寸大于等于设定px时 */
+@media screen and (max-width: 1460px) {
+  .right_box {
+    width: 650px !important;
+  }
+}
+/* 表示屏幕尺寸大于等于设定px时 */
+@media screen and (max-width: 1064px) { 
+  .search_content {
+    padding-left: 20px !important;
+  }
+  .left_box {
+    margin-right: 0 !important;
+  }
+  .right_box {
+    width: 650px !important;
+  }
+  .logo_box {
+    display: none;
+  }
+}
+ 

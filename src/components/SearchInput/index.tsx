@@ -4,11 +4,14 @@ import { Button, Divider, Input } from "antd";
 import styles from "./index.module.less";
 
 export default (props: {
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
+  defaultValue?: string
 }) => {
   return <Input.Group compact className={styles.input_box} style={props.style || {}}>
     <Input
+      placeholder="请输入汉字搜索，单次最多十个汉字"
       size="large"
+      defaultValue={props?.defaultValue}
       addonBefore={
         <Button className={styles.setting}>
           <SettingOutlined />
