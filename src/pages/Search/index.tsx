@@ -4,11 +4,10 @@ import SearchInput from "../../components/SearchInput";
 import logo from "../../assets/logo.png";
 import logoText from "../../assets/logo_text.png";
 import { Skeleton } from 'antd';
-// import { useSize } from 'ahooks';
-import { data1, data2 } from './data'
+// import { useSize } from 'ahooks'; 
 
 export default (props) => {
-  console.log('props', props)
+  // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);
   return <React.Fragment>
