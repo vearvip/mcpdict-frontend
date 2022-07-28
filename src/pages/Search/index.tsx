@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './index.module.less'
 import SearchInput from "@/components/SearchInput";
 import logo from "@/assets/logo.png";
@@ -7,6 +7,7 @@ import { Skeleton } from 'antd';
 // import { useSize } from 'ahooks'; 
 
 export default (props) => {
+  const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);
@@ -30,16 +31,16 @@ export default (props) => {
     <div className={styles.search_content}>
       <div className={styles.left_box}>
         {/* <div dangerouslySetInnerHTML={{ __html: data1 }}></div> */}
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
       </div>
       <div className={styles.right_box}>
 
         {/* <div dangerouslySetInnerHTML={{ __html: data2 }}></div> */}
-        <Skeleton.Image style={{ marginBottom: 20 }} />
-        <Skeleton />
+        <Skeleton.Image active={loading}style={{ marginBottom: 20 }} />
+        <Skeleton active={loading} />
       </div>
     </div>
 

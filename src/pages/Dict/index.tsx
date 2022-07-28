@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './index.module.less' 
 import { Skeleton, Divider } from 'antd';
 // import { useSize } from 'ahooks'; 
 
 export default (props) => {
+  const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);
@@ -11,40 +12,36 @@ export default (props) => {
     <div className={styles.search_content}> 
         <div className={styles.book_page}>
           <div className={styles.book_page_left}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
           </div>
           <Divider type="vertical" className={styles.book_page_divider}  />
           <div className={styles.book_page_right}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
           </div>
         </div>
-        <div className={styles.book_page}>
+        <div className={`${styles.book_page} ${styles.hidden_right_page}`}>
           <div className={styles.book_page_left}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
           </div>
           <Divider type="vertical" className={styles.book_page_divider}  />
           <div className={styles.book_page_right}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
           </div>
         </div>  
     </div>

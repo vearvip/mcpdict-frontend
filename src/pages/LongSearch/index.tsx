@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './index.module.less'
 import SearchInput from "@/components/SearchInput";
 import logo from "@/assets/logo.png";
@@ -8,6 +8,7 @@ import { SettingOutlined, SearchOutlined } from "@ant-design/icons";
 // import { useSize } from 'ahooks'; 
 
 export default (props) => {
+  const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);
@@ -23,7 +24,7 @@ export default (props) => {
         style={{
           width: '100%', 
         }} />  */}
-        <Input.TextArea maxLength={100} className={styles.input} />
+        <Input.TextArea placeholder="长文注音，单次只可选择一种语言，请在右侧设置按钮选择语言" maxLength={100} className={styles.input} />
         <div className={styles.btn_box}>
         <Button className={styles.setting}><SettingOutlined className={styles.icon} /></Button>
         <br />
@@ -33,10 +34,10 @@ export default (props) => {
     <div className={styles.search_content}>
       <div className={styles.search_content_main}>
         {/* <div dangerouslySetInnerHTML={{ __html: data1 }}></div> */}
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
+        <Skeleton active={loading} />
       </div> 
     </div>
 

@@ -15,10 +15,10 @@
     .book_page {
       // flex: 1;
       width: 640px;
-      height: 840px;
+      height: 800px;
       margin-right: 10px;
       box-sizing: border-box;
-      padding: 20px;
+      padding: 40px;
       // box-shadow: 0 2px 3px rgb(0 0 0 / 1%);
       border: 1px solid rgba(150, 150, 150, 0.2);
       border-radius: 4px;
@@ -35,19 +35,19 @@
         width: calc(50% - 16px);
         box-sizing: border-box; 
         display: inline-block;
-        height: 800px;
+        height: 720px;
         // border: 1px solid red;
       }
       .book_page_right { 
         width: calc(50% - 16px);
         box-sizing: border-box; 
         display: inline-block;
+        height: 720px;
         // border: 1px solid red;
-        height: 800px;
       }
       .book_page_divider {
         // background-color: red;
-        height: 800px;
+        height: 720px;
         vertical-align: top;
         margin: 0 15px;
       }
@@ -56,3 +56,9 @@
   // }
 }
  
+/* 表示屏幕尺寸小于等于设定px时 */
+@media screen and (max-width: 1380px) { 
+  .hidden_right_page {
+    display: none;
+  }
+}

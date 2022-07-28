@@ -18,6 +18,10 @@ const items: MenuProps["items"] = [
     label: "长文注音",
     key: "/long-search"
   },
+  // {
+  //   label: "多音字表模式",
+  //   key: "/same-word"
+  // },
   {
     label: "字典模式",
     key: "/dict"
