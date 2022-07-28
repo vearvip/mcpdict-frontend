@@ -17,6 +17,15 @@ export default (props) => {
             <Skeleton active={loading} />
             <Skeleton active={loading} />
             <Skeleton active={loading} /> 
+            {/* <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> 
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />  */}
           </div>
           <Divider type="vertical" className={styles.book_page_divider}  />
           <div className={styles.book_page_right}>
@@ -27,7 +36,7 @@ export default (props) => {
             <Skeleton active={loading} /> 
           </div>
         </div>
-        <div className={`${styles.book_page} ${styles.hidden_right_page}`}>
+        <div className={`${styles.book_page} ${styles.book_page2}`}>
           <div className={styles.book_page_left}>
             <Skeleton active={loading} />
             <Skeleton active={loading} />
