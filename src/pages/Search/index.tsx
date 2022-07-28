@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styles from './index.module.less'
-import SearchInput from "../../components/SearchInput";
-import logo from "../../assets/logo.png";
-import logoText from "../../assets/logo_text.png";
+import SearchInput from "@/components/SearchInput";
+import logo from "@/assets/logo.png";
+import logoText from "@/assets/logo_text.png";
 import { Skeleton } from 'antd';
 // import { useSize } from 'ahooks'; 
 

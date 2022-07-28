@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import styles from './index.module.less'
-import SearchInput from "../../components/SearchInput";
-import logo from "../../assets/logo.png";
-import logoText from "../../assets/logo_text.png";
+import SearchInput from "@/components/SearchInput";
+import logo from "@/assets/logo.png";
+import logoText from "@/assets/logo_text.png";
 import { Skeleton, Input, Button } from 'antd';
 import { SettingOutlined, SearchOutlined } from "@ant-design/icons";
 // import { useSize } from 'ahooks'; 
@@ -31,7 +31,7 @@ export default (props) => {
         </div>
     </div>
     <div className={styles.search_content}>
-      <div className={styles.left_box}>
+      <div className={styles.search_content_main}>
         {/* <div dangerouslySetInnerHTML={{ __html: data1 }}></div> */}
         <Skeleton />
         <Skeleton />

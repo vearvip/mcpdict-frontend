@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './index.module.less'
 
 export interface Props {
   name: string;
@@ -6,9 +7,9 @@ export interface Props {
 
 const Greeting = ({ name }: Props) => {
   return (
-    <React.Fragment>
+    <div className={styles.not_found}>
       404
-    </React.Fragment>
+    </div>
   );
 };
 

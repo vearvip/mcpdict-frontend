@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"; 
 import {  Divider, } from "antd";
-import Book from "../../components/Book";
-import SearchInput from "../../components/SearchInput";
-import logo from "../../assets/logo.png";
-import logoText from "../../assets/logo_text.png";
+import Book from "@/components/Book";
+import SearchInput from "@/components/SearchInput";
+import logo from "@/assets/logo.png";
+import logoText from "@/assets/logo_text.png";
 import styles from "./index.module.less";
-import { getRandomColor } from '../../utils/index'
+import { getRandomColor } from '@/utils/index'
 
 const langs = [{
   name: '镇头',
