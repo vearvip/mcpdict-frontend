@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"; 
-import {  Divider, } from "antd";
-import Book from "@/components/Book";
-import SearchInput from "@/components/SearchInput";
-import logo from "@/assets/logo.png";
-import logoText from "@/assets/logo_text.png";
+import {  Divider, } from "antd"; 
+import Book from "~/src/components/Book";
+import SearchInput from "~/src/components/SearchInput";
+import { logo, logoText } from "~/src/utils/asstes"; 
 import styles from "./index.module.less";
-import { getRandomColor } from '@/utils/index'
+import { getRandomColor } from '~/src/utils/index'
 
 const langs = [{
   name: '镇头',
@@ -56,8 +55,8 @@ const Index: React.FC = () => {
     <div className={styles.index}>
       <div className={styles.main_box}>
         <div className={styles.logo_box}>
-          <img className={styles.logo} src={logo as any} />
-          <img className={styles.logo_text} src={logoText as any} />
+          <img className={styles.logo} src={logo} />
+          <img className={styles.logo_text} src={logoText} />
         </div>
         <SearchInput style={{
           marginTop: 100

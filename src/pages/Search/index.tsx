@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
-import SearchInput from "@/components/SearchInput";
-import logo from "@/assets/logo.png";
-import logoText from "@/assets/logo_text.png";
+import SearchInput from "~/src/components/SearchInput";
+import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton } from 'antd';
-import request from '@/utils/request'
+// import request from '~/src/utils/request'
 import { Zi } from './types';
 
 // import { useSize } from 'ahooks'; 
@@ -14,16 +13,14 @@ const Search = (props: any) => {
   const [loading, setLoading] = useState(true)
   const [searchData, setSearchData] = useState<Zi[]>([])
 
-  const onSearch = async value => {
+  const onSearch = async (value: any) => {
     console.log('value------', value)
     setLoading(true)
     setSearchData([])
     try {
       const ret: {
         data: Zi[]
-      } = await request({
-        url: 'https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok'
-      })
+      } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok').then(res => res.json()))
       // console.log({ret})
       setSearchData(ret.data) 
     } catch (error) {
@@ -119,7 +116,7 @@ const Search = (props: any) => {
   </React.Fragment>
 }
 
-Search.getInitialProps = async (ctx) => {
+Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
   // console.log('ctx', ctx.query)
   if (!ctx?.query?.q) {
     return {}
@@ -127,9 +124,7 @@ Search.getInitialProps = async (ctx) => {
   try {
     const ret: {
       data: Zi[]
-    } = await request({
-      url: 'https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok'
-    })
+    } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok').then(res => res.json()))
     // console.log({ret})
     return {
       ssrSearchData: ret.data

@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react'
 import styles from './index.module.less'
-import SearchInput from "@/components/SearchInput";
-import logo from "@/assets/logo.png";
-import logoText from "@/assets/logo_text.png";
+import SearchInput from "~/src/components/SearchInput";
+import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton, Input, Button } from 'antd';
 import { SettingOutlined, SearchOutlined } from "@ant-design/icons";
+import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
-export default (props) => {
+export default (props: NextPage) => {
   const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 

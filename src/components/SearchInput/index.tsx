@@ -6,7 +6,7 @@ import styles from "./index.module.less";
 export default (props: {
   style?: React.CSSProperties
   defaultValue?: string
-  onSearch: Function
+  onSearch?: Function
 }) => {
   const [value, setValue] = useState('')
   return <Input.Group compact className={styles.input_box} style={props.style || {}}>
@@ -26,7 +26,7 @@ export default (props: {
         setValue(_value.target.value)
       }}
     />
-    <Button size="large" type="primary" onClick={() => props.onSearch(value)}>
+    <Button size="large" type="primary" onClick={() => props.onSearch && props.onSearch(value)}>
       {/* 搜&nbsp;索 */}
       搜 索
     </Button>

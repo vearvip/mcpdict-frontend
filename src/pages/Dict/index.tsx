@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import styles from './index.module.less' 
 import { Skeleton, Divider } from 'antd';
+import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
-export default (props) => {
+export default (props: NextPage) => {
   const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 

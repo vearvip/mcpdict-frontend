@@ -1,4 +1,4 @@
-export function random(Min,Max){
+export function random(Min: number, Max: number){
 
     var Range = Max - Min;
 

@@ -1,22 +1,22 @@
-import { history } from 'ice';
 import React, { useEffect, useState } from "react";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import { useRouter } from "next/router";
 import styles from "./index.module.less";
  
 
 const items: MenuProps["items"] = [
   {
     label: "首页",
-    key: "/"
+    key: "/Index"
   },
   {
     label: "字音查询",
-    key: "/search"
+    key: "/Search"
   },
   {
     label: "长文注音",
-    key: "/long-search"
+    key: "/LongSearch"
   },
   // {
   //   label: "多音字表模式",
@@ -24,23 +24,25 @@ const items: MenuProps["items"] = [
   // },
   {
     label: "字典模式",
-    key: "/dict"
+    key: "/Dict"
   },
   {
     label: "参与注音",
-    key: "/join"
+    key: "/Join"
   },
 ];
 
-export default function BasicLayout(props) {
-  // console.log('props', props)
-  const { children, location: { pathname } } = props
+export default function BasicLayout(props: any) {
+  
+  const router = useRouter(); 
+  console.log('router', router)
+  const { children } = props
   // const [current, setCurrent] = useState("mail");
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
     // setCurrent(e.key);
-    history?.push(e.key)
+    router?.push(e.key)
   };
 
   return (
@@ -48,7 +50,7 @@ export default function BasicLayout(props) {
       <Menu
         className={styles.nav}
         onClick={onClick}
-        selectedKeys={[pathname]}
+        selectedKeys={[router.pathname]}
         mode="horizontal"
         items={items}
       />
