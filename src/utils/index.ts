@@ -13,3 +13,7 @@ export function random(Min: number, Max: number){
 export var getRandomColor = function() {
     return `rgb(${random(40, 160)}, ${random(40, 160)}, ${random(40, 160)})`
 }
+
+export let makeBr = function (str: string) {
+   return `<div>${str.replace(/\n/g, "<br/>")}</div>`
+}

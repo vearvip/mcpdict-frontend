@@ -3,13 +3,16 @@ import styles from './index.module.less'
 import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton } from 'antd';
+import { useRouter } from 'next/router'
 // import request from '~/src/utils/request' 
 import { Zi } from '~/src/types';
+import { makeBr } from '~/src/utils';
 
 // import { useSize } from 'ahooks'; 
 
 const Search = (props: any) => {
   // console.log('props', props)
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [searchData, setSearchData] = useState<Zi[]>([])
 
@@ -17,6 +20,7 @@ const Search = (props: any) => {
     console.log('value------', value)
     setLoading(true)
     setSearchData([])
+    router.push('/Search?q=' + value, undefined, { shallow: true })
     try {
       const ret: {
         data: Zi[]
@@ -34,7 +38,7 @@ const Search = (props: any) => {
     setSearchData(props?.ssrSearchData ?? [])
   }, [props.ssrSearchData])
 
-
+let tt = "<div>1.两点之间的距离大（跟“短”相对）。a）指空间：这条路很～。～～的柳条垂到地面。b）指时间：～寿。夏季昼～夜短。<br/>2.长度：南京长江大桥气势雄伟，铁路桥全～6772米。<br/>3.长处：特～。取～补短。一技之～。<br/>4.（对某事）做得特别好：他～于写作。<br/>5.（旧读zhàng）多余；剩余：～物。<br/>6.姓。</div>"
   return <React.Fragment>
     {/* {searchContentSize} */}
     <div className={styles.search_bar}>
@@ -71,7 +75,7 @@ const Search = (props: any) => {
                     {
                       ziItem.fangyan.map((fangyanItem, fangyanIndex) => {
                         return <div key={'fangyanIndex' + fangyanIndex}>
-                          <h2 style={{ display: 'inline-block' }}>{fangyanItem.mingzi}</h2>
+                          <h4 style={{ display: 'inline-block', border: '1px solid red', borderRadius: 2, marginRight: 5, padding: '0 2px', }}>{fangyanItem.mingzi}</h4>
                           {
                             fangyanItem.yin.map((yinItem, yinIndex) => {
                               return <React.Fragment key={'yinIndex' + yinIndex}>
@@ -100,11 +104,14 @@ const Search = (props: any) => {
             {
               searchData.map((ziItem, ziIndex) => {
                 return <React.Fragment key={'ziIndex' + ziIndex}>
-                  <img src={ziItem.zitu} style={{ width: 100 }} /> 
-                  <pre style={{
-                    wordBreak: 'break-all'
-                  }}>{ ziItem.xinhuashiyi }</pre>
-                  {/* <div dangerouslySetInnerHTML={{ __html:ziItem.xinhuashiyi.replace(/\n/g,'\<br\/\>')  }}> </div>  */}
+                <img src={ziItem.zitu} style={{ width: 100, marginBottom: 20 }} />
+                  {/* <div className={styles.right_box_content}>{ ziItem.xinhuashiyi }</div> */}
+                  <div dangerouslySetInnerHTML={{ __html: makeBr(ziItem.xinhuashiyi) }}></div> 
+                  {/* <span dangerouslySetInnerHTML={{ __html: '<h1>asdf</h1>'}}> </span>  */}
+                  {/* <div dangerouslySetInnerHTML={{ __html: makeBr(ziItem.xinhuashiyi) }}></div>  */}
+                  {/* {
+                    JSON.stringify(makeBr(ziItem.xinhuashiyi))
+                  } */}
                 </React.Fragment>
               })
             }
