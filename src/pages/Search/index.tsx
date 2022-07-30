@@ -11,8 +11,8 @@ import { makeBr } from '~/src/utils';
 // import { useSize } from 'ahooks'; 
 
 const Search = (props: any) => {
-  // console.log('props', props)
   const router = useRouter()
+  console.log('router', router)
   const [loading, setLoading] = useState(true)
   const [searchData, setSearchData] = useState<Zi[]>([])
 
@@ -47,7 +47,7 @@ let tt = "<div>1.两点之间的距离大（跟“短”相对）。a）指空�
         <img className={styles.logo_text} src={logoText as any} />
       </div>
       <SearchInput
-        defaultValue={props?.searchParams?.q}
+        defaultValue={(router?.query?.q ?? '') as string}
         onSearch={onSearch}
         style={{
           width: '100%',
@@ -126,7 +126,7 @@ let tt = "<div>1.两点之间的距离大（跟“短”相对）。a）指空�
 Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
   // console.log('ctx', ctx.query)
   if (!ctx?.query?.q) {
-    return {}
+    return 
   }
   try {
     const ret: {
@@ -138,7 +138,7 @@ Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
     }
   } catch (error) {
     // console.error(error)
-    return {}
+    return 
   }
 }
 

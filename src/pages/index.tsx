@@ -53,9 +53,10 @@ Index.getInitialProps = async (ctx: { query: { q: any; }; }) => {
     }
   } catch (error) {
     // console.error(error)
-    return {
-      langs: []
-    }
+    // return {
+    //   langs: []
+    // }
+    return
   }
 }
 
