@@ -12,11 +12,11 @@ const items: MenuProps["items"] = [
   },
   {
     label: "字音查询",
-    key: "/Search"
+    key: "/search"
   },
   {
     label: "长文注音",
-    key: "/LongSearch"
+    key: "/long-search"
   },
   // {
   //   label: "多音字表模式",
@@ -24,11 +24,11 @@ const items: MenuProps["items"] = [
   // },
   {
     label: "字典模式",
-    key: "/Dict"
+    key: "/dict"
   },
   {
     label: "参与注音",
-    key: "/Join"
+    key: "/join"
   },
 ];
 

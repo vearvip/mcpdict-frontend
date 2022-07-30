@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
-import styles from './index.module.less' 
+import styles from '~/src/styles/dict.module.less' 
 import { Skeleton, Divider } from 'antd';
 import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
 const Dict = (props: NextPage) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);

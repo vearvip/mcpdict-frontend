@@ -17,3 +17,5 @@ export var getRandomColor = function() {
 export let makeBr = function (str: string) {
    return `<div>${str.replace(/\n/g, "<br/>")}</div>`
 }
+
+export let Props = (data: any) => ({props: data})

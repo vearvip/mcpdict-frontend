@@ -21,6 +21,7 @@ const SearchInput = (props: {
         </Button>
       }
       className={styles.input}
+      onPressEnter={() => props.onSearch && props.onSearch(value)}
       onChange={_value => {
         // console.log({_value.tar})
         setValue(_value.target.value)

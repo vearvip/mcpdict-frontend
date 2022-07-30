@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import styles from './index.module.less'
+import styles from '~/src/styles/long-search.module.less'
 import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton, Input, Button } from 'antd';
@@ -8,7 +8,7 @@ import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
 const LongSearch = (props: NextPage) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);

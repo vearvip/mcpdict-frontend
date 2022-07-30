@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import styles from './index.module.less'
+import styles from '~/src/styles/search.module.less'
 import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton } from 'antd';
 import { useRouter } from 'next/router'
 // import request from '~/src/utils/request' 
 import { Zi } from '~/src/types';
-import { makeBr } from '~/src/utils';
+import { makeBr, Props } from '~/src/utils';
+import { fetcher } from '../utils/request';
+import { searchWords } from '../services';
 
 // import { useSize } from 'ahooks'; 
 
+
+
+export async function getServerSideProps(ctx: { query: { q: any; }; }) { 
+  return Props(await searchWords(ctx?.query?.q)) 
+}
+
+
 const Search = (props: any) => {
-  const router = useRouter()
-  console.log('router', router)
-  const [loading, setLoading] = useState(true)
+  const router = useRouter() 
+  const [loading, setLoading] = useState(false)
   const [searchData, setSearchData] = useState<Zi[]>([])
 
   const onSearch = async (value: any) => {
-    console.log('value------', value)
     setLoading(true)
-    setSearchData([])
-    router.push('/Search?q=' + value, undefined, { shallow: true })
-    try {
-      const ret: {
-        data: Zi[]
-      } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok').then(res => res.json()))
-      // console.log({ret})
-      setSearchData(ret.data) 
-    } catch (error) {
-      console.error(error) 
-    } finally {
-      setLoading(false)
-    }
+    router.push('/search?q=' + value, undefined, { shallow: true })
+    setSearchData((await searchWords(value)).ssrSearchData)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -123,23 +120,6 @@ let tt = "<div>1.两点之间的距离大（跟“短”相对）。a）指空�
   </React.Fragment>
 }
 
-Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
-  // console.log('ctx', ctx.query)
-  if (!ctx?.query?.q) {
-    return {}
-  }
-  try {
-    const ret: {
-      data: Zi[]
-    } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/ok').then(res => res.json()))
-    // console.log({ret})
-    return {
-      ssrSearchData: ret.data
-    }
-  } catch (error) {
-    // console.error(error)
-    return {}
-  }
-}
-
+ 
 export default Search
+ 

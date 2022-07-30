@@ -3,9 +3,12 @@ import {  Divider, } from "antd";
 import Book from "~/src/components/Book";
 import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
-import styles from "./index.module.less";
-import { getRandomColor } from '~/src/utils/index'
+import styles from "~/src/styles/index.module.less";
+import { getRandomColor, Props } from '~/src/utils/index'
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { fetcher } from "../utils/request";
+import { getLangs } from "../services";
  
 interface IndexProps {
   langs: Array<{
@@ -16,6 +19,13 @@ interface IndexProps {
 
 const Index = (props: IndexProps) => {
   const { langs } = props
+  const router = useRouter() 
+
+  const onSearch = async (value: any) => {
+    router.push('/search?q=' + value) 
+  }
+
+
   return (
     <div className={styles.index}>
       <div className={styles.main_box}>
@@ -25,7 +35,7 @@ const Index = (props: IndexProps) => {
         </div>
         <SearchInput style={{
           marginTop: 100
-        }} />
+        }} onSearch={onSearch} />
       </div>
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录方言</Divider>
@@ -42,21 +52,8 @@ const Index = (props: IndexProps) => {
 };
 
 
-Index.getInitialProps = async (ctx: { query: { q: any; }; }) => { 
-  try {
-    const ret: {
-      data: any
-    } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/book').then(res => res.json()))
-    // console.log({ret})
-    return {
-      langs: ret.data
-    }
-  } catch (error) {
-    // console.error(error)
-    return {
-      langs: []
-    }
-  }
+export async function getServerSideProps() {  
+  return Props(await getLangs())
 }
 
 export default Index;
