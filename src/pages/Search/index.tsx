@@ -126,7 +126,7 @@ let tt = "<div>1.两点之间的距离大（跟“短”相对）。a）指空�
 Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
   // console.log('ctx', ctx.query)
   if (!ctx?.query?.q) {
-    return 
+    return {}
   }
   try {
     const ret: {
@@ -138,7 +138,7 @@ Search.getInitialProps = async (ctx: { query: { q: any; }; }) => {
     }
   } catch (error) {
     // console.error(error)
-    return 
+    return {}
   }
 }
 
