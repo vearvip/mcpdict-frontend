@@ -8,7 +8,7 @@ interface BookProps {
 }
 
 function Book(props: BookProps) {
-  const { color = "red", name, style } = props;
+  const { color, name, style = {} } = props;
 
   // const linearColor = `linear-gradient(140deg, ${color} , #36BFEF)`
   const linearColor = `linear-gradient(100deg, ${color} , #f9f9f9)`;

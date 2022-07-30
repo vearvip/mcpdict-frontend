@@ -5,52 +5,17 @@ import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
 import styles from "./index.module.less";
 import { getRandomColor } from '~/src/utils/index'
+import { NextPage } from "next";
+ 
+interface IndexProps {
+  langs: Array<{
+    name: string
+    color: string
+  }>
+}
 
-const langs = [{
-  name: '镇头',
-  color: getRandomColor()
-},{
-  name: '官桥',
-  color: getRandomColor()
-},{
-  name: '长沙',
-  color: getRandomColor()
-},{
-  name: '湘潭',
-  color: getRandomColor()
-},{
-  name: '宁乡',
-  color: getRandomColor()
-},{
-  name: '浏阳',
-  color: getRandomColor()
-},{
-  name: '韶山',
-  color: getRandomColor()
-},{
-  name: '衡阳',
-  color: getRandomColor()
-},{
-  name: '大瑶',
-  color: getRandomColor()
-},{
-  name: '望城',
-  color: getRandomColor()
-},{
-  name: '湘音检字',
-  color: getRandomColor()
-},{
-  name: '训诂谐音',
-  color: getRandomColor()
-},{
-  name: '老国音',
-  color: getRandomColor()
-},{
-  name: '粤语',
-  color: getRandomColor()
-}]
-
-const Index: React.FC = () => {
+const Index = (props: IndexProps) => {
+  const { langs } = props
   return (
     <div className={styles.index}>
       <div className={styles.main_box}>
@@ -75,5 +40,23 @@ const Index: React.FC = () => {
     </div>
   );
 };
+
+
+Index.getInitialProps = async (ctx: { query: { q: any; }; }) => { 
+  try {
+    const ret: {
+      data: any
+    } = await (fetch('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/book').then(res => res.json()))
+    // console.log({ret})
+    return {
+      langs: ret.data
+    }
+  } catch (error) {
+    // console.error(error)
+    return {
+      langs: []
+    }
+  }
+}
 
 export default Index;

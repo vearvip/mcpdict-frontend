@@ -8,7 +8,7 @@ import styles from "./index.module.less";
 const items: MenuProps["items"] = [
   {
     label: "首页",
-    key: "/Index"
+    key: "/"
   },
   {
     label: "字音查询",
@@ -35,7 +35,7 @@ const items: MenuProps["items"] = [
 export default function BasicLayout(props: any) {
   
   const router = useRouter(); 
-  console.log('router', router)
+  // console.log('router', router)
   const { children } = props
   // const [current, setCurrent] = useState("mail");
 
