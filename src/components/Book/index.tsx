@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable prefer-const */
 import React, { CSSProperties } from "react";
 

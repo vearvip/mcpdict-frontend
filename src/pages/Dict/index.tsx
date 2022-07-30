@@ -4,7 +4,7 @@ import { Skeleton, Divider } from 'antd';
 import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
-export default (props: NextPage) => {
+const Dict = (props: NextPage) => {
   const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
@@ -58,3 +58,7 @@ export default (props: NextPage) => {
 
   </React.Fragment>
 }
+
+Dict.displayName = 'Dict'
+
+export default Dict

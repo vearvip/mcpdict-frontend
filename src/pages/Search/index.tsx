@@ -3,8 +3,8 @@ import styles from './index.module.less'
 import SearchInput from "~/src/components/SearchInput";
 import { logo, logoText } from "~/src/utils/asstes"; 
 import { Skeleton } from 'antd';
-// import request from '~/src/utils/request'
-import { Zi } from './types';
+// import request from '~/src/utils/request' 
+import { Zi } from '~/src/types';
 
 // import { useSize } from 'ahooks'; 
 

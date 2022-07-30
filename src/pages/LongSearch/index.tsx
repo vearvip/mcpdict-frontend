@@ -7,7 +7,7 @@ import { SettingOutlined, SearchOutlined } from "@ant-design/icons";
 import { NextPage } from 'next';
 // import { useSize } from 'ahooks'; 
 
-export default (props: NextPage) => {
+const LongSearch = (props: NextPage) => {
   const [loading, setLoading] = useState(true)
   // console.log('props', props)
   // const searchContentRef = useRef(null) 
@@ -43,3 +43,7 @@ export default (props: NextPage) => {
 
   </React.Fragment>
 }
+
+LongSearch.displayName = 'LongSearch'
+
+export default LongSearch

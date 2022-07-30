@@ -3,7 +3,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Button, Divider, Input } from "antd";
 import styles from "./index.module.less";
 
-export default (props: {
+const SearchInput = (props: {
   style?: React.CSSProperties
   defaultValue?: string
   onSearch?: Function
@@ -32,3 +32,7 @@ export default (props: {
     </Button>
   </Input.Group>
 }
+
+SearchInput.displayName = 'SearchInput'
+
+export default SearchInput
