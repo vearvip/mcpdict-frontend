@@ -8,7 +8,7 @@ const Join = () => {
     height: '60vh',
     userSelect: 'none'
   }}>
-    🚧施工中
+    🚧施工中...
   </div>
 }
 
