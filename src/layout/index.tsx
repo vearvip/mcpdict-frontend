@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import type { MenuProps } from "antd";
+import { Button, MenuProps, Popover } from "antd";
 import { Menu } from "antd";
 import { useRouter } from "next/router";
 import styles from "./index.module.less";
- 
+import Head from "next/head";
+
+const upyunLogo = 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-20c9e8f4-2e86-42ce-9b49-841d84f433a9/4790c38b-22d5-4420-86a1-51f1abfccae6.png'
+
 
 const items: MenuProps["items"] = [
   {
@@ -33,31 +36,52 @@ const items: MenuProps["items"] = [
 ];
 
 export default function BasicLayout(props: any) {
-  
-  const router = useRouter(); 
+
+  const router = useRouter();
   // console.log('router', router)
   const { children } = props
   // const [current, setCurrent] = useState("mail");
 
-  const onClick: MenuProps["onClick"] = (e) => {
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
     // setCurrent(e.key);
     router?.push(e.key)
   };
 
+  const handleGoVearPage = () => {
+    window.open('https://vear.vip')
+  }
+
+  const handleUpyunClick = () => {
+    window.open('https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral')
+  }
+
   return (
-    <div className={styles.layout}>
+    <div className={styles.layout}> 
+    
+      <Head>
+        <title>湘语雅音</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Menu
         className={styles.nav}
-        onClick={onClick}
+        onClick={handleMenuClick}
         selectedKeys={[router.pathname]}
         mode="horizontal"
         items={items}
       />
       {children}
       <div className={styles.foot}>
-        本站由vear支持 | 反馈请联系：<br />
-        邮箱：vear.vip@qq.com，微信：vear-vip。
+        <div>
+          本网站由<Button type="link" className={styles.btn_link} onClick={handleGoVearPage}>Vear</Button>支持，反馈请<Popover content={<div>
+            邮箱：vear.vip@qq.com，微信：vear-vip。
+          </div>} >
+            <Button type="link" className={styles.btn_link}>联系</Button>
+          </Popover>
+        </div>
+        <div>
+        本网站由<img src={upyunLogo} className={styles.upyun_logo} onClick={handleUpyunClick} />提供CDN加速/云存储服务
+        </div>
       </div>
     </div>
   );
