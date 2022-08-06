@@ -4,9 +4,7 @@ import { Menu } from "antd";
 import { useRouter } from "next/router";
 import styles from "./index.module.less";
 import Head from "next/head";
-
-const upyunLogo = 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-20c9e8f4-2e86-42ce-9b49-841d84f433a9/4790c38b-22d5-4420-86a1-51f1abfccae6.png'
-
+import { upyunLogo } from "../utils/asstes";
 
 const items: MenuProps["items"] = [
   {
