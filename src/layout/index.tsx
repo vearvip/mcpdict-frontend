@@ -73,7 +73,7 @@ export default function BasicLayout(props: any) {
       {children}
       <div className={styles.foot}>
         <div>
-          本网站由<Button type="link" className={styles.btn_link} onClick={handleGoVearPage}>Vear</Button>支持，反馈请<Popover content={<div>
+          本网站由<Button type="link" className={`${styles.btn_link} ${styles.vear}`} onClick={handleGoVearPage}>vear</Button>支持，反馈请<Popover content={<div>
             邮箱：vear.vip@qq.com，微信：vear-vip。
           </div>} >
             <Button type="link" className={styles.btn_link}>联系</Button>
