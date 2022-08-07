@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Button, MenuProps, Popover } from "antd";
-import { Menu } from "antd";
-import { useRouter } from "next/router";
+import { Component, createMemo, createSignal, } from 'solid-js';
+import { useRoutes, useNavigate, useLocation } from '@solidjs/router';
+import { routes } from '../routes';
 import styles from "./index.module.less";
-import Head from "next/head";
-import { upyunLogo } from "../utils/asstes";
+import Menu from '@/components/Menu'
+import { upyunLogo } from '../utils/asstes';
+import { MenuConfig } from '@/types';
 
-const items: MenuProps["items"] = [
+
+const items: MenuConfig[] = [
   {
     label: "首页",
     key: "/"
@@ -19,10 +20,6 @@ const items: MenuProps["items"] = [
     label: "长文注音",
     key: "/long-search"
   },
-  // {
-  //   label: "多音字表模式",
-  //   key: "/same-word"
-  // },
   {
     label: "字典模式",
     key: "/dict"
@@ -33,17 +30,11 @@ const items: MenuProps["items"] = [
   },
 ];
 
-export default function BasicLayout(props: any) {
-
-  const router = useRouter();
-  // console.log('router', router)
-  const { children } = props
-  // const [current, setCurrent] = useState("mail");
-
-  const handleMenuClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    // setCurrent(e.key);
-    router?.push(e.key)
+const Layout: Component = () => {
+  const push = useNavigate();
+  const location = useLocation();
+  const handleMenuClick = (e: MenuConfig) => {
+    push(e.key)
   };
 
   const handleGoVearPage = () => {
@@ -54,33 +45,28 @@ export default function BasicLayout(props: any) {
     window.open('https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral')
   }
 
+  const handleGoWechatImg = () => {
+    window.open('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-20c9e8f4-2e86-42ce-9b49-841d84f433a9/9335076b-b6d4-4ac6-af7a-d35e6eeca2ea.webp')
+  }
+
+
+  const Routes = useRoutes(routes);
+
   return (
-    <div className={styles.layout}> 
-    
-      <Head>
-        <title>湘语雅音</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <Menu
-        className={styles.nav}
-        onClick={handleMenuClick}
-        selectedKeys={[router.pathname]}
-        mode="horizontal"
-        items={items}
-      />
-      {children}
-      <div className={styles.foot}>
+    <div class={styles.layout}>
+      <div class={`${styles.nav} box`}>
+        <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick} />
+      </div> 
+      <Routes />
+      <div class={`${styles.foot} box`}>
         <div>
-          本网站由<Button type="link" className={`${styles.btn_link} ${styles.vear}`} onClick={handleGoVearPage}>vear</Button>支持，反馈请<Popover content={<div>
-            邮箱：vear.vip@qq.com，微信：vear-vip。
-          </div>} >
-            <Button type="link" className={styles.btn_link}>联系</Button>
-          </Popover>
-        </div>
+          本网站由<span class={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span class={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span></div>
         <div>
-        本网站由<img src={upyunLogo} className={styles.upyun_logo} onClick={handleUpyunClick} />提供CDN加速/云存储服务
+          本网站由<img src={upyunLogo} class={styles.upyun_logo} onClick={handleUpyunClick} />提供CDN加速/云存储服务
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Layout;

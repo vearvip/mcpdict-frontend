@@ -12,13 +12,18 @@
     width: 160px;
     // border: 1px solid red;
     margin-right: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
     .logo {
       width: 40px;
+      // border: 1px solid red;
     }
 
     .logo_text {
       height: 50px;
+      // border: 1px solid red;
     }
   }
 }
@@ -54,6 +59,11 @@
     border: 1px solid rgba(150, 150, 150, 0.2);
     border-radius: 4px;
     padding: 20px;
+    box-sizing: border-box;
+    .zitu {
+      width: 100px;
+      margin-bottom: 20px;
+    }
     .right_box_content {
       white-space: pre-line;
     }
@@ -71,14 +81,14 @@
   .search_content {
     padding-left: 20px !important;
   }
-  .left_box {
+  .left_box { 
     margin-right: 0 !important;
   }
   .right_box {
     width: 650px !important;
   }
   .logo_box {
-    display: none;
+    display: none !important;
   }
 }
  

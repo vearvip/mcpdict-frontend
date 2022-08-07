@@ -1,12 +1,11 @@
-import React from 'react'
 
 const Join = () => {
   return <div style={{
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    'justify-content': 'center',
+    'align-items': 'center',
     height: '60vh',
-    userSelect: 'none'
+    'user-select': 'none'
   }}>
     🚧施工中...
   </div>

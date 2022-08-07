@@ -31,3 +31,13 @@ export interface Zi {
   xinhuashiyi: string;
   fangyan: Fangyan[];
 }
+
+export interface Lang {
+  name: string;
+  color: string;
+}
+
+export interface MenuConfig {
+  label: string
+  key: string
+} 

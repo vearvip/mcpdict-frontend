@@ -1,0 +1,23 @@
+
+:root {
+  --color: #36bfef;
+}
+
+body {
+  margin: 0;
+  background: #f9f9f9;
+  /* font-family: "宋体-简", "新宋体" !important;  */
+}
+
+.box { 
+  width: calc(100% - 20px);
+  background-color: white;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+
+
+
+
