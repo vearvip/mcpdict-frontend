@@ -1,8 +1,9 @@
 import styles from './index.module.less'
-import { Component, For, JSX } from 'solid-js'
-import { MenuConfig } from '@/types'
-import LogoBlock from '@/components/LogoBlock'
+import { Component, createSignal, For, JSX, Show } from 'solid-js'
+import { MenuConfig } from '@/types' 
 import menuSvg from '@/assets/menu.svg'
+import Drawer from '@/components/Drawer'
+import LogoBlock from '../LogoBlock'
 
 interface MenuProps {
   dataSource: MenuConfig[]
@@ -12,21 +13,12 @@ interface MenuProps {
 
 const Menu: Component<MenuProps> = (props) => { 
 
+  const [showDrawer, setShowDrawer] = createSignal(false)
+
   return <div class={styles.menu}>
-    <div class={styles.logo_block}>
-      <LogoBlock styleList={[{
-        margin: '10px 0 0 20px', 
-        height: '24px'
-      }, {
-        width: '24px', 
-        'margin-right': '5px'
-      }, {
-        height: '34px'
-      }]} />
-    </div>
     <div class={styles.menu_icon_box}>
       
-    <img src={menuSvg} class={styles.menu_icon}></img>
+    <img src={menuSvg} class={styles.menu_icon} onClick={() => setShowDrawer(true)}></img>
     </div>
     <div>
       <For each={props.dataSource}>
@@ -40,6 +32,35 @@ const Menu: Component<MenuProps> = (props) => {
           }}
       </For>
     </div>
+    <Drawer visable={showDrawer()} onClose={() => setShowDrawer(false)} > 
+        <LogoBlock styleList={[{
+          margin: '0 auto',
+          width: '200px',
+          display: 'flex',
+          "justify-content": 'center',
+          "align-items": 'center',
+          padding: '10px 0',
+          "border-radius": '6px',
+          background: 'rgba(0, 0, 0, 0.03)',
+          border: '1px solid rgba(0, 0, 0, 0.04)',
+          "margin-top": '20px'
+        }]} />
+      <div class={styles.menu_list_box}>
+        <For each={props.dataSource}>
+            {(ele) => {
+              return <div class={
+                ele.key === props.activeKey
+                  ? `${styles.menu_list_item} ${styles.menu_list_item_active}`
+                  : styles.menu_list_item
+              }
+              onClick={() => {
+                setShowDrawer(false)
+                props.onChange(ele)
+              }}>{ele.label}</div>
+            }}
+        </For>
+      </div>
+    </Drawer>
   </div>
 }
 
