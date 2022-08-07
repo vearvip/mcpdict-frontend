@@ -1,6 +1,7 @@
 import { Component, createEffect, createSignal, For, onMount, Show } from 'solid-js'
 import styles from './index.module.less'
 import SearchInput from "@/components/SearchInput";
+import LogoBlock from "@/components/LogoBlock";
 import Skeleton from "@/components/Skeleton";
 import { logo, logoText } from "@/utils/asstes";
 import { Zi } from '@/types';
@@ -40,11 +41,9 @@ const Search: Component = (props) => {
   //   onSearch(searchParams?.q ?? '')
   // })
   return <>
-    <div class={styles.search_bar}>
-      <div class={styles.logo_box}>
-        <img class={styles.logo} src={logo as any} />
-        <img class={styles.logo_text} src={logoText as any} />
-      </div>
+    <div class={styles.search_bar}> 
+      <div class={styles.logo_block}><LogoBlock /></div>
+      
       <SearchInput
         defaultValue={(searchParams?.q ?? '') as string}
         onSearch={onSearch}

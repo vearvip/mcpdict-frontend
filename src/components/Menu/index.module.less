@@ -1,4 +1,5 @@
-.menu {
+.menu { 
+  position: relative;
   .menu_item {
     height: 46px;
     box-sizing: border-box;
@@ -20,5 +21,44 @@
   .menu_item_active { 
     color: var(--color);
     border-bottom: 2px solid  var(--color);
+  } 
+  .menu_icon_box {
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    top: 6px;
+    right: 16px;
+    cursor: pointer;
+    padding: 4px;
+    box-sizing: border-box;
+    border-radius: 3px; 
+  }
+  .menu_icon {
+    width: 20px;
+  }
+  .menu_icon_box:hover { 
+    // border: 1px solid red;
+    background-color: rgb(243, 243, 243);
   }
 }
+
+/* 表示屏幕尺寸小于等于设定px时 */
+@media screen and (max-width: 499.98px) { 
+  .menu_item {
+    display: none !important;
+  } 
+  .logo_block, .menu_icon_box {
+    display: inline-block !important;
+  }
+}
+ 
+/* 表示屏幕尺寸小于等于设定px时 */
+@media screen and (min-width: 500px) { 
+  .menu_item {
+    display: inline-flex !important;
+  } 
+  .logo_block, .menu_icon_box {
+    display: none;
+  }
+}
+ 
