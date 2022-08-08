@@ -36,7 +36,13 @@ const Drawer: ParentComponent<DrawerProps> = (props) => {
     <div ref={drawerBoxDOM} id="drawer_box">
       {props.children}
     </div>
-    <div ref={drawerMaskDOM} id="drawer_mask" onClick={() => props.onClose()} />
+    <div
+      ref={drawerMaskDOM}
+      id="drawer_mask"
+      onClick={() => props.onClose()}
+      style={props.visable ? {} : {
+        'pointer-events': 'none'
+      }} />
   </>
 }
 
