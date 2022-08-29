@@ -333,6 +333,11 @@
   resolved "https://registry.npmmirror.com/@types/node/-/node-18.6.4.tgz"
   integrity sha512-I4BD3L+6AWiUobfxZ49DlU43gtI+FTHSv9pE2Zekg6KjMpre4ByusaljW3vYSLJrvQ1ck1hUaeVu8HVlY3vzHg==
 
+"@types/nprogress@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/@types/nprogress/-/nprogress-0.2.0.tgz#86c593682d4199212a0509cc3c4d562bbbd6e45f"
+  integrity sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmmirror.com/ansi-styles/-/ansi-styles-3.2.1.tgz"
@@ -722,6 +727,11 @@ node-releases@^2.0.6:
   version "2.0.6"
   resolved "https://registry.npmmirror.com/node-releases/-/node-releases-2.0.6.tgz"
   integrity sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 parse-node-version@^1.0.1:
   version "1.0.1"

@@ -4,6 +4,7 @@ import { render } from 'solid-js/web';
 import { hashIntegration, Router } from "@solidjs/router";
 import './index.css';
 import Layout from './layout';
+import 'nprogress/nprogress.css'
 
 render(
   () => (

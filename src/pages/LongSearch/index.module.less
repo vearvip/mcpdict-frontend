@@ -23,11 +23,17 @@
       height: 50px;
     }
   }
-  .input {
+
+  .textarea {
     width: 650px;
     height: 120px;
     border-radius: 4px;
+    padding: 10px;
+
+    border: 1px solid #d9d9d9;
+    outline: none;
   }
+
   .btn_box {
     margin-left: 10px;
     width: 60px;
@@ -36,22 +42,43 @@
     // align-items: center;
     // flex-direction: column;
     height: 120px;
+    outline: none;
+
     // border: 1px solid red;
-    .setting {
+    .setting_btn {
       width: 55px;
-      height: 55px;
-      border-radius: 4px; 
+      height: 66px;
+      border-radius: 4px;
       background-color: #fafafa;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+
       // border: 1px solid red;
       // margin-bottom: 10px;
+      img {
+
+        width: 20px;
+      }
     }
+
     .search_btn {
       width: 55px;
-      height: 55px;
-      border-radius: 4px; 
+      height: 66px;
+      border-radius: 4px;
       // border: 1px solid red;
       margin-top: 10px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      
+    background: var(--color);
+    color: white;
     }
+
     .icon {
       font-size: 18px;
     }
@@ -69,11 +96,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+  min-height: 540px;
   // border: 1px solid red;
 
   .search_content_main {
     // flex: 1;
-    width: 715px;
+    width: 735px;
     margin-right: 150px;
     box-sizing: border-box;
     padding: 20px;
@@ -82,19 +110,22 @@
     border-radius: 4px;
     margin-bottom: 20px;
   }
- 
+
 }
- 
+
 /* 表示屏幕尺寸小于等于设定px时 */
-@media screen and (max-width: 1064px) { 
-  .search_content, .search_bar  {
+@media screen and (max-width: 1064px) {
+
+  .search_content,
+  .search_bar {
     padding-left: 20px !important;
   }
+
   .search_content_main {
     margin-right: 0 !important;
-  } 
+  }
+
   .logo_box {
     display: none;
   }
 }
- 
