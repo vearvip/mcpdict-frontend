@@ -1,6 +1,6 @@
 import { Component } from 'solid-js'
 import styles from './index.module.less'
-import { noData } from "@/utils/asstes";
+import noData from '@/assets/webp/noData.webp'
 
 
 const Drawer: Component = (props) => {
