@@ -1,6 +1,6 @@
 import { Component, createEffect, createSignal, JSX } from "solid-js";
 import styles from "./index.module.less";
-import settingPng from '@/assets/setting.svg'
+import settingPng from '@/assets/svg/setting.svg'
 
 const SearchInput: Component<{
   style?: JSX.CSSProperties

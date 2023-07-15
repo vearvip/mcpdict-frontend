@@ -1,5 +1,6 @@
 :root {
-  --color: #36bfef;
+  /* --color: #36bfef; */
+  --color: #3273dc; 
 }
 
 body {
@@ -18,9 +19,10 @@ body {
 
 
 #nprogress .bar {
-  background: #58cbf5 !important;
+  background: var(--color) !important;
 }
 
+/* 全局滚动条样式修改 */
 *::-webkit-scrollbar {
   width: 10px;
 }
@@ -32,7 +34,7 @@ body {
 
 * {
   scrollbar-width: 10px;
-  scrollbar-base-color: green;
+  /* scrollbar-base-color: green;
   scrollbar-track-color: red;
-  scrollbar-arrow-color: blue;
+  scrollbar-arrow-color: blue; */
 }

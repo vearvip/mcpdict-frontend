@@ -1,7 +1,7 @@
   
 import Book from "@/components/Book";
 import SearchInput from "@/components/SearchInput";
-import { logo, logoText } from '@/utils/asstes'; 
+import { logo } from '@/utils/asstes'; 
 import styles from "./index.module.less"; 
 import { useNavigate } from "@solidjs/router";
 import { Component, createSignal, For, onMount } from "solid-js";
@@ -27,8 +27,7 @@ const Index: Component = (props) => {
     <div class={styles.index}>
       <div class={`${styles.main_box} box`}>
         <div class={styles.logo_box}>
-          <img class={styles.logo} src={logo} />
-          <img class={styles.logo_text} src={logoText} />
+          <img class={styles.logo} src={logo} /> 
         </div>
         <SearchInput style={{
           'margin-top': '100px'
@@ -36,13 +35,13 @@ const Index: Component = (props) => {
       </div>
       <div class={styles.book_box}>
         {/* <Divider class={styles.book_divider}>已收录方言</Divider> */}
-        <For each={langs()}>
+        {/* <For each={langs()}>
           {(ele) => {
             return <div class={styles.book_item}>
             <Book name={ele.name} color={ele.color} />
           </div>
           }}
-        </For> 
+        </For>  */}
       </div>
     </div>
   );

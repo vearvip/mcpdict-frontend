@@ -82,7 +82,7 @@ const Search: Component = (props) => {
                       {
                         (fangyanItem) => {
                           return <>
-                            <h4 style={{ display: 'inline-block', border: '1px solid red', borderRadius: 2, marginRight: 5, padding: '0 2px', }}>{fangyanItem.mingzi}</h4>
+                            <h4 style={{ display: 'inline-block', border: '1px solid red', 'border-radius': '2px', 'margin-right': '5px', padding: '0 2px', }}>{fangyanItem.mingzi}</h4>
                             <For each={fangyanItem.yin}>
                               {
                                 (yinItem) => {

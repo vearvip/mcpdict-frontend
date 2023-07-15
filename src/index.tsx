@@ -8,9 +8,10 @@ import 'nprogress/nprogress.css'
 
 render(
   () => (
-    <Router source={hashIntegration()}>
+    // <Router source={hashIntegration()}>
+    <Router >
       <Layout />
-    </Router>
+    </Router> 
   ),
   document.getElementById("root") as HTMLElement
 ); 

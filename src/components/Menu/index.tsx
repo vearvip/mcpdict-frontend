@@ -1,7 +1,7 @@
 import styles from './index.module.less'
 import { Component, createSignal, For, JSX, Show } from 'solid-js'
 import { MenuConfig } from '@/types' 
-import menuSvg from '@/assets/menu.svg'
+import menuSvg from '@/assets/svg/menu.svg'
 import Drawer from '@/components/Drawer'
 import LogoBlock from '../LogoBlock'
 
