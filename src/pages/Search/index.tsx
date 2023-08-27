@@ -9,10 +9,9 @@ import { makeBr } from '@/utils';
 import { fetcher } from '@/utils/request';
 import { searchWords } from '@/services';
 import { useNavigate, useParams, useSearchParams } from '@solidjs/router';
-import NProgress from 'nprogress'
-// import { Skeleton } from 'antd'; 
-
-// import { useSize } from 'ahooks'; 
+import NProgress from 'nprogress' 
+import LeftBox from "./components/LeftBox";
+import RightBox from "./components/RightBox";
 
 
 const Search: Component = (props) => {
@@ -61,64 +60,8 @@ const Search: Component = (props) => {
         JSON.stringify(searchDataIsEmpty())
       } */}
       <Show when={!!searchParams.q && !searchDataIsEmpty()}>
-
-        <div class={styles.left_box}>
-          <Show when={searchData().length > 0} fallback={<>
-            <Skeleton />
-            {/* <Skeleton active={loading} />
-              <Skeleton active={loading} />
-              <Skeleton active={loading} />
-              <Skeleton active={loading} /> */}
-            左侧空白
-          </>}>
-
-            <For each={searchData()}>
-              {
-                (ziItem) => {
-                  return <>
-                    <h1>{ziItem.zi}</h1>
-
-                    <For each={ziItem.fangyan}>
-                      {
-                        (fangyanItem) => {
-                          return <>
-                            <h4 style={{ display: 'inline-block', border: '1px solid red', 'border-radius': '2px', 'margin-right': '5px', padding: '0 2px', }}>{fangyanItem.mingzi}</h4>
-                            <For each={fangyanItem.yin}>
-                              {
-                                (yinItem) => {
-                                  return <h4 style={{ display: 'inline-block' }}>{yinItem.shengmu + yinItem.yunmu}</h4>
-                                }
-                              }
-                            </For>
-
-                          </>
-                        }
-                      }
-                    </For>
-                  </>
-                }
-              }
-            </For>
-          </Show>
-        </div>
-        <div class={styles.right_box}>
-          <Show when={searchData().length > 0} fallback={<>
-            {/* <Skeleton.Image active={loading} style={{ marginBottom: 20 }} />
-              <Skeleton active={loading} /> */}
-            右侧空白
-          </>}>
-            <For each={searchData()}>
-              {
-                (ziItem) => {
-                  return <>
-                    <img src={ziItem.zitu} class={styles.zitu} />
-                    <div innerHTML={makeBr(ziItem.xinhuashiyi)}></div>
-                  </>
-                }
-              }
-            </For>
-          </Show>
-        </div>
+        <LeftBox searchData={searchData()} />
+        {/* <RightBox searchData={searchData()} />  */}
       </Show>
       <Show when={!searchParams.q || searchDataIsEmpty()}>
         <NoData />

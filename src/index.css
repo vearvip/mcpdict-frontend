@@ -1,6 +1,8 @@
 :root {
   /* --color: #36bfef; */
   --color: #3273dc; 
+  --border-color: rgba(150, 150, 150, 0.2);
+  --shadow-color: rgba(0,0,0,0.1);
 }
 
 body {
