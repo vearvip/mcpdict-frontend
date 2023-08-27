@@ -1,3 +1,5 @@
+ 
+
 export function random(Min: number, Max: number){
 
     var Range = Max - Min;
@@ -19,3 +21,4 @@ export let makeBr = function (str: string) {
 }
 
 export let Props = (data: any) => ({props: data})
+ 

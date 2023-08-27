@@ -61,7 +61,7 @@ const Search: Component = (props) => {
       } */}
       <Show when={!!searchParams.q && !searchDataIsEmpty()}>
         <LeftBox searchData={searchData()} />
-        {/* <RightBox searchData={searchData()} />  */}
+        <RightBox searchData={searchData()} /> 
       </Show>
       <Show when={!searchParams.q || searchDataIsEmpty()}>
         <NoData />

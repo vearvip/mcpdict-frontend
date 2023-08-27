@@ -3,14 +3,14 @@
 export interface Yongfa {
   shiyi: string;
   zuci: string;
-  zuju: string;
+  zaojv: string;
 }
 
 export interface Yin {
   shengmu: string;
   yunmu: string;
-  shengmu2: string;
-  yunmu2: string;
+  shengdiao: string;
+  diaozhi: string;
   yongfa: Yongfa[];
 }
 

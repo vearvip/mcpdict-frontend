@@ -5,7 +5,7 @@ import logo from '@/assets/webp/logo.webp'
 const LogoBlock: Component<{
   styleList?: JSX.CSSProperties[]
 }> = (props) => { 
-  createEffect(() => console.log({props}))
+  // createEffect(() => console.log({props}))
 
   return <div class={styles.logo_box} style={props?.styleList?.[0] ?? {}} >
     <img class={styles.logo} src={logo as any} style={props?.styleList?.[1] ?? {}} /> 

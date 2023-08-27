@@ -13,6 +13,8 @@ const RightBox: Component<RightBoxProps> = (props) => {
     searchData
   } = props
 
+  console.log('searchData', searchData)
+
   return <>
 <div class={styles.right_box}>
           <Show when={searchData.length > 0} fallback={<>

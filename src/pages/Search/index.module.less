@@ -29,7 +29,7 @@
     width: 650px;
     margin-right: 150px;
     box-sizing: border-box;
-    padding: 20px; 
+    padding: 20px;
     border: 1px solid rgba(150, 150, 150, 0.2);
     border-radius: 4px;
     margin-bottom: 20px;
@@ -38,42 +38,54 @@
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 20px;
       margin-bottom: 20px;
+
       .zi {
         font-size: 32px;
         font-weight: bold;
       }
+
       .fangyan {
         margin-top: 20px;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
-       .mingzi_box {
-        width: 90px;
-        .mingzi {
-          font-size: 14px;
-          display: inline-block;
-          border: 1px solid var(--border-color);
-          border-radius: 2px;
-          margin-right: 5px;
-          padding: 2px 4px;
-          border-radius: 4px;
-          text-align: center; 
+
+        .mingzi_box {
+          width: 90px;
+
+          .mingzi {
+            max-width: 70px;
+            box-sizing: border-box;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            margin-right: 5px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            text-align: center;
+          }
         }
-       }
-  .yin_box {
-    display: inline-block;
-    .yin {
-      // display: inline-block;
-      // padding-left: 80px;
-    }
-  }
+
+        .yin_box {
+          display: inline-block;
+
+          .yin {
+
+            // display: inline-block;
+            // padding-left: 80px;
+            .yinbiao {
+              margin-right: 10px;
+            }
+          }
+        }
       }
     }
   }
 
   .right_box {
     width: 400px;
-    position: relative; 
+    position: relative;
     border: 1px solid rgba(150, 150, 150, 0.2);
     border-radius: 4px;
     padding: 20px;

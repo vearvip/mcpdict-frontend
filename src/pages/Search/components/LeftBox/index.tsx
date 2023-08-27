@@ -39,7 +39,19 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
                         <For each={fangyanItem.yin}>
                           {
                             (yinItem) => {
-                              return <div class={styles.yin}>{yinItem.shengmu + yinItem.yunmu + yinItem.shengdiao}</div>
+                              return <div class={styles.yin}>
+                                <span class={styles.yinbiao}>{yinItem.shengmu + yinItem.yunmu + yinItem.shengdiao}</span>
+                                <For each={yinItem.yongfa}>
+                                  {
+                                    (yongfaItem) => {
+                                      return <span>{
+                                        yongfaItem.shiyi + '：' + yongfaItem.zaojv.replaceAll(ziItem.zi, '~') + '；'
+                                      }</span>
+                                    }
+                                  }
+
+                                </For>
+                              </div>
                             }
                           }
                         </For>
