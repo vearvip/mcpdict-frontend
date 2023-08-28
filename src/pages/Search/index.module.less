@@ -39,6 +39,12 @@
       padding-bottom: 20px;
       margin-bottom: 20px;
 
+      &:last-child {
+        border: none;
+        margin: 0;
+        // padding: 0;
+      }
+
       .zi {
         font-size: 32px;
         font-weight: bold;
@@ -91,13 +97,27 @@
     padding: 20px;
     box-sizing: border-box;
 
-    .zitu {
-      width: 100px;
+    .zi_box {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
       margin-bottom: 20px;
-    }
+      // border: 1px solid red;
 
-    .right_box_content {
-      white-space: pre-line;
+      &:last-child {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .zitu {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+
+      .right_box_content {
+        white-space: pre-line;
+        // border: 1px solid red;
+      }
     }
   }
 

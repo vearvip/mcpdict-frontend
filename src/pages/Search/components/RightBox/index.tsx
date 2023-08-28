@@ -25,10 +25,10 @@ const RightBox: Component<RightBoxProps> = (props) => {
             <For each={searchData}>
               {
                 (ziItem) => {
-                  return <>
+                  return <div class={styles.zi_box}>
                     <img src={ziItem.zitu} class={styles.zitu} />
                     <div innerHTML={makeBr(ziItem.xinhuashiyi)}></div>
-                  </>
+                  </div>
                 }
               }
             </For>
