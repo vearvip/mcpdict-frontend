@@ -8,8 +8,7 @@ import 'nprogress/nprogress.css'
 
 render(
   () => (
-    // <Router source={hashIntegration()}>
-    <Router >
+    <Router source={hashIntegration()}> 
       <Layout />
     </Router> 
   ),
