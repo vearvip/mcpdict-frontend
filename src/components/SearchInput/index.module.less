@@ -5,6 +5,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  // position: relative;
 
   // border: 1px solid red;
   .setting_btn {  
@@ -72,5 +73,11 @@
   .search_btn:hover { 
     color: #fff; 
     background: var(--color);
+  }
+  .dialog {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
   }
 }

@@ -1,2 +1,7 @@
+const baseURL = 'http://hangnien.vear.vip'
+
 // @ts-ignore
-export const fetcher = (...args) => fetch(...args).then((res) => res.json())
+export const fetcher = (url, ...args) => fetch(
+  baseURL + url,
+  ...args
+).then((res) => res.json())

@@ -5,7 +5,7 @@ import LogoBlock from "@/components/LogoBlock";
 import Skeleton from "@/components/Skeleton";
 import NoData from "@/components/NoData";
 import { Zi } from '@/types';
-import { makeBr } from '@/utils';
+import { makeBr, str2List } from '@/utils';
 import { fetcher } from '@/utils/request';
 import { searchWords } from '@/services';
 import { useNavigate, useParams, useSearchParams } from '@solidjs/router';
@@ -29,7 +29,10 @@ const Search: Component = (props) => {
   const search = async (value: string) => {
     setLoading(true)
     NProgress.start();
-    setSearchData((await searchWords(value)).ssrSearchData)
+    setSearchData((await searchWords({
+      zis: str2List(value),
+      fangYanIds: [localStorage.getItem('selectFangYanId')]
+    })))
     NProgress.done();
     setLoading(false)
   }

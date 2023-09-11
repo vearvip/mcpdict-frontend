@@ -22,3 +22,9 @@ export let makeBr = function (str: string) {
 
 export let Props = (data: any) => ({props: data})
  
+
+export const str2List = (str: string) => { 
+    let segmenter = new Intl.Segmenter();
+    let segments = segmenter.segment(str);
+    return [...segments].map(ele => ele.segment) 
+}

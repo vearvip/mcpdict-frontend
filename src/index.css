@@ -10,6 +10,7 @@ body {
   background: #f9f9f9;
   font-size: 14px;
   /* font-family: "宋体-简", "新宋体" !important;  */
+  position: relative;
 }
 
 .box {
@@ -18,6 +19,7 @@ body {
   border: 1px solid #eee;
   box-sizing: border-box;
   border-radius: 8px;
+
 }
 
 
@@ -41,3 +43,4 @@ body {
   scrollbar-track-color: red;
   scrollbar-arrow-color: blue; */
 }
+ 

@@ -6,22 +6,14 @@ import styles from "./index.module.less";
 import { useNavigate } from "@solidjs/router";
 import { Component, createSignal, For, onMount } from "solid-js";
 import { Lang } from "@/types";
-import { queryLangs } from "@/services";
-  
 
-const Index: Component = (props) => { 
-  const [langs, setLangs] = createSignal<Lang[]>([]);
+const Index: Component = (props) => {  
   const push = useNavigate();
 
   const onSearch = async (value: any) => {
     push('/search?q=' + value) 
   }
 
-  onMount(async () => {
-    const data = await queryLangs()
-    setLangs(data.langs)
-    // console.log('data', data)
-  })
 
   return (
     <div class={styles.index}>
@@ -29,7 +21,8 @@ const Index: Component = (props) => {
         <div class={styles.logo_box}>
           <img class={styles.logo} src={logo} /> 
         </div>
-        <SearchInput style={{
+        <SearchInput 
+        style={{
           'margin-top': '100px'
         }} onSearch={onSearch} />
       </div>
