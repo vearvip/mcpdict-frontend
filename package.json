@@ -1,7 +1,7 @@
 {
-  "name": "fangyan",
+  "name": "430-frontend",
   "version": "0.0.1",
-  "description": "雅音网",
+  "description": "代号430",
   "scripts": {
     "start": "vite",
     "dev": "vite",
