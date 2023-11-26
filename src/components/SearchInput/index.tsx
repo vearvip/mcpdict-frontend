@@ -3,6 +3,7 @@ import styles from "./index.module.less";
 import settingPng from '@/assets/svg/setting.svg'
 import { render } from 'solid-js/web';
 import { queryFangYans,   } from "@/services";
+import Dialog  from "../Dialog";
 
 
   
@@ -24,13 +25,23 @@ const SearchInput: Component<{
   const handleShowSettingDialog = () => {
     console.log('👒', fangYans)
     console.log('===============')
-    setOpen(true) 
-    const _selectFangYanId = localStorage.getItem('selectFangYanId')
-    if (_selectFangYanId) {
-      setSelectFangYanId(_selectFangYanId)
-    } else {
-      setSelectFangYanId(3)
-    } 
+    // setOpen(true) 
+    // const _selectFangYanId = localStorage.getItem('selectFangYanId')
+    // if (_selectFangYanId) {
+    //   setSelectFangYanId(_selectFangYanId)
+    // } else {
+    //   setSelectFangYanId(3)
+    // } 
+
+
+    let dialog = Dialog.show({
+      title: '筛选查询条件',
+      content: <div>哈哈哈哈</div>,
+      onClose() {
+        dialog.close()
+      }
+    })
+    console.log("👒", dialog)
   }
 
   const handleFangYanChange = (e) => {
@@ -70,19 +81,7 @@ const SearchInput: Component<{
     <div class={styles.search_btn} onClick={() => props.onSearch && props.onSearch(value())}>
       搜 索
     </div>
-    <dialog open={open()} class={styles.dialog}>
-      <select value={selectFangYanId()} size={20} onChange={handleFangYanChange} style={{
-        width: '180px'
-      }}>
-        <For each={fangYans() ?? []}>
-
-          {(fangYan, fangYanIndex) => { 
-            return <option value={fangYan.id}>{fangYan.mingZi}</option>
-          }}
-        </For>
-      </select> 
-      <button onClick={() => setOpen(false)}>关闭</button>
-    </dialog>
+    
   </div>
 }
 

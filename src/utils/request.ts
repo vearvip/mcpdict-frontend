@@ -1,4 +1,4 @@
-const baseURL = 'http://hangnien.vear.vip'
+const baseURL = 'http://beta.430.vear.vip'
 
 // @ts-ignore
 export const fetcher = (url, ...args) => fetch(
