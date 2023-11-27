@@ -36,12 +36,12 @@ const SearchInput: Component<{
 
     let dialog = Dialog.show({
       title: '筛选查询条件',
-      content: <div>哈哈哈哈</div>,
-      onClose() {
+      content: <div>哈哈哈哈</div>, 
+      onCancel() {
+        console.log("👒2")
         dialog.close()
       }
     })
-    console.log("👒", dialog)
   }
 
   const handleFangYanChange = (e) => {

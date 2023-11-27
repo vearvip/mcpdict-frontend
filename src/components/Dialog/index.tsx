@@ -12,14 +12,13 @@ interface DialogProps {
   children?: any;
   footer?: any;
   onOk?: (...args: any) => {};
-  onCancel?: (...args: any) => {};
-  onClose?: (...args: any) => {};
+  onCancel?: (...args: any) => {}; 
 }
 
 
 const Dialog: Component<DialogProps> = (props) => {
   return <>
-    <div class={styles.dialog_wrapper}>
+    <div class={styles.dialog_wrapper} style={{ 'pointer-events': 'auto'}}>
       <div class={styles.dialog}>
         <div class={styles.dialog_title}>
           {
@@ -43,18 +42,17 @@ const Dialog: Component<DialogProps> = (props) => {
         </div>
       </div>
     </div>
-    <div class={styles.dialog_mask} onClick={(...args) => props.onClose && props.onClose(...args)}/>
+    <div class={styles.dialog_mask} />
   </>
 }
 
 Dialog.show = (props: DialogProps) => {
-  const id = 'dialog' + random(100000, 999999)
-  render(() => <div id={id}>
-    <Dialog {...props}></Dialog>
-  </div>, document.body)
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const dispose = render(() => <Dialog {...props}></Dialog>, container)
   return {
     close() {
-      document.getElementById(id)?.remove()
+      dispose()
     }
   }
 }
