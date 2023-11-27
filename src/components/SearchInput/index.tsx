@@ -4,6 +4,7 @@ import settingPng from '@/assets/svg/setting.svg'
 import { render } from 'solid-js/web';
 import { queryFangYans,   } from "@/services";
 import Dialog  from "../Dialog";
+import Dialog2  from "../Dialog/v2";
 
 
   
@@ -78,6 +79,22 @@ const SearchInput: Component<{
         setValue(_value.target.value)
       }}
     ></input>
+    <button onClick={() => {
+
+
+// 使用示例
+const dialog = Dialog2({
+  onClose: () => {
+    console.log('Dialog was closed.');
+  },
+});
+
+// 显示Dialog
+dialog.show();
+
+// 隐藏Dialog
+// dialog.hide();
+    }}>dsdsd</button>
     <div class={styles.search_btn} onClick={() => props.onSearch && props.onSearch(value())}>
       搜 索
     </div>
