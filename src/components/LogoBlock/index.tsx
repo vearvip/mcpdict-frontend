@@ -1,6 +1,6 @@
 import { Component, createEffect, JSX } from 'solid-js'
 import styles from './index.module.less' 
-import logo from '@/assets/webp/logo.webp'
+import logo from '@/assets/webp/logo.png'
 
 const LogoBlock: Component<{
   styleList?: JSX.CSSProperties[]
