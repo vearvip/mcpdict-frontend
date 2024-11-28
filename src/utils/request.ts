@@ -1,4 +1,4 @@
-const baseURL = 'http://beta.430.vear.vip'
+const baseURL = 'https://frp-end.top:45374'
 
 // @ts-ignore
 export const fetcher = (url, ...args) => fetch(

@@ -29,10 +29,7 @@ const Search: Component = (props) => {
   const search = async (value: string) => {
     setLoading(true)
     NProgress.start();
-    setSearchData((await searchWords({
-      zis: str2List(value),
-      fangYanIds: [localStorage.getItem('selectFangYanId')]
-    })))
+    setSearchData((await searchWords(searchParams)))
     NProgress.done();
     setLoading(false)
   }

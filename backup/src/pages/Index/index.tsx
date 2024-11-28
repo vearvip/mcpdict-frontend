@@ -1,7 +1,7 @@
   
 import Book from "@/components/Book";
 import SearchInput from "@/components/SearchInput";
-import logo from '@/assets/webp/logo.png'
+import logo from '@/assets/webp/logo.webp'
 import styles from "./index.module.less"; 
 import { useNavigate } from "@solidjs/router";
 import { Component, createSignal, For, onMount } from "solid-js";

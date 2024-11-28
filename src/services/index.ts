@@ -3,20 +3,17 @@ import { fetcher } from "../utils/request"
 import qs from 'qs'
 
 
-export async function searchWords(params) { 
+export async function searchWords(params: {
+  q: string | undefined
+}) { 
   console.log('params',params) 
-  if (!params.zis) {
+  if (!params.q) {
     return []
   }
   try {
-    const ret: {
-      data: Zi[]
-    } = await fetcher('/zi/query', {
-      method: 'POST',
-      data: params
-    })
+    const ret = await fetcher(`/char?q=${params.q}`)
 
-    return ret.data
+    return ret
   } catch (error) {
     // console.error(error)
     return []
