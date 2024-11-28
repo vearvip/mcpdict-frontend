@@ -1,16 +1,24 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
-import { hashIntegration, Router } from "@solidjs/router";
+import { Route, Router } from "@solidjs/router";
 import './index.css';
 import Layout from './layout';
 import 'nprogress/nprogress.css'
+import { routes } from './routes';
 
 render(
   () => (
-    <Router source={hashIntegration()}> 
-      <Layout />
-    </Router> 
+    <Router root={Layout}>
+      {
+        routes.map(ele => {
+          return <Route
+            path={ele.path}
+            component={ele.component}
+          />
+        })
+      }
+    </Router>
   ),
   document.getElementById("root") as HTMLElement
 ); 

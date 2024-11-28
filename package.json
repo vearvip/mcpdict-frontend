@@ -16,6 +16,7 @@
     "solid-js": "^1.9.3"
   },
   "devDependencies": {
+    "@types/node": "^22.10.1",
     "@types/nprogress": "^0.2.3",
     "@types/qs": "^6.9.17",
     "solid-devtools": "^0.30.1",
