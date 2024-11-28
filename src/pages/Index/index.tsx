@@ -26,16 +26,16 @@ const Index: Component = (props) => {
           'margin-top': '100px'
         }} onSearch={onSearch} />
       </div>
-      <div class={styles.book_box}>
-        {/* <Divider class={styles.book_divider}>已收录方言</Divider> */}
-        {/* <For each={langs()}>
+      {/* <div class={styles.book_box}>
+        <Divider class={styles.book_divider}>已收录方言</Divider>
+        <For each={langs()}>
           {(ele) => {
             return <div class={styles.book_item}>
             <Book name={ele.name} color={ele.color} />
           </div>
           }}
-        </For>  */}
-      </div>
+        </For> 
+      </div> */}
     </div>
   );
 };

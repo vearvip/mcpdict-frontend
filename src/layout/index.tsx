@@ -1,5 +1,5 @@
 import { Component, createMemo, createSignal, } from 'solid-js';
-import { Route, useNavigate, useLocation } from '@solidjs/router';
+import { Route, useNavigate, useLocation, RouteSectionProps } from '@solidjs/router';
 import styles from "./index.module.less";
 import Menu from '@/components/Menu' 
 import { MenuConfig } from '@/types';
@@ -14,10 +14,11 @@ const items: MenuConfig[] = [
     label: "字音查询",
     key: "/search"
   },
-  // {
-  //   label: "长文注音",
-  //   key: "/long-search"
-  // },
+  {
+    label: "长文注音",
+    key: "/long-search",
+    disabled: true,
+  },
   // {
   //   label: "字典模式",
   //   key: "/dict"
@@ -28,7 +29,7 @@ const items: MenuConfig[] = [
   // },
 ];
 
-const Layout: Component = (props) => {
+const Layout: Component<RouteSectionProps> = (props) => {
   const push = useNavigate();
   const location = useLocation();
   const handleMenuClick = (e: MenuConfig) => {

@@ -2,28 +2,39 @@ import { Component, createEffect, createSignal, For, JSX, onMount } from "solid-
 import styles from "./index.module.less";
 import settingPng from '@/assets/svg/setting.svg'
 import { render } from 'solid-js/web';
-import { queryFangYans,   } from "@/services";
-import Dialog  from "../Dialog";
-import Dialog2  from "../Dialog/v2";
+import { queryFangYans, } from "@/services";
+import Dialog from "../Dialog";
+import Dialog2 from "../Dialog/v2";
 
 
-  
+
 
 const SearchInput: Component<{
   style?: JSX.CSSProperties
   defaultValue?: string
-  onSearch?: Function 
+  onSearch?: Function
 }> = (props) => {
   const [value, setValue] = createSignal('')
   const [open, setOpen] = createSignal(false)
   const [fangYans, setFangYans] = createSignal([])
-  
+
   const [selectFangYanId, setSelectFangYanId] = createSignal(
-    
+
   )
 
 
   const handleShowSettingDialog = () => {
+
+      // 使用示例
+      const dialog = Dialog2({
+        onClose: () => {
+          console.log('Dialog was closed.');
+        },
+      });
+
+      // 显示Dialog
+      dialog.show();
+      return
     console.log('👒', fangYans)
     console.log('===============')
     // setOpen(true) 
@@ -34,19 +45,11 @@ const SearchInput: Component<{
     //   setSelectFangYanId(3)
     // } 
 
-
-    let dialog = Dialog.show({
-      title: '筛选查询条件',
-      content: <div>哈哈哈哈</div>, 
-      onCancel() {
-        console.log("👒2")
-        dialog.close()
-      }
-    })
+ 
   }
 
   const handleFangYanChange = (e) => {
-    const id=e.target.value
+    const id = e.target.value
     console.log('🍓', id)
     setSelectFangYanId(id)
     localStorage.setItem('selectFangYanId', id)
@@ -78,27 +81,11 @@ const SearchInput: Component<{
       onInput={(_value: any) => {
         setValue(_value.target.value)
       }}
-    ></input>
-    <button onClick={() => {
-
-
-// 使用示例
-const dialog = Dialog2({
-  onClose: () => {
-    console.log('Dialog was closed.');
-  },
-});
-
-// 显示Dialog
-dialog.show();
-
-// 隐藏Dialog
-// dialog.hide();
-    }}>dsdsd</button>
+    ></input> 
     <div class={styles.search_btn} onClick={() => props.onSearch && props.onSearch(value())}>
       搜 索
     </div>
-    
+
   </div>
 }
 
