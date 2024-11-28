@@ -24,6 +24,8 @@ const SearchInput: Component<{
 
 
   const handleShowSettingDialog = () => {
+    alert("🚧施工中")
+    return
 
       // 使用示例
       const dialog = Dialog2({

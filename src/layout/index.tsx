@@ -43,7 +43,8 @@ const Layout: Component<RouteSectionProps> = (props) => {
  
 
   const handleGoWechatImg = () => {
-    window.open('/')
+    // window.open('/')
+    alert('微信号：vear-vip')
   }
 
  
