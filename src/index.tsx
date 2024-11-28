@@ -1,8 +1,16 @@
 /* @refresh reload */
-import { render } from 'solid-js/web'
-import './index.css'
-import App from './App.tsx'
+import { render } from 'solid-js/web';
 
-const root = document.getElementById('root')
+import { hashIntegration, Router } from "@solidjs/router";
+import './index.css';
+import Layout from './layout';
+import 'nprogress/nprogress.css'
 
-render(() => <App />, root!)
+render(
+  () => (
+    <Router source={hashIntegration()}> 
+      <Layout />
+    </Router> 
+  ),
+  document.getElementById("root") as HTMLElement
+); 
