@@ -3,8 +3,8 @@ import { Component, createSignal, For, JSX, Show } from 'solid-js'
 import { MenuConfig } from '@/types'
 import menuSvg from '@/assets/svg/menu.svg'
 import Drawer from '@/components/Drawer'
-import LogoBlock from '../LogoBlock'
-import { fetcher } from '@/utils/request'
+import LogoBlock from '../LogoBlock'  
+import { request } from '@/utils/request'
 
 interface MenuProps {
   dataSource: MenuConfig[]
@@ -37,7 +37,9 @@ const Menu: Component<MenuProps> = (props) => {
     </div>
     <Drawer visable={showDrawer()} onClose={() => setShowDrawer(false)} >
       <div onClick={async () => {
-      const ret = await fetcher(`/ss`)
+      const ret = await request({
+        url: 'xxx',
+      })
       console.log('ret', ret)
       }}>
       <LogoBlock styleList={[{
