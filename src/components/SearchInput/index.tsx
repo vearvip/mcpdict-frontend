@@ -2,9 +2,7 @@ import { Component, createEffect, createSignal, For, JSX, onMount } from "solid-
 import styles from "./index.module.less";
 import settingPng from '@/assets/svg/setting.svg'
 import { render } from 'solid-js/web';
-import { queryFangYans, } from "@/services";
-import Dialog from "../Dialog";
-import Dialog2 from "../Dialog/v2";
+// import { queryFangYans, } from "@/services"; 
 
 
 
@@ -25,44 +23,16 @@ const SearchInput: Component<{
 
   const handleShowSettingDialog = () => {
     alert("🚧施工中")
-    return
-
-      // 使用示例
-      const dialog = Dialog2({
-        onClose: () => {
-          console.log('Dialog was closed.');
-        },
-      });
-
-      // 显示Dialog
-      dialog.show();
-      return
-    console.log('👒', fangYans)
-    console.log('===============')
-    // setOpen(true) 
-    // const _selectedDialects = localStorage.getItem('selectedDialects')
-    // if (_selectedDialects) {
-    //   setSelectFangYanId(_selectedDialects)
-    // } else {
-    //   setSelectFangYanId(3)
-    // } 
-
+    return 
+  }
  
-  }
-
-  const handleFangYanChange = (e) => {
-    const id = e.target.value
-    console.log('🍓', id)
-    setSelectFangYanId(id)
-    localStorage.setItem('selectedDialects', id)
-  }
 
 
   onMount(async () => {
-    const data = await queryFangYans()
+    // const data = await queryFangYans()
     // setLangs(data.langs)
-    console.log('data', data)
-    setFangYans(data)
+    // console.log('data', data)
+    // setFangYans(data)
   })
   createEffect(() => setValue(props?.defaultValue ?? ''))
 

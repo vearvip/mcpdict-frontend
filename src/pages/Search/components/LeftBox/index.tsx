@@ -1,8 +1,7 @@
 import { Component, createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js'
 import styles from '../../index.module.less'
 import Skeleton from "@/components/Skeleton"; 
-import { SearchData } from '@/types';
-import { obj2list } from '@/utils';
+import { SearchData } from '@/types'; 
 
 interface LeftBoxProps {
   searchData: SearchData

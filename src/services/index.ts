@@ -37,17 +37,17 @@ export async function queryLangs(): Promise<{
   }
 }
 
-export async function queryFangYans() {  
-  try {
-    const ret: {
-      data 
-    } = await fetcher('/fang-yan/query', {
-      method: 'POST'
-    }) 
-    return ret.data
-  } catch (error) { 
-    return {
-      langs: []
-    }
-  }
-}
+// export async function queryFangYans() {  
+//   try {
+//     const ret: {
+//       data 
+//     } = await fetcher('/fang-yan/query', {
+//       method: 'POST'
+//     }) 
+//     return ret.data
+//   } catch (error) { 
+//     return {
+//       langs: []
+//     }
+//   }
+// }

@@ -10,9 +10,9 @@ const Dict = (props: NextPage) => {
   // const searchContentRef = useRef(null) 
   // const searchContentSize = useSize(searchContentRef);
   return <React.Fragment> 
-    <div className={styles.search_content}> 
-        <div className={styles.book_page}>
-          <div className={styles.book_page_left}>
+    <div class={styles.search_content}> 
+        <div class={styles.book_page}>
+          <div class={styles.book_page_left}>
             <Skeleton active={loading} />
             <Skeleton active={loading} />
             <Skeleton active={loading} />
@@ -29,7 +29,7 @@ const Dict = (props: NextPage) => {
             <Skeleton active={loading} />  */}
           </div>
           <Divider type="vertical" className={styles.book_page_divider}  />
-          <div className={styles.book_page_right}>
+          <div class={styles.book_page_right}>
             <Skeleton active={loading} />
             <Skeleton active={loading} />
             <Skeleton active={loading} />
@@ -37,8 +37,8 @@ const Dict = (props: NextPage) => {
             <Skeleton active={loading} /> 
           </div>
         </div>
-        <div className={`${styles.book_page} ${styles.book_page2}`}>
-          <div className={styles.book_page_left}>
+        <div class={`${styles.book_page} ${styles.book_page2}`}>
+          <div class={styles.book_page_left}>
             <Skeleton active={loading} />
             <Skeleton active={loading} />
             <Skeleton active={loading} />
@@ -46,7 +46,7 @@ const Dict = (props: NextPage) => {
             <Skeleton active={loading} /> 
           </div>
           <Divider type="vertical" className={styles.book_page_divider}  />
-          <div className={styles.book_page_right}>
+          <div class={styles.book_page_right}>
             <Skeleton active={loading} />
             <Skeleton active={loading} />
             <Skeleton active={loading} />
