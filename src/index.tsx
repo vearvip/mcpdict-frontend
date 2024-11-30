@@ -1,7 +1,7 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
-import { Route, Router } from "@solidjs/router";
+import { Route, HashRouter } from "@solidjs/router";
 import './index.css';
 import Layout from './layout';
 import 'nprogress/nprogress.css'
@@ -9,7 +9,7 @@ import { routes } from './routes';
 
 render(
   () => (
-    <Router root={Layout}>
+    <HashRouter root={Layout}>
       {
         routes.map(ele => {
           return <Route
@@ -18,7 +18,7 @@ render(
           />
         })
       }
-    </Router>
+    </HashRouter>
   ),
   document.getElementById("root") as HTMLElement
 ); 
