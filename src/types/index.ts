@@ -4,3 +4,8 @@ export interface MenuConfig {
   key: string
   disabled?: boolean
 } 
+
+export type SearchData = Array<{
+  char: string
+  charInfo: Object
+}>

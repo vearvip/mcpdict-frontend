@@ -12,13 +12,14 @@ import NProgress from 'nprogress'
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
 import {  unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
+import { SearchData } from '@/types';
 
 
 const Search: Component = (props) => {
   const push = useNavigate()
   const [searchParams] = useSearchParams<{ q?: string }>();
   const [loading, setLoading] = createSignal(false)
-  const [searchData, setSearchData] = createSignal<any>([])
+  const [searchData, setSearchData] = createSignal<SearchData>([])
 
   const searchDataIsEmpty = createMemo(() => (!searchData() || searchData().length === 0))
 
@@ -32,10 +33,12 @@ const Search: Component = (props) => {
     setLoading(true)
     NProgress.start();
 
-    setSearchData((await queryChars({
+    const result = await queryChars({
       char: value.split('').join(','),
       dialect: (localStorage.getItem('selectedDialect') || '')
-    })))
+    }) 
+    console.log('result', result)
+    setSearchData(result.data.reverse())
     NProgress.done();
     setLoading(false)
   }
@@ -67,7 +70,7 @@ const Search: Component = (props) => {
       } */}
       <Show when={!!searchParams.q && !searchDataIsEmpty()}>
         <LeftBox searchData={searchData()} />
-        <RightBox searchData={searchData()} /> 
+        {/* <RightBox searchData={searchData()} />  */}
       </Show>
       <Show when={!searchParams.q || searchDataIsEmpty()}>
         <NoData />

@@ -1,15 +1,28 @@
 import { Component, createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js'
 import styles from '../../index.module.less'
 import Skeleton from "@/components/Skeleton"; 
+import { SearchData } from '@/types';
+import { obj2list } from '@/utils';
 
 interface LeftBoxProps {
-  searchData: any
+  searchData: SearchData
 }
 
 const LeftBox: Component<LeftBoxProps> = (props) => {
   const {
     searchData
   } = props
+
+  const fmtCharInfo = (obj: any) => {
+    return Object.keys(obj).map(key => {
+      const item = {
+        dialect: key,
+        phonetic: obj[key]
+      } 
+      let phoneticAndexplain
+      return item
+    })
+  }
 
   return <>
 
@@ -25,17 +38,20 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
 
         <For each={searchData}>
           {
-            (ziItem) => {
-              return <div class={styles.zi_box}>
-                <div class={styles.zi}>{ziItem.zi}</div>
+            (charItem) => {
+              const charInfos = fmtCharInfo(charItem.charInfo)
+              console.log('charInfos', charInfos)
+              return <div class={styles.char_box}>
+                <div class={styles.char}>{charItem.char}</div>
 
-                <For each={ziItem.fangyan}>
+                <For each={charInfos}>
                   {
-                    (fangyanItem) => {
-                      return <div class={styles.fangyan}>
-                        <div class={styles.mingzi_box}><div class={styles.mingzi}>{fangyanItem.mingzi}</div></div>
-                        <div class={styles.yin_box}>
-                        <For each={fangyanItem.yin}>
+                    (charInfo) => {
+                      return <div class={styles.char_info}>
+                        <div class={styles.dialect_box}><div class={styles.dialect}>{charInfo.dialect}</div></div>
+                        <div class={styles.phonetic_box}>
+                        {charInfo.phonetic}
+                        {/* <For each={charInfo.phonetic}>
                           {
                             (yinItem) => {
                               return <div class={styles.yin}>
@@ -44,7 +60,7 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
                                   {
                                     (yongfaItem) => {
                                       return <span>{
-                                        yongfaItem.shiyi + '：' + yongfaItem.zaojv.replaceAll(ziItem.zi, '~') + '；'
+                                        yongfaItem.shiyi + '：' + yongfaItem.zaojv.replaceAll(charItem.zi, '~') + '；'
                                       }</span>
                                     }
                                   }
@@ -53,7 +69,7 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
                               </div>
                             }
                           }
-                        </For>
+                        </For> */}
                         </div>
 
                       </div>
