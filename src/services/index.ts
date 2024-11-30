@@ -2,19 +2,19 @@ import { fetcher } from "../utils/request"
 import qs from 'qs'
 
 
-export async function searchWords(params: {
-  q: string | undefined
+export async function queryChars(params: {
+  char: string | undefined
+  dialect?: string 
 }) { 
   console.log('params',params) 
-  if (!params.q) {
+  if (!params.char) {
     return []
   }
   try {
-    const ret = await fetcher(`/char?q=${params.q}`)
+    const ret = await fetcher(`/char?char=${params.char}&dialect=${params.dialect}`)
 
     return ret
-  } catch (error) {
-    // console.error(error)
+  } catch (error) { 
     return []
   }
 }

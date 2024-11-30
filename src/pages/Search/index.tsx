@@ -6,11 +6,12 @@ import Skeleton from "@/components/Skeleton";
 import NoData from "@/components/NoData"; 
 import { makeBr, str2List } from '@/utils';
 import { fetcher } from '@/utils/request';
-import { searchWords } from '@/services';
+import { queryChars } from '@/services';
 import { useNavigate, useParams, useSearchParams } from '@solidjs/router';
 import NProgress from 'nprogress' 
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
+import {  unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 
 
 const Search: Component = (props) => {
@@ -25,12 +26,15 @@ const Search: Component = (props) => {
     push('/search?q=' + value, { replace: true })
   }
 
+  
+
   const search = async (value: string) => {
     setLoading(true)
     NProgress.start();
-    setSearchData((await searchWords({
-      char: str2List(value),
-      fag: [localStorage.getItem('selectFangYanId')]
+
+    setSearchData((await queryChars({
+      char: value.split('').join(','),
+      dialect: (localStorage.getItem('selectedDialect') || '')
     })))
     NProgress.done();
     setLoading(false)

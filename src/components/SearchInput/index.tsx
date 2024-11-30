@@ -18,7 +18,7 @@ const SearchInput: Component<{
   const [open, setOpen] = createSignal(false)
   const [fangYans, setFangYans] = createSignal([])
 
-  const [selectFangYanId, setSelectFangYanId] = createSignal(
+  const [selectedDialects, setSelectFangYanId] = createSignal(
 
   )
 
@@ -40,9 +40,9 @@ const SearchInput: Component<{
     console.log('👒', fangYans)
     console.log('===============')
     // setOpen(true) 
-    // const _selectFangYanId = localStorage.getItem('selectFangYanId')
-    // if (_selectFangYanId) {
-    //   setSelectFangYanId(_selectFangYanId)
+    // const _selectedDialects = localStorage.getItem('selectedDialects')
+    // if (_selectedDialects) {
+    //   setSelectFangYanId(_selectedDialects)
     // } else {
     //   setSelectFangYanId(3)
     // } 
@@ -54,7 +54,7 @@ const SearchInput: Component<{
     const id = e.target.value
     console.log('🍓', id)
     setSelectFangYanId(id)
-    localStorage.setItem('selectFangYanId', id)
+    localStorage.setItem('selectedDialects', id)
   }
 
 

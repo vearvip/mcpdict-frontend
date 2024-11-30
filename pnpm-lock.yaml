@@ -11,6 +11,9 @@ importers:
       '@solidjs/router':
         specifier: ^0.15.1
         version: 0.15.1(solid-js@1.9.3)
+      '@vearvip/hanzi-utils':
+        specifier: ^1.0.8
+        version: 1.0.8
       less:
         specifier: ^4.2.1
         version: 4.2.1
@@ -503,6 +506,18 @@ packages:
 
   '@types/qs@6.9.17':
     resolution: {integrity: sha512-rX4/bPcfmvxHDv0XjfJELTTr+iB+tn032nPILqHm5wbthUUUuVtNGGqzhya9XUxjTP8Fpr0qYgSZZKxGY++svQ==}
+
+  '@vearvip/hanzi-radical-stroke-counts@1.0.5':
+    resolution: {integrity: sha512-liBMAYYv/X7uufPJ/Rsb0xpytwhgWZ/bfdwEeqRzbwHsX9UNSuCzJdiw8I71yxkWO7aoxgpChwg2/lzEan230Q==}
+
+  '@vearvip/hanzi-readings@1.0.6':
+    resolution: {integrity: sha512-68FmLKPFZu8jcEF06/Af0/mZHGBSPaESFDTaWXg6I3UPU9DZhtiFXus/Q+GYDNJlut7T+D08U7iw59wG7nXzYg==}
+
+  '@vearvip/hanzi-utils@1.0.8':
+    resolution: {integrity: sha512-7Jpr2ZylP6xLgfopeoIL7sp9fjGq+R/mjVZ7woo+/spYqY0VoyeKLWC1tWIXS2VLFUwuQ1/SUZrG0lJJWT0F3Q==}
+
+  '@vearvip/hanzi-variants@1.0.3':
+    resolution: {integrity: sha512-WopVhOfadCm8ucvjaFBfAQIr7Edb9C4uHjshdrJ7MVY2lgHNxfVF+fGlY5zG9NLKRfuNVKjzHFHabNRAQzRohg==}
 
   babel-plugin-jsx-dom-expressions@0.39.3:
     resolution: {integrity: sha512-6RzmSu21zYPlV2gNwzjGG9FgODtt9hIWnx7L//OIioIEuRcnpDZoY8Tr+I81Cy1SrH4qoDyKpwHHo6uAMAeyPA==}
@@ -1277,6 +1292,18 @@ snapshots:
   '@types/nprogress@0.2.3': {}
 
   '@types/qs@6.9.17': {}
+
+  '@vearvip/hanzi-radical-stroke-counts@1.0.5': {}
+
+  '@vearvip/hanzi-readings@1.0.6': {}
+
+  '@vearvip/hanzi-utils@1.0.8':
+    dependencies:
+      '@vearvip/hanzi-radical-stroke-counts': 1.0.5
+      '@vearvip/hanzi-readings': 1.0.6
+      '@vearvip/hanzi-variants': 1.0.3
+
+  '@vearvip/hanzi-variants@1.0.3': {}
 
   babel-plugin-jsx-dom-expressions@0.39.3(@babel/core@7.26.0):
     dependencies:
