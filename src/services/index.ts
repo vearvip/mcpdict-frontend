@@ -1,4 +1,4 @@
-import { fetcher, request } from "../utils/request"
+import { fetcher } from "../utils/request"
 import qs from 'qs'
 
 
@@ -11,14 +11,9 @@ export async function queryChars(params: {
     return []
   }
   try {
-    // const ret = await fetcher(`/char?char=${params.char}&dialect=${params.dialect}`)
-    const ret = await request({
-      url: '/char',
-      method: 'GET',
-      params: params
-    })
-    console.log('2323ret',ret)
-    return ret.data
+    const ret = await fetcher(`/char?char=${params.char}&dialect=${params.dialect}`)
+
+    return ret
   } catch (error) { 
     return []
   }
