@@ -4,8 +4,7 @@ import SearchInput from "@/components/SearchInput";
 import logo from '@/assets/webp/logo.webp'
 import styles from "./index.module.less"; 
 import { useNavigate } from "@solidjs/router";
-import { Component, createSignal, For, onMount } from "solid-js";
-import { Lang } from "@/types";
+import { Component, createSignal, For, onMount } from "solid-js"; 
 
 const Index: Component = (props) => {  
   const push = useNavigate();

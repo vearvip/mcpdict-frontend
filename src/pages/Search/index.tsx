@@ -3,8 +3,7 @@ import styles from './index.module.less'
 import SearchInput from "@/components/SearchInput";
 import LogoBlock from "@/components/LogoBlock";
 import Skeleton from "@/components/Skeleton";
-import NoData from "@/components/NoData";
-import { Zi } from '@/types';
+import NoData from "@/components/NoData"; 
 import { makeBr, str2List } from '@/utils';
 import { fetcher } from '@/utils/request';
 import { searchWords } from '@/services';
@@ -18,7 +17,7 @@ const Search: Component = (props) => {
   const push = useNavigate()
   const [searchParams] = useSearchParams<{ q?: string }>();
   const [loading, setLoading] = createSignal(false)
-  const [searchData, setSearchData] = createSignal<Zi[]>([])
+  const [searchData, setSearchData] = createSignal<any>([])
 
   const searchDataIsEmpty = createMemo(() => (!searchData() || searchData().length === 0))
 
@@ -29,7 +28,10 @@ const Search: Component = (props) => {
   const search = async (value: string) => {
     setLoading(true)
     NProgress.start();
-    setSearchData((await searchWords(searchParams)))
+    setSearchData((await searchWords({
+      char: str2List(value),
+      fag: [localStorage.getItem('selectFangYanId')]
+    })))
     NProgress.done();
     setLoading(false)
   }

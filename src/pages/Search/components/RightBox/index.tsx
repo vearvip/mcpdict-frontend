@@ -1,11 +1,10 @@
 import { Component, createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js'
 import styles from '../../index.module.less' 
-import Skeleton from "@/components/Skeleton"; 
-import { Zi } from "@/types"; 
+import Skeleton from "@/components/Skeleton";  
 import { makeBr } from "@/utils";
 
 interface RightBoxProps {
-  searchData: Zi[]
+  searchData: any
 }
 
 const RightBox: Component<RightBoxProps> = (props) => { 

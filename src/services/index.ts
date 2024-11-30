@@ -1,4 +1,3 @@
-import { Lang, Zi } from "../types"
 import { fetcher } from "../utils/request"
 import qs from 'qs'
 
@@ -22,11 +21,11 @@ export async function searchWords(params: {
 
 
 export async function queryLangs(): Promise<{
-  langs: Lang[]
+  langs: string[]
 }> {  
   try {
     const ret: {
-      data: Lang[]
+      data: string[]
     } = await fetcher('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/book') 
     return {
       langs: ret.data
