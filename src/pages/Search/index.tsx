@@ -33,6 +33,7 @@ const Search: Component = (props) => {
     setLoading(true)
     NProgress.start();
 
+    setSearchData([])
     const result = await queryChars({
       char: value.split('').join(','),
       dialect: (localStorage.getItem('selectedDialect') || '')
