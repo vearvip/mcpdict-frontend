@@ -1,6 +1,6 @@
 import axios from "axios"
 
-let baseURL = 'https://api.u646965.nyat.app:55269'
+let baseURL = 'https://api.mcpdict.vear.vip/char'
 // baseURL = 'http://localhost:3000'
 // @ts-ignore
 export const fetcher = (url, ...args) => fetch(
