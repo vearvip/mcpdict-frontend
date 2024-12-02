@@ -59,22 +59,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        color: white;
       } 
       .toggle_text {
-
         .animated_text {
           overflow: hidden;
-          transition: max-height 0.3s ease;
-        } 
+          transition: height 0.3s ease;
+        }
         
-        .expand {
-          max-height: 1000px; /* 需要足够大以容纳所有文本 */
-        } 
+        // .expand {  
+        // } 
         
-        .collapse {
-          max-height: 0;
-        } 
-        
+        // .collapse {
+        //   height: 0;
+        // }
         .char {
           font-size: 32px;
           font-weight: bold;
@@ -120,21 +118,34 @@
           }
         }
   
-        .phonetic_box {
+        // .phonetic_box {
+        //   flex-grow: 1; /* 让 div 占据剩余空间 */
+        //   word-break: break-all; /* 强制换行 */
+        //   white-space: pre-wrap; /* 保留空白符序列，但是正常地进行换行 */
+        //   overflow-wrap: break-word; /* 允许长单词或 URL 地址换行到下一行 */
+        //   display: inline-block;
+        //   overflow: auto;
+  
+           
+        // }
+        .info_item {
           flex-grow: 1; /* 让 div 占据剩余空间 */
           word-break: break-all; /* 强制换行 */
           white-space: pre-wrap; /* 保留空白符序列，但是正常地进行换行 */
           overflow-wrap: break-word; /* 允许长单词或 URL 地址换行到下一行 */
           display: inline-block;
           overflow: auto;
-  
-          .yin {
-  
-            // display: inline-block;
-            // padding-left: 80px;
-            .yinbiao {
-              margin-right: 10px;
-            }
+          margin-right: 10px;
+    
+          // border: 1px solid red;
+          .phonetic {
+            font-size: 14px;
+            // background-color: palegoldenrod;
+          }
+          .explain {
+            font-size: 12px;
+            color: #555;
+            // background-color: pink;
           }
         }
       }

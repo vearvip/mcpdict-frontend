@@ -1,4 +1,4 @@
-import { Component, createSignal, JSX, ParentComponent } from 'solid-js';
+import { Component, createEffect, createSignal, JSX, ParentComponent, Ref } from 'solid-js';
 import styles from '../../index.module.less'; // 引入 CSS Module
 
 const ToggleText: ParentComponent<{
@@ -10,6 +10,7 @@ const ToggleText: ParentComponent<{
   const toggleExpansion = () => {
     setIsExpanded(!isExpanded());
   };
+  
 
   return (
     <div class={styles.toggle_text}>
@@ -25,9 +26,14 @@ const ToggleText: ParentComponent<{
               : <i class="bi bi-chevron-down" />
           }
 
-        </div> 
+        </div>
       </div>
-      <p class={`${styles.animated_text} ${isExpanded() ? styles.expand : styles.collapse}`}>
+      <p
+        class={`${styles.animated_text}`}
+        style={{
+          height: isExpanded() ? 'auto' : '0px',
+        }}
+      >
         {props.children}
       </p>
     </div>

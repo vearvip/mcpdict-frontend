@@ -20,35 +20,28 @@ export async function queryChars(params: {
   }
 }
 
+export async function queryGeo() { 
 
-export async function queryLangs(): Promise<{
-  langs: string[]
-}> {  
   try {
-    const ret: {
-      data: string[]
-    } = await fetcher('https://www.fastmock.site/mock/5f99ddefce3c648ecfe8396d398bf461/asdf/book') 
-    return {
-      langs: ret.data
-    }
+    const ret = await fetcher(`/dialect/geo`)
+
+    return ret
   } catch (error) { 
-    return {
-      langs: []
-    }
+    console.error(error)
+    return []
   }
 }
 
-// export async function queryFangYans() {  
-//   try {
-//     const ret: {
-//       data 
-//     } = await fetcher('/fang-yan/query', {
-//       method: 'POST'
-//     }) 
-//     return ret.data
-//   } catch (error) { 
-//     return {
-//       langs: []
-//     }
-//   }
-// }
+export async function queryDialectInfos() { 
+
+  try {
+    const ret = await fetcher(`/dialect`)
+
+    return ret
+  } catch (error) { 
+    console.error(error)
+    return []
+  }
+}
+
+  

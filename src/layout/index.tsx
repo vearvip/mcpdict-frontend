@@ -1,8 +1,10 @@
-import { Component, createMemo, createSignal, } from 'solid-js';
+import { Component, createEffect, createMemo, createSignal, } from 'solid-js';
 import { Route, useNavigate, useLocation, RouteSectionProps } from '@solidjs/router';
 import styles from "./index.module.less";
 import Menu from '@/components/Menu' 
 import { MenuConfig } from '@/types';
+import { queryDialectInfos, queryGeo } from '@/services';
+import { setStore } from '@/store';
 
 
 const items: MenuConfig[] = [
@@ -47,7 +49,15 @@ const Layout: Component<RouteSectionProps> = (props) => {
     alert('微信号：vear-vip')
   }
 
- 
+  const fetchGeo = async () => {
+    const res = await queryDialectInfos()
+    console.log('dialectInfos', res)
+    setStore({ dialectInfos: res?.data ?? {} })
+  } 
+
+  createEffect(() => {
+    fetchGeo()
+  })
 
   return (
     <div class={styles.layout}>
