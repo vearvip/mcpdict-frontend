@@ -15,6 +15,7 @@ export async function queryChars(params: {
 
     return ret
   } catch (error) { 
+    console.error(error)
     return []
   }
 }
