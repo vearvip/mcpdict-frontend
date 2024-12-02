@@ -39,7 +39,7 @@ const Search: Component = (props) => {
       dialect: (localStorage.getItem('selectedDialect') || '')
     })
     console.log('result', result)
-    setSearchData(result.data.reverse())
+    setSearchData(result.data)
     NProgress.done();
     setLoading(false)
   }
