@@ -1,5 +1,5 @@
 import { Component, createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js'
-import styles from '../../index.module.less' 
+import styles from '../../index.module.less'; // 引入 CSS Module
 import Skeleton from "@/components/Skeleton";  
 import { makeBr } from "@/utils";
 

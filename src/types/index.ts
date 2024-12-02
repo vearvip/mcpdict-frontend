@@ -6,6 +6,7 @@ export interface MenuConfig {
 } 
 
 export type SearchData = Array<{
-  char: string
-  charInfo: Object
+  char: string;
+  charInfo: Object;
+  [key: string]: any;
 }>

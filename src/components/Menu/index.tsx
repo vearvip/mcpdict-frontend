@@ -3,8 +3,7 @@ import { Component, createSignal, For, JSX, Show } from 'solid-js'
 import { MenuConfig } from '@/types'
 import menuSvg from '@/assets/svg/menu.svg'
 import Drawer from '@/components/Drawer'
-import LogoBlock from '../LogoBlock'  
-import { request } from '@/utils/request'
+import LogoBlock from '../LogoBlock'
 
 interface MenuProps {
   dataSource: MenuConfig[]
@@ -36,12 +35,7 @@ const Menu: Component<MenuProps> = (props) => {
       </For>
     </div>
     <Drawer visable={showDrawer()} onClose={() => setShowDrawer(false)} >
-      <div onClick={async () => {
-      const ret = await request({
-        url: 'xxx',
-      })
-      console.log('ret', ret)
-      }}>
+
       <LogoBlock styleList={[{
         margin: '0 auto',
         width: '200px',
@@ -53,8 +47,7 @@ const Menu: Component<MenuProps> = (props) => {
         // background: 'rgba(0, 0, 0, 0.03)',
         // border: '1px solid rgba(0, 0, 0, 0.04)',
         "margin-top": '20px'
-      }]}  />
-      </div>
+      }]} />
       <div class={styles.menu_list_box}>
         <For each={props.dataSource}>
           {(ele) => {

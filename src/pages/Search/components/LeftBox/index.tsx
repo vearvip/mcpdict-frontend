@@ -1,7 +1,10 @@
 import { Component, createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js'
-import styles from '../../index.module.less'
-import Skeleton from "@/components/Skeleton"; 
-import { SearchData } from '@/types'; 
+import styles from '../../index.module.less'; // 引入 CSS Module
+import Skeleton from "@/components/Skeleton";
+import { SearchData } from '@/types';
+import ToggleText from '../ToggleText';
+import AutoFitText from '../AutoFitText';
+   
 
 interface LeftBoxProps {
   searchData: SearchData
@@ -17,7 +20,7 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
       const item = {
         dialect: key,
         phonetic: obj[key]
-      } 
+      }
       let phoneticAndexplain
       return item
     })
@@ -41,16 +44,18 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
               const charInfos = fmtCharInfo(charItem.charInfo)
               console.log('charInfos', charInfos)
               return <div class={styles.char_box}>
-                <div class={styles.char}>{charItem.char}</div>
+                                  
+                <ToggleText char={charItem.char}>
 
                 <For each={charInfos}>
                   {
                     (charInfo) => {
                       return <div class={styles.char_info}>
-                        <div class={styles.dialect_box}><div class={styles.dialect}>{charInfo.dialect}</div></div>
+                        {/* <div class={styles.dialect_box}><div class={styles.dialect}>{charInfo.dialect}</div></div> */}
+                        <AutoFitText text={charInfo.dialect} />
                         <div class={styles.phonetic_box}>
-                        {charInfo.phonetic}
-                        {/* <For each={charInfo.phonetic}>
+                          {charInfo.phonetic}
+                          {/* <For each={charInfo.phonetic}>
                           {
                             (yinItem) => {
                               return <div class={styles.yin}>
@@ -75,6 +80,8 @@ const LeftBox: Component<LeftBoxProps> = (props) => {
                     }
                   }
                 </For>
+                </ToggleText>
+
               </div>
             }
           }

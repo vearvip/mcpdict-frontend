@@ -3,15 +3,15 @@ import styles from './index.module.less'
 import SearchInput from "@/components/SearchInput";
 import LogoBlock from "@/components/LogoBlock";
 import Skeleton from "@/components/Skeleton";
-import NoData from "@/components/NoData"; 
+import NoData from "@/components/NoData";
 import { makeBr, str2List } from '@/utils';
 import { fetcher } from '@/utils/request';
 import { queryChars } from '@/services';
 import { useNavigate, useParams, useSearchParams } from '@solidjs/router';
-import NProgress from 'nprogress' 
+import NProgress from 'nprogress'
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
-import {  unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
+import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 import { SearchData } from '@/types';
 
 
@@ -27,7 +27,7 @@ const Search: Component = (props) => {
     push('/search?q=' + value, { replace: true })
   }
 
-  
+
 
   const search = async (value: string) => {
     setLoading(true)
@@ -36,7 +36,7 @@ const Search: Component = (props) => {
     const result = await queryChars({
       char: value.split('').join(','),
       dialect: (localStorage.getItem('selectedDialect') || '')
-    }) 
+    })
     console.log('result', result)
     setSearchData(result.data.reverse())
     NProgress.done();
@@ -64,10 +64,7 @@ const Search: Component = (props) => {
           width: '100%',
         }} />
     </div>
-    <div class={styles.search_content}>
-      {/* {
-        JSON.stringify(searchDataIsEmpty())
-      } */}
+    <div class={styles.search_content}> 
       <Show when={!!searchParams.q && !searchDataIsEmpty()}>
         <LeftBox searchData={searchData()} />
         {/* <RightBox searchData={searchData()} />  */}

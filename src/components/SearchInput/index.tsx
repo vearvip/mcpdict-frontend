@@ -23,9 +23,9 @@ const SearchInput: Component<{
 
   const handleShowSettingDialog = () => {
     alert("🚧施工中")
-    return 
+    return
   }
- 
+
 
 
   onMount(async () => {
@@ -38,7 +38,8 @@ const SearchInput: Component<{
 
   return <div class={styles.input_box} style={props.style || {}}>
     <div class={styles.setting_btn} onClick={handleShowSettingDialog}>
-      <img src={settingPng} class={styles.setting_icon} />
+      <i class="bi bi-gear"></i>
+      {/* <img src={settingPng} class={styles.setting_icon} /> */}
     </div>
     <input
       placeholder="请搜索，单次最多十个汉字"
@@ -53,7 +54,7 @@ const SearchInput: Component<{
       onInput={(_value: any) => {
         setValue(_value.target.value)
       }}
-    ></input> 
+    ></input>
     <div class={styles.search_btn} onClick={() => props.onSearch && props.onSearch(value())}>
       搜 索
     </div>
