@@ -1,8 +1,8 @@
 import { Component, createEffect, createSignal, For, JSX, onMount } from "solid-js";
 import styles from "./index.module.less";
-import settingPng from '@/assets/svg/setting.svg'
-import { render } from 'solid-js/web';
-// import { queryFangYans, } from "@/services"; 
+import useMediaQuery from '@suid/material/useMediaQuery';
+import { useTheme } from '@suid/material/styles'; 
+import Dialog from "../Dialog";
 
 
 
@@ -14,7 +14,7 @@ const SearchInput: Component<{
 }> = (props) => {
   const [value, setValue] = createSignal('')
   const [open, setOpen] = createSignal(false)
-  const [fangYans, setFangYans] = createSignal([])
+  const isMobileScreen = useMediaQuery(useTheme().breakpoints.down('md')); 
 
   const [selectedDialects, setSelectFangYanId] = createSignal(
 
@@ -22,8 +22,7 @@ const SearchInput: Component<{
 
 
   const handleShowSettingDialog = () => {
-    alert("🚧施工中")
-    return
+    setOpen(true)
   }
 
 
@@ -58,7 +57,9 @@ const SearchInput: Component<{
     <div class={styles.search_btn} onClick={() => props.onSearch && props.onSearch(value())}>
       搜 索
     </div>
-
+      <Dialog title="筛选" open={open()} onClose={() => setOpen(false)}>
+      🚧施工中
+      </Dialog>
   </div>
 }
 

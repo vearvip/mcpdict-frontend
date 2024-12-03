@@ -11,12 +11,18 @@ importers:
       '@solidjs/router':
         specifier: ^0.15.1
         version: 0.15.1(solid-js@1.9.3)
+      '@suid/icons-material':
+        specifier: ^0.8.1
+        version: 0.8.1(solid-js@1.9.3)
+      '@suid/material':
+        specifier: ^0.18.0
+        version: 0.18.0(solid-js@1.9.3)
+      '@suid/vite-plugin':
+        specifier: ^0.3.1
+        version: 0.3.1(vite@6.0.1(@types/node@22.10.1)(less@4.2.1))
       '@vearvip/hanzi-utils':
         specifier: ^1.0.8
         version: 1.0.8
-      axios:
-        specifier: ^1.7.8
-        version: 1.7.8
       less:
         specifier: ^4.2.1
         version: 4.2.1
@@ -306,6 +312,9 @@ packages:
   '@nothing-but/utils@0.12.1':
     resolution: {integrity: sha512-1qZU1Q5El0IjE7JT/ucvJNzdr2hL3W8Rm27xNf1p6gb3Nw8pGnZmxp6/GEW9h+I1k1cICxXNq25hBwknTQ7yhg==}
 
+  '@popperjs/core@2.11.8':
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+
   '@rollup/rollup-android-arm-eabi@4.27.4':
     resolution: {integrity: sha512-2Y3JT6f5MrQkICUyRVCw4oa0sutfAsgaSsb0Lmmy1Wi2y7X5vT9Euqw4gOsCyy0YfKURBg35nhUKZS4mDcfULw==}
     cpu: [arm]
@@ -486,6 +495,49 @@ packages:
     peerDependencies:
       solid-js: ^1.8.6
 
+  '@suid/base@0.10.1':
+    resolution: {integrity: sha512-zP9Ujdd/9AbZnn/kDMC+mMdBrE8i7U4q9sCKwGw3bLx0FQ+utPxRV+9NQ8KLb0q0W5yleAHfjP0nycBAmL+DHQ==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/css@0.4.0':
+    resolution: {integrity: sha512-yzHAlf1CVi7n0SvUrMgs8Z49UiS9669+td1w1frekhRQuRbkXhHoyJkvovaDVJlWRmCPA8Q0f1OTr0uDCUg9mQ==}
+
+  '@suid/icons-material@0.8.1':
+    resolution: {integrity: sha512-QK1fcIuOKhHaOjT33yuKJSiUtRFVdcVBF9jzlY+xEc3Sw7qW+QpVs1iEPiIccQpZqfKDs48obvFC0alKk5aeCA==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/material@0.18.0':
+    resolution: {integrity: sha512-rx+CDdu0hy36do1TsfKYxn8VlsGB+mcehzND69i03cGSsfrspToyY6h1TNe9zxv0N9Bf2AbHlcgD/OoPrshOSQ==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/styled-engine@0.8.1':
+    resolution: {integrity: sha512-teVk82yH1P9Ce1fJcvlwDjjKxrpXL9ecmK5uBuxbNqUh2yHyrXIqw+mnPVzq6KDHQEu5ODDFFqH9KwWLl8DODQ==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/system@0.13.0':
+    resolution: {integrity: sha512-TILoCyQBPrnUl4kjOqHxvSLIjC2Z79vLtQ6T/osX0N72s+Q5NmHnKSvwc/tHLfPOCQKsKiEYNhkhikGCJKY/OA==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/types@0.7.1':
+    resolution: {integrity: sha512-VPRRMUcWS/IkkFoQa2FHJnhyUrrRs6Sic3rIcuz+EU8DfOMFqhDBZIQkNdeMB+5T8iHN0PtYlW8+uQzxTNJq0Q==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/utils@0.10.1':
+    resolution: {integrity: sha512-a8jHOL11nUibhGi1TsJKLGsNZ5NdHYwmNTAd3B/Z0TTaxX6Pg6CY3X8jqMWbrrXkHctwKokKEeDkVyrlQ7sP8g==}
+    peerDependencies:
+      solid-js: ^1.8.22
+
+  '@suid/vite-plugin@0.3.1':
+    resolution: {integrity: sha512-IXbYxRZr4ie4iCYlqBM2znLV/RKrIT2zpaYYI5k1DbJHXVW5nXniCoii7BlvM2SonOKlsQ6R8CNI2X3bjAmoVQ==}
+    peerDependencies:
+      vite: ^5.0.0
+
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
 
@@ -522,12 +574,6 @@ packages:
   '@vearvip/hanzi-variants@1.0.3':
     resolution: {integrity: sha512-WopVhOfadCm8ucvjaFBfAQIr7Edb9C4uHjshdrJ7MVY2lgHNxfVF+fGlY5zG9NLKRfuNVKjzHFHabNRAQzRohg==}
 
-  asynckit@0.4.0:
-    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
-
-  axios@1.7.8:
-    resolution: {integrity: sha512-Uu0wb7KNqK2t5K+YQyVCLM76prD5sRFjKHbJYCP1J7JFGEQ6nN7HWn9+04LAeiJ3ji54lgS/gZCH1oxyrf1SPw==}
-
   babel-plugin-jsx-dom-expressions@0.39.3:
     resolution: {integrity: sha512-6RzmSu21zYPlV2gNwzjGG9FgODtt9hIWnx7L//OIioIEuRcnpDZoY8Tr+I81Cy1SrH4qoDyKpwHHo6uAMAeyPA==}
     peerDependencies:
@@ -550,9 +596,9 @@ packages:
   caniuse-lite@1.0.30001684:
     resolution: {integrity: sha512-G1LRwLIQjBQoyq0ZJGqGIJUXzJ8irpbjHLpVRXDvBEScFJ9b17sgK6vlx0GAJFE21okD7zXl08rRRUfq6HdoEQ==}
 
-  combined-stream@1.0.8:
-    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
-    engines: {node: '>= 0.8'}
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -575,10 +621,6 @@ packages:
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
     engines: {node: '>= 0.4'}
-
-  delayed-stream@1.0.0:
-    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
-    engines: {node: '>=0.4.0'}
 
   electron-to-chromium@1.5.66:
     resolution: {integrity: sha512-pI2QF6+i+zjPbqRzJwkMvtvkdI7MjVbSh2g8dlMguDJIXEPw+kwasS1Jl+YGPEBfGVxsVgGUratAKymPdPo2vQ==}
@@ -607,19 +649,6 @@ packages:
   escalade@3.2.0:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
     engines: {node: '>=6'}
-
-  follow-redirects@1.15.9:
-    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
-  form-data@4.0.1:
-    resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
-    engines: {node: '>= 6'}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -710,14 +739,6 @@ packages:
     resolution: {integrity: sha512-eRtbOb1N5iyH0tkQDAoQ4Ipsp/5qSR79Dzrz8hEPxRX10RWWR/iQXdoKmBSRCThY1Fh5EhISDtpSc93fpxUniQ==}
     engines: {node: '>=12.13'}
 
-  mime-db@1.52.0:
-    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
-    engines: {node: '>= 0.6'}
-
-  mime-types@2.1.35:
-    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
-    engines: {node: '>= 0.6'}
-
   mime@1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
@@ -763,9 +784,6 @@ packages:
   postcss@8.4.49:
     resolution: {integrity: sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==}
     engines: {node: ^10 || ^12 || >=14}
-
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
   prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
@@ -1132,6 +1150,8 @@ snapshots:
 
   '@nothing-but/utils@0.12.1': {}
 
+  '@popperjs/core@2.11.8': {}
+
   '@rollup/rollup-android-arm-eabi@4.27.4':
     optional: true
 
@@ -1303,6 +1323,70 @@ snapshots:
     dependencies:
       solid-js: 1.9.3
 
+  '@suid/base@0.10.1(solid-js@1.9.3)':
+    dependencies:
+      '@popperjs/core': 2.11.8
+      '@suid/css': 0.4.0
+      '@suid/system': 0.13.0(solid-js@1.9.3)
+      '@suid/types': 0.7.1(solid-js@1.9.3)
+      '@suid/utils': 0.10.1(solid-js@1.9.3)
+      clsx: 2.1.1
+      solid-js: 1.9.3
+
+  '@suid/css@0.4.0': {}
+
+  '@suid/icons-material@0.8.1(solid-js@1.9.3)':
+    dependencies:
+      '@suid/material': 0.18.0(solid-js@1.9.3)
+      solid-js: 1.9.3
+
+  '@suid/material@0.18.0(solid-js@1.9.3)':
+    dependencies:
+      '@suid/base': 0.10.1(solid-js@1.9.3)
+      '@suid/css': 0.4.0
+      '@suid/system': 0.13.0(solid-js@1.9.3)
+      '@suid/types': 0.7.1(solid-js@1.9.3)
+      '@suid/utils': 0.10.1(solid-js@1.9.3)
+      clsx: 2.1.1
+      solid-js: 1.9.3
+
+  '@suid/styled-engine@0.8.1(solid-js@1.9.3)':
+    dependencies:
+      '@suid/css': 0.4.0
+      '@suid/utils': 0.10.1(solid-js@1.9.3)
+      solid-js: 1.9.3
+
+  '@suid/system@0.13.0(solid-js@1.9.3)':
+    dependencies:
+      '@suid/css': 0.4.0
+      '@suid/styled-engine': 0.8.1(solid-js@1.9.3)
+      '@suid/types': 0.7.1(solid-js@1.9.3)
+      '@suid/utils': 0.10.1(solid-js@1.9.3)
+      clsx: 2.1.1
+      csstype: 3.1.3
+      solid-js: 1.9.3
+
+  '@suid/types@0.7.1(solid-js@1.9.3)':
+    dependencies:
+      solid-js: 1.9.3
+
+  '@suid/utils@0.10.1(solid-js@1.9.3)':
+    dependencies:
+      '@suid/types': 0.7.1(solid-js@1.9.3)
+      solid-js: 1.9.3
+
+  '@suid/vite-plugin@0.3.1(vite@6.0.1(@types/node@22.10.1)(less@4.2.1))':
+    dependencies:
+      '@babel/generator': 7.26.2
+      '@babel/parser': 7.26.2
+      '@babel/traverse': 7.25.9
+      '@babel/types': 7.26.0
+      '@types/babel__generator': 7.6.8
+      '@types/babel__traverse': 7.20.6
+      vite: 6.0.1(@types/node@22.10.1)(less@4.2.1)
+    transitivePeerDependencies:
+      - supports-color
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.26.2
@@ -1346,16 +1430,6 @@ snapshots:
 
   '@vearvip/hanzi-variants@1.0.3': {}
 
-  asynckit@0.4.0: {}
-
-  axios@1.7.8:
-    dependencies:
-      follow-redirects: 1.15.9
-      form-data: 4.0.1
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   babel-plugin-jsx-dom-expressions@0.39.3(@babel/core@7.26.0):
     dependencies:
       '@babel/core': 7.26.0
@@ -1388,9 +1462,7 @@ snapshots:
 
   caniuse-lite@1.0.30001684: {}
 
-  combined-stream@1.0.8:
-    dependencies:
-      delayed-stream: 1.0.0
+  clsx@2.1.1: {}
 
   convert-source-map@2.0.0: {}
 
@@ -1409,8 +1481,6 @@ snapshots:
       es-define-property: 1.0.0
       es-errors: 1.3.0
       gopd: 1.0.1
-
-  delayed-stream@1.0.0: {}
 
   electron-to-chromium@1.5.66: {}
 
@@ -1455,14 +1525,6 @@ snapshots:
       '@esbuild/win32-x64': 0.24.0
 
   escalade@3.2.0: {}
-
-  follow-redirects@1.15.9: {}
-
-  form-data@4.0.1:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
 
   fsevents@2.3.3:
     optional: true
@@ -1548,12 +1610,6 @@ snapshots:
     dependencies:
       is-what: 4.1.16
 
-  mime-db@1.52.0: {}
-
-  mime-types@2.1.35:
-    dependencies:
-      mime-db: 1.52.0
-
   mime@1.6.0:
     optional: true
 
@@ -1589,8 +1645,6 @@ snapshots:
       nanoid: 3.3.8
       picocolors: 1.1.1
       source-map-js: 1.2.1
-
-  proxy-from-env@1.1.0: {}
 
   prr@1.0.1:
     optional: true
