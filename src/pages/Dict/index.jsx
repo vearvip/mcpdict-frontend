@@ -1,5 +1,5 @@
 
-const Join = () => {
+const Dict = () => {
   return <div style={{
     display: 'flex',
     'justify-content': 'center',
@@ -11,4 +11,4 @@ const Join = () => {
   </div>
 }
 
-export default Join
+export default Dict

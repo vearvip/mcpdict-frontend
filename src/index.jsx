@@ -20,5 +20,5 @@ render(
       }
     </HashRouter>
   ),
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root")
 ); 

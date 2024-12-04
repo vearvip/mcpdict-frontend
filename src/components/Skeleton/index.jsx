@@ -1,6 +1,6 @@
-import { Component } from 'solid-js'
 
-const Skeleton: Component = () => {
+
+const Skeleton  = () => {
   return <div class="ant-skeleton">
     <div class="ant-skeleton-content">
       <h3 class="ant-skeleton-title" style="width: 38%;"></h3>
