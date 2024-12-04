@@ -1,5 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import styles from './index.module.less';
-import { createSignal, For, Show } from 'solid-js';
+import { Menu as AntdMenu, Button, Drawer } from 'antd';
+import { useMobile } from '../../utils/hooks';
+import { MenuOutlined } from '@ant-design/icons';
 import LogoBlock from '../LogoBlock';
 
 /**
@@ -26,72 +29,76 @@ import LogoBlock from '../LogoBlock';
  * @param {MenuProps} props - 组件属性。
  */
 const Menu = (props) => {
-  const [showDrawer, setShowDrawer] = createSignal(false);
-  const [isMobileScreen, setIsMobileScreen] = createSignal(false);
+  console.log('props', props)
+  const [showDrawer, setShowDrawer] = useState(false);
+  const isMobile = useMobile();
 
-  // 注意：这里需要添加逻辑来检测屏幕大小并设置 isMobileScreen 的值。
-  // 您可以使用 `useMediaQuery` 或者其他方法来实现这一点。
+  useEffect(() => {
+    if (!isMobile) {
+      setShowDrawer(false);
+    }
+  }, [isMobile]);
+
+
 
   return (
-    <div class={styles.menu}>
-      <Show when={isMobileScreen()}>
+    <div className={styles.menu}>
+
+      {isMobile && (
         <div style={{
-          'margin-left': '6px',
-          'margin-top': '9px',
+          marginLeft: '16px',
+          marginTop: '12px',
           display: 'inline-block'
         }}>
-          <button>测试</button>
-        </div>
-      </Show>
-      <Show when={!isMobileScreen()}>
-        <div>
-          <For each={props.dataSource}>
-            {(ele) => {
-              return (
-                <div
-                  class={
-                    ele.disabled
-                      ? `${styles.menu_item} ${styles.menu_item_disabled}`
-                      : ele.key === props.activeKey
-                        ? `${styles.menu_item} ${styles.menu_item_active}`
-                        : styles.menu_item
-                  }
-                  onClick={() => !ele.disabled && props.onChange(ele)}
-                >
-                  {ele.label}
-                </div>
-              );
-            }}
-          </For>
-        </div>
-      </Show>
+          <Button icon={<MenuOutlined />} onClick={() => setShowDrawer(true)} />
 
-      {/* <Button onClick={() => setShowDrawer(true)}>letft</Button> */}
-      <Show when={isMobileScreen()}>
-        {/* <div class={styles.menu_list_box}>
-          <For each={props.dataSource}>
-            {(ele) => {
-              return (
-                <div
-                  class={
-                    ele.disabled
-                      ? `${styles.menu_list_item} ${styles.menu_list_item_disabled}`
-                      : ele.key === props.activeKey
-                        ? `${styles.menu_list_item} ${styles.menu_list_item_active}`
-                        : styles.menu_list_item
-                  }
-                  onClick={() => {
-                    setShowDrawer(false);
-                    !ele.disabled && props.onChange(ele);
-                  }}
-                >
-                  {ele.label}
-                </div>
-              );
-            }}
-          </For>
-        </div> */}
-      </Show>
+        </div>
+      )}
+      {!isMobile && (
+        <div>
+          <AntdMenu
+            items={props.dataSource}
+            mode="horizontal"
+            selectedKeys={[props.activeKey]}
+            onClick={props.onChange} style={{
+              marginTop: 6,
+              border: 'none',
+            }} />
+        </div>
+      )}
+
+      <Drawer
+      placement="left"
+      closeIcon={false}
+      width={300}
+      onClose={() => setShowDrawer(false)}
+      open={showDrawer}
+      >
+
+<div style={{
+          // height: '100vh', backgroundColor: '#fff',
+        }}>
+
+          <div className="flex-center" style={{
+            marginTop: 30,
+            marginBottom: 20
+          }}>
+            <LogoBlock />
+          </div>
+          <AntdMenu
+            items={props.dataSource}
+            selectedKeys={[props.activeKey]}
+            onClick={(...args) => {
+              console.log('args', args)
+              props.onChange(...args);
+              setShowDrawer(false);
+            }} style={{
+              marginTop: 6,
+              border: 'none',
+            }} />
+        </div>
+      </Drawer>
+
     </div>
   );
 };

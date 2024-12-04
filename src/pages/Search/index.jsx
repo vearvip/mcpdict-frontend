@@ -1,13 +1,13 @@
-import { createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js';
+import React, { useState, useEffect } from 'react';
 import styles from './index.module.less';
 import SearchInput from "@/components/SearchInput";
 import LogoBlock from "@/components/LogoBlock";
-import Skeleton from "@/components/Skeleton";
+// import Skeleton from "@/components/Skeleton";
 import NoData from "@/components/NoData";
 import { makeBr, str2List } from '@/utils';
 import { fetcher } from '@/utils/request';
 import { queryChars } from '@/services';
-import { useNavigate, useParams, useSearchParams } from '@solidjs/router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import NProgress from 'nprogress';
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
@@ -19,17 +19,17 @@ import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
  * @param {Object} props - 组件属性。
  */
 const Search = (props) => {
-  const push = useNavigate();
-  const [searchParams] = useSearchParams({ q: '' });
-  const [loading, setLoading] = createSignal(false);
-  const [searchData, setSearchData] = createSignal([]);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
+  const [searchData, setSearchData] = useState([]);
 
   /**
    * 计算属性，用于检查搜索数据是否为空。
    *
    * @returns {boolean} 如果没有搜索数据或数据为空，则返回 true；否则返回 false。
    */
-  const searchDataIsEmpty = createMemo(() => (!searchData() || searchData().length === 0));
+  const searchDataIsEmpty = () => (!searchData || searchData.length === 0);
 
   /**
    * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
@@ -37,7 +37,7 @@ const Search = (props) => {
    * @param {string} value - 要搜索的值。
    */
   const onSearch = async (value) => {
-    push('/search?q=' + value, { replace: true });
+    navigate(`/search?q=${value}`, { replace: true });
   };
 
   /**
@@ -49,7 +49,7 @@ const Search = (props) => {
     setLoading(true);
     NProgress.start();
 
-    setSearchData([]);
+    // setSearchData([]);
     try {
       const result = await queryChars({
         char: value.split('').join(','),
@@ -63,30 +63,34 @@ const Search = (props) => {
     }
   };
 
-  createEffect(() => search(searchParams?.q || ''));
-  createEffect(() => {
-    if (!searchParams.q) {
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) {
+      search(q);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!searchParams.get('q')) {
       setSearchData([]);
     }
-  });
+  }, [searchParams]);
 
   return (
     <>
-      <div class={styles.search_bar}>
-        <div class={styles.logo_block}><LogoBlock /></div>
+      <div className={styles.search_bar}>
+        <div className={styles.logo_block}><LogoBlock /></div>
         <SearchInput
-          defaultValue={searchParams?.q || ''}
+          defaultValue={searchParams.get('q') || ''}
           onSearch={onSearch}
           style={{ width: '100%' }} />
       </div>
-      <div class={styles.search_content}>
-        <Show when={!!searchParams.q && !searchDataIsEmpty()}>
-          <LeftBox searchData={searchData()} />
-          {/* <RightBox searchData={searchData()} /> */}
-        </Show>
-        <Show when={!searchParams.q || searchDataIsEmpty()}>
+      <div className={styles.search_content}>
+        {!!searchParams.get('q') && !searchDataIsEmpty() ? (
+          <LeftBox searchData={searchData} />
+        ) : (
           <NoData />
-        </Show>
+        )}
       </div>
     </>
   );

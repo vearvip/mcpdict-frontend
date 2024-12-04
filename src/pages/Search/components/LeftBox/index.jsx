@@ -1,10 +1,8 @@
-import { createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js';
+import React from 'react';
 import styles from '../../index.module.less'; // 引入 CSS Module
 import Skeleton from "@/components/Skeleton";
 import ToggleText from '../ToggleText';
 import AutoFitText from '../AutoFitText';
-
-
 
 /**
  * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
@@ -49,7 +47,6 @@ function parseDialectData(data) {
   return parsedData;
 }
 
- 
 /**
  * 左侧盒子组件，用于展示搜索数据。
  */
@@ -58,47 +55,46 @@ const LeftBox = (props) => {
 
   return (
     <>
-      <div class={styles.left_box}>
-        <Show when={searchData.length > 0} fallback={<>
-          <Skeleton />
-          {/* <Skeleton active={loading} />
-                <Skeleton active={loading} />
-                <Skeleton active={loading} />
-                <Skeleton active={loading} /> */}
-          左侧空白
-        </>}>
-          <For each={searchData}>
-            {(charItem) => {
-              const charInfos = parseDialectData(charItem.charInfo);
-              return (
-                <div class={styles.char_box}>
-                  <ToggleText char={charItem.char}>
-                    <For each={charInfos}>
-                      {(charInfo) => (
-                        <div class={styles.char_info}>
-                          <AutoFitText text={charInfo.dialectName} />
-                          <div>
-                            <For each={charInfo.infos}>
-                              {(info) => (
-                                <div class={styles.info_item}>
-                                  <span class={styles.phonetic}>{info.phonetic}</span>
-                                  <span class={styles.explain}>{info.explain}</span>
-                                </div>
-                              )}
-                            </For>
+      <div className={styles.left_box}>
+        {searchData.length > 0 ? (
+          searchData.map((charItem, index) => {
+            const charInfos = parseDialectData(charItem.charInfo);
+            return (
+              <div key={index} className={styles.char_box}>
+                <ToggleText char={charItem.char}>
+                  {charInfos.map((charInfo, infoIndex) => (
+                    <div key={infoIndex} className={styles.char_info}>
+                      <AutoFitText text={charInfo.dialectName} />
+                      <div>
+                        {charInfo.infos.map((info, subIndex) => (
+                          <div key={subIndex} className={styles.info_item}>
+                            <span className={styles.phonetic}>{info.phonetic}</span>
+                            <span className={styles.explain}>{info.explain}</span>
                           </div>
-                        </div>
-                      )}
-                    </For>
-                  </ToggleText>
-                </div>
-              );
-            }}
-          </For>
-        </Show>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </ToggleText>
+              </div>
+            );
+          })
+        ) : (
+          <>
+            <Skeleton />
+            {/* <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} />
+            <Skeleton active={loading} /> */}
+            左侧空白
+          </>
+        )}
       </div>
     </>
   );
 };
 
 export default LeftBox;
+
+
+

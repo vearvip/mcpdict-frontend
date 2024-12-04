@@ -1,4 +1,6 @@
-import { createStore } from 'solid-js/store';
+import { create } from 'zustand'
+
+ 
 
 /**
  * @typedef {Object} DialectInfo - 代表方言信息的对象。
@@ -44,14 +46,17 @@ import { createStore } from 'solid-js/store';
  * @property {string} 語言索引 - 语言索引。
  */
 
-/**
- * 创建一个 store，它包含了你想要跨组件共享的数据。
- *
- * @type {import('solid-js/store').Store<{
- *   dialectInfos: DialectInfo[]
- * }>}
- */
-export const [store, setStore] = createStore({
-  /** @type {DialectInfo[]} */
-  dialectInfos: [],
-});
+export default create((set) => ({
+  store: {
+    /** @type {DialectInfo[]} */
+    dialectInfos: [],
+  },
+  setStore: (values) => set((state) => { 
+    return { 
+      ...state, 
+      store: { ...state.store, ...values }
+    }
+  }),
+}))
+
+

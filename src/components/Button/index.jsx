@@ -7,7 +7,7 @@ import styles from "./index.module.less";
  * @property {'primary' | 'normal'} [type] - 按钮类型，默认为 'normal'。
  * @property {any} [children] - 按钮内的子元素或文本。
  * @property {Function} [onClick] - 点击按钮时触发的回调函数。
- * @property {import("solid-js").JSX.CSSProperties} [style] - 自定义样式。
+ * @property {import("react").CSSProperties} [style] - 自定义样式。
  */
 
 /**
@@ -18,7 +18,7 @@ import styles from "./index.module.less";
 const Button = (props) => {
   return (
     <div
-      class={`${styles.button} ${styles[`button_${props.type || 'normal'}`]}`}
+      className={`${styles.button} ${styles[`button_${props.type || 'normal'}`]}`}
       style={props.style ?? {}}
       onClick={(event) => {
         if (props.onClick) props.onClick(event);

@@ -1,18 +1,13 @@
-:root {
-  /* --color: #36bfef; */
+:root { 
   --color: #3273dc; 
   --disabled-color: #ccc;
-  --border-color: rgba(150, 150, 150, 0.2);
-  --shadow-color: rgba(0,0,0,0.1);
+  --border-color: rgba(150, 150, 150, 0.2); 
 }
 
-body {
+body { 
   margin: 0;
-  background: #f9f9f9;
-  font-size: 14px;
-  /* font-family: "宋体-简", "新宋体" !important;  */
-  position: relative;
-  /* border: 1px solid red; */
+  padding: 0;
+  background: #f9f9f9; 
 }
 
 .box {
@@ -22,6 +17,11 @@ body {
   box-sizing: border-box;
   border-radius: 8px;
 
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

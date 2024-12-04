@@ -1,5 +1,5 @@
 import styles from '../../index.module.less'; // 引入 CSS Module
-import { store } from '@/store';
+import useStore  from '@/store';
 import { JC, YDYS } from '@/utils/constant';
 
 /**
@@ -9,6 +9,8 @@ import { JC, YDYS } from '@/utils/constant';
  * @param {string} props.text - 要显示的文本。
  */
 const AutoFitText = (props) => {
+  const { store} =useStore()
+  console.log('store', store)
 
   /**
    * 字体大小映射表，根据文本长度选择合适的字体大小。
@@ -50,7 +52,7 @@ const AutoFitText = (props) => {
    * @param {string} colorString - 颜色字符串，可以是单一颜色或者逗号分隔的颜色列表。
    * @returns {string} 单一颜色值或线性渐变字符串。
    */
-  function generateColorOrGradient(colorString) {
+  function generateColorOrGradient(colorString) { 
     // 清除可能存在的多余空格并分割颜色值
     const colors = colorString.replace(/\s+/g, '').split(',');
 
@@ -65,13 +67,10 @@ const AutoFitText = (props) => {
   }
 
   return (
-    <div
-      onClick={() => {
-        console.log('store', generateColorOrGradient(getBackgroundColor(props.text)));
-      }}
-      class={styles.auto_fit_text}
+    <div 
+      className={styles.auto_fit_text}
       style={{
-        'font-size': getFontSize(props?.text?.length ?? 6),
+        'fontSize': getFontSize(props?.text?.length ?? 6),
         "background": generateColorOrGradient(getBackgroundColor(props.text)),
       }}>
       {props.text}

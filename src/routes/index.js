@@ -1,9 +1,10 @@
-import { lazy } from 'solid-js'; 
-
+import Index from '@/pages/Index';
+import Search from '@/pages/Search';
+// import LongSearch from '@/pages/LongSearch';
+// import Dict from '@/pages/Dict';
+// import Join from '@/pages/Join'; 
 /**
- * 定义应用程序的路由配置。
- *
- * @type {Array<import('@solidjs/router').RouteDefinition>} 
+ * 定义应用程序的路由配置。 
  */
 export const routes = [
   /**
@@ -11,34 +12,34 @@ export const routes = [
    */
   {
     path: "/",
-    component: lazy(() => import('@/pages/Index'))
+    component:  Index
   },
   /**
    * 搜索页面路由配置。
    */
   {
     path: "/search",
-    component: lazy(() => import('@/pages/Search'))
+    component:  Search
   },
-  /**
-   * 长文搜索页面路由配置。
-   */
-  {
-    path: "/long-search",
-    component: lazy(() => import('@/pages/LongSearch'))
-  },
-  /**
-   * 字典页面路由配置。
-   */
-  {
-    path: "/dict",
-    component: lazy(() => import('@/pages/Dict'))
-  },
-  /**
-   * 加入页面路由配置。
-   */
-  {
-    path: "/join",
-    component: lazy(() => import('@/pages/Join'))
-  },
+  // /**
+  //  * 长文搜索页面路由配置。
+  //  */
+  // {
+  //   path: "/long-search",
+  //   component:  LongSearch
+  // },
+  // /**
+  //  * 字典页面路由配置。
+  //  */
+  // {
+  //   path: "/dict",
+  //   component:  Dict
+  // },
+  // /**
+  //  * 加入页面路由配置。
+  //  */
+  // {
+  //   path: "/join",
+  //   component:  Join
+  // },
 ];

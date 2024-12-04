@@ -14,24 +14,24 @@ const LongSearch = (props) => {
 
   return (
     <>
-      <div class={styles.search_bar}>
-        <div class={styles.logo_block}><LogoBlock /></div>
+      <div className={styles.search_bar}>
+        <div className={styles.logo_block}><LogoBlock /></div>
         <textarea 
           placeholder="长文注音，单次只可选择一种语言，请在右侧设置按钮选择语言" 
           maxLength={200} 
-          class={styles.textarea}
+          className={styles.textarea}
         />
-        <div class={styles.btn_box}>
-          <button class={styles.setting_btn}>
+        <div className={styles.btn_box}>
+          <button className={styles.setting_btn}>
             <img src={settingPng} alt="设置" />
           </button>
           <br />
-          <button class={styles.search_btn}>搜索</button>
+          <button className={styles.search_btn}>搜索</button>
         </div>
       </div>
-      <div class={styles.search_content}>
+      <div className={styles.search_content}>
         <Show when={false}>
-          <div class={styles.search_content_main}>
+          <div className={styles.search_content_main}>
             {/* <div dangerouslySetInnerHTML={{ __html: data1 }}></div> */}
             {/* <Skeleton active={loading} />
               <Skeleton active={loading} />

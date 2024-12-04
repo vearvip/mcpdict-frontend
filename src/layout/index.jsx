@@ -1,9 +1,11 @@
-import { createEffect, createMemo, createSignal } from 'solid-js';
-import { useNavigate, useLocation } from '@solidjs/router';
+import { useEffect, useState } from 'react';
 import styles from "./index.module.less";
-import Menu from '@/components/Menu'; 
+import Menu from '@/components/Menu';
 import { queryDialectInfos, queryGeo } from '@/services';
-import { setStore } from '@/store';
+import useStore from '@/store';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router";
+import { routes } from '@/routes'
+import { message } from 'antd';
 
 /**
  * 菜单项配置数组，定义了菜单的各个选项。 
@@ -36,14 +38,16 @@ const items = [
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
  */
 const Layout = (props) => {
-  const push = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
+  const { store, setStore} =useStore()
+  const [messageApi, contextHolder] = message.useMessage();
 
   /**
    * 处理菜单点击事件，跳转到对应路由。 
    */
   const handleMenuClick = (e) => {
-    push(e.key);
+    navigate(e.key);
   };
 
   /**
@@ -57,35 +61,43 @@ const Layout = (props) => {
    * 显示微信号信息。
    */
   const handleGoWechatImg = () => {
-    alert('微信号：vear-vip');
+    messageApi.info('微信号：vear-vip'); 
   };
 
   /**
    * 获取方言信息并更新 store。
    */
-  const fetchGeo = async () => {
+  const getDialectInfos = async () => {
     try {
       const res = await queryDialectInfos();
-      console.log('dialectInfos', res);
+      // console.log('setStore', setStore);
       setStore({ dialectInfos: res?.data ?? {} });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
     }
   };
 
-  createEffect(() => {
-    fetchGeo();
-  });
+  useEffect(() => {
+    getDialectInfos();
+  }, []);
 
   return (
-    <div class={styles.layout}>
-      <div class={`${styles.nav} box`}>
-        <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick} />
+    <div className={styles.layout}>
+      {contextHolder}
+      <div className={`${styles.nav} box`}> 
+        <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick}/>
       </div>
-      {props.children}
-      <div class={`${styles.foot} box`}>
+        <Routes>
+          {
+            routes.map((item, index) => {
+              return <Route key={index} path={item.path} element={<item.component />} />
+            })
+          }
+        </Routes> 
+
+      <div className={`${styles.foot} box`}>
         <div>
-          本网站由<span class={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span class={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
+          本网站由<span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
         </div>
       </div>
     </div>
@@ -93,3 +105,6 @@ const Layout = (props) => {
 };
 
 export default Layout;
+
+
+

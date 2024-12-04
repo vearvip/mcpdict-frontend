@@ -1,8 +1,7 @@
-import { createEffect, createMemo, createSignal, For, onMount, Show } from 'solid-js';
+import React from 'react';
 import styles from '../../index.module.less'; // 引入 CSS Module
 import Skeleton from "@/components/Skeleton";
 import { makeBr } from "@/utils";
- 
 
 /**
  * 右侧盒子组件，用于展示搜索数据。 
@@ -14,24 +13,27 @@ const RightBox = (props) => {
 
   return (
     <>
-      <div class={styles.right_box}>
-        <Show when={searchData.length > 0} fallback={<>
-          {/* <Skeleton.Image active={loading} style={{ marginBottom: 20 }} />
+      <div className={styles.right_box}>
+        {searchData.length > 0 ? (
+          searchData.map((ziItem, index) => (
+            <div key={index} className={styles.zi_box}>
+              <img src={ziItem.zitu} className={styles.zitu} alt="字符图" />
+              <div dangerouslySetInnerHTML={{ __html: makeBr(ziItem.xinhuashiyi) }}></div>
+            </div>
+          ))
+        ) : (
+          <>
+            {/* <Skeleton.Image active={loading} style={{ marginBottom: 20 }} />
             <Skeleton active={loading} /> */}
-          右侧空白
-        </>}>
-          <For each={searchData}>
-            {(ziItem) => (
-              <div class={styles.zi_box}>
-                <img src={ziItem.zitu} class={styles.zitu} alt="字符图" />
-                <div dangerouslySetInnerHTML={{ __html: makeBr(ziItem.xinhuashiyi) }}></div>
-              </div>
-            )}
-          </For>
-        </Show>
+            右侧空白
+          </>
+        )}
       </div>
     </>
   );
 };
 
 export default RightBox;
+
+
+

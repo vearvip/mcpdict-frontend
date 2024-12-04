@@ -1,24 +1,13 @@
-/* @refresh reload */
-import { render } from 'solid-js/web';
-
-import { Route, HashRouter } from "@solidjs/router";
-import './index.css';
+import { createRoot } from 'react-dom/client'
 import Layout from './layout';
-import 'nprogress/nprogress.css'
-import { routes } from './routes';
+import 'nprogress/nprogress.css' 
+ 
+import './index.css' 
+import { HashRouter } from 'react-router';
 
-render(
-  () => (
-    <HashRouter root={Layout}>
-      {
-        routes.map(ele => {
-          return <Route
-            path={ele.path}
-            component={ele.component}
-          />
-        })
-      }
-    </HashRouter>
-  ),
-  document.getElementById("root")
-); 
+
+createRoot(document.getElementById('root')).render( 
+    <HashRouter>
+    <Layout /> 
+    </HashRouter>,
+)
