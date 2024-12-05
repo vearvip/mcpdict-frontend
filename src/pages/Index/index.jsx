@@ -1,11 +1,12 @@
-import React from 'react'; 
+import React from 'react';
 import Book from "@/components/Book";
 import SearchInput from "@/components/SearchInput";
 import logo from '@/assets/webp/logo.webp';
 import styles from "./index.module.less";
 import { useNavigate } from "react-router";
 import { Divider } from 'antd';
-import useStore  from '@/store';
+import { message } from 'antd';
+import useStore from '@/store';
 import { JC, YDYS } from '../../utils/constant';
 
 
@@ -14,9 +15,9 @@ import { JC, YDYS } from '../../utils/constant';
  *
  * @param {Object} props - 组件属性。
  */
-const Index = (props) => { 
+const Index = (props) => {
   let navigate = useNavigate();
-  const { store } =useStore()
+  const { store } = useStore()
   console.log('store', store)
 
   /**
@@ -34,21 +35,28 @@ const Index = (props) => {
         <div className={styles.logo_box}>
           <img className={styles.logo} src={logo} alt="Logo" />
         </div>
-        <SearchInput 
+        <SearchInput
           style={{
             marginTop: '100px'
-          }} 
+          }}
           onSearch={onSearch}
         />
       </div>
-      <div className={styles.book_box}>
+      {/* <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录方言</Divider>
         {(store?.dialectInfos ?? []).filter(ele => ele[YDYS]).map((ele) => (
-          <div className={styles.book_item} key={ele[JC]}>
-            <Book name={ele[JC]} color={ele[YDYS]} />
+          <div
+            className={styles.book_item}
+            key={ele[JC]}
+            onClick={() => message.info('🚧施工中')}
+          >
+            <Book
+              name={ele[JC]}
+              color={ele[YDYS]}
+            />
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

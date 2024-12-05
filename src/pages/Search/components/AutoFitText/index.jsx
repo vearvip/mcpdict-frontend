@@ -1,6 +1,7 @@
 import styles from '../../index.module.less'; // 引入 CSS Module
 import useStore  from '@/store';
 import { JC, YDYS } from '@/utils/constant';
+import { message } from 'antd';
 
 /**
  * 自适应文本组件，根据文本长度调整字体大小，并设置背景颜色或渐变。
@@ -72,7 +73,9 @@ const AutoFitText = (props) => {
       style={{
         'fontSize': getFontSize(props?.text?.length ?? 6),
         "background": generateColorOrGradient(getBackgroundColor(props.text)),
-      }}>
+      }}
+      onClick={() => message.info('🚧施工中')}
+      >
       {props.text}
     </div>
   );
