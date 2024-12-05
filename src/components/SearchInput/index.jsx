@@ -6,10 +6,10 @@ import Dialog from '../Dialog';
 
 import { Select, Form } from 'antd';
 import useStore from '@/store';
-import { JC } from '../../utils/constant';
+import { JC, YDYS } from '../../utils/constant';
 
 
-/*/workspaces/dialect-dict-frontend/src/components/Filter*
+/**
  * 搜索输入组件，用于处理用户搜索输入和设置对话框。
  *
  * @param {Object} props - 组件属性。
@@ -107,7 +107,7 @@ const SearchInput = (props) => {
             <Select
               showSearch
               allowClear
-              options={(store?.dialectInfos ?? []).map(ele => {
+              options={(store?.dialectInfos ?? []).filter(ele => ele[YDYS]).map(ele => {
                 return {
                   label: ele[JC],
                   value: ele[JC],

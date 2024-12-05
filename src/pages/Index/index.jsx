@@ -4,6 +4,9 @@ import SearchInput from "@/components/SearchInput";
 import logo from '@/assets/webp/logo.webp';
 import styles from "./index.module.less";
 import { useNavigate } from "react-router";
+import { Divider } from 'antd';
+import useStore  from '@/store';
+import { JC, YDYS } from '../../utils/constant';
 
 
 /**
@@ -13,6 +16,8 @@ import { useNavigate } from "react-router";
  */
 const Index = (props) => { 
   let navigate = useNavigate();
+  const { store } =useStore()
+  console.log('store', store)
 
   /**
    * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
@@ -36,14 +41,14 @@ const Index = (props) => {
           onSearch={onSearch}
         />
       </div>
-      {/* <div className={styles.book_box}>
+      <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录方言</Divider>
-        {langs().map((ele) => (
-          <div className={styles.book_item} key={ele.name}>
-            <Book name={ele.name} color={ele.color} />
+        {(store?.dialectInfos ?? []).filter(ele => ele[YDYS]).map((ele) => (
+          <div className={styles.book_item} key={ele[JC]}>
+            <Book name={ele[JC]} color={ele[YDYS]} />
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };

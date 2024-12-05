@@ -68,7 +68,7 @@ const LeftBox = (props) => {
           <div style={{
             fontSize: 14,
             marginLeft:5,
-            marginTop:15
+            marginTop:12
           }}>
           {
             activeKey.includes(charItem.char)
