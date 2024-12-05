@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from "./index.module.less";
 import { SettingOutlined } from '@ant-design/icons';
 import { useMobile } from '../../utils/hooks';
-import FilterDialog from '../FilterDialog';
+import Dialog from '../Dialog';
 
 /**
  * 搜索输入组件，用于处理用户搜索输入和设置对话框。
@@ -78,14 +78,14 @@ const SearchInput = (props) => {
       }}>
         搜 索
       </div>
-      <FilterDialog
+      <Dialog
         title="筛选"
         open={open}
         onOk={handleModalOk}
         onClose={handleModalCancel}
       >
         🚧施工中...
-      </FilterDialog>
+      </Dialog>
 
     </div>
   );

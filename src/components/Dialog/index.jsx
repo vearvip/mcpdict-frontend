@@ -13,7 +13,7 @@ import { useMobile } from '../../utils/hooks';
  * @param {Function} [props.onClose] - 关闭触发时的回调函数。
  * @param {Function} [props.onOk] - 搜索触发时的回调函数。
  */
-const FilterDialog = (props) => {
+const Dialog = (props) => {
   const isMobile = useMobile();
 
   const handleOk = () => {
@@ -79,4 +79,4 @@ const FilterDialog = (props) => {
   );
 };
 
-export default FilterDialog;
+export default Dialog;
