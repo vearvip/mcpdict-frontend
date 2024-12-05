@@ -46,7 +46,7 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
-      setStore({ dialectInfos: res?.data ?? {} });
+      setStore({ dialectInfos: res?.data ?? [] });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
     }
