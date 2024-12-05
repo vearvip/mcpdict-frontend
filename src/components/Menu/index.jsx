@@ -5,6 +5,7 @@ import { useMobile } from '../../utils/hooks';
 import { MenuOutlined } from '@ant-design/icons';
 import LogoBlock from '../LogoBlock';
 
+
 /**
  * 菜单项配置接口，定义了菜单项的属性。
  *
@@ -29,7 +30,7 @@ import LogoBlock from '../LogoBlock';
  * @param {MenuProps} props - 组件属性。
  */
 const Menu = (props) => {
-  console.log('props', props)
+  // console.log('props', props)
   const [showDrawer, setShowDrawer] = useState(false);
   const isMobile = useMobile();
 
@@ -42,7 +43,7 @@ const Menu = (props) => {
 
 
   return (
-    <div className={styles.menu}>
+    <div className={`${styles.menu} vear_menu`}>
 
       {isMobile && (
         <div style={{
@@ -68,20 +69,27 @@ const Menu = (props) => {
       )}
 
       <Drawer
-      placement="left"
-      closeIcon={false}
-      width={300}
-      onClose={() => setShowDrawer(false)}
-      open={showDrawer}
+        placement="left"
+        closeIcon={false}
+        width={300}
+        onClose={() => setShowDrawer(false)}
+        open={showDrawer}
+
+        styles={{
+          body: {
+            padding: 0
+          },
+        }}
       >
 
-<div style={{
+        <div style={{
           // height: '100vh', backgroundColor: '#fff',
         }}>
 
           <div className="flex-center" style={{
             marginTop: 30,
-            marginBottom: 20
+            marginBottom: 20,
+            paddingLeft: 20,
           }}>
             <LogoBlock />
           </div>
@@ -92,7 +100,8 @@ const Menu = (props) => {
               console.log('args', args)
               props.onChange(...args);
               setShowDrawer(false);
-            }} style={{
+            }}
+            style={{
               marginTop: 6,
               border: 'none',
             }} />

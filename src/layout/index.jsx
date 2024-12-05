@@ -6,6 +6,8 @@ import useStore from '@/store';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
 import { message } from 'antd';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 
 /**
  * 菜单项配置数组，定义了菜单的各个选项。 
@@ -40,7 +42,7 @@ const items = [
 const Layout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { store, setStore} =useStore()
+  const { store, setStore } = useStore()
   const [messageApi, contextHolder] = message.useMessage();
 
   /**
@@ -61,7 +63,7 @@ const Layout = (props) => {
    * 显示微信号信息。
    */
   const handleGoWechatImg = () => {
-    messageApi.info('微信号：vear-vip'); 
+    messageApi.info('微信号：vear-vip');
   };
 
   /**
@@ -82,25 +84,36 @@ const Layout = (props) => {
   }, []);
 
   return (
-    <div className={styles.layout}>
-      {contextHolder}
-      <div className={`${styles.nav} box`}> 
-        <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick}/>
-      </div>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        token: {
+          // Seed Token，影响范围大
+          colorPrimary: '#3273dc',
+          borderRadius: 4
+        },
+      }}
+    >
+      <div className={styles.layout}>
+        {contextHolder}
+        <div className={`${styles.nav} box`}>
+          <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick} />
+        </div>
         <Routes>
           {
             routes.map((item, index) => {
               return <Route key={index} path={item.path} element={<item.component />} />
             })
           }
-        </Routes> 
+        </Routes>
 
-      <div className={`${styles.foot} box`}>
-        <div>
-          本网站由<span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
+        <div className={`${styles.foot} box`}>
+          <div>
+            本网站由<span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
+          </div>
         </div>
       </div>
-    </div>
+    </ConfigProvider>
   );
 };
 

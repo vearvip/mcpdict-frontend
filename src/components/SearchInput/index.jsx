@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./index.module.less"; 
+import styles from "./index.module.less";
 import { SettingOutlined } from '@ant-design/icons';
+import { useMobile } from '../../utils/hooks';
+import FilterDialog from '../FilterDialog';
 
 /**
  * 搜索输入组件，用于处理用户搜索输入和设置对话框。
@@ -13,7 +15,9 @@ import { SettingOutlined } from '@ant-design/icons';
 const SearchInput = (props) => {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  
+  const isMobile = useMobile();
+
+
   // 注意：selectedDialects 和 setSelectFangYanId 的初始化值为空对象或空数组，
   // 具体取决于您的应用逻辑。这里暂时留空。
   const [selectedDialects, setSelectFangYanId] = useState([]);
@@ -24,6 +28,13 @@ const SearchInput = (props) => {
   const handleShowSettingDialog = () => {
     setOpen(true);
   };
+
+  const handleModalOk = () => {
+    setOpen(false)
+  }
+  const handleModalCancel = () => {
+    setOpen(false)
+  }
 
   useEffect(() => {
     // 模拟异步数据获取操作（注释掉的代码）
@@ -45,7 +56,7 @@ const SearchInput = (props) => {
   return (
     <div className={styles.input_box} style={props.style || {}}>
       <div className={styles.setting_btn} onClick={handleShowSettingDialog}>
-      <SettingOutlined />
+        <SettingOutlined />
         {/* <img src={settingPng} className={styles.setting_icon} /> */}
       </div>
       <input
@@ -66,7 +77,16 @@ const SearchInput = (props) => {
         if (props.onSearch) props.onSearch(value);
       }}>
         搜 索
-      </div> 
+      </div>
+      <FilterDialog
+        title="筛选"
+        open={open}
+        onOk={handleModalOk}
+        onClose={handleModalCancel}
+      >
+        🚧施工中...
+      </FilterDialog>
+
     </div>
   );
 };

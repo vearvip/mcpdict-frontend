@@ -1,12 +1,25 @@
+import { Empty } from 'antd'
 import styles from './index.module.less'
-import noData from '@/assets/webp/noData.webp'
+import { Typography } from 'antd'
+// import noData from '@/assets/webp/noData.webp'
 
 
-const Drawer = (props) => {
+const NoData = (props) => {
 
   return <div className={styles.no_data_box}>
-    <img src={noData} className={styles.no_data} />
+    {/* <img src={noData} className={styles.no_data} /> */}
+    <Empty
+      image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+      imageStyle={{
+        height: 60,
+      }}
+      description={
+        <Typography.Text type="secondary">
+          暂无数据
+        </Typography.Text>
+      }
+    />
   </div>
 }
 
-export default Drawer
+export default NoData
