@@ -1,0 +1,209 @@
+.search_bar {
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+.search_content {
+  padding: 20px;
+  padding-left: 200px;
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin: 10px;
+  min-height: 540px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  position: relative;
+
+  .left_box {
+    // flex: 1;
+    width: 650px;
+    margin-right: 150px;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid rgba(150, 150, 150, 0.2);
+    border-radius: 4px;
+    margin-bottom: 20px;
+  
+    .char_box {
+      border-bottom: 1px solid var(--border-color);
+      // padding-bottom: 20px;
+      margin-bottom: 20px;
+  
+      &:last-child {
+        border: none;
+        margin: 0;
+        // padding: 0;
+      }
+      .auto_fit_text {
+        width: 70px;
+        height: 22px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: 1px solid var(--border-color);
+        padding: 2px;
+        margin-right: 10px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      } 
+      .toggle_text {
+        .animated_text {
+          overflow: hidden;
+          transition: height 0.3s ease;
+        }
+        
+        // .expand {  
+        // } 
+        
+        // .collapse {
+        //   height: 0;
+        // }
+        .char {
+          font-size: 32px;
+          font-weight: bold;
+          color: #333;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        
+        }
+        
+        .operate { 
+          font-size: 18px;
+          cursor: pointer;
+          margin-left: 10px;
+          position: relative;
+          top: 5px;
+        }
+      }
+      
+  
+      .char_info {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        color: #333;
+        flex-wrap: nowrap;  
+  
+        .dialect_box {
+          width: 90px;
+  
+          .dialect {
+            max-width: 70px;
+            box-sizing: border-box;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            margin-right: 5px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            text-align: center;
+          }
+        }
+  
+        // .phonetic_box {
+        //   flex-grow: 1; /* 让 div 占据剩余空间 */
+        //   word-break: break-all; /* 强制换行 */
+        //   white-space: pre-wrap; /* 保留空白符序列，但是正常地进行换行 */
+        //   overflow-wrap: break-word; /* 允许长单词或 URL 地址换行到下一行 */
+        //   display: inline-block;
+        //   overflow: auto;
+  
+           
+        // }
+        .info_item {
+          flex-grow: 1; /* 让 div 占据剩余空间 */
+          word-break: break-all; /* 强制换行 */
+          white-space: pre-wrap; /* 保留空白符序列，但是正常地进行换行 */
+          overflow-wrap: break-word; /* 允许长单词或 URL 地址换行到下一行 */
+          display: inline-block;
+          overflow: auto;
+          margin-right: 5px;
+    
+          // border: 1px solid red;
+          .phonetic {
+            font-size: 14px;
+            // background-color: palegoldenrod;
+          }
+          .explain {
+            font-size: 12px;
+            color: #555;
+            // background-color: pink;
+          }
+        }
+      }
+    }
+  }
+  
+  .right_box {
+    width: 400px;
+    position: relative;
+    border: 1px solid rgba(150, 150, 150, 0.2);
+    border-radius: 4px;
+    padding: 20px;
+    box-sizing: border-box;
+  
+    .zi_box {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      // border: 1px solid red;
+  
+      &:last-child {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+  
+      .zitu {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+  
+      .right_box_content {
+        white-space: pre-line;
+        // border: 1px solid red;
+      }
+    }
+  }
+
+}
+
+
+ 
+/* 表示屏幕尺寸小于等于设定px时 */
+@media screen and (max-width: 1064px) {
+  .search_content {
+    padding-left: 20px !important;
+  }
+
+  .left_box {
+    margin-right: 0 !important;
+  }
+
+  .right_box {
+    width: 650px !important;
+  }
+
+  .logo_block {
+    display: none !important;
+  }
+}
+

@@ -1,0 +1,46 @@
+:root { 
+  --color: #3273dc; 
+  --disabled-color: #ccc;
+  --border-color: rgba(150, 150, 150, 0.2); 
+}
+
+body { 
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9; 
+}
+
+.box {
+  width: calc(100% - 20px);
+  background-color: white;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#nprogress .bar {
+  background: var(--color) !important;
+}
+
+/* 全局滚动条样式修改 */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+* {
+  scrollbar-width: 10px; 
+}
+ 
+ 
