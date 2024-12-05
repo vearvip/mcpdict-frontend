@@ -12,6 +12,8 @@ import NProgress from 'nprogress';
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
 import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
+import { Button, FloatButton } from 'antd';
+import { showDialectMap } from '../../components/DialectMap';
 
 /**
  * 搜索组件，用于展示和处理搜索功能。
@@ -96,6 +98,7 @@ const Search = (props) => {
           <NoData />
         )}
       </div>
+      <FloatButton.BackTop />
     </>
   );
 };

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@ant-design/icons": "^5.5.2",
     "@vearvip/hanzi-utils": "^1.0.8",
     "ahooks": "^3.8.1",

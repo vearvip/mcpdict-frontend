@@ -10,7 +10,7 @@ import { JC, YDYS } from '@/utils/constant';
  */
 const AutoFitText = (props) => {
   const { store} =useStore()
-  console.log('store', store)
+  // console.log('store', store)
 
   /**
    * 字体大小映射表，根据文本长度选择合适的字体大小。

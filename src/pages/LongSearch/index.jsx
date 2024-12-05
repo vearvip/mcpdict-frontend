@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import styles from './index.module.less';
-import { createSignal, Show } from 'solid-js';
 import settingPng from '@/assets/svg/setting.svg';
 import NoData from '@/components/NoData';
 import LogoBlock from "@/components/LogoBlock";
@@ -10,7 +10,7 @@ import LogoBlock from "@/components/LogoBlock";
  * @param {Object} props - 组件属性。
  */
 const LongSearch = (props) => {
-  const [loading, setLoading] = createSignal(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
@@ -30,7 +30,7 @@ const LongSearch = (props) => {
         </div>
       </div>
       <div className={styles.search_content}>
-        <Show when={false}>
+        {false ? (
           <div className={styles.search_content_main}>
             {/* <div dangerouslySetInnerHTML={{ __html: data1 }}></div> */}
             {/* <Skeleton active={loading} />
@@ -39,13 +39,15 @@ const LongSearch = (props) => {
               <Skeleton active={loading} /> */}
             搜索结果
           </div>
-        </Show>
-        <Show when={true}>
+        ) : (
           <NoData />
-        </Show>
+        )}
       </div>
     </>
   );
 };
 
 export default LongSearch;
+
+
+

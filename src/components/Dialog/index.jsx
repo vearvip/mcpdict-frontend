@@ -37,6 +37,7 @@ const Dialog = (props) => {
             onCancel={handleCancel}
             onClose={handleCancel}
             width={'100vw'} 
+            destroyOnClose
             style={{ 
               height: '100vh', 
             }}
@@ -64,6 +65,7 @@ const Dialog = (props) => {
           : <Modal 
             title={props.title}
             open={props.open}
+            destroyOnClose
             // okText="确定"
             // cancelText="取消"
             onOk={handleOk}

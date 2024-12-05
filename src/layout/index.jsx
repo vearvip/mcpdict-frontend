@@ -8,34 +8,7 @@ import { routes } from '@/routes'
 import { message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-
-/**
- * 菜单项配置数组，定义了菜单的各个选项。 
- */
-const items = [
-  {
-    label: "首页",
-    key: "/"
-  },
-  {
-    label: "字音查询",
-    key: "/search"
-  },
-  {
-    label: "长文注音",
-    key: "/long-search",
-    disabled: true,
-  },
-  // {
-  //   label: "字典模式",
-  //   key: "/dict"
-  // },
-  // {
-  //   label: "参与注音",
-  //   key: "/join"
-  // },
-];
-
+ 
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
  */
@@ -97,7 +70,17 @@ const Layout = (props) => {
       <div className={styles.layout}>
         {contextHolder}
         <div className={`${styles.nav} box`}>
-          <Menu dataSource={items} activeKey={location.pathname} onChange={handleMenuClick} />
+          <Menu
+            dataSource={routes.map(ele => {
+              return { 
+                label: ele.title,
+                key: ele.path,
+                disabled: ele.disabled,
+              }
+            })}
+            activeKey={location.pathname}
+            onChange={handleMenuClick}
+          />
         </div>
         <Routes>
           {
