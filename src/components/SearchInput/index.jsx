@@ -4,7 +4,12 @@ import { SettingOutlined } from '@ant-design/icons';
 import { useMobile } from '../../utils/hooks';
 import Dialog from '../Dialog';
 
-/**
+import { Select, Form } from 'antd';
+import useStore from '@/store';
+import { JC } from '../../utils/constant';
+
+
+/*/workspaces/dialect-dict-frontend/src/components/Filter*
  * 搜索输入组件，用于处理用户搜索输入和设置对话框。
  *
  * @param {Object} props - 组件属性。
@@ -15,6 +20,8 @@ import Dialog from '../Dialog';
 const SearchInput = (props) => {
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
+  const { store, setStore } = useStore()
   const isMobile = useMobile();
 
 
@@ -27,13 +34,23 @@ const SearchInput = (props) => {
    */
   const handleShowSettingDialog = () => {
     setOpen(true);
+    setTimeout(() => {
+      const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
+      console.log('filterData', filterData)
+      form.setFieldsValue(filterData)
+    }, 0)
   };
 
   const handleModalOk = () => {
+    const filterData = form.getFieldsValue()
+    localStorage.setItem('filterData', JSON.stringify(filterData))
+    console.log('filterData', filterData)
     setOpen(false)
+    props.onSearch(value, true)
   }
   const handleModalCancel = () => {
     setOpen(false)
+    
   }
 
   useEffect(() => {
@@ -45,6 +62,7 @@ const SearchInput = (props) => {
     //   setFangYans(data);
     // };
     // fetchData();
+    
   }, []);
 
   useEffect(() => {
@@ -84,7 +102,20 @@ const SearchInput = (props) => {
         onOk={handleModalOk}
         onClose={handleModalCancel}
       >
-        🚧施工中...
+        <Form form={form}>
+          <Form.Item name="dialectName" label="选择语言" >
+            <Select
+              showSearch
+              allowClear
+              options={(store?.dialectInfos ?? []).map(ele => {
+                return {
+                  label: ele[JC],
+                  value: ele[JC],
+                }
+              })}
+            />
+          </Form.Item>
+        </Form>
       </Dialog>
 
     </div>

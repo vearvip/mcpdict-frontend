@@ -60,14 +60,14 @@ const LeftBox = (props) => {
           searchData.map((charItem, index) => {
             const charInfos = parseDialectData(charItem.charInfo);
             return (
-              <div key={index} className={styles.char_box}>
+              <div key={`char_box_${index}`} className={styles.char_box}>
                 <ToggleText char={charItem.char}>
                   {charInfos.map((charInfo, infoIndex) => (
-                    <div key={infoIndex} className={styles.char_info}>
+                    <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
                       <AutoFitText text={charInfo.dialectName} />
                       <div>
                         {charInfo.infos.map((info, subIndex) => (
-                          <div key={subIndex} className={styles.info_item}>
+                          <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
                             <span className={styles.phonetic}>{info.phonetic}</span>
                             <span className={styles.explain}>{info.explain}</span>
                           </div>

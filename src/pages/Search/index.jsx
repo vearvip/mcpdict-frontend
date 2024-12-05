@@ -36,8 +36,12 @@ const Search = (props) => {
    *
    * @param {string} value - 要搜索的值。
    */
-  const onSearch = async (value) => {
-    navigate(`/search?q=${value}`, { replace: true });
+  const onSearch = async (value, needSearch = false) => {
+    if (needSearch) {
+      search(value)
+    } else {
+      navigate(`/search?q=${value}`, { replace: true }); 
+    }
   };
 
   /**
@@ -53,7 +57,7 @@ const Search = (props) => {
     try {
       const result = await queryChars({
         char: value.split('').join(','),
-        dialect: localStorage.getItem('selectedDialect') || ''
+        dialect: JSON.parse(localStorage.getItem('filterData') || '{}')?.dialectName
       });
       console.log('result', result);
       setSearchData(result.data);

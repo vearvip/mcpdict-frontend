@@ -28,7 +28,7 @@ const ToggleText = (props) => {
             : <DownOutlined />}
         </div>
       </div>
-      <p
+      <div
         className={`${styles.animated_text}`}
         style={{
           height: isExpanded ? 'auto' : '0px',
@@ -37,7 +37,7 @@ const ToggleText = (props) => {
         }}
       >
         {props.children}
-      </p>
+      </div>
     </div>
   );
 };
