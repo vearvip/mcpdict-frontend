@@ -7,6 +7,7 @@ import Dialog from '../Dialog';
 import { Select, Form } from 'antd';
 import useStore from '@/store';
 import { JC, YDYS } from '../../utils/constant';
+import { showFilterDialog } from '../Filter';
 
 
 /**
@@ -23,47 +24,22 @@ const SearchInput = (props) => {
   const [form] = Form.useForm();
   const { store, setStore } = useStore()
   const isMobile = useMobile();
-
-
-  // 注意：selectedDialects 和 setSelectFangYanId 的初始化值为空对象或空数组，
-  // 具体取决于您的应用逻辑。这里暂时留空。
-  const [selectedDialects, setSelectFangYanId] = useState([]);
-
+ 
   /**
    * 显示设置对话框。
    */
-  const handleShowSettingDialog = () => {
-    setOpen(true);
-    setTimeout(() => {
-      const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
-      console.log('filterData', filterData)
-      form.setFieldsValue(filterData)
-    }, 0)
+  const handleShowSettingDialog = () => { 
+    showFilterDialog({
+      onOk(filterData) {
+        console.log('filterData----',filterData)
+        props.onSearch(value, true)
+      },
+      onClose() {
+
+      }
+    })
   };
-
-  const handleModalOk = () => {
-    const filterData = form.getFieldsValue()
-    localStorage.setItem('filterData', JSON.stringify(filterData))
-    console.log('filterData', filterData)
-    setOpen(false)
-    props.onSearch(value, true)
-  }
-  const handleModalCancel = () => {
-    setOpen(false)
-    
-  }
-
-  useEffect(() => {
-    // 模拟异步数据获取操作（注释掉的代码）
-    // const fetchData = async () => {
-    //   const data = await queryFangYans();
-    //   setLangs(data.langs);
-    //   console.log('data', data);
-    //   setFangYans(data);
-    // };
-    // fetchData();
-    
-  }, []);
+  
 
   useEffect(() => {
     if (props?.defaultValue !== undefined) {
@@ -95,28 +71,7 @@ const SearchInput = (props) => {
         if (props.onSearch) props.onSearch(value);
       }}>
         搜 索
-      </div>
-      <Dialog
-        title="筛选"
-        open={open}
-        onOk={handleModalOk}
-        onClose={handleModalCancel}
-      >
-        <Form form={form}>
-          <Form.Item name="dialectName" label="选择语言" >
-            <Select
-              showSearch
-              allowClear
-              options={(store?.dialectInfos ?? []).filter(ele => ele[YDYS]).map(ele => {
-                return {
-                  label: ele[JC],
-                  value: ele[JC],
-                }
-              })}
-            />
-          </Form.Item>
-        </Form>
-      </Dialog>
+      </div> 
 
     </div>
   );

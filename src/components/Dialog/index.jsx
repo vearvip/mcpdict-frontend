@@ -10,7 +10,10 @@ import { useMobile } from '../../utils/hooks';
  * @param {import('react').ReactNode} props.children - children
  * @param {Object} [props.drawerProps] - drawerProps
  * @param {Object} [props.modalProps] - modalProps
- * @param {Function} [props.onClose] - 关闭触发时的回调函数。
+ * @param {string} [props.okText] - okText 确定
+ * @param {string} [props.cancelText] - cancelText 取消
+ * @param {Function} [props.onClose] - close触发时的回调函数。
+ * @param {Function} [props.onCancel] - cancel触发时的回调函数。
  * @param {Function} [props.onOk] - 搜索触发时的回调函数。
  */
 const Dialog = (props) => {
@@ -21,8 +24,33 @@ const Dialog = (props) => {
   }
   const handleCancel = () => {
     // console.log('first', 1212)
+    props.onCancel && props.onCancel()
+  }
+  const handleClose = () => {
+    // console.log('first', 1212)
     props.onClose && props.onClose()
   }
+
+  const footer = props.open
+    ? <div className="flex-center">
+
+      <Button
+        style={{
+          marginRight: 20
+        }}
+        onClick={handleCancel}
+      >
+
+        {props.cancelText || '取消'}
+      </Button>
+      <Button
+        type="primary"
+        onClick={handleOk}
+      >
+        {props.okText || '确定'}
+      </Button>
+    </div>
+    : null
 
   return (
     <div >
@@ -33,44 +61,23 @@ const Dialog = (props) => {
             title={props.title}
             open={props.open}
             placement="top"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            onClose={handleCancel}
-            width={'100vw'} 
+            onClose={handleClose}
+            width={'100vw'}
             destroyOnClose
-            style={{ 
-              height: '100vh', 
+            style={{
+              height: '90vh',
             }}
-            footer={ props.open && <div className="flex-center">
-
-              <Button
-              style={{
-                marginRight: 20
-              }}
-              onClick={handleCancel}
-              >
-                取消
-              </Button>
-              <Button
-                type="primary"
-              onClick={handleOk}
-              >
-              确定
-              </Button>
-            </div>}
+            footer={footer}
             {...(props.drawerProps || {})}
           >
             {props.children}
           </Drawer>
-          : <Modal 
+          : <Modal
             title={props.title}
-            open={props.open}
-            destroyOnClose
-            // okText="确定"
-            // cancelText="取消"
-            onOk={handleOk}
-            onClose={handleCancel}
-            onCancel={handleCancel}
+            open={props.open} 
+            destroyOnClose 
+            onCancel={handleClose}
+            footer={footer}
             {...(props.modalProps || {})}
           >
             {props.children}

@@ -1,5 +1,4 @@
-import { fetcher } from "../utils/request";
-import qs from 'qs';
+import { request } from "../utils/request"; 
 
 /**
  * 查询字符信息。
@@ -10,26 +9,25 @@ import qs from 'qs';
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
 export async function queryChars(params) {
-  /**
-   * 参数日志输出。
-   */
-  console.log('params', params);
-
-  if (!params.char) {
-    return [];
-  }
-
-  try {
-    // 使用 qs 库来序列化查询参数，以确保兼容性和正确性。
-    const queryString = qs.stringify(params, { addQueryPrefix: true });
-    const ret = await fetcher(`/char${queryString}`);
-
-    return ret;
-  } catch (error) {
-    console.error("Error querying chars:", error);
-    // 可以根据需要添加额外的错误处理逻辑
-    return [];
-  }
+  return request({
+    url: '/char',
+    params
+  })
+}
+/**
+ * 长文搜搜
+ *
+ * @param {Object} data - 查询参数对象。
+ * @param {string|undefined} data.char - 要查询的字符（必需）。
+ * @param {string} [data.dialect] - 方言选项（可选）。
+ * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
+ */
+export async function queryLongString(data) {
+  return request({
+    url: '/char/long',
+    method: 'POST',
+    data
+  })
 }
 
 /**
@@ -37,15 +35,10 @@ export async function queryChars(params) {
  *
  * @returns {Promise<Object>} 包含地理信息的 Promise 对象。
  */
-export async function queryGeo() {
-  try {
-    const ret = await fetcher(`/dialect/geo`);
-
-    return ret;
-  } catch (error) {
-    console.error("Error querying geo info:", error);
-    return [];
-  }
+export async function queryDialectGeo() {
+  return request({
+    url: `/dialect/geo`
+  })
 }
 
 /**
@@ -54,12 +47,7 @@ export async function queryGeo() {
  * @returns {Promise<Object>} 包含方言信息的 Promise 对象。
  */
 export async function queryDialectInfos() {
-  try {
-    const ret = await fetcher(`/dialect`);
-
-    return ret;
-  } catch (error) {
-    console.error("Error querying dialect infos:", error);
-    return [];
-  }
+  return request({
+    url: `/dialect`
+  })
 }

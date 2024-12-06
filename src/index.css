@@ -1,7 +1,8 @@
 :root { 
-  --color: #3273dc; 
+  --color: rgb(50, 115, 220); 
+  --active-color: rgba(50, 115, 220, 0.1); 
   --disabled-color: #ccc;
-  --border-color: rgba(150, 150, 150, 0.2); 
+  --border-color: rgba(150, 150, 150, 0.2);  
 }
 
 body { 
@@ -42,5 +43,4 @@ body {
 * {
   scrollbar-width: 10px; 
 }
- 
  

@@ -1,7 +1,7 @@
 import Index from '@/pages/Index';
 import Search from '@/pages/Search';
 import LongSearch from '@/pages/LongSearch';
-// import Dict from '@/pages/Dict';
+import Dict from '@/pages/Dict';
 // import Join from '@/pages/Join'; 
 import Map from '@/pages/Map'; 
 /**
@@ -27,7 +27,8 @@ export const routes = [
   // {
   //   title: "字典模式",
   //   path: "/dict",
-  //   component:  Dict
+  //   component:  Dict,
+  //   disabled: true,
   // }, 
   // {
   //   title: "参与注音",

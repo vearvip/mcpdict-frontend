@@ -54,3 +54,18 @@ export const str2List = function (str) {
   let segments = segmenter.segment(str);
   return [...segments].map(ele => ele.segment);
 }
+
+export function splitStringInto2DArray(text) {
+  function splitStr(str) {
+    let segmenter = new Intl.Segmenter();
+    let segments = segmenter.segment(str);
+    return [...segments].map(ele => ele.segment)
+  }
+  // 首先根据换行符将字符串切分成一维数组
+  let lines = text.split(/\r\n|\r|\n/);
+
+  // 然后将每一行再根据单个字符切分，形成二维数组
+  let result = lines.map(line => splitStr(line));
+
+  return result;
+}

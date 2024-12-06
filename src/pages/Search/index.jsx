@@ -12,8 +12,8 @@ import NProgress from 'nprogress';
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
 import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
-import { Button, FloatButton } from 'antd';
-import { showDialectMap } from '../../components/DialectMap';
+import { Button, FloatButton, message } from 'antd';
+import { showDialectMap } from '../../components/DialectMap'; 
 
 /**
  * 搜索组件，用于展示和处理搜索功能。
@@ -22,8 +22,7 @@ import { showDialectMap } from '../../components/DialectMap';
  */
 const Search = (props) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams(); 
   const [searchData, setSearchData] = useState([]);
 
   /**
@@ -52,7 +51,11 @@ const Search = (props) => {
    * @param {string} value - 要搜索的值。
    */
   const search = async (value) => {
-    setLoading(true);
+    if (!value) {
+      setSearchData([]);
+      return 
+    }
+   
     NProgress.start();
 
     // setSearchData([]);
@@ -63,9 +66,10 @@ const Search = (props) => {
       });
       console.log('result', result);
       setSearchData(result.data);
+    } catch(error) {
+      message.error(error.message)
     } finally {
-      NProgress.done();
-      setLoading(false);
+      NProgress.done(); 
     }
   };
 

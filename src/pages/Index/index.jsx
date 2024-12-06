@@ -42,9 +42,9 @@ const Index = (props) => {
           onSearch={onSearch}
         />
       </div>
-      {/* <div className={styles.book_box}>
+      <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录方言</Divider>
-        {(store?.dialectInfos ?? []).filter(ele => ele[YDYS]).map((ele) => (
+        {(store?.dialectInfos ?? []).map((ele) => (
           <div
             className={styles.book_item}
             key={ele[JC]}
@@ -56,7 +56,7 @@ const Index = (props) => {
             />
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };

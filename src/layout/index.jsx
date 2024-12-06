@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import styles from "./index.module.less";
 import Menu from '@/components/Menu';
-import { queryDialectInfos, queryGeo } from '@/services';
+import { queryDialectInfos, queryDialectGeo } from '@/services';
 import useStore from '@/store';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
 import { message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
- 
+import { JC, YDYS } from '../utils/constant';
+
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
  */
@@ -46,7 +47,25 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
-      setStore({ dialectInfos: res?.data ?? [] });
+      setStore({
+        dialectInfos: (res?.data ?? []).filter(ele => ele[YDYS]),
+        dialectNames: (res?.data ?? []).filter(ele => ele[YDYS]).map(ele => ele[JC])
+      });
+    } catch (error) {
+      console.error('Failed to fetch dialect infos:', error);
+    }
+  };
+
+  /**
+   * 获取方言Geo信息并更新 store。
+   */
+  const getDialectGeo = async () => {
+    try {
+      const res = await queryDialectGeo();
+      console.log('res', res);
+      setStore({
+        geo: res.data
+      });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
     }
@@ -54,6 +73,7 @@ const Layout = (props) => {
 
   useEffect(() => {
     getDialectInfos();
+    getDialectGeo()
   }, []);
 
   return (
@@ -63,6 +83,8 @@ const Layout = (props) => {
         token: {
           // Seed Token，影响范围大
           colorPrimary: '#3273dc',
+          colorLink: '#3273dc',
+          // colorBgBase: '#3273dc',
           borderRadius: 4
         },
       }}
@@ -72,7 +94,7 @@ const Layout = (props) => {
         <div className={`${styles.nav} box`}>
           <Menu
             dataSource={routes.map(ele => {
-              return { 
+              return {
                 label: ele.title,
                 key: ele.path,
                 disabled: ele.disabled,

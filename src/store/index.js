@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
- 
+
 
 /**
  * @typedef {Object} DialectInfo - 代表方言信息的对象。
@@ -46,17 +46,22 @@ import { create } from 'zustand'
  * @property {string} 語言索引 - 语言索引。
  */
 
+/**
+ * @typedef {Object} Store
+ * @property {DialectInfo[]} dialectInfos - An array of dialect information objects.
+ * @property {string[]} dialectNames - An array of strings representing dialect names.
+ */
+
 export default create((set) => ({
   store: {
-    /** @type {DialectInfo[]} */
     dialectInfos: [],
+    dialectNames: [],
+    geo: {}
   },
-  setStore: (values) => set((state) => { 
-    return { 
-      ...state, 
+  setStore: (values) => set((state) => {
+    return {
+      ...state,
       store: { ...state.store, ...values }
     }
   }),
 }))
-
-
