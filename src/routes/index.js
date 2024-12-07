@@ -35,9 +35,10 @@ export const routes = [
   //   path: "/join",
   //   component:  Join
   // },
-  // {
-  //   label: "方言地图",
-  //   path: "/map",
-  //   component:  Map
-  // },
+  {
+    title: "方言地图",
+    path: "/map",
+    component:  Map,
+    disabled: true,
+  },
 ];

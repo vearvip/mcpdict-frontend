@@ -64,7 +64,7 @@ const Search = (props) => {
         char: value.split('').join(','),
         dialect: JSON.parse(localStorage.getItem('filterData') || '{}')?.dialectName
       });
-      console.log('result', result);
+      // console.log('result', result);
       setSearchData(result.data);
     } catch(error) {
       message.error(error.message)

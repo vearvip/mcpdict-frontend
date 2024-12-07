@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import styles from './index.module.css';
 import AMapLoader from "@amap/amap-jsapi-loader";
+import { Button } from "antd";
 
 const SECURITY_JS_CODE = "1788e1d3a24050a4636c234a115ba0b7"
 const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
@@ -13,7 +14,7 @@ const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
  * @returns {JSX.Element}
  */
 export default function Amap({ path, style, apiKey }) {
-  const mapRef = useRef(null); 
+  const mapRef = useRef(null);
 
   // 加载高德地图
   async function loadMap() {
@@ -42,8 +43,16 @@ export default function Amap({ path, style, apiKey }) {
       if (!isMapLoaded) {
         mapRef.current = new AMap.Map("amap_container", {
           viewMode: "3D", // 是否为3D地图模式
-          mapStyle: "amap://styles/normal", // 地图样式
+          // mapStyle: "amap://styles/normal", // 地图样式
+          mapStyle: "amap://styles/whitesmoke", // 远山黛
+          // mapStyle: "amap://styles/light", // 月光银
+          // mapStyle: "amap://styles/fresh", // 草色青
+          // mapStyle: "amap://styles/macaron", // 草色青
         });
+
+        setTimeout(() => {
+
+        }, 3000);
       }
     } catch (error) {
       console.error("地图初始化失败：", error);
@@ -70,7 +79,7 @@ export default function Amap({ path, style, apiKey }) {
       }, 100);
     });
   };
- 
+
   // 销毁地图实例
   const destroyMap = () => {
     if (mapRef.current) {
@@ -92,13 +101,32 @@ export default function Amap({ path, style, apiKey }) {
       destroyMap();
     };
   }, []);
- 
+
 
   return (
-    <div
-      id="amap_container"
-      className={styles.container}
-      style={style}
-    />
+    <div style={{ width: '100%', height: '100%' }}>
+      <Button onClick={() => {
+        //点标记显示内容
+        const markerContent = `<div class="custom-content-marker">
+        <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
+        <div class="close-btn" onclick="clearMarker()">X</div>
+        </div>`
+
+        const position = new AMap.LngLat(116.397428, 39.90923); //Marker 经纬度
+        const marker = new AMap.Marker({
+          position: position,
+          content: markerContent, //将 html 传给 content
+          offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
+        });
+        mapRef.current.add(marker);
+      }}>
+        测试
+      </Button>
+      <div
+        id="amap_container"
+        className={styles.container}
+        style={style}
+      />
+    </div>
   );
 } 

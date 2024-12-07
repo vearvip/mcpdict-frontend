@@ -14,8 +14,18 @@ export default () => {
   const { store, setStore } = useStore()
   return <div
     className={`${styles.map_box} box`}
-    style={{
+    style={{ 
     }}>
-    <Button onClick={() => showDialectMap()}>showDialectMap</Button>
+
+    <Amap
+      style={{
+        width: 'calc(100% - 20px)',
+        height: 'calc(100vh - 60px - 80px - 40px - 20px)',
+        margin: '10px 0',
+        borderRadius: 10,
+        overflow: 'hidden'
+      }}
+    />
+    {/* <Button onClick={() => showDialectMap()}>showDialectMap</Button> */}
   </div>
 }

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import styles from '../../index.module.less'; // 引入 CSS Module
-// import Skeleton from "@/components/Skeleton";
-// import ToggleText from '../ToggleText';
-// import AutoFitText from '../AutoFitText';
+import styles from '../../index.module.less'; // 引入 CSS Module 
 import { Collapse } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { useGetState } from 'ahooks';
@@ -39,9 +36,9 @@ const LeftBox = (props) => {
 
   const collapseItems = useMemo(() => {
     return (searchData || []).filter(ele => Object.keys(ele?.charInfo ?? {}).length > 0).map((charItem, index) => {
-      console.log('charItem.charInfo', charItem.charInfo)
+      // console.log('charItem.charInfo', charItem.charInfo)
       const charInfos = parseDialectData(charItem.charInfo);
-      console.log('--------', charInfos)
+      // console.log('--------', charInfos)
       return {
         label: <div className={styles.char}>
           {charItem.char}
@@ -101,36 +98,7 @@ const LeftBox = (props) => {
           items={collapseItems}
           activeKey={activeKey}
           onChange={handleCollapseChange} />
-        {/* {searchData.length > 0 ? (
-          searchData.map((charItem, index) => {
-            const charInfos = parseDialectData(charItem.charInfo);
-            return (
-              <div key={`char_box_${index}`} className={styles.char_box}>
-
-                <ToggleText char={charItem.char}>
-                  {charInfos.map((charInfo, infoIndex) => (
-                    <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
-                      <AutoFitText text={charInfo.dialectName} />
-                      <div>
-                        {charInfo.infos.map((info, subIndex) => (
-                          <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
-                            <span className={styles.phonetic}>{info.phonetic}</span>
-                            <span className={styles.explain}>{info.explain}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </ToggleText>
-              </div>
-            );
-          })
-        ) : (
-          <>
-            <Skeleton /> 
-            左侧空白
-          </>
-        )} */}
+ 
       </div>
     </>
   );

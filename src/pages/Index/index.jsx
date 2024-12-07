@@ -18,7 +18,7 @@ import { JC, YDYS } from '../../utils/constant';
 const Index = (props) => {
   let navigate = useNavigate();
   const { store } = useStore()
-  console.log('store', store)
+  // console.log('store', store)
 
   /**
    * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
