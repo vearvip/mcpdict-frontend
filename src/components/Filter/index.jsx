@@ -75,8 +75,8 @@ const FilterDialog = (props) => {
             block
             options={[
               { label: '选择语言', value: 'lang' },
-              { label: '自选', value: 'custom', disabled: tmpMode },
-              { label: '分区', value: 'area', disabled: tmpMode },
+              { label: '自选', value: 'custom', disabled: tmpMode || true },
+              { label: '分区', value: 'area', disabled: tmpMode || true },
             ]}
             optionType="button"
             buttonStyle="solid"
