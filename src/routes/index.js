@@ -22,7 +22,7 @@ export const routes = [
     title: "长文注音",
     path: "/long-search",
     component:  LongSearch,
-    disabled: true,
+    // disabled: true,
   }, 
   // {
   //   title: "字典模式",

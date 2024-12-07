@@ -1,4 +1,4 @@
-import styles from '../../index.module.less'; // 引入 CSS Module
+import styles from './index.module.less'; // 引入 CSS Module
 import useStore  from '@/store';
 import { JC, YDYS } from '@/utils/constant';
 import { message } from 'antd';
@@ -8,6 +8,7 @@ import { message } from 'antd';
  *
  * @param {Object} props - 组件属性。
  * @param {string} props.text - 要显示的文本。
+ * @param {React.CSSProperties} props.style - 要显示的文本。
  */
 const AutoFitText = (props) => {
   const { store} =useStore()
@@ -73,6 +74,7 @@ const AutoFitText = (props) => {
       style={{
         'fontSize': getFontSize(props?.text?.length ?? 6),
         "background": generateColorOrGradient(getBackgroundColor(props.text)),
+        ...props.style
       }}
       onClick={() => message.info('🚧施工中')}
       >

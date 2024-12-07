@@ -5,7 +5,7 @@ import { queryDialectInfos, queryDialectGeo } from '@/services';
 import useStore from '@/store';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
-import { message } from 'antd';
+import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { JC, YDYS } from '../utils/constant';
@@ -62,7 +62,7 @@ const Layout = (props) => {
   const getDialectGeo = async () => {
     try {
       const res = await queryDialectGeo();
-      console.log('res', res);
+      // console.log('res', res);
       setStore({
         geo: res.data
       });
@@ -118,6 +118,7 @@ const Layout = (props) => {
           </div>
         </div>
       </div>
+      <FloatButton.BackTop />
     </ConfigProvider>
   );
 };

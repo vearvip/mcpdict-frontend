@@ -2,10 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import styles from '../../index.module.less'; // 引入 CSS Module
 // import Skeleton from "@/components/Skeleton";
 // import ToggleText from '../ToggleText';
-import AutoFitText from '../AutoFitText';
+// import AutoFitText from '../AutoFitText';
 import { Collapse } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import { useGetState } from 'ahooks';
+import AutoFitText from '../../../../components/AutoFitText';
+import { parseSplitStr } from '../../../../utils';
 
 /**
  * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
@@ -17,34 +19,10 @@ function parseDialectData(data) {
   const parsedData = [];
 
   for (const [dialectName, infoString] of Object.entries(data)) {
-    const infos = [];
-    // 按照 '\t' 分割字符串
-    const entries = infoString.split('\t');
 
-    for (const entry of entries) {
-      // 查找音标和释义之间的分隔符（通常是第一个出现的大括号）
-      const bracketIndex = entry.indexOf('{');
-      let phonetic;
-      let explain;
-
-      if (bracketIndex !== -1) {
-        // 如果有大括号，则分割音标和释义，并去除花括号
-        phonetic = entry.substring(0, bracketIndex).trim();
-        explain = entry.substring(bracketIndex + 1, entry.length - 1).trim(); // 去除花括号
-      } else {
-        // 如果没有大括号，则整个条目视为音标，释义为空
-        phonetic = entry.trim();
-        explain = '';
-      }
-
-      // 将音标和释义添加到infos数组中
-      if (phonetic) { // 确保音标不为空
-        infos.push({ phonetic, explain });
-      }
-    }
 
     // 添加解析后的信息到最终结果数组中
-    parsedData.push({ dialectName, infos });
+    parsedData.push({ dialectName, infos: parseSplitStr(infoString) });
   }
 
   return parsedData;
@@ -61,20 +39,22 @@ const LeftBox = (props) => {
 
   const collapseItems = useMemo(() => {
     return (searchData || []).filter(ele => Object.keys(ele?.charInfo ?? {}).length > 0).map((charItem, index) => {
+      console.log('charItem.charInfo', charItem.charInfo)
       const charInfos = parseDialectData(charItem.charInfo);
+      console.log('--------', charInfos)
       return {
         label: <div className={styles.char}>
           {charItem.char}
           <div style={{
             fontSize: 14,
-            marginLeft:5,
-            marginTop:12
+            marginLeft: 5,
+            marginTop: 12
           }}>
-          {
-            activeKey.includes(charItem.char)
-              ? <DownOutlined />
-              : <UpOutlined />
-          }
+            {
+              activeKey.includes(charItem.char)
+                ? <DownOutlined />
+                : <UpOutlined />
+            }
           </div>
         </div>,
         key: charItem.char,
@@ -113,7 +93,7 @@ const LeftBox = (props) => {
 
 
   return (
-    <> 
+    <>
       <div className={styles.left_box}>
         <Collapse
           ghost

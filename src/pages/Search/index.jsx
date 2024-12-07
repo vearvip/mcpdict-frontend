@@ -102,7 +102,6 @@ const Search = (props) => {
           <NoData />
         )}
       </div>
-      <FloatButton.BackTop />
     </>
   );
 };

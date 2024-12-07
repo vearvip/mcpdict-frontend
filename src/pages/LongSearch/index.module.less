@@ -8,15 +8,33 @@
   justify-content: flex-start;
   align-items: flex-start;
   // padding-left: 200px;
-
-  .textarea {
-    width: 590px;
-    // height: 70px;
-    // border-radius: 4px;
-    // padding: 10px;
-
+ 
+  .dialect_name_tag {
     // border: 1px solid #d9d9d9;
-    // outline: none;
+    background-color: var(--color);
+    // position: absolute;
+    // right: 5px;
+    // top: 5px;
+    color: white;
+    font-size: 12px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+    // z-index: 999000;
+  }
+  .textarea {
+    // width: 590px;
+    position: relative;
+    width: 650px;
+    // height: 96px;
+    min-height: 100px;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize:vertical;
+
+    border: 1px solid #d9d9d9;
+    outline: none;
   }
 
   .btn_box {
@@ -42,11 +60,12 @@
 
       border: 1px solid #d9d9d9;
       box-sizing: border-box;
+      position: relative;
 
       // border: 1px solid red;
       // margin-bottom: 10px;
-      img {
 
+      img {
         width: 20px;
       }
     }
@@ -99,12 +118,10 @@
     border-radius: 4px;
     margin-bottom: 20px;
   }
-
 }
 
 /* 表示屏幕尺寸小于等于设定px时 */
 @media screen and (max-width: 1064px) {
-
   .search_content,
   .search_bar {
     padding-left: 20px !important;

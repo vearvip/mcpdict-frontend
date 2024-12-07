@@ -6,40 +6,54 @@ import Dialog from '../Dialog';
 
 import { Select, Form, Radio } from 'antd';
 import useStore from '@/store';
- 
+
 
 
 /**
  * 搜索输入组件，用于处理用户搜索输入和设置对话框。
  *
  * @param {Object} props - 组件属性。 
+ * @param {boolean} [props.tmpMode] - 临时模式 
  * @param {Function} [props.onOk] - ok时的回调函数。
  * @param {Function} [props.onClose] - close时的回调函数。
  */
 const FilterDialog = (props) => {
+  const {
+    tmpMode, 
+    onOk,
+    onClose
+  } = props;
+  const filterDefaultData =   {
+    filterMode: 'lang',
+    dialectName: undefined,
+  }
   const [open, setOpen] = useState(true);
   const [form] = Form.useForm();
   const { store, setStore } = useStore()
   const handleDialogOk = () => {
     const filterData = form.getFieldsValue()
+   
     localStorage.setItem('filterData', JSON.stringify(filterData))
     // console.log('filterData', filterData)
     setOpen(false)
-    props.onOk && props.onOk(filterData)
+    onOk && onOk(filterData)
   }
   const handleDialogCancel = () => {
-    form.resetFields()
+    // form.resetFields()
+    // console.log('filterDefaultData', filterDefaultData)
+    form.setFieldsValue(filterDefaultData)
   }
   const handleDialogClose = () => {
     setOpen(false)
-    props.onClose && props.onClose()
+    onClose && onClose()
 
   }
 
   useEffect(() => {
     setTimeout(() => {
-      const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
-      console.log('filterData', filterData)
+      const filterDataLocalStr = localStorage.getItem('filterData')
+      const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr || '{}') : filterDefaultData
+      console.log('11filterData', filterData)
       form.setFieldsValue(filterData)
     }, 0)
   }, [])
@@ -61,10 +75,9 @@ const FilterDialog = (props) => {
             block
             options={[
               { label: '选择语言', value: 'lang' },
-              { label: '自选', value: 'custom', disabled: true },
-              { label: '分区', value: 'area', disabled: true },
+              { label: '自选', value: 'custom', disabled: tmpMode },
+              { label: '分区', value: 'area', disabled: tmpMode },
             ]}
-            defaultValue="lang"
             optionType="button"
             buttonStyle="solid"
           />
@@ -93,8 +106,9 @@ let dialogContainer = null;
 let root = null;
 export const showFilterDialog = (props = {}) => {
   const {
+    tmpMode,
     onClose,
-    onOk,
+    onOk, 
   } = props;
 
   // 如果对话框容器已经存在，则不再创建新的容器
@@ -104,6 +118,7 @@ export const showFilterDialog = (props = {}) => {
     root = createRoot(dialogContainer); // 创建根实例
   }
   const remove = (callback) => {
+    console.log('dialogContainer', dialogContainer)
     setTimeout(() => {
       if (dialogContainer.parentNode) {
         dialogContainer.parentNode.removeChild(dialogContainer);
@@ -111,7 +126,7 @@ export const showFilterDialog = (props = {}) => {
         root = null; // 清空根实例引用
       }
       callback()
-    }, 500); // 这里的500ms是为了等待动画完成
+    }, 380); // 这里的500ms是为了等待动画完成
   }
 
   // 定义关闭对话框的方法
@@ -120,16 +135,6 @@ export const showFilterDialog = (props = {}) => {
       // 调用传递的onClose回调，如果有的话
       onClose && onClose.call(this, ...args);
     })
-    // 移除DOM中的容器元素
-    setTimeout(() => {
-      if (dialogContainer.parentNode) {
-        dialogContainer.parentNode.removeChild(dialogContainer);
-        dialogContainer = null; // 清空容器引用
-        root = null; // 清空根实例引用
-      }
-      // 调用传递的onClose回调，如果有的话
-      onClose && onClose.call(this, ...args);
-    }, 500); // 假设这里的500ms是为了等待动画完成
   };
   // 定义关闭对话框的方法
   const handleOk = (...args) => {
@@ -142,6 +147,7 @@ export const showFilterDialog = (props = {}) => {
   // 渲染对话框组件到根中
   root.render(
     <FilterDialog
+      tmpMode={tmpMode} 
       onOk={handleOk}
       onClose={handleClose}
     />
