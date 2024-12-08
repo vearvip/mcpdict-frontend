@@ -93,14 +93,19 @@ const Search = (props) => {
     const q = searchParams.get('q');
     if (q) {
       search(q);
+    } else {
+      setSearchData([])
     }
   }, [searchParams]);
+ 
 
   useEffect(() => {
-    if (!searchParams.get('q')) {
-      setSearchData([]);
-    }
-  }, [searchParams]);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [])
 
   return (
     <>
