@@ -1,18 +1,21 @@
 import styles from './index.module.less'; // 引入 CSS Module
-import useStore  from '@/store';
-import { JC, YDYS } from '@/utils/constant';
-import { message } from 'antd';
-
+import useStore from '@/store';
+import { JianCheng, YinDianYanSe } from '@/utils/constant';
+import DialectDropdown from '../DialectDropdown';
+import { showDialectInfo } from '../DialectInfo';
+import { copy } from '../../utils';
 /**
  * 自适应文本组件，根据文本长度调整字体大小，并设置背景颜色或渐变。
  *
  * @param {Object} props - 组件属性。
- * @param {string} props.text - 要显示的文本。
+ * @param {string} props.char - char
+ * @param {string} props.dialectName - dialectName
+ * @param {string[]} props.phonetics - phonetics
  * @param {React.CSSProperties} props.style - 要显示的文本。
+ * @param {Function} props.onClick - 点击事件
  */
 const AutoFitText = (props) => {
-  const { store} =useStore()
-  // console.log('store', store)
+  const { store } = useStore()
 
   /**
    * 字体大小映射表，根据文本长度选择合适的字体大小。
@@ -41,11 +44,13 @@ const AutoFitText = (props) => {
   /**
    * 根据文本内容获取背景颜色。
    *
-   * @param {string} text - 文本内容。
+   * @param {string} dialectName - 文本内容。
    * @returns {string} 对应的背景颜色。
    */
-  const getBackgroundColor = (text) => {
-    return store.dialectInfos.find(ele => ele[JC] === text)?.[YDYS] ?? '#ccc';
+  const getBackgroundColor = (dialectName) => {
+    return dialectName
+      ? (store.dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[YinDianYanSe])
+      : undefined;
   };
 
   /**
@@ -54,7 +59,7 @@ const AutoFitText = (props) => {
    * @param {string} colorString - 颜色字符串，可以是单一颜色或者逗号分隔的颜色列表。
    * @returns {string} 单一颜色值或线性渐变字符串。
    */
-  function generateColorOrGradient(colorString) { 
+  function generateColorOrGradient(colorString) {
     // 清除可能存在的多余空格并分割颜色值
     const colors = colorString.replace(/\s+/g, '').split(',');
 
@@ -68,18 +73,39 @@ const AutoFitText = (props) => {
     return `linear-gradient(to right, ${gradientParts.join(', ')})`;
   }
 
+  const handleDialectDropdownClick = value => {
+    console.log('value', value)
+    if (value.key === 'see_dialect_detail') {
+      showDialectInfo({
+        color: bgColor,
+        dialectName: props.dialectName
+      })
+    } else if (value.key === 'copy_char_phonetic_now') {
+      copy((props.phonetics || []).join(' '))
+    } else if (value.key === 'copy_char') {
+      copy(props.char)
+    }
+  }
+
+  const bgColor = generateColorOrGradient(getBackgroundColor(props.dialectName))
+
   return (
-    <div 
-      className={styles.auto_fit_text}
-      style={{
-        'fontSize': getFontSize(props?.text?.length ?? 6),
-        "background": generateColorOrGradient(getBackgroundColor(props.text)),
-        ...props.style
-      }}
-      onClick={() => message.info('🚧施工中')}
+
+    <DialectDropdown
+      char={props.char}
+      dialectName={props.dialectName} 
+      onClick={handleDialectDropdownClick}>
+      <div
+        className={styles.auto_fit_text}
+        style={{
+          'fontSize': getFontSize(props?.dialectName?.length ?? 6),
+          "background": bgColor,
+          ...props.style
+        }}
       >
-      {props.text}
-    </div>
+        {props.dialectName}
+      </div>
+    </DialectDropdown>
   );
 };
 

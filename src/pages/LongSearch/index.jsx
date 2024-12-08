@@ -8,7 +8,7 @@ import { extractHanzi } from '@vearvip/hanzi-utils'
 import useStore from '@/store';
 import NProgress from 'nprogress';
 import { queryChars, queryLongString } from '../../services';
-import { groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import { copy, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { showFilterDialog } from '../../components/Filter';
@@ -171,39 +171,11 @@ const LongSearch = (props) => {
               marginRight: -3,
               float: 'right'
             }} onClick={() => {
-              function copyDivToClipboard(divId) {
-                // 获取指定的 div 元素
-                var div = document.getElementById(divId);
-
-                // 创建一个临时的 textarea 元素用于复制文本
-                var textarea = document.createElement("textarea");
-                textarea.style.position = 'fixed';  // 防止滚动条出现
-                textarea.style.top = 0;
-                textarea.style.left = 0;
-                textarea.style.width = '2em';
-                textarea.style.height = '2em';
-                textarea.style.padding = 0;
-                textarea.style.border = 'none';
-                textarea.style.outline = 'none';
-                textarea.style.boxShadow = 'none';
-                textarea.style.background = 'transparent';
-                textarea.value = div.textContent.replace('复制', '');
-
-                document.body.appendChild(textarea);
-                textarea.select();  // 选择 textarea 中的内容
-
-                try {
-                  var successful = document.execCommand('copy');
-                  var msg = successful ? '成功' : '失败';
-                  console.log('复制到剪贴板 ' + msg);
-                } catch (err) {
-                  console.error('无法复制文本: ', err);
-                }
-
-                document.body.removeChild(textarea);  // 移除临时的 textarea
-              }
-              // console.log('charInfos', splitStringInto2DArray(originTextAreaValue))
-              copyDivToClipboard('search_content')
+              // 获取指定的 div 元素
+              var div = document.getElementById('search_content');
+              const textContent= div.textContent.replace('复制', '');
+              console.log('textContent', textContent)
+              copy(textContent)
             }}>复制</Button>
             {
               textAreaValue ? splitStringInto2DArray(textAreaValue).map((line, lineIndex) => {

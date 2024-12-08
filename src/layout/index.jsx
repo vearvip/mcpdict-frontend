@@ -8,7 +8,7 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { JC, YDYS } from '../utils/constant';
+import { JianCheng, YinDianYanSe } from '../utils/constant';
 
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
@@ -48,8 +48,8 @@ const Layout = (props) => {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
       setStore({
-        dialectInfos: (res?.data ?? []).filter(ele => ele[YDYS]),
-        dialectNames: (res?.data ?? []).filter(ele => ele[YDYS]).map(ele => ele[JC])
+        dialectInfos: (res?.data ?? []).filter(ele => ele[YinDianYanSe]),
+        dialectNames: (res?.data ?? []).filter(ele => ele[YinDianYanSe]).map(ele => ele[JianCheng])
       });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);

@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 import { Divider } from 'antd';
 import { message } from 'antd';
 import useStore from '@/store';
-import { JC, YDYS } from '../../utils/constant';
+import { JianCheng, YinDianYanSe } from '../../utils/constant';
+import { showDialectInfo } from '../../components/DialectInfo';
 
 
 /**
@@ -47,12 +48,17 @@ const Index = (props) => {
         {(store?.dialectInfos ?? []).map((ele) => (
           <div
             className={styles.book_item}
-            key={ele[JC]}
-            onClick={() => message.info('🚧施工中')}
+            key={ele[JianCheng]}
+            onClick={() =>  {
+              showDialectInfo({
+                color: ele[YinDianYanSe],
+                dialectName: ele[JianCheng]
+              })
+            }}
           >
             <Book
-              name={ele[JC]}
-              color={ele[YDYS]}
+              name={ele[JianCheng]}
+              color={ele[YinDianYanSe]}
             />
           </div>
         ))}

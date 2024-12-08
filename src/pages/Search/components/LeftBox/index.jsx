@@ -58,19 +58,26 @@ const LeftBox = (props) => {
         showArrow: false,
         children: (
           <div key={`char_box_${index}`} className={styles.char_box}>
-            {charInfos.map((charInfo, infoIndex) => (
-              <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
-                <AutoFitText text={charInfo.dialectName} />
-                <div>
-                  {charInfo.infos.map((info, subIndex) => (
-                    <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
-                      <span className={styles.phonetic}>{info.phonetic}</span>
-                      <span className={styles.explain}>{info.explain}</span>
-                    </div>
-                  ))}
+            {charInfos.map((charInfo, infoIndex) => {
+              console.log('charInfo', charInfo)
+              return (
+                <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
+                  <AutoFitText
+                    char={charItem.char}
+                    dialectName={charInfo.dialectName}
+                    phonetics={charInfo.infos.map(ele => ele.phonetic)}
+                  />
+                  <div>
+                    {charInfo.infos.map((info, subIndex) => (
+                      <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
+                        <span className={styles.phonetic}>{info.phonetic}</span>
+                        <span className={styles.explain}>{info.explain}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )
       }
@@ -98,7 +105,7 @@ const LeftBox = (props) => {
           items={collapseItems}
           activeKey={activeKey}
           onChange={handleCollapseChange} />
- 
+
       </div>
     </>
   );

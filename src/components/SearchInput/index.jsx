@@ -6,7 +6,7 @@ import Dialog from '../Dialog';
 
 import { Select, Form } from 'antd';
 import useStore from '@/store';
-import { JC, YDYS } from '../../utils/constant';
+import { JianCheng, YinDianYanSe } from '../../utils/constant';
 import { showFilterDialog } from '../Filter';
 
 

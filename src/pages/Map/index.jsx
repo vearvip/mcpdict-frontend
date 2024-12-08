@@ -4,7 +4,7 @@ import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { Button, Form, Select } from 'antd';
 import useStore from '@/store';
-import { JC } from '../../utils/constant'
+import { JianCheng } from '../../utils/constant'
 import { showDialectMap } from '../../components/DialectMap';
 
 
