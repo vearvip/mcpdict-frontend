@@ -60,7 +60,7 @@ const Search = (props) => {
     NProgress.start();
 
     // setSearchData([]);
-    const charList = value.split('')
+    const charList = [...new Set(value.split(''))]
     try {
       const result = await queryChars({
         char: charList.join(','),
