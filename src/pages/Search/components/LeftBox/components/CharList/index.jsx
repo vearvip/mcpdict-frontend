@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import styles from './index.module.less'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Menu } from 'antd';
-import AutoFitText from '../../../../../../components/AutoFitText';
+import AutoFitText from '@/components/AutoFitText';
+import NoData from '@/components/NoData';
 import { Tabs } from 'antd';
-import { groupVariants, parseSplitStr } from '../../../../../../utils';
-import { useMobile } from '../../../../../../utils/hooks';
+import { groupVariants, parseSplitStr } from '@/utils';
+import { useMobile } from '@/utils/hooks';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import { useMemo } from 'react';
-import { useEffect } from 'react'; 
+import { useEffect } from 'react';
 
 
 export default ({
@@ -34,6 +35,15 @@ export default ({
     }
 
     return parsedData;
+  }
+
+  const isEmptyCharInfo = (charInfo = []) => {
+    let isEmpty = true
+    charInfo.forEach(item => {
+      if (item.explain) {
+        isEmpty = false
+      }
+    })
   }
 
 
@@ -99,38 +109,48 @@ export default ({
         }
       </div>
       <div className={isMobile ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
-        <VirtualScroll
-          style={{
-            // padding: isMobile ? '20px 0 15px 20px' : '20px 0',
-            padding: '20px',
-            height: isMobile
-              ? 'calc(100vh - 60px - 80px - 40px - 40px - 30px - 55px)'
-              : 'calc(100vh - 60px - 80px - 40px - 40px - 40px)',
-            overflow: 'auto',
-          }}
-          minItemHeight={30}
-          totalLength={selectedCharInfos?.length}
-          renderItem={(infoIndex) => {
-            const charInfo = selectedCharInfos[infoIndex];
-            return (
-              <div key={`char_info_${infoIndex}`} className={styles.char_info}>
-                <AutoFitText
-                  char={selectedCharItem?.char}
-                  dialectName={charInfo.dialectName}
-                  phonetics={charInfo.infos.map(ele => ele.phonetic)}
-                />
-                <div>
-                  {charInfo.infos.map((info, subIndex) => (
-                    <div key={`info_item_${infoIndex}_${subIndex}`} className={styles.info_item}>
-                      <span className={styles.phonetic}>{info.phonetic}</span>
-                      <span className={styles.explain}>{info.explain}</span>
+        {
+          (selectedCharInfos && Array.isArray(selectedCharInfos) && selectedCharInfos.length > 0)
+            ? <VirtualScroll
+              style={{
+                // padding: isMobile ? '20px 0 15px 20px' : '20px 0',
+                padding: '20px',
+                height: isMobile
+                  ? 'calc(100vh - 60px - 80px - 40px - 40px - 30px - 55px)'
+                  : 'calc(100vh - 60px - 80px - 40px - 40px - 40px)',
+                overflow: 'auto',
+              }}
+              minItemHeight={30}
+              totalLength={selectedCharInfos?.length}
+              renderItem={(infoIndex) => {
+                const charInfo = selectedCharInfos[infoIndex];
+                console.log('infoIndex charInfo', infoIndex, charInfo)
+                return (
+                  <div key={`char_info_${infoIndex}`} className={styles.char_info}>
+                    <AutoFitText
+                      char={selectedCharItem?.char}
+                      dialectName={charInfo.dialectName}
+                      phonetics={charInfo.infos.map(ele => ele.phonetic)}
+                    />
+                    <div>
+                      {charInfo.infos.map((info, subIndex) => (
+                        <div key={`info_item_${infoIndex}_${subIndex}`} className={styles.info_item}>
+                          <span className={styles.phonetic}>{info.phonetic}</span>
+                          <span className={styles.explain}>{info.explain}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            );
-          }}
-        />
+                  </div>
+                );
+              }}
+            />
+            : <div className="flex-center">
+              <NoData style={{ 
+                position: 'relative'
+              }} />
+            </div>
+        }
+
       </div>
 
 

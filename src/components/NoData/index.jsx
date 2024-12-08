@@ -6,7 +6,7 @@ import { Typography } from 'antd'
 
 const NoData = (props) => {
 
-  return <div className={styles.no_data_box}>
+  return <div className={styles.no_data_box} style={props.style}>
     {/* <img src={noData} className={styles.no_data} /> */}
     <Empty
       image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
