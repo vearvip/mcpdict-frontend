@@ -61,7 +61,7 @@ const AutoFitText = (props) => {
    */
   function generateColorOrGradient(colorString) {
     // 清除可能存在的多余空格并分割颜色值
-    const colors = colorString.replace(/\s+/g, '').split(',');
+    const colors = (colorString || '').replace(/\s+/g, '').split(',');
 
     // 检查是否只有一个颜色
     if (colors.length === 1) {
