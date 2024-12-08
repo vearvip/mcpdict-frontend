@@ -4,6 +4,7 @@ import LongSearch from '@/pages/LongSearch';
 import Dict from '@/pages/Dict';
 // import Join from '@/pages/Join'; 
 import Map from '@/pages/Map'; 
+import Setting from '../pages/Setting';
 /**
  * 定义应用程序的路由配置。 
  */
@@ -41,4 +42,10 @@ export const routes = [
     component:  Map,
     disabled: true,
   },
+  // {
+  //   title: "设置",
+  //   path: "/setting",
+  //   component:  Setting,
+  //   disabled: true,
+  // },
 ];

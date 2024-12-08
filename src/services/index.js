@@ -1,4 +1,15 @@
-import { request } from "../utils/request"; 
+import { request } from "../utils/request";
+
+const waitLoadDialectInfos = () => {
+  return new Promise((resolve, reject) => {
+    const intervalId = setInterval(() => { 
+      if (window.dialectInfosWasReady) {
+        clearInterval(intervalId);
+        resolve();
+      }
+    }, 10);
+  });
+};
 
 /**
  * 查询字符信息。
@@ -9,10 +20,11 @@ import { request } from "../utils/request";
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
 export async function queryChars(params) {
+  await waitLoadDialectInfos();
   return request({
-    url: '/char',
-    params
-  })
+    url: "/char",
+    params,
+  });
 }
 /**
  * 长文搜搜
@@ -24,10 +36,10 @@ export async function queryChars(params) {
  */
 export async function queryLongString(data) {
   return request({
-    url: '/char/long',
-    method: 'POST',
-    data
-  })
+    url: "/char/long",
+    method: "POST",
+    data,
+  });
 }
 
 /**
@@ -37,8 +49,8 @@ export async function queryLongString(data) {
  */
 export async function queryDialectGeo() {
   return request({
-    url: `/dialect/geo`
-  })
+    url: `/dialect/geo`,
+  });
 }
 
 /**
@@ -48,6 +60,6 @@ export async function queryDialectGeo() {
  */
 export async function queryDialectInfos() {
   return request({
-    url: `/dialect`
-  })
+    url: `/dialect`,
+  });
 }

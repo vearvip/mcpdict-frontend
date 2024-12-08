@@ -12,6 +12,7 @@ import { copy, groupVariants, parseSplitStr, splitStringInto2DArray } from '../.
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { showFilterDialog } from '../../components/Filter';
+import { SettingOutlined } from '@ant-design/icons';
 
 
 let string1 = `忙的时候，想要休息；
@@ -145,10 +146,9 @@ const LongSearch = (props) => {
           }}
           onChange={handleTextareaChange} />
         <div className={styles.btn_box}>
-          <button className={styles.setting_btn} onClick={() => handleClickSetting()}>
-
-            <img src={settingPng} alt="设置" />
-          </button>
+          <div className={styles.setting_btn} onClick={() => handleClickSetting()}>
+            <SettingOutlined />
+          </div>
           <br />
           <button className={styles.search_btn} onClick={() => handleSearch(filterData)}>搜索</button>
         </div>
@@ -173,7 +173,7 @@ const LongSearch = (props) => {
             }} onClick={() => {
               // 获取指定的 div 元素
               var div = document.getElementById('search_content');
-              const textContent= div.textContent.replace('复制', '');
+              const textContent = div.textContent.replace('复制', '');
               console.log('textContent', textContent)
               copy(textContent)
             }}>复制</Button>

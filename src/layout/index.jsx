@@ -51,6 +51,7 @@ const Layout = (props) => {
         dialectInfos: (res?.data ?? []).filter(ele => ele[YinDianYanSe]),
         dialectNames: (res?.data ?? []).filter(ele => ele[YinDianYanSe]).map(ele => ele[JianCheng])
       });
+      window.dialectInfosWasReady = true
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
     }

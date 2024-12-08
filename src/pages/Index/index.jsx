@@ -44,7 +44,7 @@ const Index = (props) => {
         />
       </div>
       <div className={styles.book_box}>
-        <Divider className={styles.book_divider}>已收录方言</Divider>
+        <Divider className={styles.book_divider}>已收录</Divider>
         {(store?.dialectInfos ?? []).map((ele) => (
           <div
             className={styles.book_item}

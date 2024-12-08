@@ -13,7 +13,8 @@ import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
 import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 import { Button, FloatButton, message } from 'antd';
-import { showDialectMap } from '../../components/DialectMap'; 
+import { showDialectMap } from '../../components/DialectMap';
+import { groupVariants } from '../../utils';
 
 /**
  * 搜索组件，用于展示和处理搜索功能。
@@ -22,7 +23,7 @@ import { showDialectMap } from '../../components/DialectMap';
  */
 const Search = (props) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); 
+  const [searchParams] = useSearchParams();
   const [searchData, setSearchData] = useState([]);
 
   /**
@@ -41,7 +42,7 @@ const Search = (props) => {
     if (needSearch) {
       search(value)
     } else {
-      navigate(`/search?q=${value}`, { replace: true }); 
+      navigate(`/search?q=${value}`, { replace: true });
     }
   };
 
@@ -53,23 +54,38 @@ const Search = (props) => {
   const search = async (value) => {
     if (!value) {
       setSearchData([]);
-      return 
+      return
     }
-   
+
     NProgress.start();
 
     // setSearchData([]);
+    const charList = value.split('')
     try {
       const result = await queryChars({
-        char: value.split('').join(','),
+        char: charList.join(','),
         dialect: JSON.parse(localStorage.getItem('filterData') || '{}')?.dialectName
       });
       // console.log('result', result);
-      setSearchData(result.data);
-    } catch(error) {
+      // setSearchData(result.data);
+      const groupVariantList = groupVariants(charList, result.variants)
+      const charGroupList = []
+      groupVariantList.forEach(groupItem => {
+        (groupItem.variants || []).forEach(variant => {
+          const charInfo = result.data.find(item => item.char === variant).charInfo
+          charGroupList.push({
+            char: variant,
+            originChar: groupItem.char,
+            charInfo: charInfo
+          })
+        })
+      })
+      console.log('charGroupList', charGroupList)
+      setSearchData(charGroupList);
+    } catch (error) {
       message.error(error.message)
     } finally {
-      NProgress.done(); 
+      NProgress.done();
     }
   };
 

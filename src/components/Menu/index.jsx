@@ -43,31 +43,37 @@ const Menu = (props) => {
 
 
   return (
-    <div className={`${styles.menu} vear_menu`}>
+    <>
+    {/* <div style={{display: 'none'}}>{JSON.stringify(isMobile)}</div> */}
+      <div className={`${styles.menu} vear_menu`}>
 
-      {isMobile && (
-        <div style={{
-          marginLeft: '16px',
-          marginTop: '12px',
-          display: 'inline-block'
-        }}>
-          <Button icon={<MenuOutlined />} onClick={() => setShowDrawer(true)} />
+        {isMobile
+          ? (
+            <div style={{
+              marginLeft: '16px',
+              marginTop: '12px',
+              display: 'inline-block'
+            }}>
+              <Button icon={<MenuOutlined />} onClick={() => setShowDrawer(true)} />
 
-        </div>
-      )}
-      {!isMobile && (
-        <div>
-          <AntdMenu
-            items={props.dataSource}
-            mode="horizontal"
-            selectedKeys={[props.activeKey]}
-            onClick={props.onChange} style={{
-              marginTop: 6,
-              border: 'none',
-            }} />
-        </div>
-      )}
+            </div>
+          )
+          : (
+            <div>
+              <AntdMenu
+                items={props.dataSource}
+                mode="horizontal"
+                selectedKeys={[props.activeKey]}
+                onClick={props.onChange} style={{
+                  marginTop: 6,
+                  border: 'none',
+                }} />
+            </div>
+          )}
+        {/* <button>sdf</button> */}
 
+
+      </div>
       <Drawer
         placement="left"
         closeIcon={false}
@@ -107,8 +113,7 @@ const Menu = (props) => {
             }} />
         </div>
       </Drawer>
-
-    </div>
+    </>
   );
 };
 
