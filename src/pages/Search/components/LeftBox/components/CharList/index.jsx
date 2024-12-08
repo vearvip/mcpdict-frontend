@@ -53,37 +53,37 @@ export default ({
         </div>,
         key: charItem.char,
         showArrow: false,
-        children: <div style={{
-          // flex: 1,
-          // width:'100%',
-          padding: isMobile ? '0 0 15px 0' : '20px 0',
-          // border: '1px solid red',
-          height: isMobile
-            ? 'calc(100vh - 60px - 80px - 40px - 40px - 30px - 55px)'
-            : 'calc(100vh - 60px - 80px - 40px - 40px - 40px)',
-          overflow: 'auto'
-        }}>
-          {charInfos.map((charInfo, infoIndex) => {
-            // console.log('charInfo', charInfo)
-            return (
-              <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
-                <AutoFitText
-                  char={charItem.char}
-                  dialectName={charInfo.dialectName}
-                  phonetics={charInfo.infos.map(ele => ele.phonetic)}
-                />
-                <div>
-                  {charInfo.infos.map((info, subIndex) => (
-                    <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
-                      <span className={styles.phonetic}>{info.phonetic}</span>
-                      <span className={styles.explain}>{info.explain}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </div>,
+        // children: <div style={{
+        //   // flex: 1,
+        //   // width:'100%',
+        //   padding: isMobile ? '0 0 15px 0' : '20px 0',
+        //   // border: '1px solid red',
+        //   height: isMobile
+        //     ? 'calc(100vh - 60px - 80px - 40px - 40px - 30px - 55px)'
+        //     : 'calc(100vh - 60px - 80px - 40px - 40px - 40px)',
+        //   overflow: 'auto'
+        // }}>
+        //   {charInfos.map((charInfo, infoIndex) => {
+        //     // console.log('charInfo', charInfo)
+        //     return (
+        //       <div key={`char_info_${index}_${infoIndex}`} className={styles.char_info}>
+        //         <AutoFitText
+        //           char={charItem.char}
+        //           dialectName={charInfo.dialectName}
+        //           phonetics={charInfo.infos.map(ele => ele.phonetic)}
+        //         />
+        //         <div>
+        //           {charInfo.infos.map((info, subIndex) => (
+        //             <div key={`info_item_${index}_${infoIndex}_${subIndex}`} className={styles.info_item}>
+        //               <span className={styles.phonetic}>{info.phonetic}</span>
+        //               <span className={styles.explain}>{info.explain}</span>
+        //             </div>
+        //           ))}
+        //         </div>
+        //       </div>
+        //     )
+        //   })}
+        // </div>,
         children: <VirtualScroll 
           style={{ 
             padding: isMobile ? '0 0 15px 0' : '20px 0', 
