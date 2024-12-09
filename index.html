@@ -1,13 +1,45 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="shortcut icon" type="image/ico" href="/src/assets/webp/logo.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>音典</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/index.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" type="image/ico" href="/src/assets/webp/logo.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>音典</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.jsx"></script>
+  <script>
+    document.addEventListener('touchmove', function (event) {
+      // 检查事件目标是否为需要保持滚动行为的元素
+      if (isScrollableElement(event.target)) {
+        return; // 如果是，则不阻止默认行为
+      }
+      event.preventDefault(); // 否则阻止默认行为
+    }, { passive: false });
+
+    function isScrollableElement(element) {
+      // 这里可以定义哪些元素应该保留其滚动行为
+      // 例如检查元素是否有特定的类名或者样式属性
+      while (element && element !== document.body) {
+        if (element.scrollWidth > element.clientWidth ||
+          getComputedStyle(element).overflowX === 'scroll') {
+          return true;
+        }
+        element = element.parentElement;
+      }
+      return false;
+    }
+    window.addEventListener('wheel', function (event) {
+      // 检查是否有显著的水平滚动，并且不是发生在可滚动元素上
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY) && !isScrollableElement(event.target)) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+
+  </script>
+</body>
+
 </html>
