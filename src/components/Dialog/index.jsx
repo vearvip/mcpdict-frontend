@@ -65,7 +65,7 @@ const Dialog = (props) => {
             width={'100vw'}
             destroyOnClose
             style={{
-              height: '90vh',
+              height: '80vh',
             }}
             footer={footer}
             {...(props.drawerProps || {})}
