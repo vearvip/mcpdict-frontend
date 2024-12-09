@@ -9,6 +9,7 @@ import { message } from 'antd';
 import useStore from '@/store';
 import { JianCheng, YinDianYanSe } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
+import CollapsibleContent from './components/CollapsibleContent';
 
 
 /**
@@ -45,23 +46,26 @@ const Index = (props) => {
       </div>
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
-        {(store?.dialectInfos ?? []).map((ele) => (
-          <div
-            className={styles.book_item}
-            key={ele[JianCheng]}
-            onClick={() =>  {
-              showDialectInfo({
-                color: ele[YinDianYanSe],
-                dialectName: ele[JianCheng]
-              })
-            }}
-          >
-            <Book
-              name={ele[JianCheng]}
-              color={ele[YinDianYanSe]}
-            />
-          </div>
-        ))}
+        <CollapsibleContent height={650}>
+          {(store?.dialectInfos ?? []).map((ele) => (
+            <div
+              className={styles.book_item}
+              key={ele[JianCheng]}
+              onClick={() => {
+                showDialectInfo({
+                  color: ele[YinDianYanSe],
+                  dialectName: ele[JianCheng]
+                })
+              }}
+            >
+              <Book
+                name={ele[JianCheng]}
+                color={ele[YinDianYanSe]}
+              />
+            </div>
+          ))}
+
+        </CollapsibleContent>
       </div>
     </div>
   );
