@@ -80,7 +80,7 @@ const Search = (props) => {
           })
         })
       })
-      console.log('charGroupList', charGroupList)
+      // console.log('charGroupList', charGroupList)
       setSearchData(charGroupList);
     } catch (error) {
       message.error(error.message)

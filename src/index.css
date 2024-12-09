@@ -9,6 +9,8 @@ body {
   margin: 0;
   padding: 0;
   background: #f9f9f9; 
+  font-size: 14px;
+  line-height: 1.44;
 }
 
 .box {

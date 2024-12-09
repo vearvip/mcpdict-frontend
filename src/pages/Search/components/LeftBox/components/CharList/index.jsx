@@ -76,6 +76,7 @@ export default ({
               color={
                 charItem.char === selectedCharItem?.char ? "primary" : 'default'
               }
+              key={charItem.char}
               variant="filled"
               style={{
                 width: isMobile ? '60px' : '80px',
@@ -111,20 +112,15 @@ export default ({
       <div className={isMobile ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
         {
           (selectedCharInfos && Array.isArray(selectedCharInfos) && selectedCharInfos.length > 0)
-            ? <VirtualScroll
-              style={{
-                // padding: isMobile ? '20px 0 15px 20px' : '20px 0',
-                padding: '20px',
-                height: isMobile
-                  ? 'calc(100vh - 60px - 80px - 40px - 40px - 30px - 55px)'
-                  : 'calc(100vh - 60px - 80px - 40px - 40px - 40px)',
-                overflow: 'auto',
-              }}
+            ? <VirtualScroll 
+              className={
+                isMobile ? styles.virtual_list_mobile : styles.virtual_list
+              }
               minItemHeight={30}
               totalLength={selectedCharInfos?.length}
               renderItem={(infoIndex) => {
                 const charInfo = selectedCharInfos[infoIndex];
-                console.log('infoIndex charInfo', infoIndex, charInfo)
+                // console.log('infoIndex charInfo', infoIndex, charInfo)
                 return (
                   <div key={`char_info_${infoIndex}`} className={styles.char_info}>
                     <AutoFitText

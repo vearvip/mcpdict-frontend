@@ -3,8 +3,9 @@
 
   border-radius: 6px;
   overflow: hidden;
-  // border: 1px solid pink;
+  // border: 1px solid blue;
   height: calc(100vh - 60px - 80px - 40px - 40px);
+
   // flex-wrap: wrap;
   .char_list_box_left {
     flex-shrink: 0;
@@ -13,8 +14,7 @@
     padding: 0 5px;
     padding-top: 5px;
     height: inherit;
-    border-right: 1px solid var(--border-color);
-    height: inherit;
+    border-right: 1px solid var(--border-color); 
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
@@ -38,20 +38,41 @@
     width: 100%;
     scrollbar-width: none;
   }
+
   .char_list_box_left_mobile::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
+    /* Chrome, Safari and Opera */
   }
+
   .char_list_box_right {
     // border: 1px solid red;
     height: inherit;
+    // border: 1px solid pink;
+    box-sizing: border-box;
     width: 100%;
   }
+
   .char_list_box_right_mobile {
     flex-shrink: 0;
-    // border: 1px solid pink;
     width: 100%;
     flex: 1;
-    height: calc(100vh - 60px - 80px - 40px - 40px - 42px);
+    height: inherit; 
+  }
+
+  .virtual_list {
+    padding: 20px;
+    // height: calc(100vh - 60px - 80px - 40px - 40px);
+    height: inherit; 
+    box-sizing: border-box;
+    overflow: auto;
+  }
+
+  .virtual_list_mobile {
+    overflow: auto;
+    padding: 20px; 
+    box-sizing: border-box;
+    height: calc(100vh - 60px - 80px - 40px - 40px - 44px);
+
   }
 }
 
@@ -61,9 +82,11 @@
   justify-content: center;
   align-items: center;
   width: 30px;
+
   .char_label_main {
     font-size: 18px;
   }
+
   .char_label_extra {
     font-size: 12px;
     color: #999;
@@ -81,6 +104,7 @@
     margin: 0;
     // padding: 0;
   }
+
   .toggle_text {
     .animated_text {
       overflow: hidden;
@@ -103,6 +127,7 @@
     }
   }
 }
+
 .char_info {
   // margin-top: 20px;
   display: flex;
@@ -138,12 +163,17 @@
 
   // }
   .info_item {
-    flex-grow: 1; /* 让 div 占据剩余空间 */
-    word-break: break-all; /* 强制换行 */
-    white-space: pre-wrap; /* 保留空白符序列，但是正常地进行换行 */
-    overflow-wrap: break-word; /* 允许长单词或 URL 地址换行到下一行 */
+    flex-grow: 1;
+    /* 让 div 占据剩余空间 */
+    word-break: break-all;
+    /* 强制换行 */
+    white-space: pre-wrap;
+    /* 保留空白符序列，但是正常地进行换行 */
+    overflow-wrap: break-word;
+    /* 允许长单词或 URL 地址换行到下一行 */
     display: inline-block;
-    overflow: auto;
+    // overflow: auto;
+    min-height: 30px;
     margin-right: 5px;
 
     // border: 1px solid red;
@@ -151,6 +181,7 @@
       font-size: 14px;
       // background-color: palegoldenrod;
     }
+
     .explain {
       font-size: 12px;
       color: #555;
