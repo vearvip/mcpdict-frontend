@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import styles from '../../index.module.less'; // 引入 CSS Module 
 import { Collapse } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
-import { useGetState } from 'ahooks';
 import AutoFitText from '../../../../components/AutoFitText';
 import { parseSplitStr } from '../../../../utils';
 import CharList from './components/CharList';
@@ -15,7 +14,7 @@ import CharList from './components/CharList';
  */
 const LeftBox = (props) => {
   const { searchData } = props;
-  const [activeKey, setActiveKey, getActiveKey] = useGetState([])
+  const [activeKey, setActiveKey] = useState([])
 
 
   // const collapseItems = useMemo(() => {

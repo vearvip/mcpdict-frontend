@@ -52,8 +52,14 @@ const FilterDialog = (props) => {
   useEffect(() => {
     setTimeout(() => {
       const filterDataLocalStr = localStorage.getItem('filterData')
-      const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr || '{}') : filterDefaultData
-      console.log('11filterData', filterData)
+      const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr) : filterDefaultData
+      for (const key in filterDefaultData) {
+        const element = filterDefaultData[key];
+        if (!filterData[key]) {
+          filterData[key] = element
+        }
+      }
+      // console.log('11filterData', filterData)
       form.setFieldsValue(filterData)
     }, 0)
   }, [])

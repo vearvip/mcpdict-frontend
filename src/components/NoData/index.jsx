@@ -1,6 +1,5 @@
 import { Empty } from 'antd'
-import styles from './index.module.less'
-import { Typography } from 'antd'
+import styles from './index.module.less' 
 // import noData from '@/assets/webp/noData.webp'
 
 
@@ -13,10 +12,8 @@ const NoData = (props) => {
       imageStyle={{
         height: 60,
       }}
-      description={
-        <Typography.Text type="secondary">
-          暂无数据
-        </Typography.Text>
+      description={ 
+        <div>暂无数据</div> 
       }
     />
   </div>
