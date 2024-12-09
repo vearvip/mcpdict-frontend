@@ -4,7 +4,8 @@ import { useMobile } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
 import Dialog from '../Dialog';
 
-import { Select, Form, Radio } from 'antd';
+import { Select, Form, Radio, Button } from 'antd';
+import { TreeSelect } from 'antd';
 import useStore from '@/store';
 
 
@@ -19,20 +20,23 @@ import useStore from '@/store';
  */
 const FilterDialog = (props) => {
   const {
-    tmpMode, 
+    tmpMode,
     onOk,
     onClose
   } = props;
-  const filterDefaultData =   {
+  const filterDefaultData = {
     filterMode: 'lang',
     dialectName: undefined,
+    dialectArea: undefined,
   }
   const [open, setOpen] = useState(true);
   const [form] = Form.useForm();
+  
+  const filterMode = Form.useWatch('filterMode', form);
   const { store, setStore } = useStore()
   const handleDialogOk = () => {
     const filterData = form.getFieldsValue()
-   
+
     localStorage.setItem('filterData', JSON.stringify(filterData))
     // console.log('filterData', filterData)
     setOpen(false)
@@ -73,33 +77,49 @@ const FilterDialog = (props) => {
       onOk={handleDialogOk}
       onCancel={handleDialogCancel}
       onClose={handleDialogClose}
-    >
-      <Form form={form}>
-
-        <Form.Item name="filterMode" label={false} >
+    > 
+      <Form form={form} onChange={(...args) => {
+        console.log('args', args)
+      }}> 
+        <Form.Item name="filterMode" >
           <Radio.Group
             block
             options={[
               { label: '选择语言', value: 'lang' },
               { label: '自选', value: 'custom', disabled: tmpMode || true },
-              { label: '分区', value: 'area', disabled: tmpMode || true },
+              { label: '分区', value: 'area', disabled: tmpMode },
             ]}
             optionType="button"
             buttonStyle="solid"
           />
         </Form.Item>
-        <Form.Item name="dialectName" label={false} >
-          <Select
-            showSearch
-            allowClear
-            options={(store?.dialectNames ?? []).map(name => {
-              return {
-                label: name,
-                value: name,
-              }
-            })}
-          />
-        </Form.Item>
+        {
+          filterMode === 'lang' ? <Form.Item name="dialectName" >
+            <Select
+              showSearch
+              allowClear
+              options={(store?.dialectNames ?? []).map(name => {
+                return {
+                  label: name,
+                  value: name,
+                }
+              })}
+            />
+          </Form.Item> : null
+        }
+        {
+          filterMode === 'area' ? <Form.Item name="dialectArea" >
+            <TreeSelect
+              showSearch
+              style={{ width: '100%' }}
+              // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
+              allowClear
+              treeDefaultExpandAll
+              treeData={(store?.dialectCateTree ?? [])}
+            // onPopupScroll={onPopupScroll}
+            />
+          </Form.Item> : null
+        } 
       </Form>
     </Dialog>
   );
@@ -114,7 +134,7 @@ export const showFilterDialog = (props = {}) => {
   const {
     tmpMode,
     onClose,
-    onOk, 
+    onOk,
   } = props;
 
   // 如果对话框容器已经存在，则不再创建新的容器
@@ -153,7 +173,7 @@ export const showFilterDialog = (props = {}) => {
   // 渲染对话框组件到根中
   root.render(
     <FilterDialog
-      tmpMode={tmpMode} 
+      tmpMode={tmpMode}
       onOk={handleOk}
       onClose={handleClose}
     />

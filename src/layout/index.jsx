@@ -9,6 +9,72 @@ import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { JianCheng, YinDianYanSe } from '../utils/constant';
+function transformDialectInfosToTree(dialectInfos) {
+  const tree = {};
+
+  dialectInfos.forEach(dialectInfo => {
+    // Split the '地圖集二分區' into levels.
+    const dialectLevels = dialectInfo['地圖集二分區'].split('-');
+    const languageShortName = dialectInfo['簡稱'];
+
+    function addDialectNode(levels, shortName, node, pathSoFar='') {
+      if (levels.length === 0) return;
+
+      const currentLevel = levels.shift();
+      const fullPath = pathSoFar ? `${pathSoFar}-${currentLevel}` : currentLevel;
+      if (!node[currentLevel]) {
+        node[currentLevel] = { label: currentLevel, value: fullPath, dialects: [] };
+      }
+
+      // Add the short name of the language to the current level's dialects array if it's not already there.
+      if (!node[currentLevel].dialects.includes(shortName)) {
+        node[currentLevel].dialects.push(shortName);
+      }
+
+      // Recursively process the remaining levels.
+      if (levels.length > 0) {
+        if (!node[currentLevel].children) {
+          node[currentLevel].children = {};
+        }
+        addDialectNode(levels, shortName, node[currentLevel].children, fullPath);
+      }
+    }
+
+    addDialectNode(dialectLevels, languageShortName, tree);
+  });
+
+  // Convert the object to an array and clean up empty children.
+  function cleanUpEmptyChildren(node) {
+    if (node.children) {
+      // Clean up each child recursively.
+      node.children = Object.values(node.children).map(cleanUpEmptyChildren);
+
+      // Remove the children property if it's empty.
+      if (node.children.length === 0) {
+        delete node.children;
+      }
+    }
+    return node;
+  }
+
+  // Convert the tree object into an array and clean up any empty children.
+  const result = Object.values(tree).map(cleanUpEmptyChildren);
+
+  // Sort the dialects in each node for consistency (optional).
+  result.forEach(function sortDialectsRecursively(node) {
+    if (node.dialects) {
+      node.dialects.sort();
+    }
+    if (node.children) {
+      node.children.forEach(sortDialectsRecursively);
+    }
+  });
+
+  return result;
+}
+ 
+ 
+ 
 
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
@@ -47,25 +113,27 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
+      const dialectInfos = (res?.data ?? []).filter(ele => ele[YinDianYanSe])
       setStore({
-        dialectInfos: (res?.data ?? []).filter(ele => ele[YinDianYanSe]),
-        dialectNames: (res?.data ?? []).filter(ele => ele[YinDianYanSe]).map(ele => ele[JianCheng])
+        dialectInfos: dialectInfos,
+        dialectNames: dialectInfos.map(ele => ele[JianCheng])
       });
-      window.dialectInfosWasReady = true
+      return dialectInfos
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
+      return false
     }
   };
 
   /**
    * 获取方言Geo信息并更新 store。
    */
-  const getDialectGeo = async () => {
+  const getDialectGeo = async (dialectInfos) => {
+    if (!dialectInfos) return
     try {
-      const res = await queryDialectGeo();
-      // console.log('res', res);
+      const res = await queryDialectGeo(); 
       setStore({
-        geo: res.data
+        geo: res.data, 
       });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
@@ -73,7 +141,14 @@ const Layout = (props) => {
   };
 
   useEffect(() => {
-    getDialectInfos();
+    getDialectInfos().then((dialectInfos) => {
+      const dialectCateTree = transformDialectInfosToTree(dialectInfos)
+      // console.log('dialectCateTree', dialectCateTree);
+      setStore({ 
+        dialectCateTree: dialectCateTree,
+      });
+      window.dialectInfosWasReady = true
+    })
     getDialectGeo()
   }, []);
 

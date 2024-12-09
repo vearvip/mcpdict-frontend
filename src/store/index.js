@@ -56,6 +56,7 @@ export default create((set) => ({
   store: {
     dialectInfos: [],
     dialectNames: [],
+    dialectCateTree: [],
     geo: {}
   },
   setStore: (values) => set((state) => {

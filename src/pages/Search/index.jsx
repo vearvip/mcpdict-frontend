@@ -15,6 +15,52 @@ import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 import { Button, FloatButton, message } from 'antd';
 import { showDialectMap } from '../../components/DialectMap';
 import { groupVariants } from '../../utils';
+import useStore from '@/store';
+import { useAsyncEffect } from 'ahooks';
+
+const waitLoadDialectInfos = () => {
+  return new Promise((resolve, reject) => {
+    const intervalId = setInterval(() => { 
+      if (window.dialectInfosWasReady) {
+        clearInterval(intervalId);
+        resolve();
+      }
+    }, 80);
+  });
+};
+
+
+function findDialectsByPath(tree, path) {
+  // Split the input path into levels.
+  const pathLevels = path.split('-');
+
+  function searchNode(nodes, levels) {
+    if (!nodes || levels.length === 0) {
+      return [];
+    }
+
+    const [currentLevel, ...restLevels] = levels;
+    
+    for (let node of nodes) {
+      if (node.label === currentLevel) {
+        if (restLevels.length === 0) {
+          // If all levels have been processed, return the dialects of the current node.
+          return node.dialects || [];
+        } else if (node.children && Array.isArray(node.children)) {
+          // Recursively search in the children.
+          return searchNode(node.children, restLevels);
+        }
+      }
+    }
+
+    // If no matching node is found, return an empty array.
+    return [];
+  }
+
+  // Start searching from the root of the tree.
+  return searchNode(tree, pathLevels);
+}
+
 
 /**
  * 搜索组件，用于展示和处理搜索功能。
@@ -23,6 +69,7 @@ import { groupVariants } from '../../utils';
  */
 const Search = (props) => {
   const navigate = useNavigate();
+  const { store, setStore } = useStore()
   const [searchParams] = useSearchParams();
   const [searchData, setSearchData] = useState([]);
 
@@ -61,10 +108,21 @@ const Search = (props) => {
 
     // setSearchData([]);
     const charList = [...new Set(value.split(''))]
+
+    let dialectList
+    const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
+    if (filterData.filterMode === 'lang') {
+      dialectList = filterData?.dialectName ? [filterData.dialectName] : []
+    } else if (filterData.filterMode === 'area') {
+      let dialects = findDialectsByPath(store.dialectCateTree, filterData.dialectArea)
+      // console.log('dialects', filterData.dialectArea, dialects)
+      dialectList = dialects
+    } 
+
     try {
       const result = await queryChars({
-        char: charList.join(','),
-        dialect: JSON.parse(localStorage.getItem('filterData') || '{}')?.dialectName
+        charList,
+        dialectList
       });
       // console.log('result', result);
       // setSearchData(result.data);
@@ -89,14 +147,15 @@ const Search = (props) => {
     }
   };
 
-  useEffect(() => {
+  useAsyncEffect(async () => {
     const q = searchParams.get('q');
     if (q) {
+      await waitLoadDialectInfos();
       search(q);
     } else {
       setSearchData([])
     }
-  }, [searchParams]);
+  }, [searchParams, store]);
  
 
   useEffect(() => {

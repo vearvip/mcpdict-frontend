@@ -81,10 +81,10 @@ const DialectInfo = (props) => {
   >
 
     <Descriptions title={<div className="flex-center" style={{
-      margin: '-25px 0 -25px 0'
+      margin: isMobile ? '-25px 0 -25px 0' : undefined
     }}>
       <Book name={dialectName} color={color} style={{
-        transform: 'scale(0.7)',
+        transform: isMobile ? 'scale(0.7)' : undefined
       }} />
     </div>} items={descriptionItems} size="small" column={1} />
   </Dialog>

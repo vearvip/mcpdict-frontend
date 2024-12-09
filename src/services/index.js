@@ -1,15 +1,5 @@
 import { request } from "../utils/request";
 
-const waitLoadDialectInfos = () => {
-  return new Promise((resolve, reject) => {
-    const intervalId = setInterval(() => { 
-      if (window.dialectInfosWasReady) {
-        clearInterval(intervalId);
-        resolve();
-      }
-    }, 10);
-  });
-};
 
 /**
  * 查询字符信息。
@@ -19,11 +9,11 @@ const waitLoadDialectInfos = () => {
  * @param {string} [params.dialect] - 方言选项（可选）。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
-export async function queryChars(params) {
-  await waitLoadDialectInfos();
+export async function queryChars(data) {
   return request({
     url: "/char",
-    params,
+    method: "POST",
+    data,
   });
 }
 /**
