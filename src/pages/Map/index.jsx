@@ -25,6 +25,7 @@ export default () => {
   const isMobile = useMobile()
   const [searchResult, setSearchResult] = useState()
   const [radioValue, setRadioValue] = useState()
+  const [loading, setLoading] = useState(false)
 
   const mapDialectInfos = useMemo(() => {
     const dialectInfos = JSON.parse(JSON.stringify(store?.dialectInfos))
@@ -56,7 +57,7 @@ export default () => {
     // console.log('formData', formData)
     // console.log('inputValue', inputValue)
     let dialectList = getSearchDialectList(formData, store.dialectCateTree)
-
+    setLoading(true)
     try {
       const result = await queryChars({
         charList: [inputValue],
@@ -78,6 +79,8 @@ export default () => {
     } catch (error) {
       console.log('error', error)
       // message.error(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -123,6 +126,7 @@ export default () => {
       <Input.Search
         value={inputValue}
         placeholder="请输入单字"
+        loading={loading}
         enterButton
         maxLength={1}
         onChange={handleInputChange}

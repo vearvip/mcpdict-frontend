@@ -50,7 +50,7 @@ const LongSearch = (props) => {
 
   const handleSearch = async (filterData) => {
     if (!filterData?.dialectName) {
-      message.warning('请点击⚙设置按钮选择方言')
+      message.warning('请点击⚙设置按钮选择语言')
       return
     }
     NProgress.start();

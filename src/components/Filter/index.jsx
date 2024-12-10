@@ -65,7 +65,7 @@ export const Filter = React.forwardRef(
     });
 
     const handleFormChange = (changedValues, allValues) => {
-      console.log('changedValues, allValues', changedValues, allValues)
+      // console.log('changedValues, allValues', changedValues, allValues)
       onChange && onChange(allValues)
     }
 
