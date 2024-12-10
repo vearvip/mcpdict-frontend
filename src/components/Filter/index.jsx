@@ -28,6 +28,7 @@ const FilterDialog = (props) => {
     filterMode: 'lang',
     dialectName: undefined,
     dialectArea: undefined,
+    dialectCustoms: undefined,
   }
   const [open, setOpen] = useState(true);
   const [form] = Form.useForm();
@@ -38,7 +39,7 @@ const FilterDialog = (props) => {
     const filterData = form.getFieldsValue()
 
     localStorage.setItem('filterData', JSON.stringify(filterData))
-    // console.log('filterData', filterData)
+    // console.log('🍓', filterData)
     setOpen(false)
     onOk && onOk(filterData)
   }
@@ -66,7 +67,7 @@ const FilterDialog = (props) => {
       if (tmpMode) {
         filterData.filterMode = 'lang'
       }
-      // console.log('11filterData', filterData)
+      // console.log('🍉', filterData)
       form.setFieldsValue(filterData)
     }, 0)
   }, [])
@@ -94,48 +95,42 @@ const FilterDialog = (props) => {
             buttonStyle="solid"
           />
         </Form.Item>
-        {
-          filterMode === 'lang' ? <Form.Item name="dialectName" >
-            <Select
-              showSearch
-              allowClear
-              options={(store?.dialectNames ?? []).map(name => {
-                return {
-                  label: name,
-                  value: name,
-                }
-              })}
-            />
-          </Form.Item> : null
-        }
-        {
-          filterMode === 'custom' ? <Form.Item name="dialectCustoms" >
-            <Select
-              showSearch
-              allowClear
-              mode="multiple"
-              options={(store?.dialectNames ?? []).map(name => {
-                return {
-                  label: name,
-                  value: name,
-                }
-              })}
-            />
-          </Form.Item> : null
-        }
-        {
-          filterMode === 'area' ? <Form.Item name="dialectArea" >
-            <TreeSelect
-              showSearch
-              style={{ width: '100%' }}
-              // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
-              allowClear
-              treeDefaultExpandAll
-              treeData={(store?.dialectCateTree ?? [])}
-            // onPopupScroll={onPopupScroll}
-            />
-          </Form.Item> : null
-        }
+        <Form.Item name="dialectName" hidden={filterMode !== 'lang'}>
+          <Select
+            showSearch
+            allowClear
+            options={(store?.dialectNames ?? []).map(name => {
+              return {
+                label: name,
+                value: name,
+              }
+            })}
+          />
+        </Form.Item>
+        <Form.Item name="dialectCustoms" hidden={filterMode !== 'custom'}>
+          <Select
+            showSearch
+            allowClear
+            mode="multiple"
+            options={(store?.dialectNames ?? []).map(name => {
+              return {
+                label: name,
+                value: name,
+              }
+            })}
+          />
+        </Form.Item>
+        <Form.Item name="dialectArea" hidden={filterMode !== 'area'}>
+          <TreeSelect
+            showSearch
+            style={{ width: '100%' }}
+            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
+            allowClear
+            treeDefaultExpandAll
+            treeData={(store?.dialectCateTree ?? [])}
+          // onPopupScroll={onPopupScroll}
+          />
+        </Form.Item>
       </Form>
     </Dialog>
   );
