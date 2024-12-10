@@ -154,7 +154,7 @@ const LongSearch = (props) => {
               // 获取指定的 div 元素
               var div = document.getElementById('search_content');
               const textContent = div.textContent.replace('复制', '');
-              console.log('textContent', textContent)
+              // console.log('textContent', textContent)
               copy(textContent)
             }}>复制</Button>
             {

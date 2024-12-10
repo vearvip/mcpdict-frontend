@@ -77,7 +77,7 @@ const FilterDialog = (props) => {
     <Dialog
       title="筛选"
       open={open}
-      cancelText="清空"
+      cancelText="重置"
       onOk={handleDialogOk}
       onCancel={handleDialogCancel}
       onClose={handleDialogClose}
