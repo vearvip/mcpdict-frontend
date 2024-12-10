@@ -9,9 +9,9 @@ import cdn from 'vite-plugin-cdn-import'
 export default defineConfig({
   plugins: [
     react(),
-    // cdn({
-    //   modules: ['react', 'react-dom', 'dayjs', 'antd'],
-    // }),
+    cdn({
+      modules: ['react', 'react-dom', 'dayjs', 'antd'],
+    }),
     visualizer({
       open: true
     })
