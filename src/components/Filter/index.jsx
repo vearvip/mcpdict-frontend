@@ -63,6 +63,9 @@ const FilterDialog = (props) => {
           filterData[key] = element
         }
       }
+      if (tmpMode) {
+        filterData.filterMode = 'lang'
+      }
       // console.log('11filterData', filterData)
       form.setFieldsValue(filterData)
     }, 0)
