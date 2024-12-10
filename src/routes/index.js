@@ -44,12 +44,12 @@ export const routes = [
     // disabled: true,
     beta: true,
   },
-  // {
-  //   title: "设置",
-  //   path: "/setting",
-  //   component:  Setting,
-  //   disabled: true,
-  // },
+  {
+    title: "设置",
+    path: "/setting",
+    component:  Setting,
+    disabled: true,
+  },
   {
     title: "测试",
     path: "/ceshi",
