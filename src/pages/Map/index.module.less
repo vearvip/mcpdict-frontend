@@ -1,10 +1,22 @@
 .map_box { 
   display: flex;
-  justify-content: center;
-  align-items: center;
-  // height: 600px;
-  flex-direction: column;  
+  justify-content: flex-start;
+  align-items: flex-start;
+  // flex-direction: column; 
+  // height: 600px; 
   margin: 10px;
   box-sizing: border-box;
   overflow: hidden; 
+  .map_left_box {
+    width: 370px;
+    height: inherit;
+    box-sizing: border-box;
+    // border: 1px solid red;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    padding: 20px;
+    margin-right: 10px;
+    border-radius: 8px;
+    background-color: white;
+  }
 }

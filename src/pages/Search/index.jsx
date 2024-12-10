@@ -14,9 +14,10 @@ import RightBox from "./components/RightBox";
 import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 import { Button, FloatButton, message } from 'antd';
 import { showDialectMap } from '../../components/DialectMap';
-import { groupVariants } from '../../utils';
+import { getSearchDialectList, groupVariants } from '../../utils';
 import useStore from '@/store';
 import { useAsyncEffect } from 'ahooks';
+import { getLocalFilterData } from '../../components/Filter';
 
 const waitLoadDialectInfos = () => {
   return new Promise((resolve, reject) => {
@@ -30,36 +31,6 @@ const waitLoadDialectInfos = () => {
 };
 
 
-function findDialectsByPath(tree, path) {
-  // Split the input path into levels.
-  const pathLevels = path.split('-');
-
-  function searchNode(nodes, levels) {
-    if (!nodes || levels.length === 0) {
-      return [];
-    }
-
-    const [currentLevel, ...restLevels] = levels;
-    
-    for (let node of nodes) {
-      if (node.label === currentLevel) {
-        if (restLevels.length === 0) {
-          // If all levels have been processed, return the dialects of the current node.
-          return node.dialects || [];
-        } else if (node.children && Array.isArray(node.children)) {
-          // Recursively search in the children.
-          return searchNode(node.children, restLevels);
-        }
-      }
-    }
-
-    // If no matching node is found, return an empty array.
-    return [];
-  }
-
-  // Start searching from the root of the tree.
-  return searchNode(tree, pathLevels);
-}
 
 
 /**
@@ -106,28 +77,16 @@ const Search = (props) => {
 
     NProgress.start();
 
-    // setSearchData([]);
     const charList = [...new Set(value.split(''))]
 
-    let dialectList
-    const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
-    if (filterData.filterMode === 'lang') {
-      dialectList = filterData?.dialectName ? [filterData.dialectName] : []
-    } else if (filterData.filterMode === 'custom') { 
-      dialectList = filterData.dialectCustoms
-    }  else if (filterData.filterMode === 'area') {
-      let dialects = findDialectsByPath(store.dialectCateTree, filterData.dialectArea)
-      // console.log('dialects', filterData.dialectArea, dialects)
-      dialectList = dialects
-    } 
+    const filterData = getLocalFilterData()
+    let dialectList = getSearchDialectList(filterData, store.dialectCateTree)
 
     try {
       const result = await queryChars({
         charList,
         dialectList
-      });
-      // console.log('result', result);
-      // setSearchData(result.data);
+      }); 
       const groupVariantList = groupVariants(charList, result.variants)
       const charGroupList = []
       groupVariantList.forEach(groupItem => {

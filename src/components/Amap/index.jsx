@@ -15,15 +15,17 @@ const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
 
 
 /**
- * 地图容器组件，加载高德地图并绘制路径
- * @param {Object} props - 属性对象
+ * 地图容器组件，加载高德地图并绘制方言点
+ * @param {Object} props - 属性对象 
  * @param {React.CSSProperties} [props.style] - 可选的自定义样式对象 
+ * @param {Array<Object>} [props.dialectInfos] - dialectInfos
  * @returns {JSX.Element}
  */
-export default function Amap({ path, style, apiKey }) {
+export default function Amap({ dialectInfos, style }) {
   const [mapReady, setMapReady] = useState(false)
   const mapRef = useRef(null);
-  const { store } = useStore()
+  const [markerList, setMarkerList] = useState([])
+  // const { store } = useStore()
 
   // 加载高德地图
   async function loadMap() {
@@ -99,24 +101,35 @@ export default function Amap({ path, style, apiKey }) {
     }
   };
 
-  const markerDialect = dialectItem => {
+  const makeDialectMarker = dialectItem => {
     const [longitude, latitude] = dialectItem[JingWeiDu].split(',')
     if (!latitude && !latitude) {
       return
     }
+    
+    const dialectNameDOM = document.createElement('div')
+    dialectNameDOM.textContent = dialectItem[JianCheng] 
+    dialectNameDOM.style.height = '20px'
+    dialectNameDOM.style.padding = '2px 5px'
+    dialectNameDOM.style.borderRadius = '4px'
+    dialectNameDOM.style.textAlign = 'center'  
+    dialectNameDOM.style.color = 'white'
+    dialectNameDOM.style.background = generateColorOrGradient(dialectItem[YinDianYanSe])
+
+    dialectNameDOM.style.whiteSpace = 'nowrap'
+    const phoneticDOM = document.createElement('div')
+    phoneticDOM.textContent = dialectItem['phonetic'] 
+    phoneticDOM.style.background = 'rgba(255, 255, 255, 0.5)'
+    phoneticDOM.style.marginTop = '5px'
+
+    phoneticDOM.style.borderRadius = '5px' 
+    phoneticDOM.style.textAlign = 'center'  
+    // phoneticDOM.style.textShadow = '1px 1px 2px #ccc'; // 例如：水平偏移1px，垂直偏移1px，模糊半径2px，颜色为#ccc
     const markerDOM = document.createElement('div')
-    markerDOM.textContent = dialectItem[JianCheng]
-    // markerDOM.style.minWidth = '40px'
-    // markerDOM.style.border = '1px solid red'
-    markerDOM.style.height = '20px'
-    markerDOM.style.padding = '2px 5px'
-    markerDOM.style.borderRadius = '4px'
-    markerDOM.style.color = 'white'
-    markerDOM.style.background = generateColorOrGradient(dialectItem[YinDianYanSe])
-    if (dialectItem[JianCheng] === '桃源薛家沖') {
-      console.log(dialectItem[JianCheng], markerDOM.style.background, dialectItem[YinDianYanSe])
-    }
     markerDOM.style.whiteSpace = 'nowrap'
+    markerDOM.append(dialectNameDOM)
+    markerDOM.append(phoneticDOM)
+
     markerDOM.onclick = () => {
       showDialectInfo({
         dialectName: dialectItem[JianCheng],
@@ -124,13 +137,14 @@ export default function Amap({ path, style, apiKey }) {
       })
     }
 
+    // console.log('first', markerDOM)
     const position = new AMap.LngLat(longitude, latitude); //Marker 经纬度
     const marker = new AMap.Marker({
       position: position,
       content: markerDOM, //将 html 传给 content
       offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
     });
-    mapRef.current.add(marker);
+    return marker
   }
 
   // 首次加载时初始化地图
@@ -148,19 +162,36 @@ export default function Amap({ path, style, apiKey }) {
   }, []);
 
 
+
+
   useAsyncEffect(async () => {
     if (mapReady) {
-      store.dialectInfos.forEach(item => {
-        markerDialect(item)
+      markerList.forEach(marker => {
+        try {
+          mapRef.current.remove(marker);
+        } catch (error) {
+          console.error('marker移除失败：', error)
+        }
+      })
+      const newMarkerList = dialectInfos.map(item => makeDialectMarker(item)).filter(item => item)
+      setMarkerList(newMarkerList)
+      console.log('markerList', newMarkerList)
+      newMarkerList.forEach(marker => {
+        mapRef.current.add(marker);
       })
     }
 
-  }, [store, mapReady]);
+  }, [dialectInfos, mapReady]);
 
 
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      {/* <button onClick={() => {
+        markerList.forEach(marker => {
+          mapRef.current.remove(marker);
+        })
+      }}>asdf</button> */}
       <div
         id="amap_container"
         className={styles.container}

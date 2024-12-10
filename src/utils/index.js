@@ -179,9 +179,9 @@ export function generateColorOrGradient(colorString) {
 
   // 如果有多个颜色，则创建CSS线性渐变字符串，从左到右
   const gradientParts = colors.map((color, index) => `${color} ${index * (100 / (colors.length - 1))}%`);
-  console.log('gradientParts', gradientParts)
+  // console.log('gradientParts', gradientParts)
   let gradientStr = `linear-gradient(to right, ${gradientParts.join(', ')})`
-  console.log('gradientStr', gradientStr)
+  // console.log('gradientStr', gradientStr)
   return gradientStr;
 }
 
@@ -227,3 +227,49 @@ export function processColors(colors, biasTowardsSecond = 0.65) {
 // console.log(processColors('#B2963C,#DEA82A')); // 应该返回偏后一个颜色的过渡中间值
 // console.log(processColors('#904F39,#7E7EB8')); // 应该返回偏后一个颜色的过渡中间值
 // console.log(processColors('#D17663'));         // 应该直接返回这个颜色
+
+
+function findDialectsByPath(tree, path) {
+  // Split the input path into levels.
+  const pathLevels = path.split('-');
+
+  function searchNode(nodes, levels) {
+    if (!nodes || levels.length === 0) {
+      return [];
+    }
+
+    const [currentLevel, ...restLevels] = levels;
+    
+    for (let node of nodes) {
+      if (node.label === currentLevel) {
+        if (restLevels.length === 0) {
+          // If all levels have been processed, return the dialects of the current node.
+          return node.dialects || [];
+        } else if (node.children && Array.isArray(node.children)) {
+          // Recursively search in the children.
+          return searchNode(node.children, restLevels);
+        }
+      }
+    }
+
+    // If no matching node is found, return an empty array.
+    return [];
+  }
+
+  // Start searching from the root of the tree.
+  return searchNode(tree, pathLevels);
+}
+
+export const getSearchDialectList = (filterData, dialectCateTree) => {
+  let dialectList 
+  if (filterData.filterMode === 'lang') {
+    dialectList = filterData?.dialectName ? [filterData.dialectName] : []
+  } else if (filterData.filterMode === 'custom') { 
+    dialectList = filterData.dialectCustoms
+  }  else if (filterData.filterMode === 'area') {
+    let dialects = findDialectsByPath(dialectCateTree, filterData.dialectArea)
+    // console.log('dialects', filterData.dialectArea, dialects)
+    dialectList = dialects
+  } 
+  return dialectList
+}

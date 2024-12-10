@@ -11,7 +11,7 @@ import { queryChars, queryLongString } from '../../services';
 import { copy, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
-import { showFilterDialog } from '../../components/Filter';
+import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
 import { SettingOutlined } from '@ant-design/icons';
 
 /**
@@ -24,7 +24,9 @@ const LongSearch = (props) => {
   const [originTextAreaValue, setOriginTextAreaValue] = useState()
   const [textAreaValue, setTextAreaValue] = useState()
 
-  const [filterData, setFilterData] = useState(JSON.parse(localStorage.getItem('filterData') || '{}'))
+  const [filterData, setFilterData] = useState(
+    getLocalFilterData()
+  )
   const [charVariantInfos, setCharVariantsInfos] = useState()
   const [form] = Form.useForm();
 
@@ -95,7 +97,7 @@ const LongSearch = (props) => {
 
   const handleModalOk = () => {
     const filterData = form.getFieldsValue()
-    localStorage.setItem('filterData', JSON.stringify(filterData))
+    setLocalFilterData(filterData)
     // console.log('filterData', filterData)
     props.onSearch(value, true)
   }

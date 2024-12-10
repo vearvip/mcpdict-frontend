@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { useMobile } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
@@ -7,82 +7,93 @@ import Dialog from '../Dialog';
 import { Select, Form, Radio, Button } from 'antd';
 import { TreeSelect } from 'antd';
 import useStore from '@/store';
+import { useRef } from 'react';
 
+const filterDefaultData = {
+  filterMode: 'lang',
+  dialectName: undefined,
+  dialectArea: undefined,
+  dialectCustoms: undefined,
+}
 
-
-/**
- * 搜索输入组件，用于处理用户搜索输入和设置对话框。
- *
- * @param {Object} props - 组件属性。 
- * @param {boolean} [props.tmpMode] - 临时模式 
- * @param {Function} [props.onOk] - ok时的回调函数。
- * @param {Function} [props.onClose] - close时的回调函数。
- */
-const FilterDialog = (props) => {
-  const {
-    tmpMode,
-    onOk,
-    onClose
-  } = props;
-  const filterDefaultData = {
-    filterMode: 'lang',
-    dialectName: undefined,
-    dialectArea: undefined,
-    dialectCustoms: undefined,
+export const getLocalFilterData = () => {
+  try {
+    const filterDataLocalStr = localStorage.getItem('filterData')
+    const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr) : filterDefaultData
+    return filterData
+  } catch (error) {
+    console.error('获取筛选本地存储值失败：', error)
+    return filterDefaultData
   }
-  const [open, setOpen] = useState(true);
-  const [form] = Form.useForm();
+}
 
-  const filterMode = Form.useWatch('filterMode', form);
-  const { store, setStore } = useStore()
-  const handleDialogOk = () => {
-    const filterData = form.getFieldsValue()
-
+export const setLocalFilterData = (filterData) => {
+  try {
     localStorage.setItem('filterData', JSON.stringify(filterData))
-    // console.log('🍓', filterData)
-    setOpen(false)
-    onOk && onOk(filterData)
+  } catch (error) {
+    console.error('设置筛选本地存储值失败：', error) 
   }
-  const handleDialogCancel = () => {
-    // form.resetFields()
-    // console.log('filterDefaultData', filterDefaultData)
-    form.setFieldsValue(filterDefaultData)
-  }
-  const handleDialogClose = () => {
-    setOpen(false)
-    onClose && onClose()
+}
 
-  }
 
-  useEffect(() => {
-    setTimeout(() => {
-      const filterDataLocalStr = localStorage.getItem('filterData')
-      const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr) : filterDefaultData
-      for (const key in filterDefaultData) {
-        const element = filterDefaultData[key];
-        if (!filterData[key]) {
-          filterData[key] = element
+
+
+export const Filter = React.forwardRef(
+  /**
+   * 搜索输入组件，用于处理用户搜索输入和设置对话框。
+   *
+   * @param {Object} props - 组件属性。 
+   * @param {boolean} [props.tmpMode] - 临时模式  
+   * @param {Function} [props.onChange] - 临时模式  
+   */
+  (props, ref) => {
+    const {
+      tmpMode,
+      onChange,
+    } = props;
+
+
+    const [form] = Form.useForm();
+    const filterMode = Form.useWatch('filterMode', form);
+    const { store, setStore } = useStore()
+
+    useImperativeHandle(ref, () => {
+      // 需要将暴露的接口返回出去
+      return {
+        reset: resetFormData,
+      };
+    });
+
+    const handleFormChange = (changedValues, allValues) => {
+      console.log('changedValues, allValues', changedValues, allValues)
+      onChange && onChange(allValues)
+    }
+
+    const resetFormData = () => {
+      form.setFieldsValue(filterDefaultData)
+
+    }
+
+
+    useEffect(() => {
+      setTimeout(() => { 
+        const filterData = getLocalFilterData()
+        for (const key in filterDefaultData) {
+          const element = filterDefaultData[key];
+          if (!filterData[key]) {
+            filterData[key] = element
+          }
         }
-      }
-      if (tmpMode) {
-        filterData.filterMode = 'lang'
-      }
-      // console.log('🍉', filterData)
-      form.setFieldsValue(filterData)
-    }, 0)
-  }, [])
+        if (tmpMode) {
+          filterData.filterMode = 'lang'
+        }
+        // console.log('🍉', filterData)
+        form.setFieldsValue(filterData)
+      }, 0)
+    }, [])
 
-  return (
-
-    <Dialog
-      title="筛选"
-      open={open}
-      cancelText="重置"
-      onOk={handleDialogOk}
-      onCancel={handleDialogCancel}
-      onClose={handleDialogClose}
-    >
-      <Form form={form}>
+    return (
+      <Form form={form} onValuesChange={handleFormChange}>
         <Form.Item name="filterMode" >
           <Radio.Group
             block
@@ -132,6 +143,66 @@ const FilterDialog = (props) => {
           />
         </Form.Item>
       </Form>
+    );
+  }
+);
+
+
+/**
+ * 搜索输入组件Dialog，用于处理用户搜索输入和设置对话框。
+ *
+ * @param {Object} props - 组件属性。 
+ * @param {boolean} [props.tmpMode] - 临时模式 
+ * @param {Function} [props.onOk] - ok时的回调函数。
+ * @param {Function} [props.onClose] - close时的回调函数。
+ */
+const FilterDialog = (props) => {
+  const {
+    tmpMode,
+    onOk,
+    onClose
+  } = props;
+  const [open, setOpen] = useState(true);
+  const [formData, setFormData] = useState()
+  const formRef = useRef()
+
+  const handleDialogOk = () => {
+    // console.log('🍓', formData)
+    setLocalFilterData(formData)
+    setOpen(false)
+    onOk && onOk(formData)
+  }
+
+  const handleDialogClose = () => {
+    setOpen(false)
+    onClose && onClose()
+
+  }
+
+  const handleDialogCancel = () => {
+    formRef.current.reset()
+  }
+
+  const handleFilterChange = allValues => {
+    setFormData(allValues)
+  }
+ 
+
+  return (
+
+    <Dialog
+      title="筛选"
+      open={open}
+      cancelText="重置"
+      onOk={handleDialogOk}
+      onCancel={handleDialogCancel}
+      onClose={handleDialogClose}
+    >
+      <Filter
+        ref={formRef}
+        tmpMode={tmpMode}
+        onChange={handleFilterChange}
+      />
     </Dialog>
   );
 };
