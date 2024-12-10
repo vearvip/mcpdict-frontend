@@ -1,7 +1,14 @@
 import { useEffect, useRef } from "react";
 import styles from './index.module.css';
+import useStore from '@/store';
 import AMapLoader from "@amap/amap-jsapi-loader";
 import { Button } from "antd";
+import { message } from "antd";
+import { generateColorOrGradient, getBackgroundColor } from "../../utils";
+import { JianCheng, JingWeiDu, YinDianYanSe } from "../../utils/constant";
+import { showDialectInfo } from "../DialectInfo";
+import { useAsyncEffect } from "ahooks";
+import { useState } from "react";
 
 const SECURITY_JS_CODE = "1788e1d3a24050a4636c234a115ba0b7"
 const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
@@ -14,7 +21,9 @@ const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
  * @returns {JSX.Element}
  */
 export default function Amap({ path, style, apiKey }) {
+  const [mapReady, setMapReady] = useState(false)
   const mapRef = useRef(null);
+  const { store } = useStore()
 
   // 加载高德地图
   async function loadMap() {
@@ -48,11 +57,13 @@ export default function Amap({ path, style, apiKey }) {
           // mapStyle: "amap://styles/light", // 月光银
           // mapStyle: "amap://styles/fresh", // 草色青
           // mapStyle: "amap://styles/macaron", // 草色青
+          zoom: 5, // 设置为4以覆盖整个中国
+          center: [105.602725, 35.076636], // 调整纬度到约35度
         });
 
         setTimeout(() => {
-
-        }, 3000);
+          setMapReady(true)
+        }, 80);
       }
     } catch (error) {
       console.error("地图初始化失败：", error);
@@ -88,6 +99,40 @@ export default function Amap({ path, style, apiKey }) {
     }
   };
 
+  const markerDialect = dialectItem => {
+    const [longitude, latitude] = dialectItem[JingWeiDu].split(',')
+    if (!latitude && !latitude) {
+      return
+    }
+    const markerDOM = document.createElement('div')
+    markerDOM.textContent = dialectItem[JianCheng]
+    // markerDOM.style.minWidth = '40px'
+    // markerDOM.style.border = '1px solid red'
+    markerDOM.style.height = '20px'
+    markerDOM.style.padding = '2px 5px'
+    markerDOM.style.borderRadius = '4px'
+    markerDOM.style.color = 'white'
+    markerDOM.style.background = generateColorOrGradient(dialectItem[YinDianYanSe])
+    if (dialectItem[JianCheng] === '桃源薛家沖') {
+      console.log(dialectItem[JianCheng], markerDOM.style.background, dialectItem[YinDianYanSe])
+    }
+    markerDOM.style.whiteSpace = 'nowrap'
+    markerDOM.onclick = () => {
+      showDialectInfo({
+        dialectName: dialectItem[JianCheng],
+        color: dialectItem[YinDianYanSe]
+      })
+    }
+
+    const position = new AMap.LngLat(longitude, latitude); //Marker 经纬度
+    const marker = new AMap.Marker({
+      position: position,
+      content: markerDOM, //将 html 传给 content
+      offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
+    });
+    mapRef.current.add(marker);
+  }
+
   // 首次加载时初始化地图
   useEffect(() => {
     loadMap().then(isAMapLoaded => {
@@ -103,25 +148,19 @@ export default function Amap({ path, style, apiKey }) {
   }, []);
 
 
+  useAsyncEffect(async () => {
+    if (mapReady) {
+      store.dialectInfos.forEach(item => {
+        markerDialect(item)
+      })
+    }
+
+  }, [store, mapReady]);
+
+
+
   return (
     <div style={{ width: '100%', height: '100%' }}>
-      <Button onClick={() => {
-        //点标记显示内容
-        const markerContent = `<div class="custom-content-marker">
-        <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
-        <div class="close-btn" onclick="clearMarker()">X</div>
-        </div>`
-
-        const position = new AMap.LngLat(116.397428, 39.90923); //Marker 经纬度
-        const marker = new AMap.Marker({
-          position: position,
-          content: markerContent, //将 html 传给 content
-          offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
-        });
-        mapRef.current.add(marker);
-      }}>
-        测试
-      </Button>
       <div
         id="amap_container"
         className={styles.container}

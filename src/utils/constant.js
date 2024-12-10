@@ -14,3 +14,5 @@ export const BuDaiDiaoYinJieShu = "不带調音節数";
 export const DiTuJiErFenQv = "地圖集二分區";
 export const YinDianFenQv = "音典分區";
 export const ChenFangFenQv = "陳邡分區";
+
+export const JingWeiDu = "經緯度"

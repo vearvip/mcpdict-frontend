@@ -3,7 +3,7 @@ import useStore from '@/store';
 import { JianCheng, YinDianYanSe } from '@/utils/constant';
 import DialectDropdown from '../DialectDropdown';
 import { showDialectInfo } from '../DialectInfo';
-import { copy } from '../../utils';
+import { copy, generateColorOrGradient, getBackgroundColor } from '../../utils';
 /**
  * 自适应文本组件，根据文本长度调整字体大小，并设置背景颜色或渐变。
  *
@@ -41,37 +41,7 @@ const AutoFitText = (props) => {
     return fontSizeMap[Math.min(length, 7)] || fontSizeMap[6];
   };
 
-  /**
-   * 根据文本内容获取背景颜色。
-   *
-   * @param {string} dialectName - 文本内容。
-   * @returns {string} 对应的背景颜色。
-   */
-  const getBackgroundColor = (dialectName) => {
-    return dialectName
-      ? (store.dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[YinDianYanSe])
-      : undefined;
-  };
 
-  /**
-   * 生成颜色或线性渐变字符串。
-   *
-   * @param {string} colorString - 颜色字符串，可以是单一颜色或者逗号分隔的颜色列表。
-   * @returns {string} 单一颜色值或线性渐变字符串。
-   */
-  function generateColorOrGradient(colorString) {
-    // 清除可能存在的多余空格并分割颜色值
-    const colors = (colorString || '').replace(/\s+/g, '').split(',');
-
-    // 检查是否只有一个颜色
-    if (colors.length === 1) {
-      return colors[0];
-    }
-
-    // 如果有多个颜色，则创建CSS线性渐变字符串，从左到右
-    const gradientParts = colors.map((color, index) => `${color} ${index * (100 / (colors.length - 1))}%`);
-    return `linear-gradient(to right, ${gradientParts.join(', ')})`;
-  }
 
   const handleDialectDropdownClick = value => {
     console.log('value', value)
@@ -87,7 +57,7 @@ const AutoFitText = (props) => {
     }
   }
 
-  const bgColor = generateColorOrGradient(getBackgroundColor(props.dialectName))
+  const bgColor = generateColorOrGradient(getBackgroundColor(props.dialectName, store.dialectInfos))
 
   return (
 

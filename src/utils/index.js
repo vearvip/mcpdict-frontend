@@ -1,4 +1,5 @@
 import { message } from "antd";
+import { JianCheng, YinDianYanSe } from "./constant";
 
 /**
  * 返回一个指定范围内的随机整数。
@@ -131,6 +132,11 @@ export function parseSplitStr(infoString) {
 }
 
 
+/**
+ * 复制文本。
+ *
+ * @param {string} textContent - 文本内容。 
+ */
 export async function copy(textContent) {
   // console.log('-----textContent', textContent);
 
@@ -144,3 +150,80 @@ export async function copy(textContent) {
     message.error(`复制失败：${err.message}`);
   }
 }
+
+/**
+ * 根据文本内容获取背景颜色。
+ *
+ * @param {string} dialectName - 文本内容。
+ * @returns {string} 对应的背景颜色。
+ */
+export const getBackgroundColor = (dialectName, dialectInfos) => {
+  return dialectName
+    ? (dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[YinDianYanSe])
+    : undefined;
+};
+
+/**
+ * 生成颜色或线性渐变字符串。
+ *
+ * @param {string} colorString - 颜色字符串，可以是单一颜色或者逗号分隔的颜色列表。
+ * @returns {string} 单一颜色值或线性渐变字符串。
+ */
+export function generateColorOrGradient(colorString) { 
+  // 清除可能存在的多余空格并分割颜色值
+  const colors = (colorString || '').replace(/\s+/g, '').split(',');
+  // 检查是否只有一个颜色
+  if (colors.length === 1) {
+    return colors[0];
+  }
+
+  // 如果有多个颜色，则创建CSS线性渐变字符串，从左到右
+  const gradientParts = colors.map((color, index) => `${color} ${index * (100 / (colors.length - 1))}%`);
+  console.log('gradientParts', gradientParts)
+  let gradientStr = `linear-gradient(to right, ${gradientParts.join(', ')})`
+  console.log('gradientStr', gradientStr)
+  return gradientStr;
+}
+
+function hexToRgb(hex) {
+  // 移除可能存在的#符号并确保是6位数
+  let c = hex.replace('#', '').match(/.{1,2}/g);
+  return [parseInt(c[0], 16), parseInt(c[1], 16), parseInt(c[2], 16)];
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+}
+
+function weightedInterpolateColor(color1, color2, weight) {
+  // 将颜色从十六进制转换为RGB数组
+  let [r1, g1, b1] = hexToRgb(color1);
+  let [r2, g2, b2] = hexToRgb(color2);
+
+  // 计算带权重的中间颜色，weight参数应该在0到1之间
+  let rMid = Math.round((1 - weight) * r1 + weight * r2);
+  let gMid = Math.round((1 - weight) * g1 + weight * g2);
+  let bMid = Math.round((1 - weight) * b1 + weight * b2);
+
+  // 返回中间颜色的十六进制表示
+  return rgbToHex(rMid, gMid, bMid);
+}
+
+export function processColors(colors, biasTowardsSecond = 0.65) {
+  // 分割颜色字符串
+  let colorArray = colors.split(',').map(s => s.trim());
+
+  // 根据颜色数量返回结果
+  if (colorArray.length === 1) {
+    return colorArray[0];
+  } else {
+    // 只取前两个颜色进行处理
+    let firstTwoColors = colorArray.slice(0, 2);
+    return weightedInterpolateColor(firstTwoColors[0], firstTwoColors[1], biasTowardsSecond);
+  }
+}
+
+// 使用示例
+// console.log(processColors('#B2963C,#DEA82A')); // 应该返回偏后一个颜色的过渡中间值
+// console.log(processColors('#904F39,#7E7EB8')); // 应该返回偏后一个颜色的过渡中间值
+// console.log(processColors('#D17663'));         // 应该直接返回这个颜色

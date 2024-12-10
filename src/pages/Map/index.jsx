@@ -21,7 +21,8 @@ export default () => {
       style={{
         width: 'calc(100% - 20px)',
         height: 'calc(100vh - 60px - 80px - 40px - 20px)',
-        margin: '10px 0',
+        marginTop: '10px',
+        marginLeft: '10px',
         borderRadius: 10,
         overflow: 'hidden'
       }}

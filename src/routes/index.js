@@ -41,7 +41,8 @@ export const routes = [
     title: "方言地图",
     path: "/map",
     component:  Map,
-    disabled: true,
+    // disabled: true,
+    beta: true,
   },
   // {
   //   title: "设置",

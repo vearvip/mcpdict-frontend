@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.module.less';
+import { processColors } from '../../utils';
 
 /**
  * 图书组件属性接口，定义了图书组件接收的属性。
@@ -20,7 +21,7 @@ const Book = (props) => {
 
   return (
     <div className={styles.book_container} style={{ 
-      background: `linear-gradient(100deg, ${color}, #f9f9f9)`,
+      background: `linear-gradient(100deg, ${color.replace(',', ', ')}, #f9f9f9)`,
       ...style
     }}>
       <div className={styles.book_name_container}>
@@ -31,7 +32,7 @@ const Book = (props) => {
         </div>
       </div>
       <div className={styles.book_name_border} style={{
-        border: `8px solid ${color}`,
+        border: `8px solid ${processColors(color)}`,
       }}>
         <div className={styles.book_name_no_use}>
           {name.split('').map((ele, index) => (

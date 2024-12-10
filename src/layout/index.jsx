@@ -9,6 +9,8 @@ import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { JianCheng, YinDianYanSe } from '../utils/constant';
+import { Badge } from 'antd';
+import { useMobile } from '../utils/hooks';
 function transformDialectInfosToTree(dialectInfos) {
   const tree = {};
 
@@ -17,7 +19,7 @@ function transformDialectInfosToTree(dialectInfos) {
     const dialectLevels = dialectInfo['地圖集二分區'].split('-');
     const languageShortName = dialectInfo['簡稱'];
 
-    function addDialectNode(levels, shortName, node, pathSoFar='') {
+    function addDialectNode(levels, shortName, node, pathSoFar = '') {
       if (levels.length === 0) return;
 
       const currentLevel = levels.shift();
@@ -72,9 +74,9 @@ function transformDialectInfosToTree(dialectInfos) {
 
   return result;
 }
- 
- 
- 
+
+
+
 
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
@@ -83,6 +85,7 @@ const Layout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { store, setStore } = useStore()
+  const isMobile = useMobile()
   const [messageApi, contextHolder] = message.useMessage();
 
   /**
@@ -131,9 +134,9 @@ const Layout = (props) => {
   const getDialectGeo = async (dialectInfos) => {
     if (!dialectInfos) return
     try {
-      const res = await queryDialectGeo(); 
+      const res = await queryDialectGeo();
       setStore({
-        geo: res.data, 
+        geo: res.data,
       });
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
@@ -144,7 +147,7 @@ const Layout = (props) => {
     getDialectInfos().then((dialectInfos) => {
       const dialectCateTree = transformDialectInfosToTree(dialectInfos)
       // console.log('dialectCateTree', dialectCateTree);
-      setStore({ 
+      setStore({
         dialectCateTree: dialectCateTree,
       });
       window.dialectInfosWasReady = true
@@ -171,7 +174,16 @@ const Layout = (props) => {
           <Menu
             dataSource={routes.filter(ele => !ele.hidden).map(ele => {
               return {
-                label: ele.title,
+                label: ele.beta
+                  ? <Badge
+                    size={isMobile ? 'small' : 'default'}
+                    count="beta"
+                    style={{ backgroundColor: '#52c41a' }}
+                    offset={isMobile ? [27, 7] :[5, -10]}
+                  >
+                    {ele.title}
+                  </Badge>
+                  : ele.title,
                 key: ele.path,
                 disabled: ele.disabled,
               }
