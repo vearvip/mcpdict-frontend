@@ -31,7 +31,7 @@ const FilterDialog = (props) => {
   }
   const [open, setOpen] = useState(true);
   const [form] = Form.useForm();
-  
+
   const filterMode = Form.useWatch('filterMode', form);
   const { store, setStore } = useStore()
   const handleDialogOk = () => {
@@ -77,16 +77,14 @@ const FilterDialog = (props) => {
       onOk={handleDialogOk}
       onCancel={handleDialogCancel}
       onClose={handleDialogClose}
-    > 
-      <Form form={form} onChange={(...args) => {
-        console.log('args', args)
-      }}> 
+    >
+      <Form form={form}>
         <Form.Item name="filterMode" >
           <Radio.Group
             block
             options={[
               { label: '选择语言', value: 'lang' },
-              { label: '自选', value: 'custom', disabled: tmpMode || true },
+              { label: '自选', value: 'custom', disabled: tmpMode },
               { label: '分区', value: 'area', disabled: tmpMode },
             ]}
             optionType="button"
@@ -108,6 +106,21 @@ const FilterDialog = (props) => {
           </Form.Item> : null
         }
         {
+          filterMode === 'custom' ? <Form.Item name="dialectCustoms" >
+            <Select
+              showSearch
+              allowClear
+              mode="multiple"
+              options={(store?.dialectNames ?? []).map(name => {
+                return {
+                  label: name,
+                  value: name,
+                }
+              })}
+            />
+          </Form.Item> : null
+        }
+        {
           filterMode === 'area' ? <Form.Item name="dialectArea" >
             <TreeSelect
               showSearch
@@ -119,7 +132,7 @@ const FilterDialog = (props) => {
             // onPopupScroll={onPopupScroll}
             />
           </Form.Item> : null
-        } 
+        }
       </Form>
     </Dialog>
   );
@@ -144,7 +157,7 @@ export const showFilterDialog = (props = {}) => {
     root = createRoot(dialogContainer); // 创建根实例
   }
   const remove = (callback) => {
-    console.log('dialogContainer', dialogContainer)
+    // console.log('dialogContainer', dialogContainer)
     setTimeout(() => {
       if (dialogContainer.parentNode) {
         dialogContainer.parentNode.removeChild(dialogContainer);

@@ -113,7 +113,9 @@ const Search = (props) => {
     const filterData = JSON.parse(localStorage.getItem('filterData') || '{}')
     if (filterData.filterMode === 'lang') {
       dialectList = filterData?.dialectName ? [filterData.dialectName] : []
-    } else if (filterData.filterMode === 'area') {
+    } else if (filterData.filterMode === 'custom') { 
+      dialectList = filterData.dialectCustoms
+    }  else if (filterData.filterMode === 'area') {
       let dialects = findDialectsByPath(store.dialectCateTree, filterData.dialectArea)
       // console.log('dialects', filterData.dialectArea, dialects)
       dialectList = dialects
@@ -130,18 +132,21 @@ const Search = (props) => {
       const charGroupList = []
       groupVariantList.forEach(groupItem => {
         (groupItem.variants || []).forEach(variant => {
-          const charInfo = result.data.find(item => item.char === variant).charInfo
-          charGroupList.push({
-            char: variant,
-            originChar: groupItem.char,
-            charInfo: charInfo
-          })
+          const charInfo = (result?.data ?? []).find(item => item.char === variant)?.charInfo
+          if (charInfo) {
+            charGroupList.push({
+              char: variant,
+              originChar: groupItem.char,
+              charInfo: charInfo
+            })
+          }
         })
       })
       // console.log('charGroupList', charGroupList)
       setSearchData(charGroupList);
     } catch (error) {
-      message.error(error.message)
+      console.log('error', error)
+      // message.error(error.message)
     } finally {
       NProgress.done();
     }

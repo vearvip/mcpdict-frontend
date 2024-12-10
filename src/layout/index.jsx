@@ -169,7 +169,7 @@ const Layout = (props) => {
         {contextHolder}
         <div className={`${styles.nav} box`}>
           <Menu
-            dataSource={routes.map(ele => {
+            dataSource={routes.filter(ele => !ele.hidden).map(ele => {
               return {
                 label: ele.title,
                 key: ele.path,
