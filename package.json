@@ -15,7 +15,7 @@
     "@vearvip/hanzi-utils": "^1.0.8",
     "@vearvip/vite-plugin-cdn-import": "^1.0.2",
     "ahooks": "^3.8.1",
-    "antd": "^5.22.3",
+    "antd": "5.19.3",
     "dayjs": "^1.11.12",
     "less": "^4.2.1",
     "nprogress": "^0.2.0",
