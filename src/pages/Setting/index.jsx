@@ -64,7 +64,7 @@ export default () => {
   };
 
 
-  useEffect(() => { 
+  useEffect(() => {
     const pageSettingData = getLocalPageSettingData()
     for (const key in defaultPageSettingData) {
       const defaultFieldVal = defaultPageSettingData[key];
@@ -106,16 +106,20 @@ export default () => {
         >
           <Radio.Group
             optionType="button"
-            options={[{
-              label: '地图集二分区',
-              value: DiTuJiErFenQv,
-            }, {
-              label: '音典分区',
-              value: YinDianFenQv,
-            }, {
-              label: '陈邡分区',
-              value: ChenFangFenQv,
-            }]}
+            options={[
+              {
+                label: '地图集二分区',
+                value: DiTuJiErFenQv,
+              },
+              {
+                label: '音典分区',
+                value: YinDianFenQv,
+              },
+              // {
+              //   label: '陈邡分区',
+              //   value: ChenFangFenQv,
+              // }
+            ]}
           />
         </Form.Item>
         <Form.Item
