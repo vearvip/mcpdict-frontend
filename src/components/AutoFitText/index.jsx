@@ -1,9 +1,8 @@
 import styles from './index.module.less'; // 引入 CSS Module
 import useStore from '@/store';
-import { JianCheng, YinDianYanSe } from '@/utils/constant';
 import DialectDropdown from '../DialectDropdown';
 import { showDialectInfo } from '../DialectInfo';
-import { copy, generateColorOrGradient, getBackgroundColor } from '../../utils';
+import { copy, generateColorOrGradient, getBackgroundColorByName } from '../../utils';
 /**
  * 自适应文本组件，根据文本长度调整字体大小，并设置背景颜色或渐变。
  *
@@ -57,7 +56,7 @@ const AutoFitText = (props) => {
     }
   }
 
-  const bgColor = generateColorOrGradient(getBackgroundColor(props.dialectName, store.dialectInfos))
+  const bgColor = generateColorOrGradient(getBackgroundColorByName(props.dialectName, store.dialectInfos))
 
   return (
 

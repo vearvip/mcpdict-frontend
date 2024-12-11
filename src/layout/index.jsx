@@ -8,72 +8,12 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { JianCheng, YinDianYanSe } from '../utils/constant';
+import { JianCheng } from '../utils/constant';
 import { Badge } from 'antd';
-import { useMobile } from '../utils/hooks';
-function transformDialectInfosToTree(dialectInfos) {
-  const tree = {};
+import { useMobile, usePad } from '../utils/hooks';
+import { getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
+import { getLocalPageSettingData } from '../pages/Setting';
 
-  dialectInfos.forEach(dialectInfo => {
-    // Split the '地圖集二分區' into levels.
-    const dialectLevels = dialectInfo['地圖集二分區'].split('-');
-    const languageShortName = dialectInfo['簡稱'];
-
-    function addDialectNode(levels, shortName, node, pathSoFar = '') {
-      if (levels.length === 0) return;
-
-      const currentLevel = levels.shift();
-      const fullPath = pathSoFar ? `${pathSoFar}-${currentLevel}` : currentLevel;
-      if (!node[currentLevel]) {
-        node[currentLevel] = { label: currentLevel, value: fullPath, dialects: [] };
-      }
-
-      // Add the short name of the language to the current level's dialects array if it's not already there.
-      if (!node[currentLevel].dialects.includes(shortName)) {
-        node[currentLevel].dialects.push(shortName);
-      }
-
-      // Recursively process the remaining levels.
-      if (levels.length > 0) {
-        if (!node[currentLevel].children) {
-          node[currentLevel].children = {};
-        }
-        addDialectNode(levels, shortName, node[currentLevel].children, fullPath);
-      }
-    }
-
-    addDialectNode(dialectLevels, languageShortName, tree);
-  });
-
-  // Convert the object to an array and clean up empty children.
-  function cleanUpEmptyChildren(node) {
-    if (node.children) {
-      // Clean up each child recursively.
-      node.children = Object.values(node.children).map(cleanUpEmptyChildren);
-
-      // Remove the children property if it's empty.
-      if (node.children.length === 0) {
-        delete node.children;
-      }
-    }
-    return node;
-  }
-
-  // Convert the tree object into an array and clean up any empty children.
-  const result = Object.values(tree).map(cleanUpEmptyChildren);
-
-  // Sort the dialects in each node for consistency (optional).
-  result.forEach(function sortDialectsRecursively(node) {
-    if (node.dialects) {
-      node.dialects.sort();
-    }
-    if (node.children) {
-      node.children.forEach(sortDialectsRecursively);
-    }
-  });
-
-  return result;
-}
 
 
 
@@ -85,6 +25,7 @@ const Layout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { store, setStore } = useStore()
+  const isPad = usePad()
   const isMobile = useMobile()
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -116,7 +57,7 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
-      const dialectInfos = (res?.data ?? []).filter(ele => ele[YinDianYanSe])
+      const dialectInfos = (res?.data ?? []).filter(item => getBackgroundColorFromItem(item))
       setStore({
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
@@ -179,7 +120,7 @@ const Layout = (props) => {
                     size={isMobile ? 'small' : 'default'}
                     count="beta"
                     style={{ backgroundColor: '#52c41a' }}
-                    offset={isMobile ? [27, 7] :[5, -10]}
+                    offset={isMobile ? [27, 7] : [5, -10]}
                   >
                     {ele.title}
                   </Badge>

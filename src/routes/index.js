@@ -48,7 +48,7 @@ export const routes = [
     title: "设置",
     path: "/setting",
     component:  Setting,
-    disabled: true,
+    // disabled: true,
   },
   {
     title: "测试",

@@ -4,8 +4,8 @@ import useStore from '@/store';
 import AMapLoader from "@amap/amap-jsapi-loader";
 import { Button } from "antd";
 import { message } from "antd";
-import { generateColorOrGradient, getBackgroundColor } from "../../utils";
-import { JianCheng, JingWeiDu, YinDianYanSe } from "../../utils/constant";
+import { generateColorOrGradient, getBackgroundColorFromItem } from "../../utils";
+import { JianCheng, JingWeiDu } from "../../utils/constant";
 import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
@@ -114,7 +114,7 @@ export default function Amap({ dialectInfos, style }) {
     dialectNameDOM.style.borderRadius = '4px'
     dialectNameDOM.style.textAlign = 'center'  
     dialectNameDOM.style.color = 'white'
-    dialectNameDOM.style.background = generateColorOrGradient(dialectItem[YinDianYanSe])
+    dialectNameDOM.style.background = generateColorOrGradient(getBackgroundColorFromItem(dialectItem))
 
     dialectNameDOM.style.whiteSpace = 'nowrap'
     const phoneticDOM = document.createElement('div')
@@ -133,7 +133,7 @@ export default function Amap({ dialectInfos, style }) {
     markerDOM.onclick = () => {
       showDialectInfo({
         dialectName: dialectItem[JianCheng],
-        color: dialectItem[YinDianYanSe]
+        color: getBackgroundColorFromItem(dialectItem),
       })
     }
 

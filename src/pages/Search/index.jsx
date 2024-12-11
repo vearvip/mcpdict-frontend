@@ -49,7 +49,7 @@ const Search = (props) => {
    *
    * @returns {boolean} 如果没有搜索数据或数据为空，则返回 true；否则返回 false。
    */
-  const searchDataIsEmpty = () => (!searchData || searchData.length === 0);
+  const searchDataIsEmpty = (searchData) => (!searchData || searchData.length === 0);
 
   /**
    * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
@@ -101,10 +101,10 @@ const Search = (props) => {
           }
         })
       })
-      // console.log('charGroupList', charGroupList)
+      console.log('charGroupList', charGroupList)
       setSearchData(charGroupList);
     } catch (error) {
-      console.log('error', error)
+      console.error('error', error)
       // message.error(error.message)
     } finally {
       NProgress.done();
@@ -140,7 +140,7 @@ const Search = (props) => {
           style={{ width: '100%' }} />
       </div>
       <div className={styles.search_content}>
-        {!!searchParams.get('q') && !searchDataIsEmpty() ? (
+        {!!searchParams.get('q') && !searchDataIsEmpty(searchData) ? (
           <LeftBox searchData={searchData} />
         ) : (
           <NoData />

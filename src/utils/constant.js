@@ -1,6 +1,5 @@
 export const YuYan = "語言";
 export const JianCheng = "簡稱";
-export const YinDianYanSe = "音典顏色";
 
 export const WeiDu = "緯度";
 export const LuRuRen = "錄入人";
@@ -11,8 +10,37 @@ export const ZiShu = "字数";
 export const WuZhengZiShu = "□数";
 export const YinJieShu = "音節数";
 export const BuDaiDiaoYinJieShu = "不带調音節数";
-export const DiTuJiErFenQv = "地圖集二分區";
-export const YinDianFenQv = "音典分區";
-export const ChenFangFenQv = "陳邡分區";
 
 export const JingWeiDu = "經緯度"
+
+export const DiTuJiErFenQv = "地圖集二分區";
+export const DiTuJiErYanSe = "地圖集二顏色";
+export const DiTuJiErPaiXv = "地圖集二排序";
+
+export const YinDianFenQv = "音典分區";
+export const YinDianYanSe = "音典顏色";
+export const YinDianPaiXv = "音典排序";
+
+export const ChenFangYanSe = "陳邡顏色";
+export const ChenFangFenQv = "陳邡分區";
+export const ChenFangPaiXv = "陳邡排序";
+
+
+
+
+
+export const FenQvEnum = {
+  [DiTuJiErFenQv]: {
+    color: DiTuJiErYanSe,
+    sort: DiTuJiErPaiXv,
+  }, 
+  [YinDianFenQv]: {
+    color: YinDianYanSe,
+    sort: YinDianPaiXv,
+  },
+  [ChenFangFenQv]: {
+    color: ChenFangYanSe,
+    sort: ChenFangPaiXv,
+  }
+};
+ 

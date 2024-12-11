@@ -7,7 +7,7 @@ import useStore from '@/store';
 import { JianCheng } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
-import { useMobile } from '../../utils/hooks';
+import { usePad } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
 
 
@@ -17,7 +17,7 @@ const DialectMap = ({
   const [form] = Form.useForm();
   const { store, setStore } = useStore()
   const [open, setOpen] = useState(true)
-  const isMobile = useMobile();
+  const isPad = usePad();
 
   const handleClose = () => {
     setOpen(false)
@@ -52,7 +52,7 @@ const DialectMap = ({
     }}
   >
     {
-      isMobile && <FloatButton
+      isPad && <FloatButton
       icon={<CloseOutlined />}
       type="primary"
       onClick={handleClose} />
@@ -63,7 +63,7 @@ const DialectMap = ({
         width: '100%',
         // height: '600px',
         // height: 'calc(100vh - 60px - 80px - 40px)'
-        height: isMobile ? '100vh' : '90vh',
+        height: isPad ? '100vh' : '90vh',
         borderRadius: 10,
         overflow: 'hidden'
 

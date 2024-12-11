@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { useMobile } from '../../utils/hooks';
+import { usePad } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
 import Dialog from '../Dialog';
 
@@ -79,9 +79,9 @@ export const Filter = React.forwardRef(
       setTimeout(() => { 
         const filterData = getLocalFilterData()
         for (const key in filterDefaultData) {
-          const element = filterDefaultData[key];
+          const defaultFieldVal = filterDefaultData[key];
           if (!filterData[key]) {
-            filterData[key] = element
+            filterData[key] = defaultFieldVal
           }
         }
         if (tmpMode) {

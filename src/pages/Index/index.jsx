@@ -7,9 +7,10 @@ import { useNavigate } from "react-router";
 import { Divider } from 'antd';
 import { message } from 'antd';
 import useStore from '@/store';
-import { JianCheng, YinDianYanSe } from '../../utils/constant';
+import { JianCheng } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
+import { getBackgroundColorFromItem } from '../../utils';
 
 
 /**
@@ -47,20 +48,20 @@ const Index = (props) => {
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
         <CollapsibleContent height={650}>
-          {(store?.dialectInfos ?? []).map((ele) => (
+          {(store?.dialectInfos ?? []).map((item) => (
             <div
               className={styles.book_item}
-              key={ele[JianCheng]}
+              key={item[JianCheng]}
               onClick={() => {
                 showDialectInfo({
-                  color: ele[YinDianYanSe],
-                  dialectName: ele[JianCheng]
+                  color: getBackgroundColorFromItem(item),
+                  dialectName: item[JianCheng]
                 })
               }}
             >
               <Book
-                name={ele[JianCheng]}
-                color={ele[YinDianYanSe]}
+                name={item[JianCheng]}
+                color={getBackgroundColorFromItem(item)}
               />
             </div>
           ))}

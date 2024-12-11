@@ -12,7 +12,7 @@ import { getSearchDialectList, parseSplitStr } from '../../utils';
 import { queryChars } from '../../services';
 import { Radio } from 'antd';
 import { useMemo } from 'react';
-import { useMobile } from '../../utils/hooks';
+import { usePad } from '../../utils/hooks';
 
 
 export default () => {
@@ -22,7 +22,7 @@ export default () => {
   const [formData, setFormData] = useState(
     getLocalFilterData()
   )
-  const isMobile = useMobile()
+  const isPad = usePad()
   const [searchResult, setSearchResult] = useState()
   const [radioValue, setRadioValue] = useState()
   const [loading, setLoading] = useState(false)
@@ -102,13 +102,13 @@ export default () => {
   return <div
     className={`${styles.map_box}`}
     style={{
-      display: isMobile ? 'block' : 'flex',
+      display: isPad ? 'block' : 'flex',
     }}>
     <div
       className={`${styles.map_left_box}`}
       style={{
         ...(
-          isMobile 
+          isPad 
           ? {
             width: '100%',
             // height: 'calc(100vh - 60px - 20px)' : 'calc(100vh - 60px - 20px)', 

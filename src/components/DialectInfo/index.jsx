@@ -7,7 +7,7 @@ import useStore from '@/store';
 import { JianCheng, YuYan, WeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
-import { useMobile } from '../../utils/hooks';
+import { usePad } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
 import { Descriptions } from 'antd';
 import { useMemo } from 'react';
@@ -23,7 +23,7 @@ const DialectInfo = (props) => {
   // console.log('prop--s', props)
   const { store, setStore } = useStore()
   const [open, setOpen] = useState(true)
-  const isMobile = useMobile();
+  const isPad = usePad();
 
   const dialectInfo = useMemo(() => {
     return store.dialectInfos.find(ele => ele[JianCheng] === dialectName)
@@ -81,10 +81,10 @@ const DialectInfo = (props) => {
   >
 
     <Descriptions title={<div className="flex-center" style={{
-      margin: isMobile ? '-25px 0 -25px 0' : undefined
+      margin: isPad ? '-25px 0 -25px 0' : undefined
     }}>
       <Book name={dialectName} color={color} style={{
-        transform: isMobile ? 'scale(0.7)' : undefined
+        transform: isPad ? 'scale(0.7)' : undefined
       }} />
     </div>} items={descriptionItems} size="small" column={1} />
   </Dialog>

@@ -44,7 +44,6 @@ const Menu = (props) => {
 
   return (
     <>
-    {/* <div style={{display: 'none'}}>{JSON.stringify(isMobile)}</div> */}
       <div className={`${styles.menu} vear_menu`}>
 
         {isMobile

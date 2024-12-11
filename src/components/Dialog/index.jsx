@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { Modal, Drawer, Button } from 'antd';
-import { useMobile } from '../../utils/hooks';
+import { usePad } from '../../utils/hooks';
 
 /** 
  * @param {Object} props - 组件属性。
@@ -17,7 +17,7 @@ import { useMobile } from '../../utils/hooks';
  * @param {Function} [props.onOk] - 搜索触发时的回调函数。
  */
 const Dialog = (props) => {
-  const isMobile = useMobile();
+  const isPad = usePad();
 
   const handleOk = () => {
     props.onOk && props.onOk()
@@ -56,7 +56,7 @@ const Dialog = (props) => {
     <div >
 
       {
-        isMobile
+        isPad
           ? <Drawer
             title={props.title}
             open={props.open}

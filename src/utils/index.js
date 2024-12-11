@@ -1,5 +1,6 @@
 import { message } from "antd";
-import { JianCheng, YinDianYanSe } from "./constant";
+import { JianCheng, YinDianYanSe, FenQvEnum } from "./constant";
+import { getLocalPageSettingData } from "../pages/Setting";
 
 /**
  * 返回一个指定范围内的随机整数。
@@ -157,10 +158,24 @@ export async function copy(textContent) {
  * @param {string} dialectName - 文本内容。
  * @returns {string} 对应的背景颜色。
  */
-export const getBackgroundColor = (dialectName, dialectInfos) => {
+export const getBackgroundColorByName = (dialectName, dialectInfos) => {
+  const pageSettingData = getLocalPageSettingData()
+  const colorKey = FenQvEnum[pageSettingData.partitionMode].color
   return dialectName
-    ? (dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[YinDianYanSe])
+    ? (dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[colorKey])
     : undefined;
+};
+
+/**
+ * 根据文本内容获取背景颜色。
+ *
+ * @param {string} dialectName - 文本内容。
+ * @returns {string} 对应的背景颜色。
+ */
+export const getBackgroundColorFromItem = (dialectItem) => {
+  const pageSettingData = getLocalPageSettingData()
+  const colorKey = FenQvEnum[pageSettingData.partitionMode].color
+  return dialectItem[colorKey]
 };
 
 /**
@@ -169,7 +184,7 @@ export const getBackgroundColor = (dialectName, dialectInfos) => {
  * @param {string} colorString - 颜色字符串，可以是单一颜色或者逗号分隔的颜色列表。
  * @returns {string} 单一颜色值或线性渐变字符串。
  */
-export function generateColorOrGradient(colorString) { 
+export function generateColorOrGradient(colorString) {
   // 清除可能存在的多余空格并分割颜色值
   const colors = (colorString || '').replace(/\s+/g, '').split(',');
   // 检查是否只有一个颜色
@@ -231,6 +246,9 @@ export function processColors(colors, biasTowardsSecond = 0.65) {
 
 function findDialectsByPath(tree, path) {
   // Split the input path into levels.
+  if (!path) {
+    return [];
+  }
   const pathLevels = path.split('-');
 
   function searchNode(nodes, levels) {
@@ -239,7 +257,7 @@ function findDialectsByPath(tree, path) {
     }
 
     const [currentLevel, ...restLevels] = levels;
-    
+
     for (let node of nodes) {
       if (node.label === currentLevel) {
         if (restLevels.length === 0) {
@@ -261,15 +279,79 @@ function findDialectsByPath(tree, path) {
 }
 
 export const getSearchDialectList = (filterData, dialectCateTree) => {
-  let dialectList 
+  let dialectList
   if (filterData.filterMode === 'lang') {
     dialectList = filterData?.dialectName ? [filterData.dialectName] : []
-  } else if (filterData.filterMode === 'custom') { 
+  } else if (filterData.filterMode === 'custom') {
     dialectList = filterData.dialectCustoms
-  }  else if (filterData.filterMode === 'area') {
+  } else if (filterData.filterMode === 'area') {
     let dialects = findDialectsByPath(dialectCateTree, filterData.dialectArea)
     // console.log('dialects', filterData.dialectArea, dialects)
     dialectList = dialects
-  } 
+  }
   return dialectList
+}
+
+export function transformDialectInfosToTree(dialectInfos) {
+  const tree = {};
+
+  dialectInfos.forEach(dialectInfo => {
+    const pageSettingData = getLocalPageSettingData()
+    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split('-');
+    const languageShortName = dialectInfo[JianCheng];
+
+    function addDialectNode(levels, shortName, node, pathSoFar = '') {
+      if (levels.length === 0) return;
+
+      const currentLevel = levels.shift();
+      const fullPath = pathSoFar ? `${pathSoFar}-${currentLevel}` : currentLevel;
+      if (!node[currentLevel]) {
+        node[currentLevel] = { label: currentLevel, value: fullPath, dialects: [] };
+      }
+
+      // Add the short name of the language to the current level's dialects array if it's not already there.
+      if (!node[currentLevel].dialects.includes(shortName)) {
+        node[currentLevel].dialects.push(shortName);
+      }
+
+      // Recursively process the remaining levels.
+      if (levels.length > 0) {
+        if (!node[currentLevel].children) {
+          node[currentLevel].children = {};
+        }
+        addDialectNode(levels, shortName, node[currentLevel].children, fullPath);
+      }
+    }
+
+    addDialectNode(dialectLevels, languageShortName, tree);
+  });
+
+  // Convert the object to an array and clean up empty children.
+  function cleanUpEmptyChildren(node) {
+    if (node.children) {
+      // Clean up each child recursively.
+      node.children = Object.values(node.children).map(cleanUpEmptyChildren);
+
+      // Remove the children property if it's empty.
+      if (node.children.length === 0) {
+        delete node.children;
+      }
+    }
+    return node;
+  }
+
+  // Convert the tree object into an array and clean up any empty children.
+  const result = Object.values(tree).map(cleanUpEmptyChildren);
+
+  // Sort the dialects in each node for consistency (optional).
+  result.forEach(function sortDialectsRecursively(node) {
+    if (node.dialects) {
+      node.dialects.sort();
+    }
+    if (node.children) {
+      node.children.forEach(sortDialectsRecursively);
+    }
+  });
+
+  return result;
 }

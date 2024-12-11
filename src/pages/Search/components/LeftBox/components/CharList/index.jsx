@@ -1,21 +1,17 @@
-import React, { useState } from 'react'
-import styles from './index.module.less'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import React, { useState, useMemo, useEffect } from 'react'
+import styles from './index.module.less' 
 import { Button, Menu } from 'antd';
 import AutoFitText from '@/components/AutoFitText';
-import NoData from '@/components/NoData';
-import { Tabs } from 'antd';
+import NoData from '@/components/NoData'; 
 import { groupVariants, parseSplitStr } from '@/utils';
-import { useMobile } from '@/utils/hooks';
-import VirtualScroll from "react-dynamic-virtual-scroll";
-import { useMemo } from 'react';
-import { useEffect } from 'react';
+import { usePad } from '@/utils/hooks';
+import VirtualScroll from "react-dynamic-virtual-scroll"; 
 
 
 export default ({
   searchData
 }) => {
-  const isMobile = useMobile()
+  const isPad = usePad()
   const [selectedCharItem, setSelectedCharItem] = useState()
   const [selectedCharInfos, setSelectedCharInfos] = useState()
   /**
@@ -61,7 +57,7 @@ export default ({
       className={`${styles.char_list_box}`}
       style={{
         ...(
-          isMobile ? {} : {
+          isPad ? {} : {
             display: 'flex',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
@@ -69,7 +65,7 @@ export default ({
         )
       }}
     >
-      <div className={isMobile ? styles.char_list_box_left_mobile : styles.char_list_box_left} >
+      <div className={isPad ? styles.char_list_box_left_mobile : styles.char_list_box_left} >
         {
           searchData.map(charItem => {
             return <Button
@@ -79,10 +75,10 @@ export default ({
               key={charItem.char}
               variant="filled"
               style={{
-                width: isMobile ? '60px' : '80px',
+                width: isPad ? '60px' : '80px',
                 flexShrink: 0,
                 ...(
-                  isMobile ? {
+                  isPad ? {
                     marginRight: 5
                   } : {
                     marginBottom: 5,
@@ -109,12 +105,12 @@ export default ({
           })
         }
       </div>
-      <div className={isMobile ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
+      <div className={isPad ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
         {
           (selectedCharInfos && Array.isArray(selectedCharInfos) && selectedCharInfos.length > 0)
             ? <VirtualScroll 
               className={
-                isMobile ? styles.virtual_list_mobile : styles.virtual_list
+                isPad ? styles.virtual_list_mobile : styles.virtual_list
               }
               minItemHeight={30}
               totalLength={selectedCharInfos?.length}
