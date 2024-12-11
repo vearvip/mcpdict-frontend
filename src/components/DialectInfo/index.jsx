@@ -39,7 +39,7 @@ const DialectInfo = (props) => {
     { key: '6', label: '文件名', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WenJianMing] }} /> },
     { key: '7', label: '版本', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BanBen] }} /> },
     { key: '8', label: '字数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ZiShu] }} /> },
-    { key: '9', label: '口数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WuZhengZiShu] }} /> },
+    { key: '9', label: '□数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WuZhengZiShu] }} /> },
     { key: '10', label: '音節数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YinJieShu] }} /> },
     { key: '11', label: '不带調音節数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BuDaiDiaoYinJieShu] }} /> },
     { key: '12', label: '地圖集二分區', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[DiTuJiErFenQv] }} /> },
