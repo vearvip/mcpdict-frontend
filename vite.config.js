@@ -38,16 +38,16 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       react(),
-      // cdn({
-      //   prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
-      //   enableInDevMode: true,
-      //   modules: [
-      //     'react', 
-      //     'react-dom', 
-      //     // 'dayjs', 
-      //     // 'antd',
-      //   ],
-      // }), 
+      cdn({
+        prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
+        enableInDevMode: true,
+        modules: [
+          'react', 
+          'react-dom', 
+          // 'dayjs', 
+          // 'antd',
+        ],
+      }), 
       visualizer({
         open: false,
       }),
@@ -81,10 +81,6 @@ export default defineConfig(({ command, mode }) => {
               if (id.includes('antd')) {
                 return 'vendor-antd'; 
               }
-              // 将 react-dom 相关内容放入 vendor-react-dom chunk
-              // if (id.includes('react-dom')) {
-              //   return 'vendor-react-dom';
-              // } 
               // 其他 node_modules 内容放入 vendor chunk
               return 'vendor'; 
             }
