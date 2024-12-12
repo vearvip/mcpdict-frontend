@@ -19,7 +19,9 @@ const filterDefaultData = {
 export const getLocalFilterData = () => {
   try {
     const filterDataLocalStr = localStorage.getItem('filterData')
-    const filterData = filterDataLocalStr ? JSON.parse(filterDataLocalStr) : filterDefaultData
+    const filterData = (filterDataLocalStr && filterDataLocalStr != 'undefined') 
+      ? JSON.parse(filterDataLocalStr) 
+      : filterDefaultData
     return filterData
   } catch (error) {
     console.error('获取筛选本地存储值失败：', error)
@@ -29,7 +31,9 @@ export const getLocalFilterData = () => {
 
 export const setLocalFilterData = (filterData) => {
   try {
-    localStorage.setItem('filterData', JSON.stringify(filterData))
+    if (filterData) {
+      localStorage.setItem('filterData', JSON.stringify(filterData))
+    }
   } catch (error) {
     console.error('设置筛选本地存储值失败：', error) 
   }
