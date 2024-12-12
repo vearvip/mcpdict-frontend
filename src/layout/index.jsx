@@ -57,12 +57,11 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
-      const dialectInfos = (res?.data ?? []).filter(item => getBackgroundColorFromItem(item))
-      setStore({
+      const dialectInfos = (res?.data ?? []).filter(item => getBackgroundColorFromItem(item)) 
+      return {
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
-      });
-      return dialectInfos
+      }
     } catch (error) {
       console.error('Failed to fetch dialect infos:', error);
       return false
@@ -85,15 +84,19 @@ const Layout = (props) => {
   };
 
   useEffect(() => {
-    getDialectInfos().then((dialectInfos) => {
-      const dialectCateTree = transformDialectInfosToTree(dialectInfos)
-      // console.log('dialectCateTree', dialectCateTree);
+    getDialectInfos().then(({
+      dialectInfos,
+      dialectNames
+    }) => {
+      const dialectCateTree = transformDialectInfosToTree(dialectInfos) 
       setStore({
         dialectCateTree: dialectCateTree,
+        dialectInfos: dialectInfos,
+        dialectNames: dialectNames,
       });
       window.dialectInfosWasReady = true
     })
-    getDialectGeo()
+    // getDialectGeo()
   }, []);
 
   return (

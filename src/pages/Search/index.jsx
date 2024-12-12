@@ -113,8 +113,16 @@ const Search = (props) => {
 
   useAsyncEffect(async () => {
     const q = searchParams.get('q');
+    // await waitLoadDialectInfos();
     if (q) {
-      await waitLoadDialectInfos();
+      if (
+        !store.dialectInfos   
+        || !Array.isArray(store.dialectInfos)  
+        || store.dialectInfos.length === 0
+      ) {
+        console.log('dialectInfos 尚未准备好：', store.dialectInfos)
+        return
+      } 
       search(q);
     } else {
       setSearchData([])
