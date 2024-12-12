@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { join } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
-// import cdn from "@vearvip/vite-plugin-cdn-import"
+import cdn from "@vearvip/vite-plugin-cdn-import"
 
 // 自定义Rollup插件用于HTML处理
 function injectBaiduAnalyticsPlugin(mode) {
@@ -36,9 +36,6 @@ function injectBaiduAnalyticsPlugin(mode) {
 
 export default defineConfig(({ command, mode }) => {
   return {
-    esbuild: {
-      drop: ['console', 'debugger']
-    },
     plugins: [
       react(),
       // cdn({
@@ -85,13 +82,9 @@ export default defineConfig(({ command, mode }) => {
                 return 'vendor-antd'; 
               }
               // 将 react-dom 相关内容放入 vendor-react-dom chunk
-              if (id.includes('react-dom')) {
-                return 'vendor-react-dom';
-              }
-              // 将 react 相关内容放入 vendor-react chunk
-              if (id.includes('react')) {
-                return 'vendor-react';
-              }
+              // if (id.includes('react-dom')) {
+              //   return 'vendor-react-dom';
+              // } 
               // 其他 node_modules 内容放入 vendor chunk
               return 'vendor'; 
             }
