@@ -5,12 +5,21 @@
   --border-color: rgba(150, 150, 150, 0.2);  
 }
 
+@font-face {
+  font-family: 'Charis SIL';
+  src: url('/src/assets/font/CharisSIL-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body { 
   margin: 0;
   padding: 0;
   background: #f9f9f9; 
   font-size: 14px;
   line-height: 1.44;
+  font-family: 'Charis SIL', sans-serif;
 }
 
 .box {
