@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { join } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
-import cdn from "@vearvip/vite-plugin-cdn-import"
+// import cdn from "@vearvip/vite-plugin-cdn-import"
 
 // 自定义Rollup插件用于HTML处理
 function injectBaiduAnalyticsPlugin(mode) {
@@ -41,16 +41,16 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [
       react(),
-      cdn({
-        prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
-        enableInDevMode: true,
-        modules: [
-          'react', 
-          'react-dom', 
-          // 'dayjs', 
-          // 'antd',
-        ],
-      }), 
+      // cdn({
+      //   prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
+      //   enableInDevMode: true,
+      //   modules: [
+      //     'react', 
+      //     'react-dom', 
+      //     // 'dayjs', 
+      //     // 'antd',
+      //   ],
+      // }), 
       visualizer({
         open: false,
       }),
@@ -74,10 +74,24 @@ export default defineConfig(({ command, mode }) => {
           // 手动指定 chunk 分割规则
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              if (id.includes('antd')) {
-                return 'vendor-antd'; // 将 antd 相关内容放入 vendor-antd chunk
+              // 将 rc-component 相关内容放入 vendor-rc-component chunk
+              if (id.includes('rc-component')) {
+                return 'vendor-rc-component'; 
               }
-              return 'vendor'; // 其他 node_modules 内容放入 vendor chunk
+              // 将 antd 相关内容放入 vendor-antd chunk
+              if (id.includes('antd')) {
+                return 'vendor-antd'; 
+              }
+              // 将 react-dom 相关内容放入 vendor-react-dom chunk
+              if (id.includes('react-dom')) {
+                return 'vendor-react-dom';
+              }
+              // 将 react 相关内容放入 vendor-react chunk
+              if (id.includes('react')) {
+                return 'vendor-react';
+              }
+              // 其他 node_modules 内容放入 vendor chunk
+              return 'vendor'; 
             }
           },
         },
