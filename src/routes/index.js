@@ -1,33 +1,31 @@
-import React from 'react'
-const Index = React.lazy(() => import('@/pages/Index'));
-const Search = React.lazy(() => import('@/pages/Search'));
-const LongSearch = React.lazy(() => import('@/pages/LongSearch'));
-const Dict = React.lazy(() => import('@/pages/Dict'));
-// const Join =  React.lazy(() => import('@/pages/Join')); 
-const Map = React.lazy(() => import('@/pages/Map'));
-const Ceshi = React.lazy(() => import('../pages/Ceshi')); 
-import Setting from '../pages/Setting'; // 这个页面就不动态导入了
-
+import Index from '@/pages/Index';
+import Search from '@/pages/Search';
+import LongSearch from '@/pages/LongSearch';
+import Dict from '@/pages/Dict';
+// import Join from '@/pages/Join'; 
+import Map from '@/pages/Map'; 
+import Setting from '../pages/Setting';
+import Ceshi from '../pages/Ceshi';
 /**
  * 定义应用程序的路由配置。 
  */
-export const routes = [
+export const routes = [ 
   {
     title: "首页",
     path: "/",
-    component: Index
-  },
+    component:  Index
+  }, 
   {
     title: "字音查询",
     path: "/search",
-    component: Search
-  },
+    component:  Search
+  }, 
   {
     title: "长文注音",
     path: "/long-search",
-    component: LongSearch,
+    component:  LongSearch,
     // disabled: true,
-  },
+  }, 
   // {
   //   title: "字典模式",
   //   path: "/dict",
@@ -42,20 +40,20 @@ export const routes = [
   {
     title: "语言地图",
     path: "/map",
-    component: Map,
+    component:  Map,
     // disabled: true,
     beta: true,
   },
   {
     title: "设置",
     path: "/setting",
-    component: Setting,
+    component:  Setting,
     // disabled: true,
   },
   {
     title: "测试",
     path: "/ceshi",
-    component: Ceshi,
+    component:  Ceshi,
     hidden: true,
   },
 ];
