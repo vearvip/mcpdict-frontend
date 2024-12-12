@@ -66,7 +66,13 @@ export default defineConfig(({ command, mode }) => {
         output: { 
           // 控制资产文件的命名规则
           assetFileNames: ({ name }) => {
-            if (typeof name === 'string' && name.endsWith('.ttf')) {
+            if (
+              typeof name === 'string' 
+              && (
+                name.endsWith('.ttf')
+                || name.endsWith('.webp')
+              )
+            ) {
               return 'assets/[name].[ext]';
             }
             return 'assets/[name]-[hash][extname]';
@@ -74,10 +80,6 @@ export default defineConfig(({ command, mode }) => {
           // 手动指定 chunk 分割规则
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              // 将 rc-component 相关内容放入 vendor-rc-component chunk
-              if (id.includes('rc-component')) {
-                return 'vendor-rc-component'; 
-              }
               // 将 antd 相关内容放入 vendor-antd chunk
               if (id.includes('antd')) {
                 return 'vendor-antd'; 
