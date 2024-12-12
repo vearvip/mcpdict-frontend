@@ -10,6 +10,7 @@
   src: url('/src/assets/font/CharisSIL-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 
