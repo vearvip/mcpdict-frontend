@@ -38,16 +38,16 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       react(),
-      cdn({
-        prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
-        enableInDevMode: true,
-        modules: [
-          'react', 
-          'react-dom', 
-          // 'dayjs', 
-          // 'antd',
-        ],
-      }), 
+      // cdn({
+      //   prodUrl: 'https://cdn.bootcdn.net/ajax/libs/{name}/{version}/{path}',
+      //   enableInDevMode: true,
+      //   modules: [
+      //     'react', 
+      //     'react-dom', 
+      //     // 'dayjs', 
+      //     // 'antd',
+      //   ],
+      // }), 
       visualizer({
         open: false,
       }),
