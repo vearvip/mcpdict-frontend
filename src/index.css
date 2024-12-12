@@ -10,17 +10,38 @@
   src: url('/src/assets/font/CharisSIL-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: swap; /* 使用 swap 来避免阻塞文本渲染 */
 }
 
-
+@font-face {
+  font-family: 'WenJinMinchoP0';
+  src: url('/src/assets/font/WenJinMinchoP0-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* 使用 swap 来避免阻塞文本渲染 */
+} 
+@font-face {
+  font-family: 'WenJinMinchoP2';
+  src: url('/src/assets/font/WenJinMinchoP2-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* 使用 swap 来避免阻塞文本渲染 */
+} 
+@font-face {
+  font-family: 'WenJinMinchoP3';
+  src: url('/src/assets/font/WenJinMinchoP3-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* 使用 swap 来避免阻塞文本渲染 */
+} 
+ 
 body { 
   margin: 0;
   padding: 0;
   background: #f9f9f9; 
   font-size: 14px;
   line-height: 1.44;
-  font-family: 'Charis SIL', sans-serif;
+  font-family: 'Charis SIL', 'WenJinMinchoP0', 'WenJinMinchoP2', 'WenJinMinchoP3', Arial, sans-serif !important;
 }
 
 .box {

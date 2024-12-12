@@ -64,6 +64,13 @@ export default defineConfig(({ command, mode }) => {
     build: {
       rollupOptions: {
         output: { 
+          // 控制资产文件的命名规则
+          assetFileNames: ({ name }) => {
+            if (typeof name === 'string' && name.endsWith('.ttf')) {
+              return 'assets/[name].[ext]';
+            }
+            return 'assets/[name]-[hash][extname]';
+          },
           // 手动指定 chunk 分割规则
           manualChunks(id) {
             if (id.includes('node_modules')) {
