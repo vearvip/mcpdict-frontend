@@ -45,7 +45,7 @@ const Index = (props) => {
           onSearch={onSearch}
         />
       </div>
-      <div className={styles.book_box}>
+      {/* <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
         <CollapsibleContent height={650}>
           {(store?.dialectInfos ?? []).map((item) => (
@@ -67,7 +67,7 @@ const Index = (props) => {
           ))}
 
         </CollapsibleContent>
-      </div>
+      </div> */}
     </div>
   );
 };
