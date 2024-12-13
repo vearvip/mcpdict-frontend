@@ -4,7 +4,7 @@ import useStore from '@/store';
 import AMapLoader from "@amap/amap-jsapi-loader";
 import { Button } from "antd";
 import { message } from "antd";
-import { generateColorOrGradient, getBackgroundColorFromItem } from "../../utils";
+import { copy, generateColorOrGradient, getBackgroundColorFromItem } from "../../utils";
 import { JianCheng, JingWeiDu } from "../../utils/constant";
 import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
@@ -109,33 +109,42 @@ export default function Amap({ dialectInfos, style }) {
     
     const dialectNameDOM = document.createElement('div')
     dialectNameDOM.textContent = dialectItem[JianCheng] 
-    dialectNameDOM.style.height = '20px'
+    // dialectNameDOM.style.height = '20px'
+    dialectNameDOM.style.width = 'fit-content'
+    dialectNameDOM.style.margin = '0 auto' 
     dialectNameDOM.style.padding = '2px 5px'
     dialectNameDOM.style.borderRadius = '4px'
     dialectNameDOM.style.textAlign = 'center'  
+    dialectNameDOM.style.fontSize = '12px'  
     dialectNameDOM.style.color = 'white'
+    dialectNameDOM.style.boxSizing = 'border-box'
     dialectNameDOM.style.background = generateColorOrGradient(getBackgroundColorFromItem(dialectItem))
-
     dialectNameDOM.style.whiteSpace = 'nowrap'
-    const phoneticDOM = document.createElement('div')
-    phoneticDOM.textContent = dialectItem['phonetic'] 
-    phoneticDOM.style.background = 'rgba(255, 255, 255, 0.5)'
-    phoneticDOM.style.marginTop = '5px'
-
-    phoneticDOM.style.borderRadius = '5px' 
-    phoneticDOM.style.textAlign = 'center'  
-    // phoneticDOM.style.textShadow = '1px 1px 2px #ccc'; // 例如：水平偏移1px，垂直偏移1px，模糊半径2px，颜色为#ccc
-    const markerDOM = document.createElement('div')
-    markerDOM.style.whiteSpace = 'nowrap'
-    markerDOM.append(dialectNameDOM)
-    markerDOM.append(phoneticDOM)
-
-    markerDOM.onclick = () => {
+    dialectNameDOM.onclick = () => {
       showDialectInfo({
         dialectName: dialectItem[JianCheng],
         color: getBackgroundColorFromItem(dialectItem),
       })
     }
+    const phoneticDOM = document.createElement('div')
+    phoneticDOM.textContent = dialectItem['phonetic']  
+    phoneticDOM.style.fontSize = '12px' 
+    phoneticDOM.style.background = 'rgba(255, 255, 255, 0.6)'
+    phoneticDOM.style.boxSizing = 'border-box'
+    phoneticDOM.style.width = 'fit-content'
+    phoneticDOM.style.margin = '0 auto' 
+    phoneticDOM.style.marginTop = '3px'
+    phoneticDOM.style.padding = '2px 5px'
+    phoneticDOM.style.borderRadius = '5px' 
+    phoneticDOM.style.textAlign = 'center'  
+    phoneticDOM.style.whiteSpace = 'nowrap'
+    phoneticDOM.onclick = () => {
+      copy(dialectItem['phonetic'])
+    }
+
+    const markerDOM = document.createElement('div')
+    markerDOM.append(dialectNameDOM)
+    markerDOM.append(phoneticDOM)
 
     // console.log('first', markerDOM)
     const position = new AMap.LngLat(longitude, latitude); //Marker 经纬度
