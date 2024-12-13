@@ -196,7 +196,7 @@ export default () => {
         </Form.Item>
 
         <Form.Item
-          label="字音查询显示格式"
+          label="查询页展示格式"
           name="searchPageFormat"
           rules={[
             {
