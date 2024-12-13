@@ -8,7 +8,7 @@ export const BanBen = "版本";
 export const ZiShu = "字數";
 export const WuZhengZiShu = "□數";
 export const YinJieShu = "音節數";
-export const BuDaiDiaoYinJieShu = "不带調音節數";
+export const BuDaiDiaoYinJieShu = "不帶調音節數";
 
 export const JingWeiDu = "經緯度"
 
