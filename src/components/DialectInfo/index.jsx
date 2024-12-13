@@ -32,19 +32,19 @@ const DialectInfo = (props) => {
   // console.log('000000000', dialectInfo)
 
   const descriptionItems = [
-    { key: '2', label: '地點', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YuYan] }} /> },
-    { key: '3', label: '緯度', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[JingWeiDu] }} /> },
-    { key: '4', label: '錄入人', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LuRuRen] }} /> },
-    { key: '5', label: '來源', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LaiYuan] }} /> },
+    { key: '2', label: '地点', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YuYan] }} /> },
+    { key: '3', label: '经纬度', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[JingWeiDu] }} /> },
+    { key: '4', label: '录入人', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LuRuRen] }} /> },
+    { key: '5', label: '来源', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LaiYuan] }} /> },
     { key: '6', label: '文件名', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WenJianMing] }} /> },
     { key: '7', label: '版本', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BanBen] }} /> },
     { key: '8', label: '字数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ZiShu] }} /> },
     { key: '9', label: '□数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WuZhengZiShu] }} /> },
     { key: '10', label: '音節数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YinJieShu] }} /> },
-    { key: '11', label: '不带調音節数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BuDaiDiaoYinJieShu] }} /> },
-    { key: '12', label: '地圖集二分區', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[DiTuJiErFenQv] }} /> },
-    { key: '13', label: '音典分區', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YinDianFenQv] }} /> },
-    { key: '14', label: '陳邡分區', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ChenFangFenQv] }} /> },
+    { key: '11', label: '不带调音节数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BuDaiDiaoYinJieShu] }} /> },
+    { key: '12', label: '地图集二分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[DiTuJiErFenQv] }} /> },
+    { key: '13', label: '音典分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YinDianFenQv] }} /> },
+    { key: '14', label: '陈邡分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ChenFangFenQv] }} /> },
   ]
 
   const handleClose = () => {
