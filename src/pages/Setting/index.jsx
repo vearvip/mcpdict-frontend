@@ -211,7 +211,7 @@ export default () => {
           }, {
             label: '表格',
             value: 'table',
-            disabled: true,
+            // disabled: true,
           }]} />
         </Form.Item>
 

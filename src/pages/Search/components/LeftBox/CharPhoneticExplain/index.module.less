@@ -1,0 +1,27 @@
+
+.phonetic_explain {
+  flex-grow: 1;
+  /* 让 div 占据剩余空间 */
+  word-break: break-all;
+  /* 强制换行 */
+  white-space: pre-wrap;
+  /* 保留空白符序列，但是正常地进行换行 */
+  overflow-wrap: break-word;
+  /* 允许长单词或 URL 地址换行到下一行 */
+  display: inline-block;
+  // overflow: auto;
+  min-height: 30px;
+  margin-right: 5px;
+
+  // border: 1px solid red;
+  .phonetic {
+    font-size: 14px;
+    // background-color: palegoldenrod;
+  }
+
+  .explain {
+    font-size: 12px;
+    color: #555;
+    // background-color: pink;
+  }
+}
