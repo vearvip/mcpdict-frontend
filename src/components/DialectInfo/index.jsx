@@ -4,7 +4,7 @@ import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { FloatButton, Form, Select } from 'antd';
 import useStore from '@/store';
-import { JianCheng, YuYan, WeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
+import { JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
 import { usePad } from '../../utils/hooks';
@@ -33,7 +33,7 @@ const DialectInfo = (props) => {
 
   const descriptionItems = [
     { key: '2', label: '地點', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YuYan] }} /> },
-    { key: '3', label: '緯度', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WeiDu] }} /> },
+    { key: '3', label: '緯度', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[JingWeiDu] }} /> },
     { key: '4', label: '錄入人', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LuRuRen] }} /> },
     { key: '5', label: '來源', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LaiYuan] }} /> },
     { key: '6', label: '文件名', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WenJianMing] }} /> },
