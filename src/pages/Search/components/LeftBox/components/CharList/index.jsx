@@ -154,7 +154,7 @@ const CharList = (props) => {
           overflowX: 'hidden',
           overflowY: 'auto'
         }}>
-          <div>【統一碼】{hanzi2Unicode(char)}</div>
+          <div>【統一碼】U+{hanzi2Unicode(char)}</div>
           <div>【異體字】{realData[YiTiZi]}</div>
           <div>【字形變體】{realData[ZiXingBianTi]}</div>
           <div>【字形描述】{realData[ZiXingMiaoShu]}</div>
