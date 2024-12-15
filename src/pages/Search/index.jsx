@@ -57,7 +57,10 @@ const Search = (props) => {
    * @param {string} value - 要搜索的值。
    */
   const onSearch = async (value, needSearch = false) => {
+    const q = searchParams.get('q');
     if (needSearch) {
+      search(value)
+    } else if (q === value) {
       search(value)
     } else {
       navigate(`/search?q=${value}`, { replace: true });

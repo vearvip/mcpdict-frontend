@@ -3,11 +3,13 @@ import styles from './index.module.less'; // 引入 CSS Module
 import AutoFitText from '@/components/AutoFitText';
 import { Button, Menu } from 'antd';
 import NoData from '@/components/NoData';
-import { groupVariants, parseSplitStr } from '@/utils';
-import { usePad } from '@/utils/hooks';
+import { copy, parseSplitStr } from '@/utils';
+import { usePad,  } from '@/utils/hooks';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
+import { useNavigate } from 'react-router';
+import { message } from 'antd';
 
 
 
@@ -20,6 +22,7 @@ const CharList = (props) => {
   const isPad = usePad()
   const [selectedCharItem, setSelectedCharItem] = useState()
   const [selectedCharInfos, setSelectedCharInfos] = useState()
+  let navigate = useNavigate();
   /**
    * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
    *
@@ -48,10 +51,40 @@ const CharList = (props) => {
     })
   }
 
+  const handleMapClick = (value) => {
+    navigate('/map?q=' + value);
+  }
+
+  function handleImgClick(char) {
+    copy(char) 
+  }
+
+  function handleUnicodeClick(char) {
+    message.info('🚧施工中...')
+  }
+  function handleShuowenClick(char) {
+    message.info('🚧施工中...')
+  }
+  function handleKangxiClick(char) {
+    message.info('🚧施工中...')
+  }
+  function handleHuizuanClick(char) {
+    message.info('🚧施工中...')
+  }
+  function handleHandaClick(char) {
+    message.info('🚧施工中...')
+  }
 
   useEffect(() => {
     setSelectedCharItem(searchData[0])
-    setSelectedCharInfos(parseDialectData(searchData[0].charInfo))
+    const parsedDialectData = parseDialectData(searchData[0].charInfo)
+    // console.log('parsedDialectData', parsedDialectData)
+    setSelectedCharInfos([
+      {
+        char: searchData[0].char,
+      },
+      ...(parsedDialectData || [])
+    ])
 
   }, [
     searchData
@@ -93,7 +126,14 @@ const CharList = (props) => {
                 }}
                 onClick={() => {
                   setSelectedCharItem(charItem)
-                  setSelectedCharInfos(parseDialectData(charItem.charInfo))
+                  const parsedDialectData = parseDialectData(charItem.charInfo)
+                  // console.log('parsedDialectData', parsedDialectData)
+                  setSelectedCharInfos([
+                    {
+                      char: charItem.char,
+                    },
+                    ...(parsedDialectData || [])
+                  ])
                 }}
               >
                 <CharLabel char={charItem.char} originChar={charItem.originChar} />
@@ -113,6 +153,56 @@ const CharList = (props) => {
                 renderItem={(infoIndex) => {
                   const charInfo = selectedCharInfos[infoIndex];
                   // console.log('infoIndex charInfo', infoIndex, charInfo)
+                  if (infoIndex === 0) {
+                    return <div>
+                      <div
+                        className={styles.char_nav}
+                      >
+                        <div
+                          className={styles.char_img_box}
+                          onClick={() => handleImgClick(charInfo.char)}
+                        > <img
+                            src={`https://cdn.jsdelivr.net/gh/vearvip/hanzi-imgs@v3/src/assets/田字格.png`}
+                            className={styles.char_bg} alt="" />
+                          <img
+                            src={`https://cdn.jsdelivr.net/gh/vearvip/hanzi-imgs@v2/src/images/${charInfo.char}.png`}
+                            className={styles.char_img}
+                          />
+                        </div>
+                        <div className={styles.char_btns}>
+                        <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
+                          U+4E86
+                        </div>
+                        <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
+                          说文
+                        </div>
+                        <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
+                          康熙
+                        </div>
+                        <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
+                          汇纂
+                        </div>
+                        <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
+                          汉大
+                        </div>
+                        <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
+                          🌎️
+                        </div>
+                        </div>
+
+                      </div>
+
+                      {
+                        selectedCharInfos.length === 1 ?
+                          <div className="flex-center" >
+                            <NoData style={{
+                              position: 'relative'
+                            }} />
+                          </div>
+                          : null
+                      }
+                    </div>
+                  }
                   return (
                     <div key={`char_info_${infoIndex}`} className={styles.char_info}>
                       <AutoFitText

@@ -13,12 +13,14 @@ import { queryChars } from '../../services';
 import { Radio } from 'antd';
 import { useMemo } from 'react';
 import { usePad } from '../../utils/hooks';
+import { useSearchParams } from 'react-router';
+import { useAsyncEffect } from 'ahooks';
+import { useNavigate } from 'react-router';
 
 
 export default () => {
-
+  let navigate = useNavigate();
   const { store, setStore } = useStore()
-  const [inputValue, setInputValue] = useState()
   const [formData, setFormData] = useState(
     getLocalFilterData()
   )
@@ -26,6 +28,8 @@ export default () => {
   const [searchResult, setSearchResult] = useState()
   const [radioValue, setRadioValue] = useState()
   const [loading, setLoading] = useState(false)
+  const [searchParams] = useSearchParams();
+  const [inputValue, setInputValue] = useState(searchParams.get('q'))
 
   const mapDialectInfos = useMemo(() => {
     const dialectInfos = JSON.parse(JSON.stringify(store?.dialectInfos))
@@ -53,7 +57,7 @@ export default () => {
 
   }, [searchResult, radioValue, store])
 
-  const handleSearch = async () => {
+  const search = async () => {
     // console.log('formData', formData)
     // console.log('inputValue', inputValue)
     let dialectList = getSearchDialectList(formData, store.dialectCateTree)
@@ -88,6 +92,7 @@ export default () => {
     console.log('allValues', allValues)
     setLocalFilterData(allValues)
     setFormData(allValues)
+    setSearchResult([])
   }
 
   const handleInputChange = e => {
@@ -97,7 +102,27 @@ export default () => {
     setRadioValue(e.target.value)
     // console.log('value', value)
   }
+  const handleSearch = () => {
+    
+    navigate(`/map?q=${inputValue}`, { replace: true });
+  }
 
+  useAsyncEffect(async () => {
+    const q = searchParams.get('q'); 
+    if (q) {
+      if (
+        !store.dialectInfos   
+        || !Array.isArray(store.dialectInfos)  
+        || store.dialectInfos.length === 0
+      ) {
+        console.log('dialectInfos 尚未准备好：', store.dialectInfos)
+        return
+      } 
+      search();
+    } else {
+      setSearchResult([])
+    }
+  }, [searchParams, store]);
 
   return <div
     className={`${styles.map_box}`}
@@ -123,7 +148,7 @@ export default () => {
     >
 
       <Filter onChange={handleFilterChange} />
-      <Input.Search
+      <Input.Search 
         value={inputValue}
         placeholder="请输入单字"
         loading={loading}

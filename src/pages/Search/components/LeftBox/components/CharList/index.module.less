@@ -1,4 +1,85 @@
+.char_nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .char_img_box {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    cursor: pointer;
+    // border: 1px solid red;
+    left: -5px;
+    .char_bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      user-select: none;
+    }
+    .char_img {
+      width: 70px;
+      height: 70px;
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      z-index: 2;
+      user-select: none;
+    }
+  
+  }
+  .char_btns {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    
+  .char_unicode {
+    margin-left: 3px;
+    cursor: pointer;
+    color: var(--color);
+    user-select: none;
+  }
+  .char_shuowen {
+    margin: 0 5px 0 3px ;
+    // border: 1px solid red;
+    cursor: pointer;
+    color: var(--color);
+    user-select: none;
+  }
+  .char_kangxi {
+    margin: 0 5px 0 3px ;
+    // border: 1px solid red;
+    cursor: pointer;
+    color: var(--color);
+    user-select: none;
+  }
+  .char_huizuan {
+    margin: 0 5px 0 3px ;
+    // border: 1px solid red;
+    cursor: pointer;
+    color: var(--color);
+    user-select: none;
+  }
+  .char_handa {
+    margin: 0 5px 0 3px ;
+    // border: 1px solid red;
+    cursor: pointer;
+    color: var(--color);
+    user-select: none;
+  }
+  .char_map {  
+    margin: 0 5px 0 3px ;
+    // border: 1px solid red;
+    cursor: pointer;
+    user-select: none;
+  }
+}
 
+}
 .char_list_box {
   // border: 1px solid var(--border-color);
 
@@ -15,7 +96,7 @@
     padding: 0 5px;
     padding-top: 5px;
     height: inherit;
-    border-right: 1px solid var(--border-color); 
+    border-right: 1px solid var(--border-color);
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
@@ -57,26 +138,24 @@
     flex-shrink: 0;
     width: 100%;
     flex: 1;
-    height: inherit; 
+    height: inherit;
   }
 
   .virtual_list {
     padding: 20px;
     // height: calc(100vh - 60px - 80px - 40px - 40px);
-    height: inherit; 
+    height: inherit;
     box-sizing: border-box;
     overflow: auto;
   }
 
   .virtual_list_mobile {
     overflow: auto;
-    padding: 20px; 
+    padding: 20px;
     box-sizing: border-box;
     height: calc(100vh - 60px - 80px - 40px - 40px - 44px);
-
   }
 }
- 
 
 .char_box {
   border-bottom: 1px solid var(--border-color);
@@ -136,5 +215,4 @@
       text-align: center;
     }
   }
-
 }
