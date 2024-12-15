@@ -69,7 +69,8 @@ const CharList = (props) => {
     }).then(result => {
       const { data } = result
       let infoStr = formatShuowenText(
-        data?.[0]?.[infoKey] ?? ''
+        data?.[0]?.[infoKey] ?? '',
+        infoKey
       ) 
       notification.open({
         message: false,

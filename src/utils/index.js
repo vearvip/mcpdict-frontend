@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { JianCheng, YinDianYanSe, FenQvEnum } from "./constant";
+import { JianCheng, YinDianYanSe, FenQvEnum, KangXi, HanDa } from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
 /**
@@ -356,15 +356,25 @@ export function transformDialectInfosToTree(dialectInfos) {
   return result;
 }
 
-export function formatShuowenText(text) {
+export function formatShuowenText(text, type) {
   // Helper function to convert the number format to "第X頁Y字"
-  function convertPageNumber(match, p1, p2) {
-    return `第${parseInt(p1, 10)}頁第${parseInt(p2, 10)}字`;
+  function convertPageNumber(match, prefix, p1, p2, type) {
+    const page = parseInt(p1, 10);
+    const word = parseInt(p2, 10);
+    let formattedPageWord = `第${page}頁第${word}字`;
+
+    if (type === KangXi) {
+      formattedPageWord = `<a target="_blank" href="https://www.kangxizidian.com/v1/index.php?page=${page}">第${page}頁</a>第${word}字`;
+    } else if (type === HanDa) {
+      formattedPageWord = `<a target="_blank" href="https://homeinmists.ilotus.org/hd/png/${page}.png">第${page}頁</a>第${word}字`;
+    }
+
+    return `${prefix}${formattedPageWord}<br />`;
   }
 
   // Adjusted regex to match the page number format after any characters and before the first \n
   const pageNumberRegex = /^(.*?)([0-9]+)\.([0-9]+)\n/;
-  text = text.replace(pageNumberRegex, (match, prefix, p1, p2) => `${prefix}${convertPageNumber(match, p1, p2)}<br />`);
+  text = text.replace(pageNumberRegex, (match, prefix, p1, p2) => convertPageNumber(match, prefix, p1, p2, type));
 
   // Replace newline characters with <br />
   text = text.replace(/\n/g, '<br />');
@@ -374,3 +384,4 @@ export function formatShuowenText(text) {
 
   return text;
 }
+ 
