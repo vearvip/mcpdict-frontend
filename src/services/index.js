@@ -5,13 +5,28 @@ import { request } from "../utils/request";
  * 查询字符信息。
  *
  * @param {Object} params - 查询参数对象。
- * @param {string|undefined} params.char - 要查询的字符（必需）。
- * @param {string} [params.dialect] - 方言选项（可选）。
+ * @param {string[]} params.charList - 要查询的字符（必需）。
+ * @param {string[]} [params.dialectList] - 方言选项（可选）。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
 export async function queryChars(data) {
   return request({
     url: "/char",
+    method: "POST",
+    data,
+  });
+}
+/**
+ * 查询字符信息（按照信息key名查询）。
+ *
+ * @param {Object} params - 查询参数对象。
+ * @param {string} params.char - 要查询的字符（必需）。
+ * @param {string[]} params.infoKeyList - 方言选项（必需）。
+ * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
+ */
+export async function queryCharInfo(data) {
+  return request({
+    url: "/char/info",
     method: "POST",
     data,
   });

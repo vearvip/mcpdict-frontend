@@ -355,3 +355,22 @@ export function transformDialectInfosToTree(dialectInfos) {
 
   return result;
 }
+
+export function formatShuowenText(text) {
+  // Helper function to convert the number format to "第X頁Y字"
+  function convertPageNumber(match, p1, p2) {
+    return `第${parseInt(p1, 10)}頁第${parseInt(p2, 10)}字`;
+  }
+
+  // Adjusted regex to match the page number format after any characters and before the first \n
+  const pageNumberRegex = /^(.*?)([0-9]+)\.([0-9]+)\n/;
+  text = text.replace(pageNumberRegex, (match, prefix, p1, p2) => `${prefix}${convertPageNumber(match, p1, p2)}<br />`);
+
+  // Replace newline characters with <br />
+  text = text.replace(/\n/g, '<br />');
+
+  // Replace content within Chinese brackets 〔〕 or full-width braces ｛｝ with span tags
+  text = text.replace(/〔([^〕]*)〕|｛([^｝]*)｝/g, '<span class="shuowen_explain">$1$2</span>');
+
+  return text;
+}

@@ -25,6 +25,10 @@ export const ChenFangFenQv = "陳邡分區";
 export const ChenFangPaiXv = "陳邡排序";
 
 
+export const ShuoWen = "說文";
+export const HuiZuan = "匯纂";
+export const KangXi = "康熙";
+export const HanDa = "漢大";
 
 
 

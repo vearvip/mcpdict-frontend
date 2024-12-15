@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './index.module.less'; // 引入 CSS Module  
 import AutoFitText from '@/components/AutoFitText';
-import { Button, Menu } from 'antd';
+import { Button, notification } from 'antd';
 import NoData from '@/components/NoData';
 import { copy, parseSplitStr } from '@/utils';
-import { usePad,  } from '@/utils/hooks';
+import { usePad, } from '@/utils/hooks';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
 import { useNavigate } from 'react-router';
 import { message } from 'antd';
+import { ShuoWen, HuiZuan, KangXi, HanDa } from '@/utils/constant';
+import { queryCharInfo } from '@/services';
+import { formatShuowenText } from '../../../../../../utils';  
 
 
 
@@ -56,23 +59,48 @@ const CharList = (props) => {
   }
 
   function handleImgClick(char) {
-    copy(char) 
+    copy(char)
   }
 
+  function requestAndShowCharInfoByKey(char, infoKey) {
+    queryCharInfo({
+      char: char,
+      infoKeyList: [infoKey]
+    }).then(result => {
+      const { data } = result
+      let infoStr = formatShuowenText(
+        data?.[0]?.[infoKey] ?? ''
+      ) 
+      notification.open({
+        message: false,
+        duration: false,
+        description: <div style={{
+          width: '100%',
+          height: '70vh',
+          boxSizing: 'border-box',
+          overflowX: 'hidden',
+          overflowY: 'auto'
+        }}>
+          <div dangerouslySetInnerHTML={{__html: infoStr}}  />
+        </div>, 
+      });
+    })
+  }
   function handleUnicodeClick(char) {
     message.info('🚧施工中...')
   }
-  function handleShuowenClick(char) {
-    message.info('🚧施工中...')
+  
+  function handleShuowenClick(char) { 
+    requestAndShowCharInfoByKey(char, ShuoWen)
   }
   function handleKangxiClick(char) {
-    message.info('🚧施工中...')
+    requestAndShowCharInfoByKey(char, KangXi)
   }
   function handleHuizuanClick(char) {
-    message.info('🚧施工中...')
+    requestAndShowCharInfoByKey(char, HuiZuan)
   }
   function handleHandaClick(char) {
-    message.info('🚧施工中...')
+    requestAndShowCharInfoByKey(char, HanDa)
   }
 
   useEffect(() => {
@@ -170,24 +198,24 @@ const CharList = (props) => {
                           />
                         </div>
                         <div className={styles.char_btns}>
-                        <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
-                          U+4E86
-                        </div>
-                        <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
-                          说文
-                        </div>
-                        <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
-                          康熙
-                        </div>
-                        <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
-                          汇纂
-                        </div>
-                        <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
-                          汉大
-                        </div>
-                        <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
-                          🌎️
-                        </div>
+                          <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
+                            U+4E86
+                          </div>
+                          <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
+                            说文
+                          </div>
+                          <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
+                            康熙
+                          </div>
+                          <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
+                            汇纂
+                          </div>
+                          <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
+                            汉大
+                          </div>
+                          <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
+                            🌎️
+                          </div>
                         </div>
 
                       </div>
