@@ -104,7 +104,12 @@ export default () => {
   }
   const handleSearch = () => {
     
-    navigate(`/map?q=${inputValue}`, { replace: true });
+    const q = searchParams.get('q');
+    if (inputValue === q) {
+      search()
+    } else {
+      navigate(`/map?q=${inputValue}`, { replace: true });
+    }
   }
 
   useAsyncEffect(async () => {
