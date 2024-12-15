@@ -11,7 +11,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router';
 import NProgress from 'nprogress';
 import LeftBox from "./components/LeftBox";
 import RightBox from "./components/RightBox";
-import { unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
+import { extractHanzi, unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 import { Button, FloatButton, message } from 'antd';
 import { showDialectMap } from '../../components/DialectMap';
 import { getSearchDialectList, groupVariants } from '../../utils';
@@ -78,9 +78,9 @@ const Search = (props) => {
       return
     }
 
-    NProgress.start();
-
-    const charList = [...new Set(value.split(''))]
+    NProgress.start(); 
+    // const charList = [...new Set(value.split(''))]
+    const charList = extractHanzi(value ) 
 
     const filterData = getLocalFilterData()
     let dialectList = getSearchDialectList(filterData, store.dialectCateTree)
