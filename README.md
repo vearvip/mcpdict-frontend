@@ -73,5 +73,5 @@ npm run build
 ```
 将cdn的注释解开，这里使用的是bootcdn的cdn，也可以使用jsdelivr cdn，具体用法可以查看[vite-plugin-cdn-import](https://github.com/MMF-FE/vite-plugin-cdn-import)的使用文档
 
-## 证书
-本项目使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，可免费使用。
+## LICENSE
+本项目使用 [MIT](./LICENSE) 开源协议
