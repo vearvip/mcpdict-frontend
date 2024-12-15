@@ -29,7 +29,7 @@ export const getLocalFilterData = () => {
   }
 }
 
-export const setLocalFilterData = (filterData) => {
+export const setLocalFilterData = (filterData = filterDefaultData) => {
   try {
     if (filterData) {
       localStorage.setItem('filterData', JSON.stringify(filterData))

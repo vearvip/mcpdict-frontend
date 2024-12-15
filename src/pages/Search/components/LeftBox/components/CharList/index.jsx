@@ -81,7 +81,12 @@ const CharList = (props) => {
           overflowX: 'hidden',
           overflowY: 'auto'
         }}>
-          <div dangerouslySetInnerHTML={{__html: infoStr}}  />
+          {
+            infoStr 
+            ? <div dangerouslySetInnerHTML={{__html: infoStr}}  />
+            : <NoData />
+          }
+          
         </div>, 
       });
     })

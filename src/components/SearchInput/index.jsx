@@ -6,7 +6,7 @@ import { Button, ConfigProvider, Flex, Popover, Segmented } from 'antd';
 
 import { Select, Form } from 'antd';
 import useStore from '@/store';
-import { showFilterDialog } from '../Filter';
+import { setLocalFilterData, showFilterDialog } from '../Filter';
 import { useSize } from 'ahooks';
 import { useRef } from 'react';
 import HistoryRecord, { addHisotryRecordList } from '../HistoryRecord';
@@ -40,7 +40,7 @@ const SearchInput = (props) => {
         props.onSearch && props.onSearch(value, true)
       },
       onClose() {
-
+        setLocalFilterData()
       }
     })
   };

@@ -44,6 +44,9 @@ const LongSearch = (props) => {
           ...filterData
         })
         handleSearch(filterData)
+      },
+      onClose() {
+        setLocalFilterData()
       }
     })
   }
