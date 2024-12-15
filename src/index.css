@@ -1,8 +1,8 @@
-:root { 
-  --color: rgb(50, 115, 220); 
-  --active-color: rgba(50, 115, 220, 0.1); 
+:root {
+  --color: rgb(50, 115, 220);
+  --active-color: rgba(50, 115, 220, 0.1);
   --disabled-color: #ccc;
-  --border-color: rgba(150, 150, 150, 0.2);  
+  --border-color: rgba(150, 150, 150, 0.2);
 }
 
 @font-face {
@@ -10,7 +10,8 @@
   src: url('/src/assets/font/CharisSIL-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap; /* 使用 swap 来避免阻塞文本渲染 */
+  font-display: swap;
+  /* 使用 swap 来避免阻塞文本渲染 */
 }
 
 /* @font-face {
@@ -32,10 +33,10 @@
   font-style: normal; 
 } 
   */
-body { 
+body {
   margin: 0;
   padding: 0;
-  background: #f9f9f9; 
+  background: #f9f9f9;
   font-size: 14px;
   line-height: 1.44;
   font-family: 'Charis SIL', Arial, sans-serif !important;
@@ -49,6 +50,7 @@ body {
   border-radius: 8px;
 
 }
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -58,6 +60,12 @@ body {
 
 #nprogress .bar {
   background: var(--color) !important;
+}
+
+#nprogress .spinner {
+  top: 23px;
+  right: 25px;
+  display: none;
 }
 
 /* 全局滚动条样式修改 */
@@ -71,6 +79,5 @@ body {
 }
 
 * {
-  scrollbar-width: 10px; 
+  scrollbar-width: 10px;
 }
- 

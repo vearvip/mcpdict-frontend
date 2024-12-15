@@ -5,6 +5,7 @@ import { Tree } from 'antd'
 import { Menu } from 'antd'
 import React, { useState, useEffect, useRef } from 'react';
 import { Popover } from 'antd';
+import NProgress from 'nprogress';
 
 function VearSelect(props) {
   const {
@@ -90,6 +91,7 @@ const SyncWidthPopover = () => {
 export default () => {
   const { store } = useStore()
   const [value, setValue] = useState()
+      NProgress.start();
 
   return <div className="box" style={{
     marginLeft: 10,
