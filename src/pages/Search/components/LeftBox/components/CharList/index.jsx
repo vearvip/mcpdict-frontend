@@ -35,6 +35,7 @@ import {
 import { queryCharInfo } from '@/services';
 import { formatShuowenText } from '../../../../../../utils';
 import { hanzi2Unicode } from '@vearvip/hanzi-utils'
+import { Spin } from 'antd';
 
 
 
@@ -47,6 +48,11 @@ const CharList = (props) => {
   const isPad = usePad()
   const [selectedCharItem, setSelectedCharItem] = useState()
   const [selectedCharInfos, setSelectedCharInfos] = useState()
+  const [uniCodeLoading, setUniCodeLoading] = useState(false)
+  const [handaLoading, setHandaLoading] = useState(false)
+  const [kangxiLoading, setKangxiLoading] = useState(false)
+  const [shuowenLoading, setShuowenLoading] = useState(false)
+  const [huizuanLoading, setHuizuanLoading] = useState(false)
   let navigate = useNavigate();
   /**
    * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
@@ -84,7 +90,7 @@ const CharList = (props) => {
     copy(char)
   }
 
-  function requestAndShowCharInfoByKey(char, infoKey) {
+  function requestAndShowCharInfoByKey(char, infoKey, callback) {
     queryCharInfo({
       char: char,
       infoKeyList: [infoKey]
@@ -94,6 +100,7 @@ const CharList = (props) => {
         data?.[0]?.[infoKey] ?? '',
         infoKey
       )
+      callback();
       notification.open({
         message: false,
         duration: false,
@@ -112,9 +119,13 @@ const CharList = (props) => {
 
         </div>,
       });
+    }).catch((error) => {
+      console.log(error)
+      callback();
     })
   }
-  function handleUnicodeClick(char) { 
+  function handleUnicodeClick(char) {
+    setUniCodeLoading(true)
     // const regionMap = {
     //   G: '陸',
     //   H: '港',
@@ -144,6 +155,7 @@ const CharList = (props) => {
     }).then(result => {
       const { data } = result
       let realData = data?.[0] ?? {}
+      setUniCodeLoading(false)
       notification.open({
         message: false,
         duration: false,
@@ -173,20 +185,27 @@ const CharList = (props) => {
 
         </div>,
       });
-    })
+    }).catch(e => {
+      console.error(e);
+      setUniCodeLoading(false)
+    });
   }
 
   function handleShuowenClick(char) {
-    requestAndShowCharInfoByKey(char, ShuoWen)
+    setShuowenLoading(true)
+    requestAndShowCharInfoByKey(char, ShuoWen, () => setShuowenLoading(false))
   }
   function handleKangxiClick(char) {
-    requestAndShowCharInfoByKey(char, KangXi)
+    setKangxiLoading(true)
+    requestAndShowCharInfoByKey(char, KangXi, () => setKangxiLoading(false))
   }
   function handleHuizuanClick(char) {
-    requestAndShowCharInfoByKey(char, HuiZuan)
+    setHuizuanLoading(true)
+    requestAndShowCharInfoByKey(char, HuiZuan, () => setHuizuanLoading(false))
   }
   function handleHandaClick(char) {
-    requestAndShowCharInfoByKey(char, HanDa)
+    setHandaLoading(true)
+    requestAndShowCharInfoByKey(char, HanDa, () => setHandaLoading(false))
   }
 
   useEffect(() => {
@@ -272,7 +291,7 @@ const CharList = (props) => {
                       <div
                         className={styles.char_nav}
                       >
-                        <div
+                        {/* <div
                           className={styles.char_img_box}
                           onClick={() => handleImgClick(charInfo.char)}
                         > <img
@@ -282,23 +301,33 @@ const CharList = (props) => {
                             src={`https://cdn.jsdelivr.net/gh/vearvip/hanzi-imgs@v2/src/images/${charInfo.char}.png`}
                             className={styles.char_img}
                           />
-                        </div>
+                        </div> */}
                         <div className={styles.char_btns}>
-                          <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
-                            U+{hanzi2Unicode(charInfo.char)}
-                          </div>
-                          <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
-                            说文
-                          </div>
-                          <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
-                            康熙
-                          </div>
-                          <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
-                            汇纂
-                          </div>
-                          <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
-                            汉大
-                          </div>
+                          <Spin spinning={uniCodeLoading} size="small">
+                            <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
+                              U+{hanzi2Unicode(charInfo.char)}
+                            </div>
+                          </Spin>
+                          <Spin spinning={shuowenLoading} size="small">
+                            <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
+                              说文
+                            </div>
+                          </Spin>
+                          <Spin spinning={kangxiLoading} size="small">
+                            <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
+                              康熙
+                            </div>
+                          </Spin>
+                          <Spin spinning={huizuanLoading} size="small">
+                            <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
+                              汇纂
+                            </div>
+                          </Spin>
+                          <Spin spinning={handaLoading} size="small">
+                            <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
+                              汉大
+                            </div>
+                          </Spin>
                           <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
                             🌎️
                           </div>
