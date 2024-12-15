@@ -152,7 +152,7 @@ const Layout = (props) => {
         <div className={`${styles.foot} box`}>
           <div>
             本网站由
-            <span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>
+            <span className={`${styles.btn_link} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>
             支持，反馈请
             <span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
             ，网站数据基于
