@@ -50,6 +50,10 @@ const Layout = (props) => {
     messageApi.info('微信号：vear-vip');
   };
 
+  const handleGoOsfanMCPDict = () => {
+    window.open('https://github.com/osfans/MCPDict');
+  };
+
   /**
    * 获取方言信息并更新 store。
    */
@@ -147,7 +151,12 @@ const Layout = (props) => {
 
         <div className={`${styles.foot} box`}>
           <div>
-            本网站由<span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>支持，反馈请<span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
+            本网站由
+            <span className={`${styles.btn_link} ${styles.vear} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>
+            支持，反馈请
+            <span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
+            ，网站数据基于
+            <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span> 
           </div>
         </div>
       </div>
