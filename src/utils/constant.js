@@ -10,7 +10,7 @@ export const WuZhengZiShu = "□數";
 export const YinJieShu = "音節數";
 export const BuDaiDiaoYinJieShu = "不帶調音節數";
 
-export const JingWeiDu = "經緯度"
+export const JingWeiDu = "經緯度";
 
 export const DiTuJiErFenQv = "地圖集二分區";
 export const DiTuJiErYanSe = "地圖集二顏色";
@@ -24,19 +24,11 @@ export const ChenFangYanSe = "陳邡顏色";
 export const ChenFangFenQv = "陳邡分區";
 export const ChenFangPaiXv = "陳邡排序";
 
-
-export const ShuoWen = "說文";
-export const HuiZuan = "匯纂";
-export const KangXi = "康熙";
-export const HanDa = "漢大";
-
-
-
 export const FenQvEnum = {
   [DiTuJiErFenQv]: {
     color: DiTuJiErYanSe,
     sort: DiTuJiErPaiXv,
-  }, 
+  },
   [YinDianFenQv]: {
     color: YinDianYanSe,
     sort: YinDianPaiXv,
@@ -44,6 +36,27 @@ export const FenQvEnum = {
   [ChenFangFenQv]: {
     color: ChenFangYanSe,
     sort: ChenFangPaiXv,
-  }
+  },
 };
- 
+
+export const ShuoWen = "說文";
+export const HuiZuan = "匯纂";
+export const KangXi = "康熙";
+export const HanDa = "漢大";
+
+export const TongYiMa = "統一碼";
+export const YiTiZi = "異體字";
+export const ZiXingBianTi = "字形變體";
+export const ZiXingMiaoShu = "字形描述";
+export const BuJianJianSuo = "部件檢索";
+export const LiangFen = "兩分";
+export const ZongBiHuaShu = "總筆畫數";
+export const BuShouYuBi = "部首餘筆";
+export const WuBiHua = "五筆畫";
+export const WuBi86 = "五筆86版";
+export const WuBi98 = "五筆98版";
+export const WuBi06 = "五筆06版";
+export const CangJie3 = "倉頡三代";
+export const CangJie5 = "倉頡五代";
+export const CangeJie6 = "倉頡六代";
+export const ShanRenMaLTS = "山人碼LTS";

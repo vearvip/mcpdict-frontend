@@ -10,9 +10,31 @@ import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
 import { useNavigate } from 'react-router';
 import { message } from 'antd';
-import { ShuoWen, HuiZuan, KangXi, HanDa } from '@/utils/constant';
+import {
+  ShuoWen,
+  HuiZuan,
+  KangXi,
+  HanDa,
+  TongYiMa,
+  YiTiZi,
+  ZiXingBianTi,
+  ZiXingMiaoShu,
+  BuJianJianSuo,
+  LiangFen,
+  ZongBiHuaShu,
+  BuShouYuBi,
+  WuBiHua,
+  WuBi86,
+  WuBi98,
+  WuBi06,
+  CangJie3,
+  CangJie5,
+  CangeJie6,
+  ShanRenMaLTS,
+} from '@/utils/constant';
 import { queryCharInfo } from '@/services';
-import { formatShuowenText } from '../../../../../../utils';  
+import { formatShuowenText } from '../../../../../../utils';
+import { hanzi2Unicode } from '@vearvip/hanzi-utils'
 
 
 
@@ -71,7 +93,7 @@ const CharList = (props) => {
       let infoStr = formatShuowenText(
         data?.[0]?.[infoKey] ?? '',
         infoKey
-      ) 
+      )
       notification.open({
         message: false,
         duration: false,
@@ -83,20 +105,78 @@ const CharList = (props) => {
           overflowY: 'auto'
         }}>
           {
-            infoStr 
-            ? <div dangerouslySetInnerHTML={{__html: infoStr}}  />
-            : <NoData />
+            infoStr
+              ? <div dangerouslySetInnerHTML={{ __html: infoStr }} />
+              : <NoData />
           }
-          
-        </div>, 
+
+        </div>,
       });
     })
   }
-  function handleUnicodeClick(char) {
-    message.info('🚧施工中...')
+  function handleUnicodeClick(char) { 
+    // const regionMap = {
+    //   G: '陸',
+    //   H: '港',
+    //   T: '臺',
+    //   J: '日',
+    //   K: '韓',
+    //   P: '朝',
+    //   V: '越',
+    // }
+    queryCharInfo({
+      char: char,
+      infoKeyList: [
+        YiTiZi,
+        ZiXingBianTi,
+        ZiXingMiaoShu,
+        LiangFen,
+        ZongBiHuaShu,
+        BuShouYuBi,
+        WuBiHua,
+        WuBi86,
+        WuBi98,
+        WuBi06,
+        CangJie3,
+        CangJie5,
+        CangeJie6,
+      ]
+    }).then(result => {
+      const { data } = result
+      let realData = data?.[0] ?? {}
+      notification.open({
+        message: false,
+        duration: false,
+        description: <div style={{
+          width: '100%',
+          height: '70vh',
+          boxSizing: 'border-box',
+          overflowX: 'hidden',
+          overflowY: 'auto'
+        }}>
+          <div>【統一碼】{hanzi2Unicode(char)}</div>
+          <div>【異體字】{realData[YiTiZi]}</div>
+          <div>【字形變體】{realData[ZiXingBianTi]}</div>
+          <div>【字形描述】{realData[ZiXingMiaoShu]}</div>
+          {/* <div>【部件檢索】{realData[BuJianJianSuo]}</div> */}
+          <div>【兩分】{realData[LiangFen]}</div>
+          <div>【總筆畫數】{realData[ZongBiHuaShu]}</div>
+          <div>【部首餘筆】{realData[BuShouYuBi]}</div>
+          <div>【五筆畫】{realData[WuBiHua]}</div>
+          <div>【五筆86版】{realData[WuBi86]}</div>
+          <div>【五筆98版】{realData[WuBi98]}</div>
+          <div>【五筆06版】{realData[WuBi06]}</div>
+          <div>【倉頡三代】{realData[CangJie3]}</div>
+          <div>【倉頡五代】{realData[CangJie5]}</div>
+          <div>【倉頡六代】{realData[CangeJie6]}</div>
+          {/* <div>【山人碼LTS】{realData[ShanRenMaLTS]}</div> */}
+
+        </div>,
+      });
+    })
   }
-  
-  function handleShuowenClick(char) { 
+
+  function handleShuowenClick(char) {
     requestAndShowCharInfoByKey(char, ShuoWen)
   }
   function handleKangxiClick(char) {
@@ -205,7 +285,7 @@ const CharList = (props) => {
                         </div>
                         <div className={styles.char_btns}>
                           <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
-                            U+4E86
+                            U+{hanzi2Unicode(charInfo.char)}
                           </div>
                           <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
                             说文
