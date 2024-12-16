@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import qs from 'qs';
 
-let baseURL = 'https://server.mcpdict.vear.vip/'
+let baseURL = 'https://server.mcpdict.vear.vip'
 // baseURL = 'http://localhost:3000' 
 
 // @ts-ignore
