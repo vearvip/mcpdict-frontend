@@ -2,7 +2,7 @@
 
 本项目基于 [React](https://github.com/facebook/react) + [Ant Design](https://github.com/ant-design/ant-design) 开发，数据源于[osfans/MCPDict](https://github.com/osfans/MCPDict)
 
-> 在线demo：[https://mcpdict.vear.vip/](https://mcpdict.vear.vip/)
+> 在线访问：[https://mcpdict.vear.vip/](https://mcpdict.vear.vip/)
 
 ## 项目依赖
 
