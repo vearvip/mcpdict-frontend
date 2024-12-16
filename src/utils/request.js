@@ -1,8 +1,8 @@
 import { message } from 'antd';
 import qs from 'qs';
 
-let baseURL = 'http://121.40.216.14:3000'
-// baseURL = 'http://127.0.0.1:3000' 
+let baseURL = 'https://api.mcpdict.vear.vip'
+// baseURL = 'http://localhost:3000' 
 
 // @ts-ignore
 export const fetcher = (url, ...args) => fetch(
