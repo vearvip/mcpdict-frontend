@@ -78,7 +78,9 @@ const Menu = (props) => {
         className={
           styles.github_icon
         } style={{
-          marginTop: isMobile ? 12 : undefined
+          ...(isMobile ? {
+            marginTop: 12, 
+          } :{})
         }} 
         />
 
