@@ -2,6 +2,8 @@ import { message } from "antd";
 import { JianCheng, YinDianYanSe, FenQvEnum, KangXi, HanDa } from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
+export const logoUrl = "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"
+
 /**
  * 返回一个指定范围内的随机整数。
  *

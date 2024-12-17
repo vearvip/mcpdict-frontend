@@ -10,7 +10,7 @@ import useStore from '@/store';
 import { JianCheng } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
-import { getBackgroundColorFromItem } from '../../utils';
+import { getBackgroundColorFromItem, logoUrl } from '../../utils';
 
 
 /**
@@ -36,7 +36,9 @@ const Index = (props) => {
     <div className={styles.index}>
       <div className={`${styles.main_box} box`}>
         <div className={styles.logo_box}>
-          <img className={styles.logo} src={"https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"} alt="Logo" />
+          <img className={styles.logo}
+            src={logoUrl}
+            alt="Logo" />
         </div>
         <SearchInput
           style={{

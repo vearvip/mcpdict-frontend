@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.less';
 import { Menu as AntdMenu, Button, Drawer } from 'antd';
 import { useMobile } from '../../utils/hooks';
-import { MenuOutlined } from '@ant-design/icons';
+import { GithubOutlined, MenuOutlined } from '@ant-design/icons';
 import LogoBlock from '../LogoBlock';
 
 
@@ -33,6 +33,10 @@ const Menu = (props) => {
   // console.log('props', props)
   const [showDrawer, setShowDrawer] = useState(false);
   const isMobile = useMobile();
+
+  const handleGoGithub = () => {
+    window.open('https://github.com/vearvip/mcpdict-frontend');
+  }
 
   useEffect(() => {
     if (!isMobile) {
@@ -69,8 +73,14 @@ const Menu = (props) => {
                 }} />
             </div>
           )}
-        {/* <button>sdf</button> */}
-
+        <GithubOutlined 
+        onClick={() => handleGoGithub()}
+        className={
+          styles.github_icon
+        } style={{
+          marginTop: isMobile ? 12 : undefined
+        }} 
+        />
 
       </div>
       <Drawer
