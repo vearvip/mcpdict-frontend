@@ -79,6 +79,8 @@ npm run build
 ## 已知bug记录
   - 当在地图页输入单字为`Uncode 扩展G区`的汉字时，会导致输入框以为输入了2个以上的汉字，会爆红，例如“𰃘”字
     - 这是Ant Design的bug，后期考虑重写Input组件
+  - 首页的【已收录】模块，在ios和MacOS的Safari浏览器下会卡死，但是在windows和Android下没有异样
+    - 原因不明，先直接屏蔽，后期再考虑解决
   - ......
 
 ## 首屏优化
