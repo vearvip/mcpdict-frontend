@@ -33,7 +33,7 @@ import {
   ShanRenMaLTS,
 } from '@/utils/constant';
 import { queryCharInfo } from '@/services';
-import { formatShuowenText } from '../../../../../../utils';
+import { formatShuowenText } from '../../../../utils';
 import { hanzi2Unicode } from '@vearvip/hanzi-utils'
 import { Spin } from 'antd';
 
@@ -60,7 +60,7 @@ const CharList = (props) => {
    * @param {Object.<string, any>} data - 包含方言名称及其对应信息字符串的对象。
    * @returns {Array<Object>} 解析后的方言信息数组。
    */
-  function parseDialectData(data) {
+  function parseDialectData(data = {}) {
     const parsedData = [];
 
     for (const [dialectName, infoString] of Object.entries(data)) {
@@ -210,19 +210,22 @@ const CharList = (props) => {
 
   useEffect(() => {
     // 搜索展示时默认跳过为空的项
-    let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
-    hasValIndex =  hasValIndex === -1 ? 0 : hasValIndex
-    // console.log('hasValIndex', hasValIndex)
-    setSelectedCharItem(searchData[hasValIndex])
-    const parsedDialectData = parseDialectData(searchData[hasValIndex].charInfo)
-    // console.log('parsedDialectData', parsedDialectData)
-    setSelectedCharInfos([
-      {
-        char: searchData[hasValIndex].char,
-      },
-      ...(parsedDialectData || [])
-    ])
+    if (searchData.length > 0) {
+      let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
+      hasValIndex = hasValIndex === -1 ? 0 : hasValIndex
 
+      console.log('hasValIndex', searchData, hasValIndex)
+      setSelectedCharItem(searchData[hasValIndex])
+      const parsedDialectData = parseDialectData(searchData?.[hasValIndex]?.charInfo)
+      // console.log('parsedDialectData', parsedDialectData)
+      setSelectedCharInfos([
+        {
+          char: searchData?.[hasValIndex]?.char,
+        },
+        ...(parsedDialectData || [])
+      ])
+
+    }
   }, [
     searchData
   ])

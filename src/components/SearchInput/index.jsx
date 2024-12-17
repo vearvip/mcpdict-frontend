@@ -89,14 +89,6 @@ const SearchInput = (props) => {
           <Input
             autoComplete="off"
             id="search_input"
-            onFocus={() => {
-              setPopoverOpen(true);
-            }}
-            onBlur={() => {
-              setTimeout(() => {
-                setPopoverOpen(false);
-              }, 240)
-            }}
             placeholder="请搜索，单次最多十个汉字"
             size="large"
             value={value}
@@ -105,6 +97,14 @@ const SearchInput = (props) => {
               if (event.key === 'Enter') {
                 handleSearch(value)
               }
+            }}
+            onFocus={() => {
+              setPopoverOpen(true);
+            }}
+            onBlur={() => {
+              setTimeout(() => {
+                setPopoverOpen(false);
+              }, 240)
             }}
             onClick={() => {
               setPopoverOpen(true);

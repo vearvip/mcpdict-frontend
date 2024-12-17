@@ -1,3 +1,27 @@
+.search_box { 
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // flex-direction: column; 
+  // height: 600px; 
+  margin: 10px;
+  box-sizing: border-box;
+  overflow: hidden; 
+  .search_left_box {
+    width: 370px;
+    height: inherit;
+    box-sizing: border-box;
+    // border: 1px solid red;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    padding: 20px;
+    margin-right: 10px;
+    border-radius: 8px;
+    background-color: white;
+  }
+}
+
+
 .search_bar {
   background-color: white;
   border: 1px solid #eee;
@@ -25,7 +49,7 @@
   flex-wrap: wrap;
   position: relative;
 
-  .left_box {
+  .serach_result_box {
     // flex: 1;
     width: 100%;
     max-width: 650px;
@@ -37,42 +61,35 @@
     border-radius: 4px;
     // margin-bottom: 20px;
    
-  }
-  
-  .right_box {
-    width: 400px;
-    position: relative;
-    border: 1px solid rgba(150, 150, 150, 0.2);
-    border-radius: 4px;
-    padding: 20px;
-    box-sizing: border-box;
-  
-    .zi_box {
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-      // border: 1px solid red;
-  
-      &:last-child {
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
-  
-      .zitu {
-        width: 100px;
-        margin-bottom: 20px;
-      }
-  
-      .right_box_content {
-        white-space: pre-line;
-        // border: 1px solid red;
-      }
-    }
-  }
+  } 
 
 }
 
+.history_record_mobile {
+  width: calc(100vw - 40px - 40px - 38px); 
+  max-height: 250px;
+  box-sizing: border-box;
+  overflow: auto;
+  // width: 100%;
+  // border: 1px solid red;
+}
+.history_record_mobile::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
+.history_record {
+  width: 283px; 
+  max-height: 250px;
+  box-sizing: border-box;
+  overflow: auto;
+  // width: 100%;
+  // border: 1px solid red;
+}
+
+.history_record::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
  
 /* 表示屏幕尺寸小于等于设定px时 */
 @media screen and (max-width: 1064px) {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from '../../index.module.less'; // 引入 CSS Module   
-import CharList from './components/CharList';
+import CharList from '../CharList';
 import { getLocalPageSettingData } from '../../../Setting';
-import CharTable from './components/CharTable';
+import CharTable from '../CharTable';
 
 
 

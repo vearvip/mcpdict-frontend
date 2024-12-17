@@ -1,0 +1,32 @@
+.main_box { 
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // flex-direction: column; 
+  // height: 600px; 
+  margin: 10px;
+  box-sizing: border-box;
+  overflow: hidden; 
+  .left_box {
+    width: 370px;
+    height: inherit;
+    box-sizing: border-box;
+    // border: 1px solid red;
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    padding: 20px;
+    margin-right: 10px;
+    border-radius: 8px;
+    background-color: white;
+  }
+  .right_box {  
+    width: 100%;
+    height: calc(100vh - 60px - 20px); 
+    border-radius: 8px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color); 
+    background-color: white;
+    padding: 20px;
+  }
+}

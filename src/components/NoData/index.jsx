@@ -13,7 +13,7 @@ const NoData = (props) => {
         height: 60,
       }}
       description={ 
-        <div>暂无数据</div> 
+        <div>{props.text || '暂无数据'}</div> 
       }
     />
   </div>
