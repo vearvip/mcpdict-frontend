@@ -11,7 +11,7 @@ const LogoBlock = (props) => {
 
   return (
     <div className={styles.logo_box} style={props?.styleList?.[0] ?? {}}>
-      <img className={styles.logo} src={logo} alt="Logo" style={props?.styleList?.[1] ?? {}} />
+      <img className={styles.logo} src={"https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"} alt="Logo" style={props?.styleList?.[1] ?? {}} />
     </div>
   );
 };
