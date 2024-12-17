@@ -78,8 +78,8 @@ npm run build
     - 「IPA+调类+字」
     - 「IPA+曲折线调值+调类」
     - 「IPA+曲折线调值+调类+字」
-  - 对各家拟音进行解析
-    - 参考：https://github.com/nk2028/hdqt/blob/main/src/routes/DataTable.svelte
+  - ~~对各家拟音进行解析~~
+    - ~~参考：https://github.com/nk2028/hdqt/blob/main/src/routes/DataTable.svelte~~
   - 实现省市区依照现行行政区筛选
   - 实现搜索页结果按照排序字段来排序
     - 设置页选择【地图集二分区】时按照【地图集二排序】来
