@@ -52,8 +52,8 @@ const CharTable = ({
       for (const dialectName in charItem.charInfo) {
         if (Object.prototype.hasOwnProperty.call(charItem.charInfo, dialectName)) {
           const findItem = newTableData.find(ele => ele.dialectName === dialectName)
-          const phonetic = charItem.charInfo[dialectName];
-          const infos = parseSplitStr(phonetic)
+          const infoString = charItem.charInfo[dialectName];
+          const infos = parseSplitStr(infoString, dialectName)
           const infoJSX = infos.map((info, subIndex) => (
             <CharPhoneticExplain
               key={`info_item_${charIndex}_${subIndex}_${charItem.char}`}

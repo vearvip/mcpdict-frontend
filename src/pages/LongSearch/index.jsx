@@ -75,7 +75,9 @@ const LongSearch = (props) => {
           if (result.data[variant]) {
             charInfos.push({
               char: variant,
-              phonetics: parseSplitStr(result.data[variant]).map(item => item.phonetic)
+              phonetics: parseSplitStr(result.data[variant], filterData.dialectName)
+              .map(item => item.phonetic)
+              .filter(Boolean)
             })
           }
         })
@@ -84,6 +86,7 @@ const LongSearch = (props) => {
           charInfos: charInfos
         })
       })
+      // console.log('charVariantInfos', charVariantInfos)
       setCharVariantsInfos(charVariantInfos)
       setTextAreaValue(originTextAreaValue)
       // console.log('charVariantInfos', charVariantInfos)

@@ -104,7 +104,77 @@ export function groupVariants(chars, variants) {
   return result;
 }
 
-export function parseSplitStr(infoString) {
+// 拟音各家名称map
+const onomatopoeiaMap = {
+  '廣韻': [
+    '切韻拼音',
+    '白一平轉寫',
+    '古韻羅馬字',
+    '有女羅馬字',
+    '髙本漢擬音',
+    '王力（1957）擬音',
+    '王力（1985）擬音',
+    '李榮擬音',
+    '邵榮芬擬音',
+    '蒲立本擬音',
+    '鄭張尙芳擬音',
+    '潘悟雲（2000）擬音',
+    '潘悟雲（2013）擬音',
+    '潘悟雲（2023）擬音',
+    'unt（2020）擬音',
+    'unt（2022）擬音',
+    'unt通俗擬音',
+    'msoeg擬音',
+    '切韻音系描述',
+    '攝',
+    '方音字彙描述',
+    '廣韻韻目原貌',
+    '折合平水韻目原貌',
+    '反切',
+  ],
+  '中唐': ['unt', '辛克'],
+  '中原音韻': ['楊耐思', '寧繼福', '薛鳳生（音位形式）', 'unt（音位形式）', 'unt'],
+  '東干語': ['西里爾字母', '音標'],
+};
+const isOnomatopoeia = (dialectName) => {
+  return onomatopoeiaMap[dialectName];
+}
+function parseOnomatopoeia(phoneticString, dialectName) {
+
+  // const dialectsOfRomanization = ['普通話', '香港', '臺灣', '越南', '朝鮮', '日語吳音', '日語漢音', '日語其他'];
+  const dialectsWithBold = ['中原音韻', '日語吳音', '日語漢音', '日語其他'];
+
+  return phoneticString
+    .split('\t')
+    .map(phonetic => {
+      let isBold = dialectsWithBold.includes(dialectName) && phonetic.includes('*');
+      if (isBold) {
+        phonetic = phonetic.replace(/\*/g, '')
+      };
+      let item = phonetic
+        .split('/')
+        .map((phonetic, index) => {
+          let header = onomatopoeiaMap[dialectName][index];
+          return {
+            phonetic,
+            explain: header,
+          }
+        })
+      // .filter(Boolean) 
+      console.log('item', item)
+      return item;
+    }).flat()
+}
+
+
+/**
+ * 解析读音释义字符串
+ *
+ * @param {string} infoString - 音标和解析信息字符串。
+ * @param {string} dialectName - 方言名
+ * @returns {Array<Object}  
+ */
+export function parseSplitStr(infoString, dialectName) {
   const infos = [];
   // 按照 '\t' 分割字符串
   const entries = infoString.split("\t");
@@ -124,11 +194,24 @@ export function parseSplitStr(infoString) {
       phonetic = entry.trim();
       explain = "";
     }
+    // 如果是拟音，特殊处理
+    if (isOnomatopoeia(dialectName)) {
+      infos.push(
+        ...parseOnomatopoeia(phonetic, dialectName), 
+      );
+      if (explain) {
+        infos.push( 
+          { phonetic: '', explain }
+        );
+      }
 
-    // 将音标和释义添加到infos数组中
-    if (phonetic) {
-      // 确保音标不为空
-      infos.push({ phonetic, explain });
+    } else {
+      // 将音标和释义添加到infos数组中
+      if (phonetic) {
+        // 确保音标不为空
+        infos.push({ phonetic, explain });
+      }
+
     }
   }
   return infos;
@@ -386,4 +469,3 @@ export function formatShuowenText(text, type) {
 
   return text;
 }
- 

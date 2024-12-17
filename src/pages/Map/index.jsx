@@ -42,7 +42,7 @@ export default () => {
       const selectedItem = searchResult.find(ele => ele.char === radioValue).charInfo
       for (const dialectName in selectedItem) {
         if (Object.prototype.hasOwnProperty.call(selectedItem, dialectName)) {
-          const phonetic = parseSplitStr(selectedItem[dialectName]).map(ele => ele.phonetic).join(' ');
+          const phonetic = parseSplitStr(selectedItem[dialectName], dialectName).map(ele => ele.phonetic).join(' ');
           const dialectInfo = dialectInfos.find(ele => ele[JianCheng] === dialectName)
           // console.log('dialectInfo', dialectName, dialectInfo)
           dialectInfo.phonetic = phonetic

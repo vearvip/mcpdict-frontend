@@ -67,7 +67,7 @@ const CharList = (props) => {
 
 
       // 添加解析后的信息到最终结果数组中
-      parsedData.push({ dialectName, infos: parseSplitStr(infoString) });
+      parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
     }
 
     return parsedData;
