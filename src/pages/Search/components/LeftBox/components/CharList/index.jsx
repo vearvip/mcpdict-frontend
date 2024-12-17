@@ -209,12 +209,16 @@ const CharList = (props) => {
   }
 
   useEffect(() => {
-    setSelectedCharItem(searchData[0])
-    const parsedDialectData = parseDialectData(searchData[0].charInfo)
+    // 搜索展示时默认跳过为空的项
+    let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
+    hasValIndex =  hasValIndex === -1 ? 0 : hasValIndex
+    // console.log('hasValIndex', hasValIndex)
+    setSelectedCharItem(searchData[hasValIndex])
+    const parsedDialectData = parseDialectData(searchData[hasValIndex].charInfo)
     // console.log('parsedDialectData', parsedDialectData)
     setSelectedCharInfos([
       {
-        char: searchData[0].char,
+        char: searchData[hasValIndex].char,
       },
       ...(parsedDialectData || [])
     ])

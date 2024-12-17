@@ -161,7 +161,7 @@ function parseOnomatopoeia(phoneticString, dialectName) {
           }
         })
       // .filter(Boolean) 
-      console.log('item', item)
+      // console.log('item', item)
       return item;
     }).flat()
 }
