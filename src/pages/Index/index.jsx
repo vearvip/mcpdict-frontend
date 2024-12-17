@@ -36,7 +36,7 @@ const Index = (props) => {
     <div className={styles.index}>
       <div className={`${styles.main_box} box`}>
         <div className={styles.logo_box}>
-          <img className={styles.logo} src={logo} alt="Logo" />
+          <img className={styles.logo} src={"https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"} alt="Logo" />
         </div>
         <SearchInput
           style={{
