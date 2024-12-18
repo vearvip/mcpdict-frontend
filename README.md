@@ -91,6 +91,7 @@ npm run build
     - 这是Ant Design的bug，后期考虑重写Input组件
   - 首页的【已收录】模块，在ios和MacOS的Safari浏览器下会卡死，但是在windows和Android下没有异样
     - 原因不明，先直接屏蔽，后期再考虑解决
+  - 点击筛选弹窗的 x 关闭按钮时，会导致筛选清空
   - ......
 
 ## 首屏优化
