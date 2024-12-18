@@ -36,11 +36,11 @@ const SearchInput = (props) => {
   const handleShowSettingDialog = () => {
     showFilterDialog({
       onOk(filterData) {
-        // console.log('filterData----',filterData)
+        console.log('filterData----',filterData)
         props.onSearch && props.onSearch(value, true)
       },
       onClose() {
-        setLocalFilterData()
+        // setLocalFilterData()
       }
     })
   };
