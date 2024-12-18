@@ -19,8 +19,8 @@ const filterDefaultData = {
 export const getLocalFilterData = () => {
   try {
     const filterDataLocalStr = localStorage.getItem('filterData')
-    const filterData = (filterDataLocalStr && filterDataLocalStr != 'undefined') 
-      ? JSON.parse(filterDataLocalStr) 
+    const filterData = (filterDataLocalStr && filterDataLocalStr != 'undefined')
+      ? JSON.parse(filterDataLocalStr)
       : filterDefaultData
     return filterData
   } catch (error) {
@@ -35,7 +35,7 @@ export const setLocalFilterData = (filterData = filterDefaultData) => {
       localStorage.setItem('filterData', JSON.stringify(filterData))
     }
   } catch (error) {
-    console.error('设置筛选本地存储值失败：', error) 
+    console.error('设置筛选本地存储值失败：', error)
   }
 }
 
@@ -65,12 +65,17 @@ export const Filter = React.forwardRef(
       // 需要将暴露的接口返回出去
       return {
         reset: resetFormData,
+        getValues: getAllFormData,
       };
     });
 
     const handleFormChange = (changedValues, allValues) => {
       // console.log('changedValues, allValues', changedValues, allValues)
       onChange && onChange(allValues)
+    }
+
+    const getAllFormData = () => {
+      return form.getFieldsValue()
     }
 
     const resetFormData = () => {
@@ -80,7 +85,7 @@ export const Filter = React.forwardRef(
 
 
     useEffect(() => {
-      setTimeout(() => { 
+      setTimeout(() => {
         const filterData = getLocalFilterData()
         for (const key in filterDefaultData) {
           const defaultFieldVal = filterDefaultData[key];
@@ -167,11 +172,12 @@ const FilterDialog = (props) => {
     onClose
   } = props;
   const [open, setOpen] = useState(true);
-  const [formData, setFormData] = useState()
+  // const [formData, setFormData] = useState()
   const formRef = useRef()
 
   const handleDialogOk = () => {
-    console.log('🍓', formData)
+    const formData = formRef.current.getValues()
+    // console.log('🍓', formData, formRef.current.getValues())
     setLocalFilterData(formData)
     setOpen(false)
     onOk && onOk(formData)
@@ -188,9 +194,9 @@ const FilterDialog = (props) => {
   }
 
   const handleFilterChange = allValues => {
-    setFormData(allValues)
+    // setFormData(allValues)
   }
- 
+
 
   return (
 
