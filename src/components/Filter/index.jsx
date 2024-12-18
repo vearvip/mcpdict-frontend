@@ -48,11 +48,13 @@ export const Filter = React.forwardRef(
    *
    * @param {Object} props - 组件属性。 
    * @param {boolean} [props.tmpMode] - 临时模式  
+   * @param {Object} [props.tmpFilterData] - 临时data
    * @param {Function} [props.onChange] - 临时模式  
    */
   (props, ref) => {
     const {
       tmpMode,
+      tmpFilterData,
       onChange,
     } = props;
 
@@ -93,11 +95,14 @@ export const Filter = React.forwardRef(
             filterData[key] = defaultFieldVal
           }
         }
-        if (tmpMode) {
-          filterData.filterMode = 'lang'
+        if (tmpMode) { 
+          
+          form.setFieldsValue(tmpFilterData)
+        } else {
+          // console.log('🍉', filterData)
+          form.setFieldsValue(filterData)
+
         }
-        // console.log('🍉', filterData)
-        form.setFieldsValue(filterData)
       }, 0)
     }, [])
 
@@ -166,6 +171,7 @@ export const Filter = React.forwardRef(
  *
  * @param {Object} props - 组件属性。 
  * @param {boolean} [props.tmpMode] - 临时模式 
+ * @param {Object} [props.tmpFilterData] - 临时data 
  * @param {Function} [props.onOk] - ok时的回调函数。
  * @param {Function} [props.onClose] - close时的回调函数。
  */
@@ -173,6 +179,7 @@ const FilterDialog = (props) => {
   const {
     tmpMode,
     onOk,
+    tmpFilterData,
     onClose
   } = props;
   const [open, setOpen] = useState(true);
@@ -218,6 +225,7 @@ const FilterDialog = (props) => {
       <Filter
         ref={formRef}
         tmpMode={tmpMode}
+        tmpFilterData={tmpFilterData}
         onChange={handleFilterChange}
       />
     </Dialog>
@@ -232,6 +240,7 @@ let root = null;
 export const showFilterDialog = (props = {}) => {
   const {
     tmpMode,
+    tmpFilterData,
     onClose,
     onOk,
   } = props;
@@ -273,6 +282,7 @@ export const showFilterDialog = (props = {}) => {
   root.render(
     <FilterDialog
       tmpMode={tmpMode}
+      tmpFilterData={tmpFilterData}
       onOk={handleOk}
       onClose={handleClose}
     />

@@ -37,8 +37,10 @@ const LongSearch = (props) => {
   }
 
   const handleClickSetting = () => {
+    filterData.filterMode = 'lang'
     showFilterDialog({
       tmpMode: true,
+      tmpFilterData: filterData,
       onOk(filterData) {
         setFilterData({
           ...filterData
@@ -46,7 +48,7 @@ const LongSearch = (props) => {
         handleSearch(filterData)
       },
       onClose() {
-        setLocalFilterData()
+        // setLocalFilterData()
       }
     })
   }
