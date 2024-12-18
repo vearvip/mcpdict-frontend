@@ -108,8 +108,12 @@ export const Filter = React.forwardRef(
             block
             options={[
               { label: '选择语言', value: 'lang' },
-              { label: '自选', value: 'custom', disabled: tmpMode },
-              { label: '分区', value: 'area', disabled: tmpMode },
+              ...(
+                tmpMode ? [] : [
+                  { label: '自选', value: 'custom' },
+                  { label: '分区', value: 'area' },
+                ]
+              )
             ]}
             optionType="button"
             buttonStyle="solid"
@@ -209,6 +213,7 @@ const FilterDialog = (props) => {
       onOk={handleDialogOk}
       onCancel={handleDialogCancel}
       onClose={handleDialogClose}
+      
     >
       <Filter
         ref={formRef}
