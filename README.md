@@ -1,4 +1,4 @@
-# 音典 Web 端
+# 汉字音典 Web 端
 
 本项目基于 [React](https://github.com/facebook/react) + [Ant Design](https://github.com/ant-design/ant-design) 开发，数据源于[osfans/MCPDict](https://github.com/osfans/MCPDict)
 
