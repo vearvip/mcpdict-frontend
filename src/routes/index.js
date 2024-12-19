@@ -6,6 +6,7 @@ import Dict from '@/pages/Dict';
 import Map from '@/pages/Map'; 
 import Setting from '../pages/Setting';
 import Ceshi from '../pages/Ceshi';
+import Information from '../pages/Information';
 /**
  * 定义应用程序的路由配置。 
  */
@@ -54,6 +55,12 @@ export const routes = [
     title: "测试",
     path: "/ceshi",
     component:  Ceshi,
+    hidden: true,
+  },
+  {
+    title: "资料",
+    path: "/information",
+    component:  Information, 
     hidden: true,
   },
 ];
