@@ -29,6 +29,13 @@ export const getLocalPageSettingData = () => {
     console.log('读取本地网页设置数据失败：', err)
     pageSettingData = defaultPageSettingData
   }
+
+  for (const key in defaultPageSettingData) {
+    const defaultFieldVal = defaultPageSettingData[key];
+    if (!pageSettingData[key]) {
+      pageSettingData[key] = defaultFieldVal
+    }
+  }
   // 兼容写法
   if (pageSettingData.toneType === 'baShengShuZi') {
     pageSettingData.toneType = 'pinYin'
@@ -71,12 +78,6 @@ export default () => {
 
   useEffect(() => {
     const pageSettingData = getLocalPageSettingData()
-    for (const key in defaultPageSettingData) {
-      const defaultFieldVal = defaultPageSettingData[key];
-      if (!pageSettingData[key]) {
-        pageSettingData[key] = defaultFieldVal
-      }
-    }
     form.setFieldsValue(pageSettingData)
   }, [])
 
