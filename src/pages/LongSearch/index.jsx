@@ -13,6 +13,8 @@ import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
 import { SettingOutlined } from '@ant-design/icons';
+import { getLocalPageSettingData } from '../Setting';
+import { JianCheng, ShengDiao } from '../../utils/constant';
 
 /**
  * 长文搜索组件，用于处理长文本的注音搜索。
@@ -21,6 +23,8 @@ import { SettingOutlined } from '@ant-design/icons';
  */
 const LongSearch = (props) => {
   const { store } = useStore()
+
+  const localPageSettingData = getLocalPageSettingData()
   const [originTextAreaValue, setOriginTextAreaValue] = useState()
   const [textAreaValue, setTextAreaValue] = useState()
 
@@ -78,8 +82,8 @@ const LongSearch = (props) => {
             charInfos.push({
               char: variant,
               phonetics: parseSplitStr(result.data[variant], filterData.dialectName)
-              .map(item => item.phonetic)
-              .filter(Boolean)
+                .map(item => item.phonetic)
+                .filter(Boolean)
             })
           }
         })
@@ -173,7 +177,16 @@ const LongSearch = (props) => {
                   {
                     line.map((char, charIndex) => {
                       const charInfos = charVariantInfos.find((info) => info.char === char)?.charInfos
-                      return charInfos ? <Char key={`line${lineIndex}char${charIndex}`} charInfos={charInfos} /> : null
+                      return charInfos
+                        ? <Char
+                          key={`line${lineIndex}char${charIndex}`}
+                          charInfos={charInfos}
+                          localPageSettingData={localPageSettingData}
+                          toneMapConfig={store?.dialectInfos?.find(dialectItem => {
+                            return dialectItem[JianCheng] === filterData.dialectName
+                          })?.[ShengDiao]}
+                        />
+                        : null
                     })
                   }
                 </div>

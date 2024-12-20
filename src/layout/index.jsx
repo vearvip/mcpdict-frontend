@@ -123,7 +123,7 @@ const Layout = (props) => {
           colorLink: '#3273dc',
           // colorBgBase: '#3273dc',
           borderRadius: 4,
-          // fontFamily: `'Charis SIL', 'WenJinMinchoP0', 'WenJinMinchoP2', 'WenJinMinchoP3', Arial, sans-serif`
+          fontFamily: `'Charis SIL', Arial, sans-serif`
         },
       }}
     >

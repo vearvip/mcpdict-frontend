@@ -14,11 +14,11 @@ import { transformDialectInfosToTree } from '../../utils';
 
 
 const defaultPageSettingData = {
-  partitionMode: YinDianFenQv,
-  searchPageFormat: 'labelList',
-  // toneType: 'baShengShuZi',
-  toneType: 'baSheng',
+  partitionMode: YinDianFenQv, 
+  toneType: 'baSheng', // 老的值 toneType: 'baShengShuZi',
   tonePitchType: 'curve',
+  searchPageFormat: 'labelList',
+  longSearchPageFormat: 8,
 }
 
 export const getLocalPageSettingData = () => {
@@ -207,12 +207,12 @@ export default () => {
         </Form.Item>
 
         <Form.Item
-          label="查询页展示格式"
+          label="查询页格式"
           name="searchPageFormat"
           rules={[
             {
               required: true,
-              message: '请选择搜索页显示格式',
+              message: '请选择查询页格式',
             },
           ]}
         >
@@ -224,6 +224,29 @@ export default () => {
             value: 'table',
             // disabled: true,
           }]} />
+        </Form.Item>
+        <Form.Item
+          label="长文搜索页格式"
+          name="longSearchPageFormat"
+          rules={[
+            {
+              required: true,
+              message: '请选择长文搜索页格式',
+            },
+          ]}
+        >
+          <Radio.Group
+            // optionType="button"
+            options={[
+              { value: 1, label: 'IPA' },
+              { value: 2, label: 'IPA+字' },
+              { value: 3, label: 'IPA+曲折线调值' },
+              { value: 4, label: 'IPA+曲折线调值+字' },
+              { value: 5, label: 'IPA+调类' },
+              { value: 6, label: 'IPA+调类+字' },
+              { value: 7, label: 'IPA+曲折线调值+调类' },
+              { value: 8, label: 'IPA+曲折线调值+调类+字' },
+            ]} />
         </Form.Item>
 
 

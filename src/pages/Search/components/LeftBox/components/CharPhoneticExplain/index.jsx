@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.less'; // 引入 CSS Module 
-import { replaceWithCircled, convertPitchNum2Curve } from '@/utils'
+import { replaceWithCircled, convertPitchNum2Curve, getRealPhoneticAndToneKey } from '@/utils'
 
 
 /**
@@ -14,63 +14,59 @@ import { replaceWithCircled, convertPitchNum2Curve } from '@/utils'
  */
 const CharPhoneticExplain = (props) => {
   let { phonetic, explain, toneMapConfig = {}, localPageSettingData } = props;
-  function renderPhonetic(phonetic = '') {
+  function renderPhonetic(originPhonetic = '') {
     const toneType = localPageSettingData.toneType;
     const tonePitchType = localPageSettingData.tonePitchType;
+    let { phonetic, toneKey, tonePitch } = getRealPhoneticAndToneKey(originPhonetic, toneMapConfig)
 
-    // console.log('toneMapConfig', toneMapConfig, phonetic)
-    for (const toneKey in toneMapConfig) {
-      if (Object.prototype.hasOwnProperty.call(toneMapConfig, toneKey) && typeof phonetic === 'string') {
-        const toneMap = toneMapConfig[toneKey];
-        if (toneMap) {
-          if (phonetic.indexOf(toneKey) !== -1) {
-            phonetic = phonetic.replace(toneKey, '')
-            let tone = ''
-            let pitch = tonePitchType === 'hidden'
-              ? ''
-              : tonePitchType === 'number'
-                ? toneMap[0]
-                : tonePitchType === 'curve'
-                  ? convertPitchNum2Curve(toneMap[0])
-                  : ''
+    const toneMap = toneMapConfig[toneKey];
+    // console.log('phonetic, toneKey', phonetic, toneKey, toneMap)
+    if (toneMap) {
+      phonetic = phonetic.replace(toneKey, '')
+      let tone = ''
+      let pitch = tonePitchType === 'hidden'
+        ? ''
+        : tonePitchType === 'number'
+          ? tonePitch
+          : tonePitchType === 'curve'
+            ? convertPitchNum2Curve(tonePitch)
+            : ''
 
-            // 额外处理一下并排的情况
-            if (toneType === 'bingPai') {
-              tone = toneMap[2]
-              pitch = toneMap[0]
-              phonetic = <div style={{ display: 'inline-flex' }}>
-                <div>{phonetic}</div>
-                <div>
-                  <div style={{ fontSize: 8, }}>{pitch}</div>
-                  <div style={{ fontSize: 8, }}>{tone}</div>
-                </div>
-              </div>
-            } else { // 其他情况正常处理
-              if (toneType === 'pinYin') {
-                tone = toneKey
-              } else if (toneType === 'baSheng') {
-                tone = replaceWithCircled(toneKey);
-              } else if (toneType === 'siSheng') {
-                tone = replaceWithCircled(toneMap[2]);
-              } else if (toneType === 'pingShangQvRu') {
-                tone = toneMap[3];
-              } else if (toneType === 'siJiao') {
-                tone = toneMap[4];
-              } else if (toneType === 'hidden') {
-                // 隐藏调就不用管
-              }
-              phonetic = <div style={{ display: 'inline-flex' }}>
-                <div>{phonetic}</div>
-                <div style={
-                  tonePitchType === 'curve' ? {} : { fontSize: 8 }
-                }>{pitch}</div>
-                <div>{tone}</div>
-              </div>
-            }
-          }
+      // 额外处理一下并排的情况
+      if (toneType === 'bingPai') {
+        tone = toneMap[2]
+        pitch = tonePitch
+        phonetic = <div style={{ display: 'inline-flex' }}>
+          <div>{phonetic}</div>
+          <div>
+            <div style={{ fontSize: 8, }}>{pitch}</div>
+            <div style={{ fontSize: 8, }}>{tone}</div>
+          </div>
+        </div>
+      } else { // 其他情况正常处理
+        if (toneType === 'pinYin') {
+          tone = toneKey
+        } else if (toneType === 'baSheng') {
+          tone = replaceWithCircled(toneKey);
+        } else if (toneType === 'siSheng') {
+          tone = replaceWithCircled(toneMap[2]);
+        } else if (toneType === 'pingShangQvRu') {
+          tone = toneMap[3];
+        } else if (toneType === 'siJiao') {
+          tone = toneMap[4];
+        } else if (toneType === 'hidden') {
+          // 隐藏调就不用管
         }
+        phonetic = <div style={{ display: 'inline-flex' }}>
+          <div>{phonetic}</div>
+          <div style={
+            tonePitchType === 'curve' ? {} : { fontSize: 8 }
+          }>{pitch}</div>
+          <div>{tone}</div>
+        </div>
       }
     }
+
     return phonetic
   }
 

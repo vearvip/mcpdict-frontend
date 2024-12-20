@@ -511,7 +511,12 @@ export function replaceWithCircled(str) {
  */
 export const convertPitchNum2Curve = (str = '') => {
   // 将输入的字符串分割成字符数组
-  const list = str.split('');
+  let list = str.split('')
+  if (list.length === 2) { // 重复的调值，在这里去重
+    list = [
+      ...new Set(list)
+    ];
+  }
 
   // 定义音高数字与音高曲线符号的映射关系
   // ˩ ˨ ˧ ˦ ˥
@@ -529,4 +534,30 @@ export const convertPitchNum2Curve = (str = '') => {
     return relationMap[char] || char;
   // 将转换后的字符数组重新拼接成字符串返回
   }).join('');
+}
+
+export const getRealPhoneticAndToneKey = (phonetic, toneMapConfig) => { 
+  let _toneKey = ''; 
+  let _phonetic = ''; 
+  let _tonePitch = ''; 
+  for (const toneKey in toneMapConfig) {
+    if (Object.prototype.hasOwnProperty.call(toneMapConfig, toneKey) && typeof phonetic === 'string') {
+      if (phonetic.indexOf(toneKey) !== -1) {
+        _phonetic = phonetic.replace(toneKey, '');
+        _toneKey = toneKey;
+        _tonePitch = toneMapConfig?.[toneKey]?.[0]
+      }
+    }
+  }
+  // 如果没有音调，则返回原音标
+  if (phonetic && !_phonetic) {
+    _phonetic = phonetic; 
+  } 
+  const result = {
+    phonetic: _phonetic,
+    toneKey: _toneKey,
+    tonePitch: _tonePitch
+  }
+  // console.log('result', {phonetic, toneMapConfig}, result)
+  return result;
 }
