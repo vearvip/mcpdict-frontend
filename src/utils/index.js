@@ -469,3 +469,35 @@ export function formatShuowenText(text, type) {
 
   return text;
 }
+
+
+/**
+ * 将字符串中的数字和小写字母替换为其对应的圆圈字符。
+ * 对于大写字母，先转换为小写后再进行替换。
+ * 
+ * @param {string} str - 输入字符串，其中可能包含数字和字母。
+ * @returns {string} - 替换后的字符串，其中数字和字母被替换为对应的圆圈字符。
+ */
+export function replaceWithCircled(str) {
+  // 定义数字和小写字母的圆圈字符映射
+  const circledNumbers = '⓪①②③④⑤⑥⑦⑧⑨';
+  const circledLettersLower = 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ';
+
+  // 创建普通字符到圆圈字符的映射
+  const circledMap = {};
+  '0123456789'.split('').forEach((num, index) => {
+      circledMap[num] = circledNumbers[index];
+  });
+  'abcdefghijklmnopqrstuvwxyz'.split('').forEach((letter, index) => {
+      circledMap[letter] = circledLettersLower[index];
+  });
+
+  // 将字符串中的字符替换为对应的圆圈字符，
+  // 在映射前将大写字母转换为小写。
+  return str.split('').map(char => {
+      // 如果是字母字符，先将其转换为小写
+      const lowerChar = char.toLowerCase();
+      // 使用圆圈字符替换，如果没有对应字符则保留原字符
+      return circledMap[lowerChar] || char;
+  }).join('');
+}

@@ -8,7 +8,7 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { JianCheng } from '../utils/constant';
+import { JianCheng, ShengDiao } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
@@ -65,7 +65,13 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
-      const dialectInfos = (res?.data ?? []).filter(item => getBackgroundColorFromItem(item)) 
+      const dialectInfos = (res?.data ?? [])
+        .filter(item => getBackgroundColorFromItem(item))
+        .map(item => ({
+          ...item,
+          [ShengDiao]: JSON.parse(item[ShengDiao])
+        }))
+        console.log('dialectInfos', dialectInfos)
       return {
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])

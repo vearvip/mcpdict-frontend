@@ -60,3 +60,5 @@ export const CangJie3 = "倉頡三代";
 export const CangJie5 = "倉頡五代";
 export const CangeJie6 = "倉頡六代";
 export const ShanRenMaLTS = "山人碼LTS";
+
+export const ShengDiao = '聲調'

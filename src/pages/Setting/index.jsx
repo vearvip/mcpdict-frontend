@@ -16,8 +16,9 @@ import { transformDialectInfosToTree } from '../../utils';
 const defaultPageSettingData = {
   partitionMode: YinDianFenQv,
   searchPageFormat: 'labelList',
-  toneType: 'baShengShuZi',
-  tonePitch: 'hidden',
+  // toneType: 'baShengShuZi',
+  toneType: 'pinYin',
+  tonePitchType: 'hidden',
 }
 
 export const getLocalPageSettingData = () => {
@@ -27,6 +28,10 @@ export const getLocalPageSettingData = () => {
   } catch (err) {
     console.log('读取本地网页设置数据失败：', err)
     pageSettingData = defaultPageSettingData
+  }
+  // 兼容写法
+  if (pageSettingData.toneType === 'baShengShuZi') {
+    pageSettingData.toneType = 'pinYin'
   }
   return pageSettingData
 }
@@ -136,33 +141,39 @@ export default () => {
             // optionType="button"
             options={[
               {
-                label: '12345678',
-                value: 'baShengShuZi',
+                label: '拼音：12345678',
+                // baShengShuZi
+                value: 'pinYin', // 拼音
               },
               {
-                label: '①②③④⑤⑥⑦⑧',
-                value: 'baShengShuZiDaiQvan',
-                disabled: true,
+                label: '八声：①③⑤⑦',
+                value: 'baSheng', // 8声
+                // disabled: true,
               },
               {
-                label: '①②③④',
-                value: 'siShengShuZiDaiQvan',
-                disabled: true,
+                label: '四声：①②③④',
+                value: 'siSheng', // 4声
+                // disabled: true,
               },
               {
-                label: '平上去入',
-                value: 'pingShuQvRu',
-                disabled: true,
+                label: '汉字：平上去入',
+                value: 'pingShangQvRu', // 平上去入
+                // disabled: true,
               },
               {
-                label: '上排调值、下排调类',
-                value: 'shangPaiDiaoZhiXiaPaiDiaoLei',
-                disabled: true,
+                label: '四角：꜀平꜂上去꜄入꜆',
+                value: 'siJiao', // 四角
+                // disabled: true,
+              },
+              {
+                label: '并排：上排调值、下排调类',
+                value: 'bingPai', // 上排调值下排调类
+                // disabled: true,
               },
               {
                 label: '隐藏',
                 value: 'hidden',
-                disabled: true,
+                // disabled: true,
               },
             ]}
           />
@@ -170,7 +181,7 @@ export default () => {
 
         <Form.Item
           label="调值样式"
-          name="tonePitch"
+          name="tonePitchType"
           rules={[
             {
               required: true,
@@ -187,7 +198,7 @@ export default () => {
             }, {
               label: '数字',
               value: 'number',
-              disabled: true,
+              // disabled: true,
             }, {
               label: '隐藏',
               value: 'hidden',

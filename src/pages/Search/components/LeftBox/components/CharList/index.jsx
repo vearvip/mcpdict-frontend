@@ -31,12 +31,15 @@ import {
   CangJie5,
   CangeJie6,
   ShanRenMaLTS,
+  JianCheng, 
+  ShengDiao
 } from '@/utils/constant';
 import { queryCharInfo } from '@/services';
-import { formatShuowenText } from '../../../../../../utils';
+import { formatShuowenText } from '@/utils';
 import { hanzi2Unicode } from '@vearvip/hanzi-utils'
-import { Spin } from 'antd';
-
+import { Spin } from 'antd'; 
+import useStore from '@/store'; 
+import { getLocalPageSettingData } from '@/pages/Setting';
 
 
 
@@ -45,6 +48,7 @@ import { Spin } from 'antd';
  */
 const CharList = (props) => {
   const { searchData } = props;
+  const { store } = useStore()
   const isPad = usePad()
   const [selectedCharItem, setSelectedCharItem] = useState()
   const [selectedCharInfos, setSelectedCharInfos] = useState()
@@ -53,6 +57,7 @@ const CharList = (props) => {
   const [kangxiLoading, setKangxiLoading] = useState(false)
   const [shuowenLoading, setShuowenLoading] = useState(false)
   const [huizuanLoading, setHuizuanLoading] = useState(false)
+  const localPageSettingData = getLocalPageSettingData();
   let navigate = useNavigate();
   /**
    * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
@@ -361,8 +366,12 @@ const CharList = (props) => {
                         {charInfo.infos.map((info, subIndex) => (
                           <CharPhoneticExplain
                             key={`info_item_${infoIndex}_${subIndex}`}
+                            localPageSettingData={localPageSettingData}
                             phonetic={info.phonetic}
                             explain={info.explain}
+                            toneMapConfig={store?.dialectInfos?.find(dialectItem => {
+                              return dialectItem[JianCheng] === charInfo.dialectName
+                            })?.[ShengDiao]}
                           />
                         ))}
                       </div>
