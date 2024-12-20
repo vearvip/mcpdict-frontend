@@ -197,10 +197,10 @@ export function parseSplitStr(infoString, dialectName) {
     // 如果是拟音，特殊处理
     if (isOnomatopoeia(dialectName)) {
       infos.push(
-        ...parseOnomatopoeia(phonetic, dialectName), 
+        ...parseOnomatopoeia(phonetic, dialectName),
       );
       if (explain) {
-        infos.push( 
+        infos.push(
           { phonetic: '', explain }
         );
       }
@@ -486,18 +486,47 @@ export function replaceWithCircled(str) {
   // 创建普通字符到圆圈字符的映射
   const circledMap = {};
   '0123456789'.split('').forEach((num, index) => {
-      circledMap[num] = circledNumbers[index];
+    circledMap[num] = circledNumbers[index];
   });
   'abcdefghijklmnopqrstuvwxyz'.split('').forEach((letter, index) => {
-      circledMap[letter] = circledLettersLower[index];
+    circledMap[letter] = circledLettersLower[index];
   });
 
   // 将字符串中的字符替换为对应的圆圈字符，
   // 在映射前将大写字母转换为小写。
   return str.split('').map(char => {
-      // 如果是字母字符，先将其转换为小写
-      const lowerChar = char.toLowerCase();
-      // 使用圆圈字符替换，如果没有对应字符则保留原字符
-      return circledMap[lowerChar] || char;
+    // 如果是字母字符，先将其转换为小写
+    const lowerChar = char.toLowerCase();
+    // 使用圆圈字符替换，如果没有对应字符则保留原字符
+    return circledMap[lowerChar] || char;
+  }).join('');
+}
+
+
+/**
+ * 将表示音高的数字字符串转换为相应的音高曲线符号字符串
+ * 
+ * @param {string} str - 输入的表示音高的数字字符串，默认为空字符串
+ * @returns {string} - 转换后的音高曲线符号字符串
+ */
+export const convertPitchNum2Curve = (str = '') => {
+  // 将输入的字符串分割成字符数组
+  const list = str.split('');
+
+  // 定义音高数字与音高曲线符号的映射关系
+  // ˩ ˨ ˧ ˦ ˥
+  // 12345
+  const relationMap = {
+    '1': '˩',
+    '2': '˨',
+    '3': '˧',
+    '4': '˦',
+    '5': '˥',
+  }
+
+  // 将字符数组中的每个字符转换为对应的音高曲线符号，如果找不到对应关系则保留原字符
+  return list.map(char => {
+    return relationMap[char] || char;
+  // 将转换后的字符数组重新拼接成字符串返回
   }).join('');
 }

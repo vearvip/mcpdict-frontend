@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.less'; // 引入 CSS Module 
-import { replaceWithCircled } from '@/utils'
+import { replaceWithCircled, convertPitchNum2Curve } from '@/utils'
 
 
 /**
@@ -26,7 +26,13 @@ const CharPhoneticExplain = (props) => {
           if (phonetic.indexOf(toneKey) !== -1) {
             phonetic = phonetic.replace(toneKey, '')
             let tone = ''
-            let pitch = tonePitchType === 'hidden' ? '' : toneMap[0]
+            let pitch = tonePitchType === 'hidden'
+              ? ''
+              : tonePitchType === 'number'
+                ? toneMap[0]
+                : tonePitchType === 'curve'
+                  ? convertPitchNum2Curve(toneMap[0])
+                  : ''
 
             // 额外处理一下并排的情况
             if (toneType === 'bingPai') {
@@ -55,7 +61,9 @@ const CharPhoneticExplain = (props) => {
               }
               phonetic = <div style={{ display: 'inline-flex' }}>
                 <div>{phonetic}</div>
-                <div style={{ fontSize: 8 }}>{pitch}</div>
+                <div style={
+                  tonePitchType === 'curve' ? {} : { fontSize: 8 }
+                }>{pitch}</div>
                 <div>{tone}</div>
               </div>
             }

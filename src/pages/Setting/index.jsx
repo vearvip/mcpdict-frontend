@@ -194,7 +194,7 @@ export default () => {
             options={[{
               label: '曲线',
               value: 'curve',
-              disabled: true,
+              // disabled: true,
             }, {
               label: '数字',
               value: 'number',
