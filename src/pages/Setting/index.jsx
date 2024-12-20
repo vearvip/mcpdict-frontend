@@ -17,8 +17,8 @@ const defaultPageSettingData = {
   partitionMode: YinDianFenQv,
   searchPageFormat: 'labelList',
   // toneType: 'baShengShuZi',
-  toneType: 'pinYin',
-  tonePitchType: 'hidden',
+  toneType: 'baSheng',
+  tonePitchType: 'curve',
 }
 
 export const getLocalPageSettingData = () => {
