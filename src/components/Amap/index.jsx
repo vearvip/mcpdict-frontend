@@ -151,7 +151,8 @@ export default function Amap({ dialectInfos, style }) {
     const marker = new AMap.Marker({
       position: position,
       content: markerDOM, //将 html 传给 content
-      offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
+      // offset: new AMap.Pixel(-13, -30), //以 icon 的 [center bottom] 为原点
+      offset: new AMap.Pixel(0, 0), //以 icon 的 [center bottom] 为原点
     });
     return marker
   }
