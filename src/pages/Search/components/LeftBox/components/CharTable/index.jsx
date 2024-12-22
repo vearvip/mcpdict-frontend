@@ -5,12 +5,14 @@ import CharLabel from '../CharLabel';
 import { parseSplitStr, getBackgroundColorFromItem } from '@/utils';
 import CharPhoneticExplain from '../CharPhoneticExplain';
 import { showDialectInfo } from '@/components/DialectInfo';
+import { getLocalPageSettingData } from '@/pages/Setting';
 
 const CharTable = ({
   searchData = []
 }) => {
   const [columns, setColumns] = useState([])
   const [tableData, setTableData] = useState([])
+  const localPageSettingData = getLocalPageSettingData();
 
   const genColumns = (searchData = []) => {
     const charColumns = []
@@ -36,7 +38,7 @@ const CharTable = ({
         return <div
           style={{
             // cursor: 'pointer'
-          }} 
+          }}
         >{value}</div>
       }
 
@@ -57,6 +59,7 @@ const CharTable = ({
           const infoJSX = infos.map((info, subIndex) => (
             <CharPhoneticExplain
               key={`info_item_${charIndex}_${subIndex}_${charItem.char}`}
+              localPageSettingData={localPageSettingData}
               phonetic={info.phonetic}
               explain={info.explain}
             />
