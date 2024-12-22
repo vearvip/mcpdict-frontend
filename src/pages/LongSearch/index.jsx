@@ -8,7 +8,7 @@ import { extractHanzi } from '@vearvip/hanzi-utils'
 import useStore from '@/store';
 import NProgress from 'nprogress';
 import { queryChars, queryLongString } from '../../services';
-import { copy, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import { copy, delay, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
@@ -66,7 +66,9 @@ const LongSearch = (props) => {
   }
 
   const handleSearch = async (filterData) => {
+    setCharVariantsInfos(undefined)
     twoDimensionalCharListRef.current = []
+    await delay(100)
     if (!filterData?.dialectName) {
       // message.warning('请点击⚙设置按钮选择语言')
       message.warning('请选择语言')

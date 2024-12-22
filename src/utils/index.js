@@ -561,3 +561,10 @@ export const getRealPhoneticAndToneKey = (phonetic, toneMapConfig) => {
   // console.log('result', {phonetic, toneMapConfig}, result)
   return result;
 }
+
+/**
+ * 延迟
+ * @param {number} timeout 延迟时间
+ * @returns {Promise}
+ */
+export const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout))
