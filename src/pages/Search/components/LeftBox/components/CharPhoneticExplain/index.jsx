@@ -36,11 +36,15 @@ const CharPhoneticExplain = (props) => {
       if (toneType === 'bingPai') {
         tone = toneMap[2]
         pitch = tonePitch
+        // console.log('first', {
+        //   tone,
+        //   pitch
+        // })
         phonetic = <div style={{ display: 'inline-flex' }}>
           <div>{phonetic}</div>
           <div>
-            <div style={{ fontSize: 8, }}>{pitch}</div>
-            <div style={{ fontSize: 8, }}>{tone}</div>
+            <div style={{ fontSize: 8, }}>{pitch || ' '}</div>
+            <div style={{ fontSize: 8, }}>{tone || ' '}</div>
           </div>
         </div>
       } else { // 其他情况正常处理
