@@ -44,7 +44,7 @@ const DialectInfo = (props) => {
     { key: '11', label: '不带调音节数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BuDaiDiaoYinJieShu] }} /> },
     { key: '12', label: '地图集二分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[DiTuJiErFenQv] }} /> },
     { key: '13', label: '音典分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YinDianFenQv] }} /> },
-    { key: '14', label: '陈邡分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ChenFangFenQv] }} /> },
+    // { key: '14', label: '陈邡分区', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ChenFangFenQv] }} /> },
   ]
 
   const handleClose = () => {

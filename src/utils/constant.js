@@ -62,3 +62,10 @@ export const CangeJie6 = "倉頡六代";
 export const ShanRenMaLTS = "山人碼LTS";
 
 export const ShengDiao = '聲調'
+ 
+export const Sheng = '省'
+export const Shi = '市'
+export const Xian = '縣'
+export const Zhen = '鎮'
+export const Cun = '村'
+export const ZiRanCun = '自然村'

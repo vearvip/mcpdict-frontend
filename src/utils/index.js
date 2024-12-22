@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { JianCheng, YinDianYanSe, FenQvEnum, KangXi, HanDa } from "./constant";
+import { JianCheng, YinDianYanSe, FenQvEnum, KangXi, HanDa, Sheng, Shi, Xian, Zhen, Cun, ZiRanCun } from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
 export const logoUrl = "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"
@@ -626,16 +626,16 @@ export function buildDistrictTree(data) {
   }
 
   // Initialize the tree
-  let districtTree = [];
-
+  let districtTree = []; 
+  
   // Iterate over each data entry and build the tree
   data.forEach(entry => {
       // Construct the path from the districtistrative divisions, ignoring empty entries
-      let path = [entry.省, entry.市, entry.縣, entry.鎮, entry.村, entry.自然村].filter(Boolean);
+      let path = [entry[Sheng], entry[Shi], entry[Xian], entry[Zhen], entry[Cun], entry[ZiRanCun]].filter(Boolean);
 
       // Insert this path into the tree and update dialects
       if (path.length > 0) { // Ensure there is at least one level of districtistrative division
-          insertIntoTree(districtTree, path, entry.簡稱);
+          insertIntoTree(districtTree, path, entry[JianCheng]);
       }
   });
 
@@ -652,20 +652,6 @@ export function buildDistrictTree(data) {
           districtTree.push(newNode);
       }
   });
-
-  // Convert simplified titles to traditional Chinese
-  function convertToTraditional(node) {
-      const simplifiedToTraditional = {
-          '浙江': '浙江', // Example mapping, you may need a comprehensive conversion map or library
-          // Add other mappings as necessary
-      };
-      node.title = simplifiedToTraditional[node.title] || node.title;
-      if (node.children) {
-          node.children.forEach(convertToTraditional);
-      }
-  }
-
-  districtTree.forEach(convertToTraditional);
-
+ 
   return districtTree;
 }
