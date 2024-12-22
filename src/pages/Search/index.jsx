@@ -17,7 +17,7 @@ import { showDialectMap } from '../../components/DialectMap';
 import { getSearchDialectList, groupVariants } from '../../utils';
 import useStore from '@/store';
 import { useAsyncEffect } from 'ahooks';
-import { getLocalFilterData } from '../../components/Filter';
+import { getLocalFilterData } from '../../components/Filter'; 
 
 const waitLoadDialectInfos = () => {
   return new Promise((resolve, reject) => {
@@ -29,8 +29,6 @@ const waitLoadDialectInfos = () => {
     }, 80);
   });
 };
-
-
 
 
 /**
@@ -117,6 +115,7 @@ const Search = (props) => {
   useAsyncEffect(async () => {
     const q = searchParams.get('q');
     // await waitLoadDialectInfos();
+    NProgress.start(); 
     if (q) {
       if (
         !store.dialectInfos   
@@ -129,6 +128,7 @@ const Search = (props) => {
       search(q);
     } else {
       setSearchData([])
+      NProgress.done(); 
     }
   }, [searchParams, store]);
  

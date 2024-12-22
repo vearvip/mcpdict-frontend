@@ -1,8 +1,21 @@
 import { message } from "antd";
-import { JianCheng, YinDianYanSe, FenQvEnum, KangXi, HanDa, Sheng, Shi, Xian, Zhen, Cun, ZiRanCun } from "./constant";
+import {
+  JianCheng,
+  YinDianYanSe,
+  FenQvEnum,
+  KangXi,
+  HanDa,
+  Sheng,
+  Shi,
+  Xian,
+  Zhen,
+  Cun,
+  ZiRanCun,
+} from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
-export const logoUrl = "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"
+export const logoUrl =
+  "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp";
 
 /**
  * 返回一个指定范围内的随机整数。
@@ -106,73 +119,77 @@ export function groupVariants(chars, variants) {
 
 // 拟音各家名称map
 const onomatopoeiaMap = {
-  '廣韻': [
-    '切韻拼音',
-    '白一平轉寫',
-    '古韻羅馬字',
-    '有女羅馬字',
-    '髙本漢擬音',
-    '王力（1957）擬音',
-    '王力（1985）擬音',
-    '李榮擬音',
-    '邵榮芬擬音',
-    '蒲立本擬音',
-    '鄭張尙芳擬音',
-    '潘悟雲（2000）擬音',
-    '潘悟雲（2013）擬音',
-    '潘悟雲（2023）擬音',
-    'unt（2020）擬音',
-    'unt（2022）擬音',
-    'unt通俗擬音',
-    'msoeg擬音',
-    '切韻音系描述',
-    '攝',
-    '方音字彙描述',
-    '廣韻韻目原貌',
-    '折合平水韻目原貌',
-    '反切',
+  廣韻: [
+    "切韻拼音",
+    "白一平轉寫",
+    "古韻羅馬字",
+    "有女羅馬字",
+    "髙本漢擬音",
+    "王力（1957）擬音",
+    "王力（1985）擬音",
+    "李榮擬音",
+    "邵榮芬擬音",
+    "蒲立本擬音",
+    "鄭張尙芳擬音",
+    "潘悟雲（2000）擬音",
+    "潘悟雲（2013）擬音",
+    "潘悟雲（2023）擬音",
+    "unt（2020）擬音",
+    "unt（2022）擬音",
+    "unt通俗擬音",
+    "msoeg擬音",
+    "切韻音系描述",
+    "攝",
+    "方音字彙描述",
+    "廣韻韻目原貌",
+    "折合平水韻目原貌",
+    "反切",
   ],
-  '中唐': ['unt', '辛克'],
-  '中原音韻': ['楊耐思', '寧繼福', '薛鳳生（音位形式）', 'unt（音位形式）', 'unt'],
-  '東干語': ['西里爾字母', '音標'],
+  中唐: ["unt", "辛克"],
+  中原音韻: [
+    "楊耐思",
+    "寧繼福",
+    "薛鳳生（音位形式）",
+    "unt（音位形式）",
+    "unt",
+  ],
+  東干語: ["西里爾字母", "音標"],
 };
 const isOnomatopoeia = (dialectName) => {
   return onomatopoeiaMap[dialectName];
-}
+};
 function parseOnomatopoeia(phoneticString, dialectName) {
-
   // const dialectsOfRomanization = ['普通話', '香港', '臺灣', '越南', '朝鮮', '日語吳音', '日語漢音', '日語其他'];
-  const dialectsWithBold = ['中原音韻', '日語吳音', '日語漢音', '日語其他'];
+  const dialectsWithBold = ["中原音韻", "日語吳音", "日語漢音", "日語其他"];
 
   return phoneticString
-    .split('\t')
-    .map(phonetic => {
-      let isBold = dialectsWithBold.includes(dialectName) && phonetic.includes('*');
+    .split("\t")
+    .map((phonetic) => {
+      let isBold =
+        dialectsWithBold.includes(dialectName) && phonetic.includes("*");
       if (isBold) {
-        phonetic = phonetic.replace(/\*/g, '')
-      };
-      let item = phonetic
-        .split('/')
-        .map((phonetic, index) => {
-          let header = onomatopoeiaMap[dialectName][index];
-          return {
-            phonetic,
-            explain: header,
-          }
-        })
-      // .filter(Boolean) 
+        phonetic = phonetic.replace(/\*/g, "");
+      }
+      let item = phonetic.split("/").map((phonetic, index) => {
+        let header = onomatopoeiaMap[dialectName][index];
+        return {
+          phonetic,
+          explain: header,
+        };
+      });
+      // .filter(Boolean)
       // console.log('item', item)
       return item;
-    }).flat()
+    })
+    .flat();
 }
-
 
 /**
  * 解析读音释义字符串
  *
  * @param {string} infoString - 音标和解析信息字符串。
  * @param {string} dialectName - 方言名
- * @returns {Array<Object}  
+ * @returns {Array<Object}
  */
 export function parseSplitStr(infoString, dialectName) {
   const infos = [];
@@ -196,32 +213,25 @@ export function parseSplitStr(infoString, dialectName) {
     }
     // 如果是拟音，特殊处理
     if (isOnomatopoeia(dialectName)) {
-      infos.push(
-        ...parseOnomatopoeia(phonetic, dialectName),
-      );
+      infos.push(...parseOnomatopoeia(phonetic, dialectName));
       if (explain) {
-        infos.push(
-          { phonetic: '', explain }
-        );
+        infos.push({ phonetic: "", explain });
       }
-
     } else {
       // 将音标和释义添加到infos数组中
       if (phonetic) {
         // 确保音标不为空
         infos.push({ phonetic, explain });
       }
-
     }
   }
   return infos;
 }
 
-
 /**
  * 复制文本。
  *
- * @param {string} textContent - 文本内容。 
+ * @param {string} textContent - 文本内容。
  */
 export async function copy(textContent) {
   // console.log('-----textContent', textContent);
@@ -230,7 +240,7 @@ export async function copy(textContent) {
     // 使用现代的 Clipboard API
     await navigator.clipboard.writeText(textContent);
     // 假设 message 是一个全局可用的消息组件
-    message.success('复制成功！');
+    message.success("复制成功！");
   } catch (err) {
     // 正确地构造错误信息
     message.error(`复制失败：${err.message}`);
@@ -244,10 +254,10 @@ export async function copy(textContent) {
  * @returns {string} 对应的背景颜色。
  */
 export const getBackgroundColorByName = (dialectName, dialectInfos) => {
-  const pageSettingData = getLocalPageSettingData()
-  const colorKey = FenQvEnum[pageSettingData.partitionMode].color
+  const pageSettingData = getLocalPageSettingData();
+  const colorKey = FenQvEnum[pageSettingData.partitionMode].color;
   return dialectName
-    ? (dialectInfos.find(ele => ele[JianCheng] === dialectName)?.[colorKey])
+    ? dialectInfos.find((ele) => ele[JianCheng] === dialectName)?.[colorKey]
     : undefined;
 };
 
@@ -258,9 +268,9 @@ export const getBackgroundColorByName = (dialectName, dialectInfos) => {
  * @returns {string} 对应的背景颜色。
  */
 export const getBackgroundColorFromItem = (dialectItem) => {
-  const pageSettingData = getLocalPageSettingData()
-  const colorKey = FenQvEnum[pageSettingData.partitionMode].color
-  return dialectItem[colorKey]
+  const pageSettingData = getLocalPageSettingData();
+  const colorKey = FenQvEnum[pageSettingData.partitionMode].color;
+  return dialectItem[colorKey];
 };
 
 /**
@@ -271,28 +281,33 @@ export const getBackgroundColorFromItem = (dialectItem) => {
  */
 export function generateColorOrGradient(colorString) {
   // 清除可能存在的多余空格并分割颜色值
-  const colors = (colorString || '').replace(/\s+/g, '').split(',');
+  const colors = (colorString || "").replace(/\s+/g, "").split(",");
   // 检查是否只有一个颜色
   if (colors.length === 1) {
     return colors[0];
   }
 
   // 如果有多个颜色，则创建CSS线性渐变字符串，从左到右
-  const gradientParts = colors.map((color, index) => `${color} ${index * (100 / (colors.length - 1))}%`);
+  const gradientParts = colors.map(
+    (color, index) => `${color} ${index * (100 / (colors.length - 1))}%`
+  );
   // console.log('gradientParts', gradientParts)
-  let gradientStr = `linear-gradient(to right, ${gradientParts.join(', ')})`
+  let gradientStr = `linear-gradient(to right, ${gradientParts.join(", ")})`;
   // console.log('gradientStr', gradientStr)
   return gradientStr;
 }
 
 function hexToRgb(hex) {
   // 移除可能存在的#符号并确保是6位数
-  let c = hex.replace('#', '').match(/.{1,2}/g);
+  let c = hex.replace("#", "").match(/.{1,2}/g);
   return [parseInt(c[0], 16), parseInt(c[1], 16), parseInt(c[2], 16)];
 }
 
 function rgbToHex(r, g, b) {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+  return (
+    "#" +
+    ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()
+  );
 }
 
 function weightedInterpolateColor(color1, color2, weight) {
@@ -311,7 +326,7 @@ function weightedInterpolateColor(color1, color2, weight) {
 
 export function processColors(colors, biasTowardsSecond = 0.65) {
   // 分割颜色字符串
-  let colorArray = colors.split(',').map(s => s.trim());
+  let colorArray = colors.split(",").map((s) => s.trim());
 
   // 根据颜色数量返回结果
   if (colorArray.length === 1) {
@@ -319,7 +334,11 @@ export function processColors(colors, biasTowardsSecond = 0.65) {
   } else {
     // 只取前两个颜色进行处理
     let firstTwoColors = colorArray.slice(0, 2);
-    return weightedInterpolateColor(firstTwoColors[0], firstTwoColors[1], biasTowardsSecond);
+    return weightedInterpolateColor(
+      firstTwoColors[0],
+      firstTwoColors[1],
+      biasTowardsSecond
+    );
   }
 }
 
@@ -328,13 +347,12 @@ export function processColors(colors, biasTowardsSecond = 0.65) {
 // console.log(processColors('#904F39,#7E7EB8')); // 应该返回偏后一个颜色的过渡中间值
 // console.log(processColors('#D17663'));         // 应该直接返回这个颜色
 
-
 function findDialectsByPath(tree, path) {
   // Split the input path into levels.
   if (!path) {
     return [];
   }
-  const pathLevels = path.split('-');
+  const pathLevels = path.split("-");
 
   function searchNode(nodes, levels) {
     if (!nodes || levels.length === 0) {
@@ -363,39 +381,52 @@ function findDialectsByPath(tree, path) {
   return searchNode(tree, pathLevels);
 }
 
-export const getSearchDialectList = (filterData, dialectCateTree, dialectDistrictTree) => {
-  let dialectList
-  if (filterData.filterMode === 'lang') {
-    dialectList = filterData?.dialectName ? [filterData.dialectName] : []
-  } else if (filterData.filterMode === 'custom') {
-    dialectList = filterData.dialectCustoms
-  } else if (filterData.filterMode === 'area') {
-    let dialects = findDialectsByPath(dialectCateTree, filterData.dialectArea)
+export const getSearchDialectList = (
+  filterData,
+  dialectCateTree,
+  dialectDistrictTree
+) => {
+  let dialectList;
+  if (filterData.filterMode === "lang") {
+    dialectList = filterData?.dialectName ? [filterData.dialectName] : [];
+  } else if (filterData.filterMode === "custom") {
+    dialectList = filterData.dialectCustoms;
+  } else if (filterData.filterMode === "area") {
+    let dialects = findDialectsByPath(dialectCateTree, filterData.dialectArea);
     // console.log('dialects', filterData.dialectArea, dialects)
-    dialectList = dialects
-  } else if (filterData.filterMode === 'district') {
-    let dialects = findDialectsByPath(dialectDistrictTree, filterData.dialectDistrict)
-    console.log('dialects',  dialects)
-    dialectList = dialects
+    dialectList = dialects;
+  } else if (filterData.filterMode === "district") {
+    let dialects = findDialectsByPath(
+      dialectDistrictTree,
+      filterData.dialectDistrict
+    );
+    console.log("dialects", dialects);
+    dialectList = dialects;
   }
-  return dialectList
-}
+  return dialectList;
+};
 
 export function transformDialectInfosToTree(dialectInfos) {
   const tree = {};
 
-  dialectInfos.forEach(dialectInfo => {
-    const pageSettingData = getLocalPageSettingData()
-    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split('-');
+  dialectInfos.forEach((dialectInfo) => {
+    const pageSettingData = getLocalPageSettingData();
+    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split("-");
     const languageShortName = dialectInfo[JianCheng];
 
-    function addDialectNode(levels, shortName, node, pathSoFar = '') {
+    function addDialectNode(levels, shortName, node, pathSoFar = "") {
       if (levels.length === 0) return;
 
       const currentLevel = levels.shift();
-      const fullPath = pathSoFar ? `${pathSoFar}-${currentLevel}` : currentLevel;
+      const fullPath = pathSoFar
+        ? `${pathSoFar}-${currentLevel}`
+        : currentLevel;
       if (!node[currentLevel]) {
-        node[currentLevel] = { title: currentLevel, value: fullPath, dialects: [] };
+        node[currentLevel] = {
+          title: currentLevel,
+          value: fullPath,
+          dialects: [],
+        };
       }
 
       // Add the short name of the language to the current level's dialects array if it's not already there.
@@ -408,7 +439,12 @@ export function transformDialectInfosToTree(dialectInfos) {
         if (!node[currentLevel].children) {
           node[currentLevel].children = {};
         }
-        addDialectNode(levels, shortName, node[currentLevel].children, fullPath);
+        addDialectNode(
+          levels,
+          shortName,
+          node[currentLevel].children,
+          fullPath
+        );
       }
     }
 
@@ -463,195 +499,239 @@ export function formatShuowenText(text, type) {
 
   // Adjusted regex to match the page number format after any characters and before the first \n
   const pageNumberRegex = /^(.*?)([0-9]+)\.([0-9]+)\n/;
-  text = text.replace(pageNumberRegex, (match, prefix, p1, p2) => convertPageNumber(match, prefix, p1, p2, type));
+  text = text.replace(pageNumberRegex, (match, prefix, p1, p2) =>
+    convertPageNumber(match, prefix, p1, p2, type)
+  );
 
   // Replace newline characters with <br />
-  text = text.replace(/\n/g, '<br />');
+  text = text.replace(/\n/g, "<br />");
 
   // Replace content within Chinese brackets 〔〕 or full-width braces ｛｝ with span tags
-  text = text.replace(/〔([^〕]*)〕|｛([^｝]*)｝/g, '<span class="shuowen_explain">$1$2</span>');
+  text = text.replace(
+    /〔([^〕]*)〕|｛([^｝]*)｝/g,
+    '<span class="shuowen_explain">$1$2</span>'
+  );
 
   return text;
 }
 
-
 /**
  * 将字符串中的数字和小写字母替换为其对应的圆圈字符。
  * 对于大写字母，先转换为小写后再进行替换。
- * 
+ *
  * @param {string} str - 输入字符串，其中可能包含数字和字母。
  * @returns {string} - 替换后的字符串，其中数字和字母被替换为对应的圆圈字符。
  */
 export function replaceWithCircled(str) {
   // 定义数字和小写字母的圆圈字符映射
-  const circledNumbers = '⓪①②③④⑤⑥⑦⑧⑨';
-  const circledLettersLower = 'ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ';
+  const circledNumbers = "⓪①②③④⑤⑥⑦⑧⑨";
+  const circledLettersLower = "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ";
 
   // 创建普通字符到圆圈字符的映射
   const circledMap = {};
-  '0123456789'.split('').forEach((num, index) => {
+  "0123456789".split("").forEach((num, index) => {
     circledMap[num] = circledNumbers[index];
   });
-  'abcdefghijklmnopqrstuvwxyz'.split('').forEach((letter, index) => {
+  "abcdefghijklmnopqrstuvwxyz".split("").forEach((letter, index) => {
     circledMap[letter] = circledLettersLower[index];
   });
 
   // 将字符串中的字符替换为对应的圆圈字符，
   // 在映射前将大写字母转换为小写。
-  return str.split('').map(char => {
-    // 如果是字母字符，先将其转换为小写
-    const lowerChar = char.toLowerCase();
-    // 使用圆圈字符替换，如果没有对应字符则保留原字符
-    return circledMap[lowerChar] || char;
-  }).join('');
+  return str
+    .split("")
+    .map((char) => {
+      // 如果是字母字符，先将其转换为小写
+      const lowerChar = char.toLowerCase();
+      // 使用圆圈字符替换，如果没有对应字符则保留原字符
+      return circledMap[lowerChar] || char;
+    })
+    .join("");
 }
-
 
 /**
  * 将表示音高的数字字符串转换为相应的音高曲线符号字符串
- * 
+ *
  * @param {string} str - 输入的表示音高的数字字符串，默认为空字符串
  * @returns {string} - 转换后的音高曲线符号字符串
  */
-export const convertPitchNum2Curve = (str = '') => {
+export const convertPitchNum2Curve = (str = "") => {
   // 将输入的字符串分割成字符数组
-  let list = str.split('')
-  if (list.length === 2) { // 重复的调值，在这里去重
-    list = [
-      ...new Set(list)
-    ];
+  let list = str.split("");
+  if (list.length === 2) {
+    // 重复的调值，在这里去重
+    list = [...new Set(list)];
   }
 
   // 定义音高数字与音高曲线符号的映射关系
   // ˩ ˨ ˧ ˦ ˥
   // 12345
   const relationMap = {
-    '1': '˩',
-    '2': '˨',
-    '3': '˧',
-    '4': '˦',
-    '5': '˥',
-  }
+    1: "˩",
+    2: "˨",
+    3: "˧",
+    4: "˦",
+    5: "˥",
+  };
 
   // 将字符数组中的每个字符转换为对应的音高曲线符号，如果找不到对应关系则保留原字符
-  return list.map(char => {
-    return relationMap[char] || char;
-  // 将转换后的字符数组重新拼接成字符串返回
-  }).join('');
-}
+  return list
+    .map((char) => {
+      return relationMap[char] || char;
+      // 将转换后的字符数组重新拼接成字符串返回
+    })
+    .join("");
+};
 
-export const getRealPhoneticAndToneKey = (phonetic, toneMapConfig) => { 
-  let _toneKey = ''; 
-  let _phonetic = ''; 
-  let _tonePitch = ''; 
+export const getRealPhoneticAndToneKey = (phonetic, toneMapConfig) => {
+  let _toneKey = "";
+  let _phonetic = "";
+  let _tonePitch = "";
   for (const toneKey in toneMapConfig) {
-    if (Object.prototype.hasOwnProperty.call(toneMapConfig, toneKey) && typeof phonetic === 'string') {
+    if (
+      Object.prototype.hasOwnProperty.call(toneMapConfig, toneKey) &&
+      typeof phonetic === "string"
+    ) {
       if (phonetic.indexOf(toneKey) !== -1) {
-        _phonetic = phonetic.replace(toneKey, '');
+        _phonetic = phonetic.replace(toneKey, "");
         _toneKey = toneKey;
-        _tonePitch = toneMapConfig?.[toneKey]?.[0]
+        _tonePitch = toneMapConfig?.[toneKey]?.[0];
       }
     }
   }
   // 如果没有音调，则返回原音标
   if (phonetic && !_phonetic) {
-    _phonetic = phonetic; 
-  } 
+    _phonetic = phonetic;
+  }
   const result = {
     phonetic: _phonetic,
     toneKey: _toneKey,
-    tonePitch: _tonePitch
-  }
+    tonePitch: _tonePitch,
+  };
   // console.log('result', {phonetic, toneMapConfig}, result)
   return result;
-}
+};
 
 /**
  * 延迟
  * @param {number} timeout 延迟时间
  * @returns {Promise}
  */
-export const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout))
-
-
-
+export const delay = (timeout) =>
+  new Promise((resolve) => setTimeout(resolve, timeout));
 
 export function buildDistrictTree(data) {
   const provinces = [
-    "北京", "天津", "上海", "重慶",
-    "河北", "山西", "遼寧", "吉林", "黑龍江",
-    "江蘇", "浙江", "安徽", "福建", "江西", "山東", "河南", "湖北", "湖南",
-    "廣東", "海南", "四川", "貴州", "雲南", "陝西", "甘肅", "靑海",
-    "臺灣", "內蒙古", "廣西", "西藏", "寧夏", "新疆",
-    "香港", "澳門"
+    "北京",
+    "天津",
+    "上海",
+    "重慶",
+    "河北",
+    "山西",
+    "遼寧",
+    "吉林",
+    "黑龍江",
+    "江蘇",
+    "浙江",
+    "安徽",
+    "福建",
+    "江西",
+    "山東",
+    "河南",
+    "湖北",
+    "湖南",
+    "廣東",
+    "海南",
+    "四川",
+    "貴州",
+    "雲南",
+    "陝西",
+    "甘肅",
+    "靑海",
+    "臺灣",
+    "內蒙古",
+    "廣西",
+    "西藏",
+    "寧夏",
+    "新疆",
+    "香港",
+    "澳門",
   ];
   // Helper function to insert or find a node in the tree
   function insertIntoTree(tree, path, dialect) {
-      let currentNode = tree;
-      for (let i = 0; i < path.length; i++) {
-          let level = path[i];
-          let foundNode = currentNode.find(node => node.title === level);
-          if (!foundNode) {
-              let value = path.slice(0, i + 1).join('-');
-              foundNode = { title: level, value, dialects: [] };
-              // Only add children array if there is a deeper level
-              if (i < path.length - 1) {
-                  foundNode.children = [];
-              }
-              currentNode.push(foundNode);
-          }
-          // Add the dialect name only at the deepest level
-          if (i === path.length - 1 && !foundNode.dialects.includes(dialect)) {
-              foundNode.dialects.push(dialect);
-          }
-          if (foundNode.children) {
-              currentNode = foundNode.children;
-          }
+    let currentNode = tree;
+    for (let i = 0; i < path.length; i++) {
+      let level = path[i];
+      let foundNode = currentNode.find((node) => node.title === level);
+      if (!foundNode) {
+        let value = path.slice(0, i + 1).join("-");
+        foundNode = { title: level, value, dialects: [] };
+        // Only add children array if there is a deeper level
+        if (i < path.length - 1) {
+          foundNode.children = [];
+        }
+        currentNode.push(foundNode);
       }
+      // Add the dialect name only at the deepest level
+      if (i === path.length - 1 && !foundNode.dialects.includes(dialect)) {
+        foundNode.dialects.push(dialect);
+      }
+      if (foundNode.children) {
+        currentNode = foundNode.children;
+      }
+    }
   }
 
   // Helper function to collect all dialect names under each districtistrative level
   function collectDialectNames(node) {
-      if (node.children) {
-          node.children.forEach(child => {
-              collectDialectNames(child);
-              // Add child's dialect names to parent's dialect names
-              child.dialects.forEach(dialect => {
-                  if (!node.dialects.includes(dialect)) {
-                      node.dialects.push(dialect);
-                  }
-              });
-          });
-      }
+    if (node.children) {
+      node.children.forEach((child) => {
+        collectDialectNames(child);
+        // Add child's dialect names to parent's dialect names
+        child.dialects.forEach((dialect) => {
+          if (!node.dialects.includes(dialect)) {
+            node.dialects.push(dialect);
+          }
+        });
+      });
+    }
   }
 
   // Initialize the tree
-  let districtTree = []; 
-  
-  // Iterate over each data entry and build the tree
-  data.forEach(entry => {
-      // Construct the path from the districtistrative divisions, ignoring empty entries
-      let path = [entry[Sheng], entry[Shi], entry[Xian], entry[Zhen], entry[Cun], entry[ZiRanCun]].filter(Boolean);
+  let districtTree = [];
 
-      // Insert this path into the tree and update dialects
-      if (path.length > 0) { // Ensure there is at least one level of districtistrative division
-          insertIntoTree(districtTree, path, entry[JianCheng]);
-      }
+  // Iterate over each data entry and build the tree
+  data.forEach((entry) => {
+    // Construct the path from the districtistrative divisions, ignoring empty entries
+    let path = [
+      entry[Sheng],
+      entry[Shi],
+      entry[Xian],
+      entry[Zhen],
+      entry[Cun],
+      entry[ZiRanCun],
+    ].filter(Boolean);
+
+    // Insert this path into the tree and update dialects
+    if (path.length > 0) {
+      // Ensure there is at least one level of districtistrative division
+      insertIntoTree(districtTree, path, entry[JianCheng]);
+    }
   });
 
   // Collect all dialect names for each districtistrative level
-  districtTree.forEach(rootNode => {
-      collectDialectNames(rootNode);
+  districtTree.forEach((rootNode) => {
+    collectDialectNames(rootNode);
   });
 
   // Ensure all provinces are included in the tree
-  let existingProvinces = new Set(districtTree.map(node => node.title));
-  provinces.forEach(province => {
-      if (!existingProvinces.has(province)) {
-          let newNode = { title: province, value: province, dialects: [] };
-          districtTree.push(newNode);
-      }
+  let existingProvinces = new Set(districtTree.map((node) => node.title));
+  provinces.forEach((province) => {
+    if (!existingProvinces.has(province)) {
+      let newNode = { title: province, value: province, dialects: [] };
+      districtTree.push(newNode);
+    }
   });
- 
+
   return districtTree;
 }

@@ -8,13 +8,47 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { JianCheng, ShengDiao } from '../utils/constant';
+import { DiTuJiErFenQv, DiTuJiErPaiXv, JianCheng, ShengDiao, YinDianFenQv, YinDianPaiXv } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
 import { getLocalPageSettingData } from '../pages/Setting';
 
 
+
+// 根据 "地圖集二排序" 排序
+function sortByDiTuJiErPaiXv(data) {
+  data.sort((a, b) => {
+    // 处理 "地圖集二排序" 中的空字符串
+    if (!a[DiTuJiErPaiXv] && b[DiTuJiErPaiXv]) return 1;
+    if (a[DiTuJiErPaiXv] && !b[DiTuJiErPaiXv]) return -1;
+    if (!a[DiTuJiErPaiXv] && !b[DiTuJiErPaiXv]) return 0;
+
+    // 正常比较 "地圖集二排序"
+    if (a[DiTuJiErPaiXv] < b[DiTuJiErPaiXv]) return -1;
+    if (a[DiTuJiErPaiXv] > b[DiTuJiErPaiXv]) return 1;
+
+    return 0;
+  });
+  return data
+}
+
+// 根据 "音典排序" 排序
+function sortByYinDianPaiXv(data) {
+  data.sort((a, b) => {
+    // 处理 "音典排序" 中的空字符串
+    if (!a[YinDianPaiXv] && b[YinDianPaiXv]) return 1;
+    if (a[YinDianPaiXv] && !b[YinDianPaiXv]) return -1;
+    if (!a[YinDianPaiXv] && !b[YinDianPaiXv]) return 0;
+
+    // 正常比较 "音典排序"
+    if (a[YinDianPaiXv] < b[YinDianPaiXv]) return -1;
+    if (a[YinDianPaiXv] > b[YinDianPaiXv]) return 1;
+
+    return 0;
+  });
+  return data
+}
 
 
 
@@ -28,6 +62,7 @@ const Layout = (props) => {
   const isPad = usePad()
   const isMobile = useMobile()
   const [messageApi, contextHolder] = message.useMessage();
+  const localPageSettingData = getLocalPageSettingData()
 
   /**
    * 处理菜单点击事件，跳转到对应路由。 
@@ -104,11 +139,18 @@ const Layout = (props) => {
     }) => {
       const dialectCateTree = transformDialectInfosToTree(dialectInfos)
       const dialectDistrictTree = buildDistrictTree(dialectInfos)
+      const dialectSort = localPageSettingData.partitionMode === DiTuJiErFenQv
+        ? sortByDiTuJiErPaiXv(dialectInfos).map(ele => ele[JianCheng])
+        : localPageSettingData.partitionMode === YinDianFenQv
+          ? sortByYinDianPaiXv(dialectInfos).map(ele => ele[JianCheng])
+          : []
+      // console.log('dialectSort', dialectSort, localPageSettingData.partitionMode, DiTuJiErFenQv, YinDianPaiXv)
       setStore({
         dialectCateTree: dialectCateTree,
         dialectInfos: dialectInfos,
         dialectNames: dialectNames,
         dialectDistrictTree: dialectDistrictTree,
+        dialectSort: dialectSort,
       });
       window.dialectInfosWasReady = true
     })

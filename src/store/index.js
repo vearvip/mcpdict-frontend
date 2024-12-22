@@ -50,6 +50,7 @@ import { create } from "zustand";
  * @property {string[]} dialectNames - 方言名称列表。 
  * @property {Array<Object>} dialectCateTree - 方言分区树形结构数据。
  * @property {Array<Object>} dialectDistrictTree - 行政区方言树形结构数据。
+ * @property {Array<string>} dialectSort - 方言排序列表。
  */
 
 export default create(
@@ -64,6 +65,7 @@ export default create(
       dialectNames: [],
       dialectCateTree: [],
       dialectDistrictTree: [],
+      dialectSort: [],
       geo: {},
     },
     setStore: (values) =>

@@ -31,14 +31,14 @@ import {
   CangJie5,
   CangeJie6,
   ShanRenMaLTS,
-  JianCheng, 
+  JianCheng,
   ShengDiao
 } from '@/utils/constant';
 import { queryCharInfo } from '@/services';
 import { formatShuowenText } from '@/utils';
 import { hanzi2Unicode } from '@vearvip/hanzi-utils'
-import { Spin } from 'antd'; 
-import useStore from '@/store'; 
+import { Spin } from 'antd';
+import useStore from '@/store';
 import { getLocalPageSettingData } from '@/pages/Setting';
 
 
@@ -65,15 +65,19 @@ const CharList = (props) => {
    * @param {Object.<string, any>} data - 包含方言名称及其对应信息字符串的对象。
    * @returns {Array<Object>} 解析后的方言信息数组。
    */
-  function parseDialectData(data) {
+  function parseDialectData(data, dialectSort = []) {
     const parsedData = [];
 
-    for (const [dialectName, infoString] of Object.entries(data)) {
-
-
+    dialectSort.forEach(dialectName => {
+      const infoString = data[dialectName];
       // 添加解析后的信息到最终结果数组中
-      parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
-    }
+      if (infoString) {
+        parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
+      }
+    })
+    // for (const [dialectName, infoString] of Object.entries(data)) { 
+    //   parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
+    // }
 
     return parsedData;
   }
@@ -216,10 +220,10 @@ const CharList = (props) => {
   useEffect(() => {
     // 搜索展示时默认跳过为空的项
     let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
-    hasValIndex =  hasValIndex === -1 ? 0 : hasValIndex
+    hasValIndex = hasValIndex === -1 ? 0 : hasValIndex
     // console.log('hasValIndex', hasValIndex)
     setSelectedCharItem(searchData[hasValIndex])
-    const parsedDialectData = parseDialectData(searchData[hasValIndex].charInfo)
+    const parsedDialectData = parseDialectData(searchData[hasValIndex].charInfo, store.dialectSort)
     // console.log('parsedDialectData', parsedDialectData)
     setSelectedCharInfos([
       {
@@ -268,7 +272,7 @@ const CharList = (props) => {
                 }}
                 onClick={() => {
                   setSelectedCharItem(charItem)
-                  const parsedDialectData = parseDialectData(charItem.charInfo)
+                  const parsedDialectData = parseDialectData(charItem.charInfo, store.dialectSort)
                   // console.log('parsedDialectData', parsedDialectData)
                   setSelectedCharInfos([
                     {
