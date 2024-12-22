@@ -112,11 +112,12 @@ export const Filter = React.forwardRef(
           <Radio.Group
             block
             options={[
-              { label: '选择语言', value: 'lang' },
+              { label: '语言', value: 'lang' },
               ...(
                 tmpMode ? [] : [
                   { label: '自选', value: 'custom' },
                   { label: '分区', value: 'area' },
+                  { label: '行政区', value: 'district' },
                 ]
               )
             ]}
@@ -156,8 +157,23 @@ export const Filter = React.forwardRef(
             // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
             allowClear
             treeDefaultExpandAll
-            treeData={(store?.dialectCateTree ?? [])}
-          // onPopupScroll={onPopupScroll}
+            treeData={(store?.dialectCateTree ?? [])} 
+          />
+        </Form.Item>
+        <Form.Item name="dialectDistrict" hidden={filterMode !== 'district'}>
+          <TreeSelect
+            showSearch
+            style={{ width: '100%' }}
+            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
+            allowClear
+            treeDefaultExpandAll
+            treeData={(store?.dialectDistrictTree ?? []).map(item => {
+              const { value, title, dialects } = item;
+              return { 
+                value,
+                title: title + `(${dialects.length})`,  
+              }
+            })}  
           />
         </Form.Item>
       </Form>

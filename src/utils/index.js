@@ -344,7 +344,7 @@ function findDialectsByPath(tree, path) {
     const [currentLevel, ...restLevels] = levels;
 
     for (let node of nodes) {
-      if (node.label === currentLevel) {
+      if (node.title === currentLevel) {
         if (restLevels.length === 0) {
           // If all levels have been processed, return the dialects of the current node.
           return node.dialects || [];
@@ -363,7 +363,7 @@ function findDialectsByPath(tree, path) {
   return searchNode(tree, pathLevels);
 }
 
-export const getSearchDialectList = (filterData, dialectCateTree) => {
+export const getSearchDialectList = (filterData, dialectCateTree, dialectDistrictTree) => {
   let dialectList
   if (filterData.filterMode === 'lang') {
     dialectList = filterData?.dialectName ? [filterData.dialectName] : []
@@ -372,6 +372,10 @@ export const getSearchDialectList = (filterData, dialectCateTree) => {
   } else if (filterData.filterMode === 'area') {
     let dialects = findDialectsByPath(dialectCateTree, filterData.dialectArea)
     // console.log('dialects', filterData.dialectArea, dialects)
+    dialectList = dialects
+  } else if (filterData.filterMode === 'district') {
+    let dialects = findDialectsByPath(dialectDistrictTree, filterData.dialectDistrict)
+    console.log('dialects',  dialects)
     dialectList = dialects
   }
   return dialectList
@@ -391,7 +395,7 @@ export function transformDialectInfosToTree(dialectInfos) {
       const currentLevel = levels.shift();
       const fullPath = pathSoFar ? `${pathSoFar}-${currentLevel}` : currentLevel;
       if (!node[currentLevel]) {
-        node[currentLevel] = { label: currentLevel, value: fullPath, dialects: [] };
+        node[currentLevel] = { title: currentLevel, value: fullPath, dialects: [] };
       }
 
       // Add the short name of the language to the current level's dialects array if it's not already there.
@@ -568,3 +572,100 @@ export const getRealPhoneticAndToneKey = (phonetic, toneMapConfig) => {
  * @returns {Promise}
  */
 export const delay = (timeout) => new Promise(resolve => setTimeout(resolve, timeout))
+
+
+
+
+export function buildDistrictTree(data) {
+  const provinces = [
+    "北京", "天津", "上海", "重慶",
+    "河北", "山西", "遼寧", "吉林", "黑龍江",
+    "江蘇", "浙江", "安徽", "福建", "江西", "山東", "河南", "湖北", "湖南",
+    "廣東", "海南", "四川", "貴州", "雲南", "陝西", "甘肅", "靑海",
+    "臺灣", "內蒙古", "廣西", "西藏", "寧夏", "新疆",
+    "香港", "澳門"
+  ];
+  // Helper function to insert or find a node in the tree
+  function insertIntoTree(tree, path, dialect) {
+      let currentNode = tree;
+      for (let i = 0; i < path.length; i++) {
+          let level = path[i];
+          let foundNode = currentNode.find(node => node.title === level);
+          if (!foundNode) {
+              let value = path.slice(0, i + 1).join('-');
+              foundNode = { title: level, value, dialects: [] };
+              // Only add children array if there is a deeper level
+              if (i < path.length - 1) {
+                  foundNode.children = [];
+              }
+              currentNode.push(foundNode);
+          }
+          // Add the dialect name only at the deepest level
+          if (i === path.length - 1 && !foundNode.dialects.includes(dialect)) {
+              foundNode.dialects.push(dialect);
+          }
+          if (foundNode.children) {
+              currentNode = foundNode.children;
+          }
+      }
+  }
+
+  // Helper function to collect all dialect names under each districtistrative level
+  function collectDialectNames(node) {
+      if (node.children) {
+          node.children.forEach(child => {
+              collectDialectNames(child);
+              // Add child's dialect names to parent's dialect names
+              child.dialects.forEach(dialect => {
+                  if (!node.dialects.includes(dialect)) {
+                      node.dialects.push(dialect);
+                  }
+              });
+          });
+      }
+  }
+
+  // Initialize the tree
+  let districtTree = [];
+
+  // Iterate over each data entry and build the tree
+  data.forEach(entry => {
+      // Construct the path from the districtistrative divisions, ignoring empty entries
+      let path = [entry.省, entry.市, entry.縣, entry.鎮, entry.村, entry.自然村].filter(Boolean);
+
+      // Insert this path into the tree and update dialects
+      if (path.length > 0) { // Ensure there is at least one level of districtistrative division
+          insertIntoTree(districtTree, path, entry.簡稱);
+      }
+  });
+
+  // Collect all dialect names for each districtistrative level
+  districtTree.forEach(rootNode => {
+      collectDialectNames(rootNode);
+  });
+
+  // Ensure all provinces are included in the tree
+  let existingProvinces = new Set(districtTree.map(node => node.title));
+  provinces.forEach(province => {
+      if (!existingProvinces.has(province)) {
+          let newNode = { title: province, value: province, dialects: [] };
+          districtTree.push(newNode);
+      }
+  });
+
+  // Convert simplified titles to traditional Chinese
+  function convertToTraditional(node) {
+      const simplifiedToTraditional = {
+          '浙江': '浙江', // Example mapping, you may need a comprehensive conversion map or library
+          // Add other mappings as necessary
+      };
+      node.title = simplifiedToTraditional[node.title] || node.title;
+      if (node.children) {
+          node.children.forEach(convertToTraditional);
+      }
+  }
+
+  districtTree.forEach(convertToTraditional);
+
+  return districtTree;
+}

@@ -83,7 +83,7 @@ const Search = (props) => {
     const charList = extractHanzi(value ) 
 
     const filterData = getLocalFilterData()
-    let dialectList = getSearchDialectList(filterData, store.dialectCateTree)
+    let dialectList = getSearchDialectList(filterData, store.dialectCateTree, store.dialectDistrictTree)
 
     try {
       const result = await queryChars({

@@ -59,8 +59,8 @@ export default () => {
 
   const search = async () => {
     // console.log('formData', formData)
-    // console.log('inputValue', inputValue)
-    let dialectList = getSearchDialectList(formData, store.dialectCateTree)
+    // console.log('inputValue', inputValue) 
+    let dialectList = getSearchDialectList(formData, store.dialectCateTree, store.dialectDistrictTree)
     setLoading(true)
     try {
       const result = await queryChars({
@@ -103,7 +103,7 @@ export default () => {
     // console.log('value', value)
   }
   const handleSearch = () => {
-    
+
     const q = searchParams.get('q');
     if (inputValue === q) {
       search()
@@ -113,16 +113,16 @@ export default () => {
   }
 
   useAsyncEffect(async () => {
-    const q = searchParams.get('q'); 
+    const q = searchParams.get('q');
     if (q) {
       if (
-        !store.dialectInfos   
-        || !Array.isArray(store.dialectInfos)  
+        !store.dialectInfos
+        || !Array.isArray(store.dialectInfos)
         || store.dialectInfos.length === 0
       ) {
         console.log('dialectInfos 尚未准备好：', store.dialectInfos)
         return
-      } 
+      }
       search();
     } else {
       setSearchResult([])
@@ -138,22 +138,22 @@ export default () => {
       className={`${styles.map_left_box}`}
       style={{
         ...(
-          isPad 
-          ? {
-            width: '100%',
-            // height: 'calc(100vh - 60px - 20px)' : 'calc(100vh - 60px - 20px)', 
-            minHeight: 190,
-            marginBottom: 10,
-          }
-          : { 
-            height: 'calc(100vh - 60px - 20px)', 
-          }
+          isPad
+            ? {
+              width: '100%',
+              // height: 'calc(100vh - 60px - 20px)' : 'calc(100vh - 60px - 20px)', 
+              minHeight: 190,
+              marginBottom: 10,
+            }
+            : {
+              height: 'calc(100vh - 60px - 20px)',
+            }
         )
       }}
     >
 
       <Filter onChange={handleFilterChange} />
-      <Input.Search 
+      <Input.Search
         value={inputValue}
         placeholder="请输入单字"
         loading={loading}

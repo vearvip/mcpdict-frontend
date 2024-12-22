@@ -1,6 +1,4 @@
-import { create } from 'zustand'
-
-
+import { create } from "zustand";
 
 /**
  * @typedef {Object} DialectInfo - 代表方言信息的对象。
@@ -47,22 +45,33 @@ import { create } from 'zustand'
  */
 
 /**
- * @typedef {Object} Store
- * @property {DialectInfo[]} dialectInfos - An array of dialect information objects.
- * @property {string[]} dialectNames - An array of strings representing dialect names.
+ * @typedef {Object} Store - 状态管理对象
+ * @property {DialectInfo[]} dialectInfos - 方言信息列表。 
+ * @property {string[]} dialectNames - 方言名称列表。 
+ * @property {Array<Object>} dialectCateTree - 方言分区树形结构数据。
+ * @property {Array<Object>} dialectDistrictTree - 行政区方言树形结构数据。
  */
 
-export default create((set) => ({
-  store: {
-    dialectInfos: [],
-    dialectNames: [],
-    dialectCateTree: [],
-    geo: {}
-  },
-  setStore: (values) => set((state) => {
-    return {
-      ...state,
-      store: { ...state.store, ...values }
-    }
-  }),
-}))
+export default create(
+  /**
+   *
+   * @param {Function} set
+   * @returns {{ store: Store, setStore: Function<Store> }}
+   */
+  (set) => ({
+    store: {
+      dialectInfos: [],
+      dialectNames: [],
+      dialectCateTree: [],
+      dialectDistrictTree: [],
+      geo: {},
+    },
+    setStore: (values) =>
+      set((state) => {
+        return {
+          ...state,
+          store: { ...state.store, ...values },
+        };
+      }),
+  })
+);

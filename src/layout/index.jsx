@@ -11,7 +11,7 @@ import zhCN from 'antd/locale/zh_CN';
 import { JianCheng, ShengDiao } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
-import { getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
+import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
 import { getLocalPageSettingData } from '../pages/Setting';
 
 
@@ -71,7 +71,7 @@ const Layout = (props) => {
           ...item,
           [ShengDiao]: JSON.parse(item[ShengDiao])
         }))
-        console.log('dialectInfos', dialectInfos)
+      console.log('dialectInfos', dialectInfos)
       return {
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
@@ -102,11 +102,13 @@ const Layout = (props) => {
       dialectInfos,
       dialectNames
     }) => {
-      const dialectCateTree = transformDialectInfosToTree(dialectInfos) 
+      const dialectCateTree = transformDialectInfosToTree(dialectInfos)
+      const dialectDistrictTree = buildDistrictTree(dialectInfos)
       setStore({
         dialectCateTree: dialectCateTree,
         dialectInfos: dialectInfos,
         dialectNames: dialectNames,
+        dialectDistrictTree: dialectDistrictTree,
       });
       window.dialectInfosWasReady = true
     })
@@ -166,7 +168,7 @@ const Layout = (props) => {
             支持，反馈请
             <span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
             或者提交Pr：
-            <span className={styles.a_tag} onClick={handleGoOpenSource}>Github</span> 
+            <span className={styles.a_tag} onClick={handleGoOpenSource}>Github</span>
             ，数据基于
             <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>
           </div>
