@@ -12,8 +12,9 @@ import { useRef } from 'react';
 const filterDefaultData = {
   filterMode: 'lang',
   dialectName: undefined,
-  dialectArea: undefined,
   dialectCustoms: undefined,
+  dialectArea: undefined,
+  dialectDistrict: undefined,
 }
 
 export const getLocalFilterData = () => {
