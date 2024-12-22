@@ -114,6 +114,7 @@ export default () => {
 
   useAsyncEffect(async () => {
     const q = searchParams.get('q');
+    setLoading(true)
     if (q) {
       if (
         !store.dialectInfos
@@ -126,6 +127,8 @@ export default () => {
       search();
     } else {
       setSearchResult([])
+
+      setLoading(false)
     }
   }, [searchParams, store]);
 
