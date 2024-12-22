@@ -3,11 +3,43 @@ import styles from './index.module.less';
 import { Popover } from 'antd';
 import { convertPitchNum2Curve, getRealPhoneticAndToneKey } from '../../../../utils';
 import { useMemo } from 'react';
+import { Card } from 'antd';
+
+
+const genFinallyPhonetic = (localPageSettingData, phonetic) => {
+  return phonetic
+}
+const genFinallyTonePitch = (localPageSettingData, tonePitch) => {
+  return (
+    localPageSettingData?.longSearchPageFormat == 3
+    || localPageSettingData?.longSearchPageFormat == 4
+    || localPageSettingData?.longSearchPageFormat == 7
+    || localPageSettingData?.longSearchPageFormat == 8
+  ) ? convertPitchNum2Curve(tonePitch)
+    : ''
+}
+const genFinallyTone = (localPageSettingData, tone) => {
+  return (
+    localPageSettingData?.longSearchPageFormat == 5
+    || localPageSettingData?.longSearchPageFormat == 6
+    || localPageSettingData?.longSearchPageFormat == 7
+    || localPageSettingData?.longSearchPageFormat == 8
+  ) ? tone
+    : ''
+}
+const genFinallyChar = (localPageSettingData, char) => {
+  return (
+    localPageSettingData?.longSearchPageFormat == 2
+    || localPageSettingData?.longSearchPageFormat == 4
+    || localPageSettingData?.longSearchPageFormat == 6
+    || localPageSettingData?.longSearchPageFormat == 8
+  ) ? char
+    : ''
+}
 
 const CharItem = ({
   className,
   onClick,
-  localPageSettingData,
   phonetic,
   tonePitch,
   tone,
@@ -19,33 +51,15 @@ const CharItem = ({
         phonetic
       }
       {
-        (
-          localPageSettingData?.longSearchPageFormat == 3
-          || localPageSettingData?.longSearchPageFormat == 4
-          || localPageSettingData?.longSearchPageFormat == 7
-          || localPageSettingData?.longSearchPageFormat == 8
-        ) ? convertPitchNum2Curve(tonePitch)
-          : undefined
+        tonePitch
       }
       {
-        (
-          localPageSettingData?.longSearchPageFormat == 5
-          || localPageSettingData?.longSearchPageFormat == 6
-          || localPageSettingData?.longSearchPageFormat == 7
-          || localPageSettingData?.longSearchPageFormat == 8
-        ) ? tone
-          : undefined
+        tone
       }
     </div>
     <div className={styles.char_box}>
       {
-        (
-          localPageSettingData?.longSearchPageFormat == 2
-          || localPageSettingData?.longSearchPageFormat == 4
-          || localPageSettingData?.longSearchPageFormat == 6
-          || localPageSettingData?.longSearchPageFormat == 8
-        ) ? char
-          : undefined
+        char
       }
     </div>
   </div>
@@ -62,7 +76,8 @@ const CharItem = ({
 export default ({
   charInfos,
   toneMapConfig,
-  localPageSettingData
+  localPageSettingData,
+  onChange
 }) => {
   const [charInfoIndex, setCharInfoIndex] = useState(0)
   const [phoneticIndex, setPhoneticIndex] = useState(0)
@@ -70,12 +85,14 @@ export default ({
     const nowOriginPhonetic = charInfos?.[charInfoIndex]?.phonetics?.[phoneticIndex]
     const char = charInfos?.[charInfoIndex]?.char
     let { phonetic, toneKey, tonePitch } = getRealPhoneticAndToneKey(nowOriginPhonetic, toneMapConfig)
-    return {
-      char,
-      phonetic: phonetic,
-      tonePitch: tonePitch,
-      tone: toneKey,
+    const charItem = {
+      phonetic: genFinallyPhonetic(localPageSettingData, phonetic),
+      tonePitch: genFinallyTonePitch(localPageSettingData, tonePitch),
+      tone: genFinallyTone(localPageSettingData, toneKey),
+      char: genFinallyChar(localPageSettingData, char),
     }
+    onChange && onChange(charItem)
+    return charItem
   }, [charInfos, charInfoIndex, phoneticIndex])
 
 
@@ -86,12 +103,15 @@ export default ({
           charInfos.map((charInfo, charInfoIdx) => {
             return charInfo.phonetics.map((originPhonetic, phoneticIdx) => {
               let { phonetic, toneKey, tonePitch } = getRealPhoneticAndToneKey(originPhonetic, toneMapConfig)
-
-              const tone = toneKey
-
+              let tone = toneKey
               const isActived = charInfoIdx === charInfoIndex && phoneticIdx === phoneticIndex
+              // phonetic = genFinallyPhonetic(localPageSettingData, phonetic)
+              tonePitch = genFinallyTonePitch(localPageSettingData, tonePitch)
+              // tone = genFinallyTone(localPageSettingData, tone)
+              // let char = genFinallyChar(localPageSettingData, charInfo.char)
+
+
               return <CharItem
-              localPageSettingData={localPageSettingData}
                 key={`${charInfoIdx}_${originPhonetic}_${phoneticIdx}`}
                 className={`${styles.char_info_box} ${styles.char_poppver_box} ${isActived ? styles.char_poppver_box_actived : ''}`}
                 onClick={() => {
@@ -114,12 +134,11 @@ export default ({
       }}>
         <CharItem
           className={styles.char_info_box}
-          localPageSettingData={localPageSettingData}
           char={nowCharItem.char}
           phonetic={nowCharItem.phonetic}
           tonePitch={nowCharItem.tonePitch}
           tone={nowCharItem.tone}
-        />  
+        />
       </div>
     </Popover>
     : null

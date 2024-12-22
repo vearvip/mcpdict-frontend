@@ -15,6 +15,7 @@ import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../
 import { SettingOutlined } from '@ant-design/icons';
 import { getLocalPageSettingData } from '../Setting';
 import { JianCheng, ShengDiao } from '../../utils/constant';
+import { useRef } from 'react';
 
 /**
  * 长文搜索组件，用于处理长文本的注音搜索。
@@ -34,6 +35,8 @@ const LongSearch = (props) => {
   const [charVariantInfos, setCharVariantsInfos] = useState()
   const [form] = Form.useForm();
 
+  const twoDimensionalCharListRef = useRef([])
+
 
   const handleTextareaChange = (e) => {
     const value = e?.target?.value
@@ -49,6 +52,11 @@ const LongSearch = (props) => {
         setFilterData({
           ...filterData
         })
+
+        const localFilterData = getLocalFilterData()
+        localFilterData.dialectName = filterData.dialectName
+        // console.log('localFilterData', filterData)
+        setLocalFilterData(localFilterData)
         handleSearch(filterData)
       },
       onClose() {
@@ -58,8 +66,11 @@ const LongSearch = (props) => {
   }
 
   const handleSearch = async (filterData) => {
+    twoDimensionalCharListRef.current = []
     if (!filterData?.dialectName) {
-      message.warning('请点击⚙设置按钮选择语言')
+      // message.warning('请点击⚙设置按钮选择语言')
+      message.warning('请选择语言')
+      handleClickSetting()
       return
     }
     NProgress.start();
@@ -116,6 +127,49 @@ const LongSearch = (props) => {
   const handleModalCancel = () => {
 
   }
+
+  const handleCopy = () => {
+    const twoDimensionalCharList = twoDimensionalCharListRef.current
+    // console.log('twoDimensionalCharList', twoDimensionalCharList)
+    let textContent = ``
+    twoDimensionalCharList.forEach((level1Item, level1Index) => {
+      level1Item.forEach(
+        /**
+         * 
+         * @param {Object} level2Item 
+         * @param {string} level2Item.phonetic ipa国际音标
+         * @param {string} level2Item.tonePitch 调值
+         * @param {string} level2Item.tone 音类
+         * @param {string} level2Item.char 汉字
+         * @param {number} level2Index 
+         */
+        (level2Item, level2Index) => {
+          // console.log('level2Item', level2Item)
+          let { phonetic, tonePitch, tone, char } = level2Item 
+          textContent = `${textContent}${phonetic}${tonePitch}${tone} ${char} `  
+
+        }
+      )
+      textContent = `${textContent}\n`
+    })
+    copy(textContent)
+  }
+
+  const handleCharChange = (charItem, charItemLevel1Index, charItemLevel2Index) => {
+    // console.log('charItem, charItemLevel1Index, charItemLevel2Index', charItem, charItemLevel1Index, charItemLevel2Index)
+    const twoDimensionalCharList = twoDimensionalCharListRef.current
+    // console.log('twoDimensionalCharList', twoDimensionalCharList)
+    // 如果二维数据的第一层的指定下标为空，则创建一个空数组
+    if (
+      !Array.isArray(twoDimensionalCharList[charItemLevel1Index])
+    ) {
+      twoDimensionalCharList[charItemLevel1Index] = []
+    }
+    // 然后开始赋值
+    twoDimensionalCharList[charItemLevel1Index][charItemLevel2Index] = charItem
+    twoDimensionalCharListRef.current = (twoDimensionalCharList)
+  }
+
   return (
     <>
       <div className={styles.search_bar}>
@@ -164,13 +218,7 @@ const LongSearch = (props) => {
               marginTop: -5,
               marginRight: -3,
               float: 'right'
-            }} onClick={() => {
-              // 获取指定的 div 元素
-              var div = document.getElementById('search_content');
-              const textContent = div.textContent.replace('复制', '');
-              // console.log('textContent', textContent)
-              copy(textContent)
-            }}>复制</Button>
+            }} onClick={handleCopy}>复制</Button>
             {
               textAreaValue ? splitStringInto2DArray(textAreaValue).map((line, lineIndex) => {
                 return <div key={`line${lineIndex}`}>
@@ -185,6 +233,7 @@ const LongSearch = (props) => {
                           toneMapConfig={store?.dialectInfos?.find(dialectItem => {
                             return dialectItem[JianCheng] === filterData.dialectName
                           })?.[ShengDiao]}
+                          onChange={charItem => handleCharChange(charItem, lineIndex, charIndex)}
                         />
                         : null
                     })
