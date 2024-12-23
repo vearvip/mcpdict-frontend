@@ -737,11 +737,5 @@ export function buildDistrictTree(data) {
 }
 
 
-export const isApple = () => {
-  return navigator.platform.includes("Mac")
-    || navigator.platform.includes("iPhone")
-    || navigator.platform.includes("iPad")
-    || navigator.platform.includes("iPod") 
-    || navigator.platform.includes("Pike") 
-}
+export const isApple = () => ['Mac', 'iPhone', 'iPad', 'iPod'].some(platform => navigator.platform.includes(platform));
 
