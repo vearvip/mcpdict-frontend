@@ -4,7 +4,7 @@
 
 > 在线访问：[https://mcpdict.vear.vip/](https://mcpdict.vear.vip/)
 
-当前是`前端仓库`，`服务端仓库`请访问:[vearvip/mcpdict-backend/](https://github.com/vearvip/mcpdict-backend/tree/elysia)
+当前是`前端仓库`，`服务端仓库`请访问:[vearvip/mcpdict-backend](https://github.com/vearvip/mcpdict-backend/tree/elysia)
 
 ## 项目依赖
 
