@@ -10,7 +10,7 @@ import useStore from '@/store';
 import { JianCheng } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
-import { getBackgroundColorFromItem, logoUrl } from '../../utils';
+import { getBackgroundColorFromItem, isApple, logoUrl } from '../../utils';
 
 
 /**
@@ -32,6 +32,24 @@ const Index = (props) => {
     navigate('/search?q=' + value);
   };
 
+  const books = (store?.dialectInfos ?? []).map((item) => (
+    <div
+      className={styles.book_item}
+      key={item[JianCheng]}
+      onClick={() => {
+        showDialectInfo({
+          color: getBackgroundColorFromItem(item),
+          dialectName: item[JianCheng]
+        })
+      }}
+    >
+      <Book
+        name={item[JianCheng]}
+        color={getBackgroundColorFromItem(item)}
+      />
+    </div>
+  ))
+
   return (
     <div className={styles.index}>
       <div className={`${styles.main_box} box`}>
@@ -47,29 +65,17 @@ const Index = (props) => {
           onSearch={onSearch}
         />
       </div>
-      {/* <div className={styles.book_box}>
+      <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
-        <CollapsibleContent height={650}>
-          {(store?.dialectInfos ?? []).map((item) => (
-            <div
-              className={styles.book_item}
-              key={item[JianCheng]}
-              onClick={() => {
-                showDialectInfo({
-                  color: getBackgroundColorFromItem(item),
-                  dialectName: item[JianCheng]
-                })
-              }}
-            >
-              <Book
-                name={item[JianCheng]}
-                color={getBackgroundColorFromItem(item)}
-              />
-            </div>
-          ))}
+        {
+          isApple()
+            ? books
+            : <CollapsibleContent height={650}>
+              {books} 
+            </CollapsibleContent>
+        }
 
-        </CollapsibleContent>
-      </div> */}
+      </div>
     </div>
   );
 };
