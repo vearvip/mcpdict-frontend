@@ -76,33 +76,21 @@
 }
 /* 在你的 CSS 文件中添加 */
 .tooltip {
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.9);
   box-sizing: border-box;
   width: fit-content;
   margin: 0 auto;
-  padding: 1px 1px 2px 2px;
-  border-radius: 3px; 
+  padding: 1px 3px 2px 4px;
+  border-radius: 4px; 
   text-align: center;
   white-space: nowrap;
   line-height: 1.25;
   white-space: nowrap;
   top: -22px;
   
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   position: absolute;
   z-index: 100; /* 确保 Tooltip 显示在其他内容之上 */
   pointer-events: none; /* 防止 Tooltip 响应鼠标事件 */
-}
-
-/* 你可以根据需要调整以下样式 */
-/* .tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent white transparent;
-} */
+} 
