@@ -4,11 +4,11 @@ import AutoFitText from '@/components/AutoFitText';
 import { Button, notification } from 'antd';
 import NoData from '@/components/NoData';
 import { copy, parseSplitStr } from '@/utils';
-import { usePad, } from '@/utils/hooks';
+import { usePad, useWindowSize } from '@/utils/hooks';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router'; 
 import { message } from 'antd';
 import {
   ShuoWen,
@@ -40,7 +40,10 @@ import { hanzi2Unicode } from '@vearvip/hanzi-utils'
 import { Spin } from 'antd';
 import useStore from '@/store';
 import { getLocalPageSettingData } from '@/pages/Setting';
+import { useSize } from 'ahooks';
 
+import { List, AutoSizer } from 'react-virtualized';
+import 'react-virtualized/styles.css'; // 不要忘记引入默认样式
 
 
 /**
@@ -50,6 +53,8 @@ const CharList = (props) => {
   const { searchData } = props;
   const { store } = useStore()
   const isPad = usePad()
+  const windowSize = useWindowSize();
+  const charListBoxSize = useSize(document.querySelector('#char_list_box'))
   const [selectedCharItem, setSelectedCharItem] = useState()
   const [selectedCharInfos, setSelectedCharInfos] = useState()
   const [uniCodeLoading, setUniCodeLoading] = useState(false)
@@ -239,6 +244,7 @@ const CharList = (props) => {
   return (
     <>
       <div
+        id="char_list_box"
         className={`${styles.char_list_box}`}
         style={{
           ...(
@@ -290,99 +296,123 @@ const CharList = (props) => {
         <div className={isPad ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
           {
             (selectedCharInfos && Array.isArray(selectedCharInfos) && selectedCharInfos.length > 0)
-              ? <VirtualScroll
+              ? <>
+                    
+              <div
                 className={
                   isPad ? styles.virtual_list_mobile : styles.virtual_list
                 }
-                minItemHeight={30}
-                totalLength={selectedCharInfos?.length}
-                renderItem={(infoIndex) => {
-                  const charInfo = selectedCharInfos[infoIndex];
-                  // console.log('infoIndex charInfo', infoIndex, charInfo)
-                  if (infoIndex === 0) {
-                    return <div>
-                      <div
-                        className={styles.char_nav}
-                      >
-                        {/* <div
-                          className={styles.char_img_box}
-                          onClick={() => handleImgClick(charInfo.char)}
-                        > <img
-                            src={`https://assets.mcpdict.vear.vip/imgs/other/田字格.png`}
-                            className={styles.char_bg} alt="" />
-                          <img
-                            src={`https://assets.mcpdict.vear.vip/imgs/tianHeng/${charInfo.char}.png`}
-                            className={styles.char_img}
-                          />
-                        </div>  */}
-                        <div className={styles.char_btns}>
-                          <Spin spinning={uniCodeLoading} size="small">
-                            <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
-                              U+{hanzi2Unicode(charInfo.char)}
-                            </div>
-                          </Spin>
-                          <Spin spinning={shuowenLoading} size="small">
-                            <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
-                              说文
-                            </div>
-                          </Spin>
-                          <Spin spinning={kangxiLoading} size="small">
-                            <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
-                              康熙
-                            </div>
-                          </Spin>
-                          <Spin spinning={huizuanLoading} size="small">
-                            <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
-                              汇纂
-                            </div>
-                          </Spin>
-                          <Spin spinning={handaLoading} size="small">
-                            <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
-                              汉大
-                            </div>
-                          </Spin>
-                          <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
-                            🌎️
-                          </div>
-                        </div>
+                style={{
+                  border: '1px solid red',
+                  height: (isPad 
+                    ? charListBoxSize?.height - 44  
+                    : charListBoxSize?.height) || undefined,
+                  width: (isPad 
+                  ? charListBoxSize?.width 
+                  : charListBoxSize?.width - 90) || undefined 
 
-                      </div>
-
-                      {
-                        selectedCharInfos.length === 1 ?
-                          <div className="flex-center" >
-                            <NoData style={{
-                              position: 'relative'
-                            }} />
-                          </div>
-                          : null
-                      }
-                    </div>
-                  }
-                  return (
-                    <div key={`char_info_${infoIndex}`} className={styles.char_info}>
-                      <AutoFitText
-                        char={selectedCharItem?.char}
-                        dialectName={charInfo.dialectName}
-                        phonetics={charInfo.infos.map(ele => ele.phonetic)}
+                }}  
+            
+              >
+                <AutoSizer>
+        {({ height, width }) => (
+          <List
+            width={width}
+            height={height}
+            rowCount={selectedCharInfos?.length}
+            rowHeight={30} // 每一行的高度
+            rowRenderer={({index: infoIndex}) => {
+              const charInfo = selectedCharInfos[infoIndex];
+              // console.log('infoIndex charInfo', infoIndex, charInfo)
+              if (infoIndex === 0) {
+                return <div>
+                  <div
+                    className={styles.char_nav}
+                  >
+                    {/* <div
+                      className={styles.char_img_box}
+                      onClick={() => handleImgClick(charInfo.char)}
+                    > <img
+                        src={`https://assets.mcpdict.vear.vip/imgs/other/田字格.png`}
+                        className={styles.char_bg} alt="" />
+                      <img
+                        src={`https://assets.mcpdict.vear.vip/imgs/tianHeng/${charInfo.char}.png`}
+                        className={styles.char_img}
                       />
-                      <div>
-                        {charInfo.infos.map((info, subIndex) => (
-                          <CharPhoneticExplain
-                            key={`info_item_${infoIndex}_${subIndex}`}
-                            localPageSettingData={localPageSettingData}
-                            phonetic={info.phonetic}
-                            explain={info.explain}
-                            toneMapConfig={store?.dialectInfos?.find(dialectItem => {
-                              return dialectItem[JianCheng] === charInfo.dialectName
-                            })?.[ShengDiao]}
-                          />
-                        ))}
+                    </div>  */}
+                    <div className={styles.char_btns}>
+                      <Spin spinning={uniCodeLoading} size="small">
+                        <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
+                          U+{hanzi2Unicode(charInfo.char)}
+                        </div>
+                      </Spin>
+                      <Spin spinning={shuowenLoading} size="small">
+                        <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
+                          说文
+                        </div>
+                      </Spin>
+                      <Spin spinning={kangxiLoading} size="small">
+                        <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
+                          康熙
+                        </div>
+                      </Spin>
+                      <Spin spinning={huizuanLoading} size="small">
+                        <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
+                          汇纂
+                        </div>
+                      </Spin>
+                      <Spin spinning={handaLoading} size="small">
+                        <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
+                          汉大
+                        </div>
+                      </Spin>
+                      <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
+                        🌎️
                       </div>
                     </div>
-                  );
-                }}
-              />
+
+                  </div>
+
+                  {
+                    selectedCharInfos.length === 1 ?
+                      <div className="flex-center" >
+                        <NoData style={{
+                          position: 'relative'
+                        }} />
+                      </div>
+                      : null
+                  }
+                </div>
+              }
+              return (
+                <div key={`char_info_${infoIndex}`} className={styles.char_info}>
+                  <AutoFitText
+                    char={selectedCharItem?.char}
+                    dialectName={charInfo.dialectName}
+                    phonetics={charInfo.infos.map(ele => ele.phonetic)}
+                  />
+                  <div>
+                    {charInfo.infos.map((info, subIndex) => (
+                      <CharPhoneticExplain
+                        key={`info_item_${infoIndex}_${subIndex}`}
+                        localPageSettingData={localPageSettingData}
+                        phonetic={info.phonetic}
+                        explain={info.explain}
+                        toneMapConfig={store?.dialectInfos?.find(dialectItem => {
+                          return dialectItem[JianCheng] === charInfo.dialectName
+                        })?.[ShengDiao]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            }}
+          />
+        )}
+      </AutoSizer>
+                </div>
+
+              </>
               : <div className="flex-center">
                 <NoData style={{
                   position: 'relative'
