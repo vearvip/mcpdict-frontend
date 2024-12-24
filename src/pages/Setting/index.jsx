@@ -251,20 +251,22 @@ export default () => {
             ]} />
         </Form.Item>
         <Form.Item
-          label="地图页标点大小"
+          label="地图页标点样式"
           name="mapPageMarkerSize"
           rules={[
             {
               required: true,
-              message: '请选择地图页标点大小',
+              message: '请选择地图页标点样式',
             },
           ]}
         >
           <Radio.Group
-            optionType="button"
+            // optionType="button"
             options={[
               { value: 'normal', label: '正常' },
               { value: 'small', label: '小号' }, 
+              { value: 'ipa', label: 'IPA' }, 
+              { value: 'point', label: '圆点' }, 
             ]} />
         </Form.Item>
 

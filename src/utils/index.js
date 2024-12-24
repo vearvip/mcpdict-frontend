@@ -233,17 +233,17 @@ export function parseSplitStr(infoString, dialectName) {
  *
  * @param {string} textContent - 文本内容。
  */
-export async function copy(textContent) {
+export async function copy(textContent, showMessage = true) {
   // console.log('-----textContent', textContent);
 
   try {
     // 使用现代的 Clipboard API
     await navigator.clipboard.writeText(textContent);
     // 假设 message 是一个全局可用的消息组件
-    message.success("复制成功！");
+    showMessage && message.success("复制成功！");
   } catch (err) {
     // 正确地构造错误信息
-    message.error(`复制失败：${err.message}`);
+    showMessage &&  message.error(`复制失败：${err.message}`);
   }
 }
 

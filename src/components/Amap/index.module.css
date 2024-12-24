@@ -57,3 +57,20 @@
   white-space: nowrap;
   line-height: 1.25;
 }
+.phonetic_ipa {
+  font-size: 10px; 
+  box-sizing: border-box;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 2px 3px 2px 3px;
+  border-radius: 3px; 
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.25;
+  color: white;
+}
+.point { 
+  width: 8px; 
+  height: 8px;
+  border-radius: 50%;  
+}

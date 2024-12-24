@@ -108,37 +108,72 @@ export default function Amap({ dialectInfos, style }) {
     if (!latitude && !latitude) {
       return
     }
+    const markerDOM = document.createElement('div')
+    const backgroundColor = generateColorOrGradient(getBackgroundColorFromItem(dialectItem))
 
-    const dialectNameDOM = document.createElement('div');
-    dialectNameDOM.textContent = dialectItem[JianCheng];
-    // 动态设置背景色
-    dialectNameDOM.style.background = generateColorOrGradient(getBackgroundColorFromItem(dialectItem));
-    dialectNameDOM.onclick = () => {
-      showDialectInfo({
-        dialectName: dialectItem[JianCheng],
-        color: getBackgroundColorFromItem(dialectItem),
-      });
-    };
+    if (
+      localPageSettingData.mapPageMarkerSize === 'normal'
+      || localPageSettingData.mapPageMarkerSize === 'small'
+      || localPageSettingData.mapPageMarkerSize === 'ipa'
+    ) {
+      const dialectNameDOM = document.createElement('div');
+      dialectNameDOM.textContent = dialectItem[JianCheng];
+      // 动态设置背景色
+      dialectNameDOM.style.background = backgroundColor;
+      dialectNameDOM.onclick = () => {
+        showDialectInfo({
+          dialectName: dialectItem[JianCheng],
+          color: getBackgroundColorFromItem(dialectItem),
+        });
+      };
 
-    const phoneticDOM = document.createElement('div');
-    phoneticDOM.textContent = dialectItem['phonetic'];
-    phoneticDOM.onclick = () => {
-      copy(dialectItem['phonetic']);
-    };
+      const phoneticDOM = document.createElement('div');
+      phoneticDOM.textContent = dialectItem['phonetic'];
+      phoneticDOM.onclick = () => {
+        copy(dialectItem['phonetic']);
+      };
 
-    // 应用CSS类
-    if (localPageSettingData.mapPageMarkerSize === 'normal') {
-      dialectNameDOM.classList = [styles.dialect_name_normal]
-      phoneticDOM.classList = [styles.phonetic_normal]
-    } else if (localPageSettingData.mapPageMarkerSize === 'small') {
-      dialectNameDOM.classList = [styles.dialect_name_small]
-      phoneticDOM.classList = [styles.phonetic_small]
+      // 应用CSS类
+      if (localPageSettingData.mapPageMarkerSize === 'normal') {
+        dialectNameDOM.classList = [styles.dialect_name_normal]
+        phoneticDOM.classList = [styles.phonetic_normal]
+        markerDOM.append(dialectNameDOM)
+        markerDOM.append(phoneticDOM)
+      } else if (localPageSettingData.mapPageMarkerSize === 'small') {
+        dialectNameDOM.classList = [styles.dialect_name_small]
+        phoneticDOM.classList = [styles.phonetic_small]
+        markerDOM.append(dialectNameDOM)
+        markerDOM.append(phoneticDOM)
+      } else if (localPageSettingData.mapPageMarkerSize === 'ipa') {
+        phoneticDOM.classList = [styles.phonetic_ipa]
+        phoneticDOM.style.background = backgroundColor
+        // 覆盖点击行为
+        phoneticDOM.onclick = () => {
+          copy(dialectItem['phonetic']);
+          showDialectInfo({
+            dialectName: dialectItem[JianCheng],
+            color: getBackgroundColorFromItem(dialectItem),
+          });
+        };
+        markerDOM.append(phoneticDOM)
+      }
+    } else if (localPageSettingData.mapPageMarkerSize === 'point') {
+      const pointDOM = document.createElement('div');
+      pointDOM.classList = [styles.point]
+      pointDOM.style.background = backgroundColor
+      // 覆盖点击行为
+      pointDOM.onclick = () => {
+        copy(dialectItem['phonetic']);
+        showDialectInfo({
+          dialectName: dialectItem[JianCheng],
+          color: getBackgroundColorFromItem(dialectItem),
+        });
+      };
+      markerDOM.append(pointDOM)
     }
 
 
-    const markerDOM = document.createElement('div')
-    markerDOM.append(dialectNameDOM)
-    markerDOM.append(phoneticDOM)
+
 
     // console.log('first', markerDOM)
     const position = new AMap.LngLat(longitude, latitude); //Marker 经纬度
