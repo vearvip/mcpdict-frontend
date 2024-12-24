@@ -159,9 +159,20 @@ export default function Amap({ dialectInfos, style }) {
       }
     } else if (localPageSettingData.mapPageMarkerSize === 'point') {
       const pointDOM = document.createElement('div');
-      pointDOM.classList = [styles.point]
-      pointDOM.style.background = backgroundColor
-      // 覆盖点击行为
+      pointDOM.classList.add(styles.point);
+      pointDOM.style.background = backgroundColor;
+      
+      // 创建并配置 Tooltip
+      const tooltipDOM = document.createElement('div');
+      tooltipDOM.textContent = dialectItem['phonetic'];
+      tooltipDOM.classList.add(styles.tooltip); // 确保你已经在 CSS 中定义了这个类
+      tooltipDOM.style.display = 'none'; // 初始状态下隐藏 Tooltip
+    
+      // 将 Tooltip 添加到 pointDOM 中
+      pointDOM.appendChild(tooltipDOM);
+      // tooltipDOM.style.display = 'block';
+    
+      // 设置点击行为
       pointDOM.onclick = () => {
         copy(dialectItem['phonetic']);
         showDialectInfo({
@@ -169,7 +180,17 @@ export default function Amap({ dialectInfos, style }) {
           color: getBackgroundColorFromItem(dialectItem),
         });
       };
-      markerDOM.append(pointDOM)
+    
+      // 设置鼠标进入和离开的行为
+      pointDOM.addEventListener('mouseenter', () => {
+        tooltipDOM.style.display = 'block';
+      });
+    
+      pointDOM.addEventListener('mouseleave', () => {
+        tooltipDOM.style.display = 'none';
+      });
+    
+      markerDOM.append(pointDOM);
     }
 
 
