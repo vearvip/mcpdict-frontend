@@ -304,17 +304,17 @@ const CharList = (props) => {
                       <div
                         className={styles.char_nav}
                       >
-                        {/* <div
+                        <div
                           className={styles.char_img_box}
                           onClick={() => handleImgClick(charInfo.char)}
                         > <img
-                            src={`https://cdn.jsdelivr.net/gh/vearvip/hanzi-imgs@v3/src/assets/田字格.png`}
+                            src={`https://assets.mcpdict.vear.vip/imgs/other/田字格.png`}
                             className={styles.char_bg} alt="" />
                           <img
-                            src={`https://cdn.jsdelivr.net/gh/vearvip/hanzi-imgs@v2/src/images/${charInfo.char}.png`}
+                            src={`https://assets.mcpdict.vear.vip/imgs/tianHeng/${charInfo.char}.png`}
                             className={styles.char_img}
                           />
-                        </div> */}
+                        </div> 
                         <div className={styles.char_btns}>
                           <Spin spinning={uniCodeLoading} size="small">
                             <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
