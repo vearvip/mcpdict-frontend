@@ -16,6 +16,7 @@ import { usePad } from '../../utils/hooks';
 import { useSearchParams } from 'react-router';
 import { useAsyncEffect } from 'ahooks';
 import { useNavigate } from 'react-router';
+import { getLocalPageSettingData } from '../Setting';
 
 
 export default () => {

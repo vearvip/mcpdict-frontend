@@ -6,3 +6,54 @@
   box-sizing: border-box;
   /* border: 3px solid red; */
 }
+ 
+.dialect_name_normal {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 2px 5px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  color: white;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.phonetic_normal {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  box-sizing: border-box;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 3px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dialect_name_small {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 2px 2px 2px 2px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 10px;
+  color: white;
+  box-sizing: border-box;
+  white-space: nowrap;
+  line-height: 1.25;
+}
+
+.phonetic_small {
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.6);
+  box-sizing: border-box;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 2px 2px 2px 2px;
+  border-radius: 3px; 
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.25;
+}

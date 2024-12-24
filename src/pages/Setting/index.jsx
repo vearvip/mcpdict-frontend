@@ -19,6 +19,7 @@ const defaultPageSettingData = {
   tonePitchType: 'curve',
   searchPageFormat: 'labelList',
   longSearchPageFormat: 8,
+  mapPageMarkerSize: 'normal'
 }
 
 export const getLocalPageSettingData = () => {
@@ -247,6 +248,23 @@ export default () => {
               { value: 6, label: 'IPA+调类+字' },
               { value: 7, label: 'IPA+曲折线调值+调类' },
               { value: 8, label: 'IPA+曲折线调值+调类+字' },
+            ]} />
+        </Form.Item>
+        <Form.Item
+          label="地图页标点大小"
+          name="mapPageMarkerSize"
+          rules={[
+            {
+              required: true,
+              message: '请选择地图页标点大小',
+            },
+          ]}
+        >
+          <Radio.Group
+            optionType="button"
+            options={[
+              { value: 'normal', label: '正常' },
+              { value: 'small', label: '小号' }, 
             ]} />
         </Form.Item>
 

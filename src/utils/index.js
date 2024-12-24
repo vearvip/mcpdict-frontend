@@ -739,3 +739,4 @@ export function buildDistrictTree(data) {
 
 export const isApple = () => ['Mac', 'iPhone', 'iPad', 'iPod'].some(platform => navigator.platform.includes(platform));
 
+export const isSafari = () => navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')

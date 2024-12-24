@@ -9,6 +9,7 @@ import { JianCheng, JingWeiDu } from "../../utils/constant";
 import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
+import { getLocalPageSettingData } from "../../pages/Setting";
 
 const SECURITY_JS_CODE = "1788e1d3a24050a4636c234a115ba0b7"
 const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
@@ -22,6 +23,7 @@ const KEY = "28e7f63ba379e8c57e5b3dc318b11a4d"
  * @returns {JSX.Element}
  */
 export default function Amap({ dialectInfos, style }) {
+  const localPageSettingData = getLocalPageSettingData()
   const [mapReady, setMapReady] = useState(false)
   const mapRef = useRef(null);
   const [markerList, setMarkerList] = useState([])
@@ -106,41 +108,33 @@ export default function Amap({ dialectInfos, style }) {
     if (!latitude && !latitude) {
       return
     }
-    
-    const dialectNameDOM = document.createElement('div')
-    dialectNameDOM.textContent = dialectItem[JianCheng] 
-    // dialectNameDOM.style.height = '20px'
-    dialectNameDOM.style.width = 'fit-content'
-    dialectNameDOM.style.margin = '0 auto' 
-    dialectNameDOM.style.padding = '2px 5px'
-    dialectNameDOM.style.borderRadius = '4px'
-    dialectNameDOM.style.textAlign = 'center'  
-    dialectNameDOM.style.fontSize = '12px'  
-    dialectNameDOM.style.color = 'white'
-    dialectNameDOM.style.boxSizing = 'border-box'
-    dialectNameDOM.style.background = generateColorOrGradient(getBackgroundColorFromItem(dialectItem))
-    dialectNameDOM.style.whiteSpace = 'nowrap'
+
+    const dialectNameDOM = document.createElement('div');
+    dialectNameDOM.textContent = dialectItem[JianCheng];
+    // 动态设置背景色
+    dialectNameDOM.style.background = generateColorOrGradient(getBackgroundColorFromItem(dialectItem));
     dialectNameDOM.onclick = () => {
       showDialectInfo({
         dialectName: dialectItem[JianCheng],
         color: getBackgroundColorFromItem(dialectItem),
-      })
-    }
-    const phoneticDOM = document.createElement('div')
-    phoneticDOM.textContent = dialectItem['phonetic']  
-    phoneticDOM.style.fontSize = '12px' 
-    phoneticDOM.style.background = 'rgba(255, 255, 255, 0.6)'
-    phoneticDOM.style.boxSizing = 'border-box'
-    phoneticDOM.style.width = 'fit-content'
-    phoneticDOM.style.margin = '0 auto' 
-    phoneticDOM.style.marginTop = '3px'
-    phoneticDOM.style.padding = '2px 5px'
-    phoneticDOM.style.borderRadius = '5px' 
-    phoneticDOM.style.textAlign = 'center'  
-    phoneticDOM.style.whiteSpace = 'nowrap'
+      });
+    };
+
+    const phoneticDOM = document.createElement('div');
+    phoneticDOM.textContent = dialectItem['phonetic'];
     phoneticDOM.onclick = () => {
-      copy(dialectItem['phonetic'])
+      copy(dialectItem['phonetic']);
+    };
+
+    // 应用CSS类
+    if (localPageSettingData.mapPageMarkerSize === 'normal') {
+      dialectNameDOM.classList = [styles.dialect_name_normal]
+      phoneticDOM.classList = [styles.phonetic_normal]
+    } else if (localPageSettingData.mapPageMarkerSize === 'small') {
+      dialectNameDOM.classList = [styles.dialect_name_small]
+      phoneticDOM.classList = [styles.phonetic_small]
     }
+
 
     const markerDOM = document.createElement('div')
     markerDOM.append(dialectNameDOM)

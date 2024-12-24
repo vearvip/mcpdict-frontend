@@ -10,7 +10,7 @@ import useStore from '@/store';
 import { JianCheng } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
-import { getBackgroundColorFromItem, isApple, logoUrl } from '../../utils';
+import { getBackgroundColorFromItem, isApple, logoUrl, isSafari } from '../../utils';
 
 
 /**
@@ -68,7 +68,7 @@ const Index = (props) => {
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
         {
-          isApple()
+          isApple() && isSafari()
             ? books
             : <CollapsibleContent height={650}>
               {books} 
