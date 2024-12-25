@@ -235,7 +235,13 @@ const LongSearch = (props) => {
                           tone: '',
                           char: char,
                         }, lineIndex, charIndex)
-                        return char
+                        return <span
+                          style={{ 
+                            color: '#666',
+                            textAlign: 'center',
+                            margin: '0 2px',
+                          }}
+                        >{char}</span>
                       } else {
                         console.log('char', char, charInfos)
                         return <Char
