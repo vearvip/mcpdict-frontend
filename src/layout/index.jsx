@@ -133,6 +133,7 @@ const Layout = (props) => {
   };
 
   useEffect(() => {
+    console.log('🍓666')
     getDialectInfos().then(({
       dialectInfos,
       dialectNames
