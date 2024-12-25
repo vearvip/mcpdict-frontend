@@ -21,7 +21,6 @@
     "qs": "^6.13.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-dynamic-virtual-scroll": "^1.4.0",
     "react-router": "^7.0.2",
     "react-virtualized": "^9.22.5",
     "zustand": "^5.0.1"
