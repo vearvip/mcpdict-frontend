@@ -16,6 +16,7 @@ import { copy, generateColorOrGradient, getBackgroundColorByName } from '../../u
 const AutoFitText = (props) => {
   const { store } = useStore()
 
+  const bgColor = getBackgroundColorByName(props.dialectName, store.dialectInfos) 
   /**
    * 字体大小映射表，根据文本长度选择合适的字体大小。
    * @type {{ [key: number]: string }}
@@ -56,7 +57,6 @@ const AutoFitText = (props) => {
     }
   }
 
-  const bgColor = generateColorOrGradient(getBackgroundColorByName(props.dialectName, store.dialectInfos))
 
   return (
 
@@ -68,7 +68,7 @@ const AutoFitText = (props) => {
         className={styles.auto_fit_text}
         style={{
           'fontSize': getFontSize(props?.dialectName?.length ?? 6),
-          "background": bgColor,
+          "background": generateColorOrGradient(bgColor),
           ...props.style
         }}
       >
