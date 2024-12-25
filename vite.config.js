@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import { join } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import cdn from "@vearvip/vite-plugin-cdn-import"
+import fixReactVirtualized from 'esbuild-plugin-react-virtualized'
 
 // 自定义Rollup插件用于HTML处理
 function injectBaiduAnalyticsPlugin(mode) {
@@ -36,6 +37,11 @@ function injectBaiduAnalyticsPlugin(mode) {
 
 export default defineConfig(({ command, mode }) => {
   return {
+    optimizeDeps: {
+      esbuildOptions: {
+        plugins: [fixReactVirtualized],
+      },
+    },
     plugins: [
       react(),
       // cdn({
