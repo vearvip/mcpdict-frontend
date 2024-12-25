@@ -147,13 +147,14 @@ const LongSearch = (props) => {
          */
         (level2Item, level2Index) => {
           // console.log('level2Item', level2Item)
-          let { phonetic, tonePitch, tone, char } = level2Item 
-          textContent = `${textContent}${phonetic}${tonePitch}${tone} ${char} `  
+          let { phonetic = '', tonePitch = '', tone = '', char = '' } = level2Item
+          textContent = `${textContent}${phonetic}${tonePitch}${tone} ${char} `
 
         }
       )
       textContent = `${textContent}\n`
     })
+    console.log('textContent', textContent)
     copy(textContent)
   }
 
@@ -227,8 +228,23 @@ const LongSearch = (props) => {
                   {
                     line.map((char, charIndex) => {
                       const charInfos = charVariantInfos.find((info) => info.char === char)?.charInfos
-                      return charInfos
-                        ? <Char
+                      if (!charInfos || charInfos.length === 0) {
+                        handleCharChange({
+                          phonetic: '',
+                          tonePitch: '',
+                          tone: '',
+                          char: char,
+                        }, lineIndex, charIndex)
+                        return <span
+                          style={{ 
+                            color: '#666',
+                            textAlign: 'center',
+                            margin: '0 2px',
+                          }}
+                        >{char}</span>
+                      } else {
+                        console.log('char', char, charInfos)
+                        return <Char
                           key={`line${lineIndex}char${charIndex}`}
                           charInfos={charInfos}
                           localPageSettingData={localPageSettingData}
@@ -237,7 +253,8 @@ const LongSearch = (props) => {
                           })?.[ShengDiao]}
                           onChange={charItem => handleCharChange(charItem, lineIndex, charIndex)}
                         />
-                        : null
+
+                      }
                     })
                   }
                 </div>
