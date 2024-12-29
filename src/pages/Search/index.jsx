@@ -88,11 +88,11 @@ const Search = (props) => {
         charList,
         dialectList
       }); 
-      const groupVariantList = groupVariants(charList, result.variants)
+      const groupVariantList = groupVariants(charList, result?.data?.variants ?? [])
       const charGroupList = []
       groupVariantList.forEach(groupItem => {
         (groupItem.variants || []).forEach(variant => {
-          const charInfo = (result?.data ?? []).find(item => item.char === variant)?.charInfo
+          const charInfo = (result?.data?.data ?? []).find(item => item.char === variant)?.charInfo
           if (charInfo) {
             charGroupList.push({
               char: variant,

@@ -84,17 +84,17 @@ const LongSearch = (props) => {
         charList: chars,
         dialectName: filterData.dialectName
       });
-      const charGroupList = groupVariants(chars, result.variants)
+      const charGroupList = groupVariants(chars, result?.data?.variants ?? [])
       // console.log('charGroupList', charGroupList);
       const charVariantInfos = []
       charGroupList.forEach(charGroup => {
         const variants = charGroup.variants
         const charInfos = []
         variants.forEach(variant => {
-          if (result.data[variant]) {
+          if (result?.data?.data?.[variant]) {
             charInfos.push({
               char: variant,
-              phonetics: parseSplitStr(result.data[variant], filterData.dialectName)
+              phonetics: parseSplitStr(result?.data?.data?.[variant], filterData.dialectName)
                 .map(item => item.phonetic)
                 .filter(Boolean)
             })
