@@ -68,7 +68,7 @@ export default () => {
         charList: [inputValue],
         dialectList
       });
-      const searchResult = (result.data || []).map(ele => {
+      const searchResult = (result?.data?.data ?? []).map(ele => {
         return {
           ...ele,
           value: ele.char,
