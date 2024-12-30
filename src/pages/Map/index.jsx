@@ -79,7 +79,7 @@ export default () => {
       if (searchResult.length > 0) {
         setRadioValue(searchResult[0].value)
       }
-      console.log(result)
+      // console.log(result)
 
     } catch (error) {
       console.log('error', error)
@@ -122,7 +122,7 @@ export default () => {
         || !Array.isArray(store.dialectInfos)
         || store.dialectInfos.length === 0
       ) {
-        console.log('dialectInfos 尚未准备好：', store.dialectInfos)
+        console.warn('⚠️ dialectInfos 尚未准备好')
         return
       }
       search();

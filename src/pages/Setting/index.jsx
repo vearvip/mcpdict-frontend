@@ -11,6 +11,7 @@ import { message } from 'antd';
 import { getLocalFilterData, setLocalFilterData } from '../../components/Filter';
 import useStore from '@/store';
 import { transformDialectInfosToTree } from '../../utils';
+import { Divider } from 'antd';
 
 
 const defaultPageSettingData = {
@@ -207,14 +208,14 @@ export default () => {
             }
             ]} />
         </Form.Item>
-
+        <Divider></Divider>
         <Form.Item
-          label="查询页格式"
+          label="字音查询页格式"
           name="searchPageFormat"
           rules={[
             {
               required: true,
-              message: '请选择查询页格式',
+              message: '请选择字音查询页格式',
             },
           ]}
         >
@@ -228,12 +229,12 @@ export default () => {
           }]} />
         </Form.Item>
         <Form.Item
-          label="长文搜索页格式"
+          label="长文注音页格式"
           name="longSearchPageFormat"
           rules={[
             {
               required: true,
-              message: '请选择长文搜索页格式',
+              message: '请选择长文注音页格式',
             },
           ]}
         >

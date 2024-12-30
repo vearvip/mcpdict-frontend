@@ -106,7 +106,7 @@ const Layout = (props) => {
           ...item,
           [ShengDiao]: JSON.parse(item[ShengDiao])
         }))
-      console.log('dialectInfos', dialectInfos)
+      // console.log('dialectInfos', dialectInfos)
       return {
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
@@ -133,7 +133,7 @@ const Layout = (props) => {
   };
 
   useEffect(() => {
-    console.log('🍓666')
+    // console.log('🍓666')
     getDialectInfos().then(({
       dialectInfos,
       dialectNames

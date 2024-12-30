@@ -235,7 +235,7 @@ export default function Amap({ dialectInfos, style }) {
       })
       const newMarkerList = dialectInfos.map(item => makeDialectMarker(item)).filter(item => item)
       setMarkerList(newMarkerList)
-      console.log('markerList', newMarkerList)
+      // console.log('markerList', newMarkerList)
       newMarkerList.forEach(marker => {
         mapRef.current.add(marker);
       })

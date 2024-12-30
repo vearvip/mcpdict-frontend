@@ -102,7 +102,7 @@ const Search = (props) => {
           }
         })
       })
-      console.log('charGroupList', charGroupList)
+      // console.log('charGroupList', charGroupList)
       setSearchData(charGroupList);
     } catch (error) {
       console.error('error', error)
@@ -122,7 +122,7 @@ const Search = (props) => {
         || !Array.isArray(store.dialectInfos)  
         || store.dialectInfos.length === 0
       ) {
-        console.log('dialectInfos 尚未准备好：', store.dialectInfos)
+        console.warn('⚠️ dialectInfos 尚未准备好')
         return
       } 
       search(q);
