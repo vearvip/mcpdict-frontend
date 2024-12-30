@@ -4,7 +4,7 @@ import SearchInput from "@/components/SearchInput";
 import logo from '@/assets/webp/logo.webp';
 import styles from "./index.module.less";
 import { useNavigate } from "react-router";
-import { Divider } from 'antd';
+import { Divider, Skeleton } from 'antd';
 import { message } from 'antd';
 import useStore from '@/store';
 import { JianCheng } from '../../utils/constant';
@@ -12,6 +12,51 @@ import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
 import { getBackgroundColorFromItem, isApple, logoUrl, isSafari } from '../../utils';
 
+const BookSkeletons = () => {
+  const skeleton = new Array(100).fill().map((item, index) => {
+    return <Skeleton.Node
+      key={`skeleton_node_${index}`}
+      active
+      style={{
+        width: 130,
+        height: 180,
+        marginRight: 20,
+        marginBottom: 20,
+      }}
+    />
+  })
+
+  return isApple() && isSafari()
+    ? skeleton
+    : <CollapsibleContent height={650}>
+      {skeleton}
+    </CollapsibleContent>
+}
+const Books = () => {
+  const { store } = useStore()
+  const books = (store?.dialectInfos ?? []).map((item) => (
+    <div
+      className={styles.book_item}
+      key={item[JianCheng]}
+      onClick={() => {
+        showDialectInfo({
+          color: getBackgroundColorFromItem(item),
+          dialectName: item[JianCheng]
+        })
+      }}
+    >
+      <Book
+        name={item[JianCheng]}
+        color={getBackgroundColorFromItem(item)}
+      />
+    </div>
+  ))
+  return isApple() && isSafari()
+    ? books
+    : <CollapsibleContent height={650}>
+      {books}
+    </CollapsibleContent>
+}
 
 /**
  * 主页组件，用于展示主页内容，包括 Logo 和搜索输入框。
@@ -32,23 +77,8 @@ const Index = (props) => {
     navigate('/search?q=' + value);
   };
 
-  const books = (store?.dialectInfos ?? []).map((item) => (
-    <div
-      className={styles.book_item}
-      key={item[JianCheng]}
-      onClick={() => {
-        showDialectInfo({
-          color: getBackgroundColorFromItem(item),
-          dialectName: item[JianCheng]
-        })
-      }}
-    >
-      <Book
-        name={item[JianCheng]}
-        color={getBackgroundColorFromItem(item)}
-      />
-    </div>
-  ))
+
+
 
   return (
     <div className={styles.index}>
@@ -67,14 +97,10 @@ const Index = (props) => {
       </div>
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>已收录</Divider>
-        {
-          isApple() && isSafari()
-            ? books
-            : <CollapsibleContent height={650}>
-              {books} 
-            </CollapsibleContent>
-        }
 
+        {
+          (store?.dialectInfos ?? []).length > 0 ? <Books /> : <BookSkeletons />
+        }
       </div>
     </div>
   );
