@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styles from './index.module.css';
+import styles from './index.module.less';
 import useStore from '@/store';
 import AMapLoader from "@amap/amap-jsapi-loader";
 import { Button } from "antd";
