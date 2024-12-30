@@ -243,7 +243,7 @@ const LongSearch = (props) => {
                           }}
                         >{char}</span>
                       } else {
-                        console.log('char', char, charInfos)
+                        // console.log('char', char, charInfos)
                         return <Char
                           key={`line${lineIndex}char${charIndex}`}
                           charInfos={charInfos}

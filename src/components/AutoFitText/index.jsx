@@ -44,7 +44,7 @@ const AutoFitText = (props) => {
 
 
   const handleDialectDropdownClick = value => {
-    console.log('value', value)
+    // console.log('value', value)
     if (value.key === 'see_dialect_detail') {
       showDialectInfo({
         color: bgColor,
