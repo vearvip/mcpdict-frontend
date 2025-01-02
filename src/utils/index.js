@@ -400,7 +400,7 @@ export const getSearchDialectList = (
       dialectDistrictTree,
       filterData.dialectDistrict
     );
-    console.log("dialects", dialects);
+    // console.log("dialects", dialects);
     dialectList = dialects;
   }
   return dialectList;
