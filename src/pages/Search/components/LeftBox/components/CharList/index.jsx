@@ -364,13 +364,14 @@ const CharList = (props) => {
         }}
       >
         <div className={isPad ? styles.char_list_box_left_mobile : styles.char_list_box_left} >
+          {/* <Button onClick={() => console.log(searchData)}>asdf</Button> */}
           {
             searchData.map(charItem => {
               return <Button
                 color={
-                  charItem.char === selectedCharItem?.char ? "primary" : 'default'
+                  `${charItem?.char}_${charItem?.originChar}` === `${selectedCharItem?.char}_${selectedCharItem?.originChar}`  ? "primary" : 'default'
                 }
-                key={charItem.char}
+                key={`${charItem.char}_${charItem.originChar}`}
                 variant="filled"
                 style={{
                   width: isPad ? '60px' : '80px',
