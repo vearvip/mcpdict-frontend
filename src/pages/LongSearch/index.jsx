@@ -179,8 +179,8 @@ const LongSearch = (props) => {
         <div className={styles.logo_block}><LogoBlock /></div>
         <Input.TextArea
           value={originTextAreaValue}
-          maxLength={300}
-          placeholder="长文注音，单次查询限制300字以内，只可选择一种语言，请在右侧设置按钮选择语言"
+          maxLength={400}
+          placeholder="长文注音，单次查询限制400字以内，只可选择一种语言，请在右侧设置按钮选择语言，查询结果如有多音字会显示蓝点标记提示。"
           showCount
           // className={styles.textarea}
           autoSize={{ minRows: 4, maxRows: 10 }}
@@ -236,7 +236,8 @@ const LongSearch = (props) => {
                           char: char,
                         }, lineIndex, charIndex)
                         return <span
-                          style={{ 
+                          key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
+                          style={{
                             color: '#666',
                             textAlign: 'center',
                             margin: '0 2px',
@@ -245,7 +246,7 @@ const LongSearch = (props) => {
                       } else {
                         // console.log('char', char, charInfos)
                         return <Char
-                          key={`line${lineIndex}char${charIndex}`}
+                        key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
                           charInfos={charInfos}
                           localPageSettingData={localPageSettingData}
                           toneMapConfig={store?.dialectInfos?.find(dialectItem => {

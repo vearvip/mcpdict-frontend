@@ -95,6 +95,10 @@ export default ({
     return charItem
   }, [charInfos, charInfoIndex, phoneticIndex])
 
+  const hasMultiPhonetic = useMemo(() => {
+    return (charInfos || []).map(ele => ele?.phonetics ?? []).flat().length > 1
+  }, [charInfos])
+
 
   return charInfos && Array.isArray(charInfos) && charInfos.length > 0 ?
     <Popover
@@ -128,18 +132,15 @@ export default ({
         }
       </div>}
       trigger="click"
-    >
-      <div style={{
-        display: 'inline-block'
-      }}>
+    > 
         <CharItem
-          className={styles.char_info_box}
+          className={`${styles.char_info_box} ${hasMultiPhonetic ? styles.char_info_box_has_multi_phonetic : ''}`}
           char={nowCharItem.char}
           phonetic={nowCharItem.phonetic}
           tonePitch={nowCharItem.tonePitch}
           tone={nowCharItem.tone}
-        />
-      </div>
+          // onClick={() => console.log(charInfos)}
+        /> 
     </Popover>
     : null
 }
