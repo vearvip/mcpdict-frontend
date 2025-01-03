@@ -191,7 +191,12 @@ function parseOnomatopoeia(phoneticString, dialectName) {
  * @param {string} dialectName - 方言名
  * @returns {Array<Object}
  */
-export function parseSplitStr(infoString, dialectName) {
+export function parseSplitStr(
+  infoString,
+  dialectName,
+  needSplitedPhonetic = false, // 是否需要拆分帶斜杠的ipa
+  toneMapConfig = []
+) {
   const infos = [];
   // 按照 '\t' 分割字符串
   const entries = infoString.split("\t");
@@ -217,14 +222,38 @@ export function parseSplitStr(infoString, dialectName) {
       if (explain) {
         infos.push({ phonetic: "", explain });
       }
-    } else { // 如果不是拟音，则正常添加进数组
+    } else {
+      // 如果不是拟音，则正常添加进数组
       // 将音标和释义添加到infos数组中
-      if (phonetic) { 
-        // 这里要对斜杠进行处理并不是只有拟音才有斜杠
-        phonetic.split("/").forEach(splitedPhonetic => {
+      if (phonetic) {
+        if (needSplitedPhonetic) {
+          // 这里要对斜杠进行处理并不是只有拟音才有斜杠
+          const { toneKey } = getRealPhoneticAndToneKey(
+            phonetic,
+            toneMapConfig
+          ); // 去除調值 toneKey
+          const phoneticSplitedList = phonetic.split("/");
+          phoneticSplitedList.forEach(
+            (splitedPhonetic, splitedPhoneticIndex) => {
+              if (splitedPhoneticIndex === phoneticSplitedList.length - 1) {
+                // 确保音标不为空
+                infos.push({ // 最後一個是自帶調值的，無需拼接
+                  phonetic: `${splitedPhonetic}`, 
+                  explain 
+                });
+              } else {
+                // 确保音标不为空
+                infos.push({ // 需要拼接調值
+                  phonetic: `${splitedPhonetic}${toneKey}`,
+                  explain,
+                });
+              }
+            }
+          );
+        } else {
           // 确保音标不为空
-          infos.push({ phonetic: splitedPhonetic, explain });
-        })
+          infos.push({ phonetic, explain });
+        }
       }
     }
   }
@@ -246,7 +275,7 @@ export async function copy(textContent, showMessage = true) {
     showMessage && message.success("复制成功！");
   } catch (err) {
     // 正确地构造错误信息
-    showMessage &&  message.error(`复制失败：${err.message}`);
+    showMessage && message.error(`复制失败：${err.message}`);
   }
 }
 
@@ -739,7 +768,11 @@ export function buildDistrictTree(data) {
   return districtTree;
 }
 
+export const isApple = () =>
+  ["Mac", "iPhone", "iPad", "iPod"].some((platform) =>
+    navigator.platform.includes(platform)
+  );
 
-export const isApple = () => ['Mac', 'iPhone', 'iPad', 'iPod'].some(platform => navigator.platform.includes(platform));
-
-export const isSafari = () => navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')
+export const isSafari = () =>
+  navigator.userAgent.includes("Safari") &&
+  !navigator.userAgent.includes("Chrome");
