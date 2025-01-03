@@ -31,11 +31,18 @@ const DialectInfo = (props) => {
 
   // console.log('000000000', dialectInfo)
 
+  const replaceLaiYuanATag = (htmlStr = '') => {
+    return htmlStr.replaceAll(
+      '\<a',
+      '\<a target=\"_blank\"'
+    )
+  }
+
   const descriptionItems = [
     { key: '2', label: '地点', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[YuYan] }} /> },
     { key: '3', label: '经纬度', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[JingWeiDu] }} /> },
     { key: '4', label: '录入人', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LuRuRen] }} /> },
-    { key: '5', label: '来源', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[LaiYuan] }} /> },
+    { key: '5', label: '来源', children: <div dangerouslySetInnerHTML={{ __html: replaceLaiYuanATag(dialectInfo[LaiYuan]) }} /> },
     { key: '6', label: '文件名', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[WenJianMing] }} /> },
     { key: '7', label: '版本', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[BanBen] }} /> },
     { key: '8', label: '字数', children: <div dangerouslySetInnerHTML={{ __html: dialectInfo[ZiShu] }} /> },
