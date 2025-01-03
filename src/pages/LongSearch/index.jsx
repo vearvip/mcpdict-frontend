@@ -94,8 +94,14 @@ const LongSearch = (props) => {
           if (result?.data?.data?.[variant]) {
             charInfos.push({
               char: variant,
-              phonetics: parseSplitStr(result?.data?.data?.[variant], filterData.dialectName)
-                .map(item => item.phonetic)
+              phonetics: parseSplitStr(
+                result?.data?.data?.[variant], 
+                filterData.dialectName,
+                true, 
+                store?.dialectInfos?.find(dialectItem => {
+                  return dialectItem[JianCheng] === filterData.dialectName
+                })?.[ShengDiao]
+              ).map(item => item.phonetic)
                 .filter(Boolean)
             })
           }
