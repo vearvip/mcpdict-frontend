@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.module.less';
 import settingPng from '@/assets/svg/setting.svg';
 import NoData from '@/components/NoData';
 import LogoBlock from "@/components/LogoBlock";
-import { Button, Select, Form, Input, message } from 'antd';
+import { Button, Select, Form, Input, message, } from 'antd';
 import { extractHanzi } from '@vearvip/hanzi-utils'
 import useStore from '@/store';
 import NProgress from 'nprogress';
 import { queryChars, queryLongString } from '../../services';
-import { copy, delay, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import { copy, delay, generateColorOrGradient, getBackgroundColorByName, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
@@ -16,6 +16,7 @@ import { SettingOutlined } from '@ant-design/icons';
 import { getLocalPageSettingData } from '../Setting';
 import { JianCheng, ShengDiao } from '../../utils/constant';
 import { useRef } from 'react';
+import { useAsyncEffect } from 'ahooks';
 
 /**
  * 长文搜索组件，用于处理长文本的注音搜索。
@@ -24,6 +25,8 @@ import { useRef } from 'react';
  */
 const LongSearch = (props) => {
   const { store } = useStore()
+
+  const styleTagRef = useRef()
 
   const localPageSettingData = getLocalPageSettingData()
   const [originTextAreaValue, setOriginTextAreaValue] = useState()
@@ -58,6 +61,7 @@ const LongSearch = (props) => {
         // console.log('localFilterData', filterData)
         setLocalFilterData(localFilterData)
         handleSearch(filterData)
+        showDialectNameTag(filterData.dialectName)
       },
       onClose() {
         // setLocalFilterData()
@@ -95,9 +99,9 @@ const LongSearch = (props) => {
             charInfos.push({
               char: variant,
               phonetics: parseSplitStr(
-                result?.data?.data?.[variant], 
+                result?.data?.data?.[variant],
                 filterData.dialectName,
-                true, 
+                true,
                 store?.dialectInfos?.find(dialectItem => {
                   return dialectItem[JianCheng] === filterData.dialectName
                 })?.[ShengDiao]
@@ -179,6 +183,65 @@ const LongSearch = (props) => {
     twoDimensionalCharListRef.current = (twoDimensionalCharList)
   }
 
+  function showDialectNameTag(dialectName) {
+    clearDialectNameTag()
+    const backgroundColor = generateColorOrGradient(getBackgroundColorByName(dialectName, store.dialectInfos))
+    // console.log('backgroundColor', backgroundColor)
+    // 创建 <style> 标签并设置其内容
+    styleTagRef.current = document.createElement('style');
+    styleTagRef.current.type = 'text/css';
+    styleTagRef.current.innerHTML = `
+      .long_search_textarea::after {
+        content: '${dialectName}';
+        display: block;
+        background: ${backgroundColor};
+        width: fit-content;
+        padding: 0 4px;
+        white-space: nowrap;
+        height: fit-content;
+        color: white;
+        border-radius: 4px;
+        font-size: 12px; 
+        position: absolute;
+        bottom: 25px;
+        right: 3px;
+        opacity: 70%;
+        user-select: none;
+      }
+    `;
+    document.head.appendChild(styleTagRef.current);
+
+  }
+
+  function clearDialectNameTag() {
+    if (styleTagRef.current) {
+      try {
+        document?.head?.removeChild && document.head.removeChild(styleTagRef.current);
+      } catch (error) {
+        console.error('⚠️ 移除 <style> 标签出错：', error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    // 清理函数：当组件卸载时移除 <style> 标签
+    return () => clearDialectNameTag();
+  }, []);
+
+
+  useAsyncEffect(async () => {
+    if (
+      !store.dialectInfos
+      || !Array.isArray(store.dialectInfos)
+      || store.dialectInfos.length === 0
+    ) {
+      console.warn('⚠️ dialectInfos 尚未准备好')
+      return
+    }
+    const localFilterData = getLocalFilterData()
+    showDialectNameTag(localFilterData.dialectName)
+  }, [store]);
+
   return (
     <>
       <div className={styles.search_bar}>
@@ -188,7 +251,7 @@ const LongSearch = (props) => {
           maxLength={400}
           placeholder="长文注音，单次查询限制400字以内，只可选择一种语言，请在右侧设置按钮选择语言，查询结果如有多音字会显示蓝点标记提示。"
           showCount
-          // className={styles.textarea}
+          className="long_search_textarea"
           autoSize={{ minRows: 4, maxRows: 10 }}
           style={{
             width: '650px'
@@ -252,7 +315,7 @@ const LongSearch = (props) => {
                       } else {
                         // console.log('char', char, charInfos)
                         return <Char
-                        key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
+                          key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
                           charInfos={charInfos}
                           localPageSettingData={localPageSettingData}
                           toneMapConfig={store?.dialectInfos?.find(dialectItem => {
