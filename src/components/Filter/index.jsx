@@ -130,6 +130,7 @@ export const Filter = React.forwardRef(
           <Select
             showSearch
             allowClear
+            placeholder="请选择语言（单选）"
             options={(store?.dialectNames ?? []).map(name => {
               return {
                 label: name,
@@ -142,6 +143,7 @@ export const Filter = React.forwardRef(
           <Select
             showSearch
             allowClear
+            placeholder="请自选语言（多选）"
             mode="multiple"
             options={(store?.dialectNames ?? []).map(name => {
               return {
@@ -155,6 +157,7 @@ export const Filter = React.forwardRef(
           <TreeSelect
             showSearch
             style={{ width: '100%' }}
+            placeholder="请选择语言分区"
             // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
             allowClear
             treeDefaultExpandAll
@@ -165,6 +168,7 @@ export const Filter = React.forwardRef(
           <TreeSelect
             showSearch
             style={{ width: '100%' }}
+            placeholder="请选择行政区"
             // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
             allowClear
             treeDefaultExpandAll

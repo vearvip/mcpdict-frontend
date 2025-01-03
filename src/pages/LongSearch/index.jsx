@@ -184,6 +184,9 @@ const LongSearch = (props) => {
   }
 
   function showDialectNameTag(dialectName) {
+    if (!dialectName) {
+      return
+    }
     clearDialectNameTag()
     const backgroundColor = generateColorOrGradient(getBackgroundColorByName(dialectName, store.dialectInfos))
     // console.log('backgroundColor', backgroundColor)
@@ -249,7 +252,7 @@ const LongSearch = (props) => {
         <Input.TextArea
           value={originTextAreaValue}
           maxLength={400}
-          placeholder="长文注音，单次查询限制400字以内，只可选择一种语言，请在右侧设置按钮选择语言，查询结果如有多音字会显示蓝点标记提示。"
+          placeholder="长文注音，单次查询限制400字，请在右侧设置按钮选择语言，多音字于下方显示蓝点标记提示。"
           showCount
           className="long_search_textarea"
           autoSize={{ minRows: 4, maxRows: 10 }}
