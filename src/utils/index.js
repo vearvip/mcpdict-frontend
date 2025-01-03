@@ -217,11 +217,14 @@ export function parseSplitStr(infoString, dialectName) {
       if (explain) {
         infos.push({ phonetic: "", explain });
       }
-    } else {
+    } else { // 如果不是拟音，则正常添加进数组
       // 将音标和释义添加到infos数组中
-      if (phonetic) {
-        // 确保音标不为空
-        infos.push({ phonetic, explain });
+      if (phonetic) { 
+        // 这里要对斜杠进行处理并不是只有拟音才有斜杠
+        phonetic.split("/").forEach(splitedPhonetic => {
+          // 确保音标不为空
+          infos.push({ phonetic: splitedPhonetic, explain });
+        })
       }
     }
   }
