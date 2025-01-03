@@ -94,7 +94,7 @@ export default ({
     onChange && onChange(charItem)
     return charItem
   }, [charInfos, charInfoIndex, phoneticIndex])
-  
+
   const hasMultiPhonetic = useMemo(() => {
     return (charInfos || []).map(ele => ele?.phonetics ?? []).flat().length > 1
   }, [charInfos])
@@ -139,7 +139,7 @@ export default ({
           phonetic={nowCharItem.phonetic}
           tonePitch={nowCharItem.tonePitch}
           tone={nowCharItem.tone}
-          onClick={() => console.log(charInfos)}
+          // onClick={() => console.log(charInfos)}
         /> 
     </Popover>
     : null
