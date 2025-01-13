@@ -16,6 +16,8 @@ import { getLocalPageSettingData } from "../pages/Setting";
 
 export const logoUrl =
   "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp";
+export const logoLargeUrl = 
+  "https://img.alicdn.com/imgextra/i3/O1CN01WtzjKK1vMQ086Xn6R_!!6000000006158-49-tps-1280-850.webp";
 
 /**
  * 返回一个指定范围内的随机整数。

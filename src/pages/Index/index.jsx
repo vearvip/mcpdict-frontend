@@ -10,7 +10,7 @@ import useStore from '@/store';
 import { JianCheng } from '../../utils/constant';
 import { showDialectInfo } from '../../components/DialectInfo';
 import CollapsibleContent from './components/CollapsibleContent';
-import { getBackgroundColorFromItem, isApple, logoUrl, isSafari } from '../../utils';
+import { getBackgroundColorFromItem, isApple, logoLargeUrl, isSafari } from '../../utils';
 
 const BookSkeletons = () => {
   const skeleton = new Array(100).fill().map((item, index) => {
@@ -84,8 +84,8 @@ const Index = (props) => {
     <div className={styles.index}>
       <div className={`${styles.main_box} box`}>
         <div className={styles.logo_box}>
-          <img className={styles.logo}
-            src={logoUrl}
+          <img className={`logo ${styles.logo}`} id="logo"
+            src={logoLargeUrl}
             alt="Logo" />
         </div>
         <SearchInput
