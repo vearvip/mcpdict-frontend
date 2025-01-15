@@ -56,14 +56,58 @@
         "query-input": "required name=search_term_string"
       },
       "url": "https://mcpdict.vear.vip/",
-      "logo": "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp"
+      "logo": "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp",
+      "mainEntity": [
+        {
+          "@type": "SiteNavigationElement",
+          "name": "首页",
+          "url": "https://mcpdict.vear.vip/"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "字音查询",
+          "url": "https://mcpdict.vear.vip/#/search"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "长文注音",
+          "url": "https://mcpdict.vear.vip/#/long-search"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "语言地图",
+          "url": "https://mcpdict.vear.vip/#/map"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "设置",
+          "url": "https://mcpdict.vear.vip/#/setting"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "推荐资源",
+          "url": "https://mcpdict.vear.vip/#/information"
+        }
+      ]
     }
-  </script>
+  </script> 
 
   <!-- INJECT_SCRIPT -->
 </head>
 
 <body>
+  <noscript>
+    <nav>
+      <ul>
+        <li><a href="https://mcpdict.vear.vip/">首页</a></li>
+        <li><a href="https://mcpdict.vear.vip/#/search">字音查询</a></li>
+        <li><a href="https://mcpdict.vear.vip/#/long-search">长文注音</a></li>
+        <li><a href="https://mcpdict.vear.vip/#/map">语言地图</a></li>
+        <li><a href="https://mcpdict.vear.vip/#/setting">设置</a></li>
+        <li><a href="https://mcpdict.vear.vip/#/information">推荐资源</a></li>
+      </ul>
+    </nav>
+  </noscript>
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
