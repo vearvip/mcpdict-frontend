@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <!-- 首页 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
+
+   <!-- 字音查询 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/#/search</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+
+   <!-- 长文注音 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/#/long-search</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- 语言地图 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/#/map</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <!-- 设置 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/#/setting</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
+
+   <!-- 推荐资源 -->
+   <url>
+      <loc>https://mcpdict.vear.vip/#/information</loc>
+      <lastmod>2025-01-15</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.4</priority>
+   </url>
+</urlset>
