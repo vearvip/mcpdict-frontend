@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" sizes="32x32" href="https://img.alicdn.com/imgextra/i2/O1CN01dYTNpr1bjVed1abMb_!!6000000003501-73-tps-32-32.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>汉字音典 - 用于查询方言、拟音的读音</title>
+  <title>汉字音典 - 查询方言读音及古汉语拟音、长文注音、方言地图</title>
   <meta name="description" content="汉字音典网页版，提供了字音查询、长文注音、语言地图等功能。本网站是基于汉字音典官网APP的开源项目数据进行二次开发的网页版，方便大家对方言、古汉语拟音进行查询。">
 
   <!-- 关键词（可选，非主要搜索引擎不再重视） -->
@@ -16,7 +16,7 @@
 
 
   <!-- Open Graph 数据 -->
-  <meta property="og:title" content="汉字音典 - 用于查询方言、拟音的读音">
+  <meta property="og:title" content="汉字音典 - 查询方言读音及古汉语拟音、长文注音、方言地图">
   <meta property="og:description"
     content="汉字音典网页版，提供了字音查询、长文注音、语言地图等功能。本网站是基于汉字音典官网APP的开源项目数据进行二次开发的网页版，方便大家对方言、古汉语拟音进行查询。">
   <meta property="og:image"
@@ -29,7 +29,7 @@
   <!-- Twitter Card 数据 -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@vearvip">
-  <meta name="twitter:title" content="汉字音典 - 用于查询方言、拟音的读音">
+  <meta name="twitter:title" content="汉字音典 - 查询方言读音及古汉语拟音、长文注音、方言地图">
   <meta name="twitter:description"
     content="汉字音典网页版，提供了字音查询、长文注音、语言地图等功能。本网站是基于汉字音典官网APP的开源项目数据进行二次开发的网页版，方便大家对方言、古汉语拟音进行查询。">
   <meta name="twitter:image"
@@ -96,18 +96,17 @@
 </head>
 
 <body>
-  <noscript>
-    <nav>
-      <ul>
-        <li><a href="https://mcpdict.vear.vip/">首页</a></li>
-        <li><a href="https://mcpdict.vear.vip/#/search">字音查询</a></li>
-        <li><a href="https://mcpdict.vear.vip/#/long-search">长文注音</a></li>
-        <li><a href="https://mcpdict.vear.vip/#/map">语言地图</a></li>
-        <li><a href="https://mcpdict.vear.vip/#/setting">设置</a></li>
-        <li><a href="https://mcpdict.vear.vip/#/information">推荐资源</a></li>
-      </ul>
-    </nav>
-  </noscript>
+  <h1 style="display: none;">汉字音典 - 查询方言读音及古汉语拟音、长文注音、方言地图</h1>
+  <nav style="display: none;">
+    <ul>
+      <li><a href="https://mcpdict.vear.vip/">首页</a></li>
+      <li><a href="https://mcpdict.vear.vip/#/search">字音查询</a></li>
+      <li><a href="https://mcpdict.vear.vip/#/long-search">长文注音</a></li>
+      <li><a href="https://mcpdict.vear.vip/#/map">语言地图</a></li>
+      <li><a href="https://mcpdict.vear.vip/#/setting">设置</a></li>
+      <li><a href="https://mcpdict.vear.vip/#/information">推荐资源</a></li>
+    </ul>
+  </nav>
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
