@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import AMap from '../../components/AMap'
-import TMap from '../../components/TMap'
+// import AMap from '../../components/AMap'
+// import TMap from '../../components/TMap'
+import MapTiler from '../../components/MapTiler'
 import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { Button, Form, Select } from 'antd';
@@ -179,8 +180,8 @@ export default () => {
       />
     </div>
     {/* <AMap */}
-    <TMap
-      // dialectInfos={store.dialectInfos.map(ele => ({ ...ele, phonetic: 'dzang5' }))}
+    {/* <TMap */}
+    <MapTiler
       dialectInfos={mapDialectInfos}
       style={{
         // width: 'calc(100% - 20px)',
