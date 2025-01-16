@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Amap from '../../components/Amap'
+import Amap from '../AMap'
 import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { FloatButton, Form, Select } from 'antd';

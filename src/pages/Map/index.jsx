@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Amap from '../../components/Amap'
+import AMap from '../../components/AMap'
+import TMap from '../../components/TMap'
 import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { Button, Form, Select } from 'antd';
@@ -177,7 +178,8 @@ export default () => {
         }}
       />
     </div>
-    <Amap
+    {/* <AMap */}
+    <TMap
       // dialectInfos={store.dialectInfos.map(ele => ({ ...ele, phonetic: 'dzang5' }))}
       dialectInfos={mapDialectInfos}
       style={{
