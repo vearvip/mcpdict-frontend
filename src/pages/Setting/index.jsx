@@ -20,7 +20,7 @@ const defaultPageSettingData = {
   tonePitchType: 'curve',
   searchPageFormat: 'labelList',
   longSearchPageFormat: 8,
-  mapPageMarkerSize: 'small'
+  mapPageMarkerSize: 'normal'
 }
 
 export const getLocalPageSettingData = () => {
