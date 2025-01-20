@@ -1,3 +1,4 @@
+// 👇🏼👇🏼👇🏼👇🏽👇🏽👇🏽 方言表枚举 👇🏽👇🏽👇🏽👇🏼👇🏼👇🏼
 export const YuYan = "語言";
 export const JianCheng = "簡稱";
 
@@ -24,6 +25,15 @@ export const ChenFangYanSe = "陳邡顏色";
 export const ChenFangFenQv = "陳邡分區";
 export const ChenFangPaiXv = "陳邡排序";
 
+export const ShengDiao = '聲調'
+ 
+export const Sheng = '省'
+export const Shi = '市'
+export const Xian = '縣'
+export const Zhen = '鎮'
+export const Cun = '村'
+export const ZiRanCun = '自然村'
+
 export const FenQvEnum = {
   [DiTuJiErFenQv]: {
     color: DiTuJiErYanSe,
@@ -38,6 +48,9 @@ export const FenQvEnum = {
     sort: ChenFangPaiXv,
   },
 };
+// 👆🏼👆🏼👆🏼👆🏽👆🏽👆🏽 方言表枚举 👆🏽👆🏽👆🏽👆🏼👆🏼👆🏼
+
+// 👇🏻👇🏻👇🏻👇👇👇 汉字表枚举 👇👇👇👇🏻👇🏻👇🏻
 
 export const ShuoWen = "說文";
 export const HuiZuan = "匯纂";
@@ -61,11 +74,6 @@ export const CangJie5 = "倉頡五代";
 export const CangeJie6 = "倉頡六代";
 export const ShanRenMaLTS = "山人碼LTS";
 
-export const ShengDiao = '聲調'
- 
-export const Sheng = '省'
-export const Shi = '市'
-export const Xian = '縣'
-export const Zhen = '鎮'
-export const Cun = '村'
-export const ZiRanCun = '自然村'
+// 👆🏻👆🏻👆🏻👆👆👆 汉字表枚举 👆👆👆👆🏻👆🏻👆🏻
+
+// 👇🏾👇🏿👆🏿👆🏾
