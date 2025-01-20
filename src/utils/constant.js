@@ -12,9 +12,9 @@ export const BuDaiDiaoYinJieShu = "不帶調音節數";
 
 export const JingWeiDu = "經緯度";
 
-export const DiTuJiErFenQv = "地圖集Ⅱ分區";
-export const DiTuJiErYanSe = "地圖集Ⅱ顏色";
-export const DiTuJiErPaiXv = "地圖集Ⅱ排序";
+export const DiTuJiErFenQv = "地圖集二分區";
+export const DiTuJiErYanSe = "地圖集二顏色";
+export const DiTuJiErPaiXv = "地圖集二排序";
 
 export const YinDianFenQv = "音典分區";
 export const YinDianYanSe = "音典顏色";
