@@ -15,7 +15,7 @@ import { Divider } from 'antd';
 
 
 const defaultPageSettingData = {
-  partitionMode: YinDianFenQv, 
+  partitionMode: DiTuJiErFenQv, 
   toneType: 'baSheng', // 老的值 toneType: 'baShengShuZi',
   tonePitchType: 'curve',
   searchPageFormat: 'labelList',
