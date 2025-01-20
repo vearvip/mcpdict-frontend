@@ -68,3 +68,16 @@ export async function queryDialectInfos() {
     url: `/dialect`,
   });
 }
+
+
+/**
+ * 查询方言item信息。
+ *
+ * @returns {Promise<Object>} 包含方言item信息的 Promise 对象。
+ */
+export async function queryDialectItemInfo(params) {
+  return request({
+    url: `/dialect/item`,
+    params,
+  });
+}

@@ -8,7 +8,7 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { DiTuJiErFenQv, DiTuJiErPaiXv, JianCheng, ShengDiao, YinDianFenQv, YinDianPaiXv } from '../utils/constant';
+import { Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YuYan, Zhen, ZiRanCun } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
@@ -101,11 +101,27 @@ const Layout = (props) => {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
       const dialectInfos = (res?.data ?? [])
+      .map(item => {
+        return {
+          [YuYan]: item[0], // [0] 语言 
+          [JianCheng]: item[1], // [1] 简称
+          [JingWeiDu]: item[2], // [2] 经纬度
+          [DiTuJiErFenQv]: item[3], // [3] 地图集二分区
+          [DiTuJiErYanSe]: item[4], // [4] 地图集二颜色
+          [DiTuJiErPaiXv]: item[5], // [5] 地图集二排序
+          [YinDianFenQv]: item[6], // [6] 音典分区
+          [YinDianYanSe]: item[7], // [7] 音典颜色
+          [YinDianPaiXv]: item[8], // [8] 音典排序
+          [ShengDiao]: item[9], // [9] 声调
+          [Sheng]: item[10], // [10] 声
+          [Shi]: item[11], // [11] 市
+          [Xian]: item[12], // [12] 县
+          [Zhen]: item[13], // [13] 镇
+          [Cun]: item[14], // [14] 村
+          [ZiRanCun]: item[15], // [15] 自然村
+        }
+      })
         .filter(item => getBackgroundColorFromItem(item))
-        .map(item => ({
-          ...item,
-          [ShengDiao]: JSON.parse(item[ShengDiao])
-        }))
       // console.log('dialectInfos', dialectInfos)
       return {
         dialectInfos: dialectInfos,

@@ -22,7 +22,10 @@ const AutoFitText = (props) => {
    * @type {{ [key: number]: string }}
    */
   const fontSizeMap = {
-    7: '9px',
+    10: '6px',
+    9: '7px',
+    8: '8px', // 乃至7个字以上
+    7: '9px', // 这辈子没想到有的方言名能达到7个字
     6: '10px',
     5: '11px',
     4: '12px',
