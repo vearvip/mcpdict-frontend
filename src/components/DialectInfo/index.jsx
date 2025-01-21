@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Amap from '../AMap'
 import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
-import { FloatButton, Skeleton, Spin } from 'antd';
+import { FloatButton, Skeleton, Descriptions, Collapse } from 'antd';
 import useStore from '@/store';
-import { JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
+import { JieXiRiZhi, JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
 import { usePad, useMobile } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
-import { Descriptions } from 'antd';
 import Book from '../Book';
 import { queryDialectItemInfo } from '../../services';
 
@@ -122,6 +121,23 @@ const DialectInfo = (props) => {
         transform: isPad ? 'scale(0.7)' : undefined
       }} />
     </div>} items={descriptionItems} size="small" column={1} />
+    {
+      dialectInfo?.[JieXiRiZhi]
+        ? <Collapse
+          ghost
+          items={[{
+            key: '1',
+            label: '解析日志',
+            children: <div style={{ marginLeft: 15 }}>{dialectInfo?.[JieXiRiZhi]}</div>
+          }]}
+          style={{
+            marginLeft: -15,
+            color: '#333'
+          }}
+        />
+        : null
+    }
+
   </Dialog>
 }
 
