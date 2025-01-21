@@ -34,6 +34,9 @@ export const Zhen = '鎮'
 export const Cun = '村'
 export const ZiRanCun = '自然村'
 
+export const JieXiRiZhi = '解析日志'
+ 
+
 export const FenQvEnum = {
   [DiTuJiErFenQv]: {
     color: DiTuJiErYanSe,
