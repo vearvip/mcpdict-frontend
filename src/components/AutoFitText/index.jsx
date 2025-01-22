@@ -10,13 +10,14 @@ import { copy, generateColorOrGradient, getBackgroundColorByName } from '../../u
  * @param {string} props.char - char
  * @param {string} props.dialectName - dialectName
  * @param {string[]} props.phonetics - phonetics
- * @param {React.CSSProperties} props.style - 要显示的文本。
+ * @param {React.CSSProperties} props.style - 样式
  * @param {Function} props.onClick - 点击事件
+ * @param {Function} props.onlyName - 只展示方言名
  */
 const AutoFitText = (props) => {
   const { store } = useStore()
 
-  const bgColor = getBackgroundColorByName(props.dialectName, store.dialectInfos) 
+  const bgColor = getBackgroundColorByName(props.dialectName, store.dialectInfos)
   /**
    * 字体大小映射表，根据文本长度选择合适的字体大小。
    * @type {{ [key: number]: string }}
@@ -60,25 +61,31 @@ const AutoFitText = (props) => {
     }
   }
 
+  const dialectElement = <div
+    className={styles.auto_fit_text}
+    style={{
+      'fontSize': getFontSize(props?.dialectName?.length ?? 6),
+      "background": generateColorOrGradient(bgColor),
+      ...props.style
+    }}
+  >
+    {props.dialectName}
+  </div>
 
-  return (
-
-    <DialectDropdown
+  return props.onlyName
+    ? <div onClick={() => {
+      showDialectInfo({
+        color: bgColor,
+        dialectName: props.dialectName
+      })
+    }}>{dialectElement}</div>
+    : <DialectDropdown
       char={props.char}
-      dialectName={props.dialectName} 
+      dialectName={props.dialectName}
       onClick={handleDialectDropdownClick}>
-      <div
-        className={styles.auto_fit_text}
-        style={{
-          'fontSize': getFontSize(props?.dialectName?.length ?? 6),
-          "background": generateColorOrGradient(bgColor),
-          ...props.style
-        }}
-      >
-        {props.dialectName}
-      </div>
+      {dialectElement}
     </DialectDropdown>
-  );
+
 };
 
 export default AutoFitText;

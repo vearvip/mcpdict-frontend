@@ -8,7 +8,7 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YuYan, Zhen, ZiRanCun } from '../utils/constant';
+import { BuDaiDiaoYinJieShu, Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, WuZhengZiShu, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YinJieShu, YuYan, Zhen, ZiRanCun, ZiShu } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
@@ -119,6 +119,10 @@ const Layout = (props) => {
           [Zhen]: item[13], // [13] 镇
           [Cun]: item[14], // [14] 村
           [ZiRanCun]: item[15], // [15] 自然村
+          [ZiShu]: item[16], // [16] 字數
+          [WuZhengZiShu]: item[17], // [17] □數
+          [YinJieShu]: item[18], // [18] 音節數
+          [BuDaiDiaoYinJieShu]: item[19], // [19] 不帶調音節數
         }
       })
         .filter(item => getBackgroundColorFromItem(item))
