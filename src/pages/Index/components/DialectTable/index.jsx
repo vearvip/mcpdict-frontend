@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { Modal, Drawer, Button, Table } from 'antd';
-import AutoFitText from '../../../../components/AutoFitText';
-import { JianCheng } from '../../../../utils/constant';
+import AutoFitText from '@/components/AutoFitText';
+import { JianCheng } from '@/utils/constant';
+import { usePad } from '@/utils/hooks';
 
 const DialectTable = (props) => {
+  const isPad = usePad();
   const [sortedInfo, setSortedInfo] = useState({});
 
   const columns = [
@@ -77,7 +79,8 @@ const DialectTable = (props) => {
         onChange={handleTableChange}
         sortedInfo={sortedInfo}
         style={{
-          marginTop: 20
+          marginTop: isPad ? 0 : 30,
+          marginBottom: isPad ? 0 : 5,
         }}
       />
     </div>
