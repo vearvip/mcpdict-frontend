@@ -76,6 +76,13 @@ const informationList = [
     logo: 'https://img.alicdn.com/imgextra/i3/O1CN01aBxpkk1pfIdD5dapg_!!6000000005387-73-tps-24-24.ico',
     description: '本資料庫由臺灣大學中國文學系、中央研究院歷史語言研究所、資訊科學研究所、數位文化中心共同開發'
   },
+  {
+    title: '漢語多功能字庫',
+    url: 'https://humanum.arts.cuhk.edu.hk/Lexis/lexi-mf/',
+    logo: 'https://img.alicdn.com/imgextra/i2/O1CN01vUq2VY1mcbSkHWDGb_!!6000000004975-2-tps-150-155.png',
+    description: '「人文電算研究中心」在2014年推出了《漢語多功能字庫》，新增「古文字繫形」、「部件樹」、「形義通解」和「英漢索引」等功能，以支持漢語教育。至2018年，該字庫進行了重大更新，包括擴充「形義通解」內容，增加「其他方言讀音」、《說文解字》全文索引、「讀史方輿紀要」及「成語彙輯」等特色，持續致力於漢語漢字教育的基礎建設工作。'
+  },
+
   
 ]
 
