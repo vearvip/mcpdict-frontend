@@ -61,9 +61,14 @@ export default function Amap({ dialectInfos, style }) {
 
         mapRef.current = new maplibregl.Map({
           container: 'map_container',
-          // style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
+          style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
           // style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${KEY}`,
-          style: `https://api.maptiler.com/maps/landscape/style.json?key=${KEY}`,
+          // style: `https://api.maptiler.com/maps/landscape/style.json?key=${KEY}`,
+          // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
+          // style: 'https://demotiles.maplibre.org/style.json',
+          // style: `https://api.maptiler.com/maps/streets/style.json?key=${KEY}`,
+
+ 
           center: [105, 35],
           zoom: 4 // 设置为4以覆盖整个中国
         });
