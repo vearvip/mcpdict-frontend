@@ -102,30 +102,30 @@ const Layout = (props) => {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
       const dialectInfos = (res?.data ?? [])
-      .map(item => {
-        return {
-          [YuYan]: item[0], // [0] 语言 
-          [JianCheng]: item[1], // [1] 简称
-          [JingWeiDu]: item[2], // [2] 经纬度
-          [DiTuJiErFenQv]: item[3], // [3] 地图集二分区
-          [DiTuJiErYanSe]: item[4], // [4] 地图集二颜色
-          [DiTuJiErPaiXv]: item[5], // [5] 地图集二排序
-          [YinDianFenQv]: item[6], // [6] 音典分区
-          [YinDianYanSe]: item[7], // [7] 音典颜色
-          [YinDianPaiXv]: item[8], // [8] 音典排序
-          [ShengDiao]: item[9], // [9] 声调
-          [Sheng]: item[10], // [10] 声
-          [Shi]: item[11], // [11] 市
-          [Xian]: item[12], // [12] 县
-          [Zhen]: item[13], // [13] 镇
-          [Cun]: item[14], // [14] 村
-          [ZiRanCun]: item[15], // [15] 自然村
-          [ZiShu]: item[16], // [16] 字數
-          [WuZhengZiShu]: item[17], // [17] □數
-          [YinJieShu]: item[18], // [18] 音節數
-          [BuDaiDiaoYinJieShu]: item[19], // [19] 不帶調音節數
-        }
-      })
+        .map(item => {
+          return {
+            [YuYan]: item[0], // [0] 语言 
+            [JianCheng]: item[1], // [1] 简称
+            [JingWeiDu]: item[2], // [2] 经纬度
+            [DiTuJiErFenQv]: item[3], // [3] 地图集二分区
+            [DiTuJiErYanSe]: item[4], // [4] 地图集二颜色
+            [DiTuJiErPaiXv]: item[5], // [5] 地图集二排序
+            [YinDianFenQv]: item[6], // [6] 音典分区
+            [YinDianYanSe]: item[7], // [7] 音典颜色
+            [YinDianPaiXv]: item[8], // [8] 音典排序
+            [ShengDiao]: item[9], // [9] 声调
+            [Sheng]: item[10], // [10] 声
+            [Shi]: item[11], // [11] 市
+            [Xian]: item[12], // [12] 县
+            [Zhen]: item[13], // [13] 镇
+            [Cun]: item[14], // [14] 村
+            [ZiRanCun]: item[15], // [15] 自然村
+            [ZiShu]: item[16], // [16] 字數
+            [WuZhengZiShu]: item[17], // [17] □數
+            [YinJieShu]: item[18], // [18] 音節數
+            [BuDaiDiaoYinJieShu]: item[19], // [19] 不帶調音節數
+          }
+        })
         .filter(item => getBackgroundColorFromItem(item))
       // console.log('dialectInfos', dialectInfos)
       return {
@@ -227,14 +227,9 @@ const Layout = (props) => {
 
         <div className={`${styles.foot} box`}>
           <div>
-            本网站由
-            <span className={`${styles.btn_link} ${styles.a_tag}`} onClick={handleGoVearPage}>vear</span>
-            支持，反馈请
-            <span className={styles.a_tag} onClick={handleGoWechatImg}>联系微信</span>
-            或者提交Pr：
-            <span className={styles.a_tag} onClick={handleGoOpenSource}>Github</span>
-            ，数据基于
-            <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>
+            本网站基于
+            <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>的开源数据二次开发，
+            反馈请前往<span className={styles.a_tag} onClick={handleGoOpenSource}>vearvip/mcpdict-frontend</span>提交Issue
           </div>
         </div>
       </div>
