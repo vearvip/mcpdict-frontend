@@ -227,8 +227,8 @@ const Layout = (props) => {
 
         <div className={`${styles.foot} box`}>
           <div>
-            本网站基于
-            <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>的开源数据二次开发，
+            本网站是基于汉字音典
+            <span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>的开源数据二次开发而来的，
             反馈请前往<span className={styles.a_tag} onClick={handleGoOpenSource}>vearvip/mcpdict-frontend</span>提交Issue
           </div>
         </div>
