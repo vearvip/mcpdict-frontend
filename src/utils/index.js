@@ -16,7 +16,7 @@ import { getLocalPageSettingData } from "../pages/Setting";
 
 export const logoUrl =
   "https://img.alicdn.com/imgextra/i2/O1CN01wwa6MD1aJ7CrANyNt_!!6000000003308-49-tps-256-256.webp";
-export const logoLargeUrl = 
+export const logoLargeUrl =
   "https://img.alicdn.com/imgextra/i3/O1CN01WtzjKK1vMQ086Xn6R_!!6000000006158-49-tps-1280-850.webp";
 
 /**
@@ -239,13 +239,15 @@ export function parseSplitStr(
             (splitedPhonetic, splitedPhoneticIndex) => {
               if (splitedPhoneticIndex === phoneticSplitedList.length - 1) {
                 // 确保音标不为空
-                infos.push({ // 最後一個是自帶調值的，無需拼接
-                  phonetic: `${splitedPhonetic}`, 
-                  explain 
+                infos.push({
+                  // 最後一個是自帶調值的，無需拼接
+                  phonetic: `${splitedPhonetic}`,
+                  explain,
                 });
               } else {
                 // 确保音标不为空
-                infos.push({ // 需要拼接調值
+                infos.push({
+                  // 需要拼接調值
                   phonetic: `${splitedPhonetic}${toneKey}`,
                   explain,
                 });
@@ -778,3 +780,14 @@ export const isApple = () =>
 export const isSafari = () =>
   navigator.userAgent.includes("Safari") &&
   !navigator.userAgent.includes("Chrome");
+
+export const clearPageCache = async () => {
+  message.success("清除页面缓存成功");
+  await delay(100);
+  // window.localStorage.clear() // 清除所有缓存
+  window.localStorage.removeItem("filterData"); //清除 filterData缓存
+  window.localStorage.removeItem("pageSettingData"); //清除 pageSettingData缓存
+  window.localStorage.removeItem("hisotryRecordList"); //清除 hisotryRecordList缓存
+
+  window.location.reload(); // 刷新页面
+};

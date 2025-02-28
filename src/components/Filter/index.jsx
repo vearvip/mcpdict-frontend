@@ -8,6 +8,7 @@ import { Select, Form, Radio, Button } from 'antd';
 import { TreeSelect } from 'antd';
 import useStore from '@/store';
 import { useRef } from 'react';
+import { clearPageCache } from '../../utils';
 
 const filterDefaultData = {
   filterMode: 'lang',
@@ -235,7 +236,17 @@ const FilterDialog = (props) => {
   return (
 
     <Dialog
-      title="筛选"
+      title={<div>
+        筛选<span
+          style={{
+            fontSize: 12,
+            color: '#999',
+            fontWeight: 'normal'
+          }}
+        >
+          （如遇搜索异常，请<span style={{ color: 'var(--color)', cursor: 'pointer' }} onClick={() => clearPageCache()}>点击此处</span>）
+        </span>
+      </div>}
       open={open}
       cancelText="重置"
       onOk={handleDialogOk}
