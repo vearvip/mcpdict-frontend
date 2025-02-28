@@ -82,7 +82,8 @@ const Layout = (props) => {
    * 显示微信号信息。
    */
   const handleGoWechatImg = () => {
-    messageApi.info('微信号：vear-vip');
+    // messageApi.info('微信号：vear-vip');
+    window.open('https://cdn.jsdelivr.net/gh/vearvip/cdn@v0.0.14/img/qrcode_wechat.png')
   };
 
   const handleGoOsfanMCPDict = () => {
