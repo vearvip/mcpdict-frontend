@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.less'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, ClearOutlined, MailOutlined, SaveOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Radio } from 'antd';
@@ -10,7 +10,7 @@ import { usePad } from '../../utils/hooks';
 import { message } from 'antd';
 import { getLocalFilterData, setLocalFilterData } from '../../components/Filter';
 import useStore from '@/store';
-import { transformDialectInfosToTree } from '../../utils';
+import { clearPageCache, delay, transformDialectInfosToTree } from '../../utils';
 import { Divider } from 'antd';
 
 
@@ -77,6 +77,9 @@ export default () => {
     message.success('设置成功')
   };
 
+  const handleClearPageCache = async () => {
+    clearPageCache()
+  }
 
   useEffect(() => {
     const pageSettingData = getLocalPageSettingData()
@@ -273,8 +276,11 @@ export default () => {
 
 
         <Form.Item label={isPad ? false : null}>
-          <Button type="primary" htmlType="submit">
+          <Button icon={<SaveOutlined />} type="primary" htmlType="submit" style={{ marginRight: 12 }}>
             保存
+          </Button>
+          <Button icon={<ClearOutlined />} onClick={handleClearPageCache} >
+            清除页面缓存
           </Button>
         </Form.Item>
       </Form>
