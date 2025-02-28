@@ -783,7 +783,7 @@ export const isSafari = () =>
 
 export const clearPageCache = async () => {
   message.success("清除页面缓存成功");
-  await delay(100);
+  await delay(600);
   // window.localStorage.clear() // 清除所有缓存
   window.localStorage.removeItem("filterData"); //清除 filterData缓存
   window.localStorage.removeItem("pageSettingData"); //清除 pageSettingData缓存
