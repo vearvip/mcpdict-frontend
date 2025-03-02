@@ -29,7 +29,8 @@ const BookSkeletons = () => {
     />
   })
 
-  return isApple() && isSafari()
+  // return isApple() && isSafari()
+  return isApple() 
     ? skeleton
     : <CollapsibleContent height={650}>
       {skeleton}
@@ -54,7 +55,8 @@ const Books = () => {
       />
     </div>
   ))
-  return isApple() && isSafari()
+  // return isApple() && isSafari()
+  return isApple() 
     ? books
     : <CollapsibleContent height={650}>
       {books}
