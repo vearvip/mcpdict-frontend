@@ -27,7 +27,7 @@ src/
   - services/       请求服务
   - store/          状态管理
   - utils/          公用的方法
-  - index.less       全局样式
+  - index.less      全局样式
   - index.jsx       根组件
 ```
 
