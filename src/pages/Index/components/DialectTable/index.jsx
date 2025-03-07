@@ -79,7 +79,7 @@ const DialectTable = (props) => {
         columns={columns}
         rowKey="語言"
         scroll={{ 
-          y: useWindowSize().height - 160,
+          y: useWindowSize().height - 200,
           // x: useWindowSize().width - 60, 
          }}
         dataSource={props.dataSource ?? []}
