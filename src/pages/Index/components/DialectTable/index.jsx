@@ -4,6 +4,7 @@ import { Modal, Drawer, Button, Table } from 'antd';
 import AutoFitText from '@/components/AutoFitText';
 import { JianCheng } from '@/utils/constant';
 import { usePad } from '@/utils/hooks';
+import { useWindowSize } from '../../../../utils/hooks';
 
 const DialectTable = (props) => {
   const isPad = usePad();
@@ -67,21 +68,27 @@ const DialectTable = (props) => {
   };
 
   return (
-    <div>
+    <div style={{
+       width: '100%',
+      //  border: '1px solid red'
+    }}>
       <Table
         virtual
         pagination={false}
         size="small"
         columns={columns}
         rowKey="語言"
-        scroll={{ y: 500 }}
+        scroll={{ 
+          y: useWindowSize().height - 160,
+          // x: useWindowSize().width - 60, 
+         }}
         dataSource={props.dataSource ?? []}
         onChange={handleTableChange}
         sortedInfo={sortedInfo}
-        style={{
-          marginTop: isPad ? 0 : 30,
-          marginBottom: isPad ? 0 : 5,
-        }}
+        // style={{
+        //   marginTop: isPad ? 0 : 30,
+        //   marginBottom: isPad ? 0 : 5,
+        // }} 
       />
     </div>
   );

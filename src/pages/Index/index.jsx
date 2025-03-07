@@ -30,7 +30,7 @@ const BookSkeletons = () => {
   })
 
   // return isApple() && isSafari()
-  return isApple() 
+  return isApple()
     ? skeleton
     : <CollapsibleContent height={650}>
       {skeleton}
@@ -56,7 +56,7 @@ const Books = () => {
     </div>
   ))
   // return isApple() && isSafari()
-  return isApple() 
+  return isApple()
     ? books
     : <CollapsibleContent height={650}>
       {books}
@@ -114,14 +114,19 @@ const Index = (props) => {
         /> */}
       </div>
       <div className={styles.book_box}>
-        <Divider className={styles.book_divider}>已收录<ProjectOutlined onClick={handleShowDialectTable} style={{
-          marginLeft: 5,
-          cursor: 'pointer',
-          color: 'var(--color)'
-        }} /></Divider>
-        {
+        <Divider className={styles.book_divider}>
+          已收录
+          {/* <ProjectOutlined onClick={handleShowDialectTable} style={{
+            marginLeft: 5,
+            cursor: 'pointer',
+            color: 'var(--color)'
+          }} /> */}
+        </Divider>
+
+        <DialectTable dataSource={store?.dialectInfos ?? []} />
+        {/* {
           (store?.dialectInfos ?? []).length > 0 ? <Books /> : <BookSkeletons />
-        }
+        } */}
       </div>
       <Dialog
         open={openTableDialog}
