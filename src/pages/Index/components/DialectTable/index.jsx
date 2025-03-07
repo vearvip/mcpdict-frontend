@@ -44,7 +44,7 @@ const DialectTable = (props) => {
     },
     {
       key: '音節數',
-      title: '音節數',
+      title: '音節',
       dataIndex: '音節數',
       sorter: (a, b) => a['音節數'] - b['音節數'],
       sortDirections: ['descend', 'ascend'],
@@ -52,7 +52,7 @@ const DialectTable = (props) => {
     },
     {
       key: '不帶調音節數',
-      title: '不帶調音節數',
+      title: '无調音節',
       dataIndex: '不帶調音節數',
       sorter: (a, b) => a['不帶調音節數'] - b['不帶調音節數'],
       sortDirections: ['descend', 'ascend'],
