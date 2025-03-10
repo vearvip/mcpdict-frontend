@@ -78,17 +78,18 @@ const DialectTable = (props) => {
         size="small"
         columns={columns}
         rowKey="語言"
-        scroll={{ 
-          y: useWindowSize().height - 200,
-          // x: useWindowSize().width - 60, 
-         }}
+        scroll={{ y: 500 }}
+        // scroll={{ 
+        //   y: useWindowSize().height - 200,
+        //   // x: useWindowSize().width - 60, 
+        //  }}
         dataSource={props.dataSource ?? []}
         onChange={handleTableChange}
         sortedInfo={sortedInfo}
-        // style={{
-        //   marginTop: isPad ? 0 : 30,
-        //   marginBottom: isPad ? 0 : 5,
-        // }} 
+        style={{
+          marginTop: isPad ? 0 : 30,
+          marginBottom: isPad ? 0 : 5,
+        }} 
       />
     </div>
   );

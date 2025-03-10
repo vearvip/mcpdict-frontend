@@ -116,17 +116,17 @@ const Index = (props) => {
       <div className={styles.book_box}>
         <Divider className={styles.book_divider}>
           已收录
-          {/* <ProjectOutlined onClick={handleShowDialectTable} style={{
+          <ProjectOutlined onClick={handleShowDialectTable} style={{
             marginLeft: 5,
             cursor: 'pointer',
             color: 'var(--color)'
-          }} /> */}
+          }} />
         </Divider>
 
-        <DialectTable dataSource={store?.dialectInfos ?? []} />
-        {/* {
+        {/* <DialectTable dataSource={store?.dialectInfos ?? []} /> */}
+        {
           (store?.dialectInfos ?? []).length > 0 ? <Books /> : <BookSkeletons />
-        } */}
+        }
       </div>
       <Dialog
         open={openTableDialog}
