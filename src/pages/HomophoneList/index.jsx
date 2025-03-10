@@ -1,7 +1,15 @@
+import { useSearchParams } from "react-router";
 import PageContainer from "./components/PageContainer";
 import { string1 } from "./str";
+import { queryDialectItemInfo } from "../../services";
+import { useEffect, useState } from "react";
 
 export default () => {
+  const [searchParams] = useSearchParams();
+  const [dialectInfo, setDialectInfo] = useState()
+  const dialectName = searchParams.get('dialectName') 
+
+
   function parseRimeString(input) {
     const lines = input.split("\n").filter((line) => line.trim());
 
@@ -29,6 +37,26 @@ export default () => {
     });
   }
 
+
+  const getDialectItemInfo = async (dialectName) => { 
+    try {
+      const result = await queryDialectItemInfo({
+        name: dialectName
+      })
+      setDialectInfo(result.data)
+      // console.log('result', result.data)
+    } catch (error) {
+      console.error('❌ 查询方言信息失败:', error)
+    } 
+  }
+  console.log('searchParams', searchParams)
+
+  useEffect(() => {
+    if (dialectName) {
+      getDialectItemInfo(dialectName)
+    }
+  }, [dialectName])
+
   return (
     <div
       style={{
@@ -39,8 +67,8 @@ export default () => {
         paddingTop: 20,
       }}
     >
-      <PageContainer title="XX同音字表">
-        {parseRimeString(string1).map((item, itemIndex) => {
+      <PageContainer title={(dialectName ?? '??') + "同音字表"}>
+        {parseRimeString(dialectInfo?.["同音字表"] ?? '').map((item, itemIndex) => {
           const key = item.ipa + itemIndex;
           return (
             <div key={key}>
