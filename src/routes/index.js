@@ -68,7 +68,7 @@ export const routes = [
     title: "同音字表",
     path: "/homophoneList",
     component:  HomophoneList, 
-    // hidden: true,
+    hidden: true,
     needNotLayout: true,
   },
 ];
