@@ -179,6 +179,19 @@ const Layout = (props) => {
     // getDialectGeo()
   }, []);
 
+  if (routes.find(ele => ele.path == location.pathname).needNotLayout) {
+    return <>
+
+      <Routes>
+        {
+          routes.map((item, index) => {
+            return <Route key={index} path={item.path} element={<item.component />} />
+          })
+        }
+      </Routes>
+    </>
+  }
+
   return (
     <ConfigProvider
       locale={zhCN}
@@ -193,6 +206,9 @@ const Layout = (props) => {
         },
       }}
     >
+      {
+        location.pathname
+      }
       <div className={styles.layout}>
         {contextHolder}
         <div className={`${styles.nav} box`}>
@@ -227,8 +243,8 @@ const Layout = (props) => {
 
         <div className={`${styles.foot} box`}>
           <div>
-          本网站是基于「汉字音典」（<span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>）开源数据进行二次开发的。
-          如需反馈或建议，请前往<span className={styles.a_tag} onClick={handleGoOpenSource}>vearvip/mcpdict-frontend</span>提交Issue。
+            本网站是基于「汉字音典」（<span className={styles.a_tag} onClick={handleGoOsfanMCPDict}>osfans/MCPDict</span>）开源数据进行二次开发的。
+            如需反馈或建议，请前往<span className={styles.a_tag} onClick={handleGoOpenSource}>vearvip/mcpdict-frontend</span>提交Issue。
           </div>
         </div>
       </div>

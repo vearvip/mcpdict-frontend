@@ -7,6 +7,7 @@ import Map from '@/pages/Map';
 import Setting from '../pages/Setting';
 import Ceshi from '../pages/Ceshi';
 import Information from '../pages/Information'; 
+import HomophoneList from '../pages/HomophoneList';
 /**
  * 定义应用程序的路由配置。 
  */
@@ -62,5 +63,12 @@ export const routes = [
     path: "/information",
     component:  Information, 
     // hidden: true,
+  },
+  {
+    title: "同音字表",
+    path: "/homophoneList",
+    component:  HomophoneList, 
+    // hidden: true,
+    needNotLayout: true,
   },
 ];
