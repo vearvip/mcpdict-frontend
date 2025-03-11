@@ -178,8 +178,12 @@ const Layout = (props) => {
     })
     // getDialectGeo()
   }, []);
-
-  if (routes.find(ele => ele.path == location.pathname).needNotLayout) {
+  
+  console.log({
+    routes,
+    path: location.pathname
+  })
+  if (routes.find(ele => ele.path == location.pathname)?.needNotLayout) {
     return <>
 
       <Routes>
