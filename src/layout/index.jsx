@@ -179,10 +179,10 @@ const Layout = (props) => {
     // getDialectGeo()
   }, []);
   
-  console.log({
-    routes,
-    path: location.pathname
-  })
+  // console.log({
+  //   routes,
+  //   path: location.pathname
+  // })
   if (routes.find(ele => ele.path == location.pathname)?.needNotLayout) {
     return <>
 
@@ -210,9 +210,9 @@ const Layout = (props) => {
         },
       }}
     >
-      {
+      {/* {
         location.pathname
-      }
+      } */}
       <div className={styles.layout}>
         {contextHolder}
         <div className={`${styles.nav} box`}>
