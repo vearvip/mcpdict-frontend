@@ -21,10 +21,10 @@ export default () => {
     return lines.map((line) => {
       const parts = line.split("\t");
 
-      // 处理首段，提取IPA和初始chars
-      const [initialMatch, ipa, initialKey, firstChars] =
-        /^([^\]]+)\[(\d+)\] ?(.+)/.exec(parts[0]);
-
+      // 处理首段，提取IPA和初始chars 'tsɿ[1]知蜘支枝'
+      const ipa = parts[0].split("[")[0]
+      const initialKey = parts[0].split("[")[1].split("]")[0]
+      const firstChars = parts[0].split("[")[1].split("]")[1]
       const chars = {
         [initialKey]: firstChars.trim(),
       };
