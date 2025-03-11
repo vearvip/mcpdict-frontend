@@ -2,12 +2,17 @@ import { useSearchParams } from "react-router";
 import PageContainer from "./components/PageContainer";
 import { string1 } from "./str";
 import { queryDialectItemInfo } from "../../services";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default () => {
   const [searchParams] = useSearchParams();
   const [dialectInfo, setDialectInfo] = useState()
   const dialectName = searchParams.get('dialectName') 
+  const title = useMemo(() => {
+    const pageTitle = (dialectName ?? '??') + "同音字表"
+    document.title = pageTitle;
+    return pageTitle
+  }, [ dialectName])
 
 
   function parseRimeString(input) {
@@ -56,6 +61,7 @@ export default () => {
       getDialectItemInfo(dialectName)
     }
   }, [dialectName])
+  document.title = title;
 
   return (
     <div
@@ -67,7 +73,7 @@ export default () => {
         paddingTop: 20,
       }}
     >
-      <PageContainer title={(dialectName ?? '??') + "同音字表"}>
+      <PageContainer title={title}>
         {parseRimeString(dialectInfo?.["同音字表"] ?? '').map((item, itemIndex) => {
           const key = item.ipa + itemIndex;
           return (
