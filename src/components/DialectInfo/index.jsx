@@ -4,13 +4,31 @@ import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { FloatButton, Skeleton, Descriptions, Collapse } from 'antd';
 import useStore from '@/store';
-import { JieXiRiZhi, JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv } from '../../utils/constant'
+import { JieXiRiZhi, JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv, TongYinZiBiao } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
 import { usePad, useMobile } from '../../utils/hooks';
 import { createRoot } from 'react-dom/client';
 import Book from '../Book';
 import { queryDialectItemInfo } from '../../services';
+
+// 定义一个函数来生成完整的URL并新开一个标签页
+const openInNewTab = (path, params) => {
+  // 获取当前页面的域名
+  const currentDomain = window.location.origin;
+  
+  // 构造完整的URL
+  let url = `${currentDomain}/#${path}`;
+  
+  // 如果有参数，则将其添加到URL后面
+  if (params) {
+    const queryString = new URLSearchParams(params).toString();
+    url += queryString ? `?${queryString}` : '';
+  }
+
+  // 使用 window.open 在新标签页打开URL
+  window.open(url, '_blank');
+};
 
 
 const SkeletonBlock = () => {
@@ -58,7 +76,7 @@ const DialectInfo = (props) => {
     { key: '10', label: '音節数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinJieShu] }} /> },
     { key: '11', label: '不带调音节数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BuDaiDiaoYinJieShu] }} /> },
     { key: '12', label: '地图集二分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[DiTuJiErFenQv] }} /> },
-    { key: '13', label: '音典分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinDianFenQv] }} /> },
+    { key: '13', label: '音典分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinDianFenQv] }} /> }, 
     // { key: '14', label: '陈邡分区', children: loading? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[ChenFangFenQv] }} /> },
   ]
 
@@ -80,7 +98,7 @@ const DialectInfo = (props) => {
       setLoading(false)
     }
   }
-
+ 
   useEffect(() => {
     getDialectItemInfo(dialectName)
   }, [dialectName])
@@ -113,7 +131,17 @@ const DialectInfo = (props) => {
       footer: false
     }}
   >
-
+  <div className={styles.dialog_container}>
+    {
+      dialectInfo?.[TongYinZiBiao] && <div className={styles.label_tag} onClick={() => {
+        openInNewTab('/homophoneList', {
+          dialectName 
+        })
+      }}>
+      {TongYinZiBiao}
+    </div>
+    }
+  
     <Descriptions title={<div className="flex-center" style={{
       margin: isPad ? '-25px 0 -25px 0' : undefined
     }}>
@@ -138,6 +166,7 @@ const DialectInfo = (props) => {
         : null
     }
 
+</div>
   </Dialog>
 }
 

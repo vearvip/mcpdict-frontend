@@ -23,7 +23,7 @@ const DialectDropdown = (props) => {
   const dropdownItems = [
     { key: 'add_dialect_to_custom', label: `把“${dialectName}”加入自选语言`, disabled: true },
     { key: 'see_dialect_detail', label: `查看“${dialectName}”的详细信息`, disabled: false },
-    { key: 'see_dialect_homephone_list', label: `查看“${dialectName}”的同音字表`, disabled: false },
+    // { key: 'see_dialect_homephone_list', label: `查看“${dialectName}”的同音字表`, disabled: false },
     { key: 'search_homophone', label: `查询“${char}”字的“${dialectName}”同音字`, disabled: true },
     { key: 'copy_char_phonetic_now', label: `复制“${char}”字的“${dialectName}”读音`, disabled: false },
     { key: 'copy_char_phonetic_all', label: `复制“${char}”字的所有读音`, disabled: true },

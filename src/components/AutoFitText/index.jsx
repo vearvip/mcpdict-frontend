@@ -45,24 +45,6 @@ const AutoFitText = (props) => {
     return fontSizeMap[Math.min(length, 7)] || fontSizeMap[6];
   };
 
-// 定义一个函数来生成完整的URL并新开一个标签页
-const openInNewTab = (path, params) => {
-  // 获取当前页面的域名
-  const currentDomain = window.location.origin;
-  
-  // 构造完整的URL
-  let url = `${currentDomain}/#${path}`;
-  
-  // 如果有参数，则将其添加到URL后面
-  if (params) {
-    const queryString = new URLSearchParams(params).toString();
-    url += queryString ? `?${queryString}` : '';
-  }
-
-  // 使用 window.open 在新标签页打开URL
-  window.open(url, '_blank');
-};
-
   const handleDialectDropdownClick = value => {
     // console.log('value', value)
     if (value.key === 'see_dialect_detail') {
@@ -75,9 +57,9 @@ const openInNewTab = (path, params) => {
     } else if (value.key === 'copy_char') {
       copy(props.char)
     } else if (value.key === 'see_dialect_homephone_list') {
-      openInNewTab('/homophoneList', {
-        dialectName: props.dialectName
-      })
+      // openInNewTab('/homophoneList', {
+      //   dialectName: props.dialectName
+      // })
     }
   }
 

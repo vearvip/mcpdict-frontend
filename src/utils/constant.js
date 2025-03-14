@@ -25,6 +25,8 @@ export const ChenFangYanSe = "陳邡顏色";
 export const ChenFangFenQv = "陳邡分區";
 export const ChenFangPaiXv = "陳邡排序";
 
+export const TongYinZiBiao = "同音字表";
+
 export const ShengDiao = '聲調'
  
 export const Sheng = '省'

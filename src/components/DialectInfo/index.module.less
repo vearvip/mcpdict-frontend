@@ -1,10 +1,17 @@
-.map_box { 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // height: 600px;
-  flex-direction: column;  
-  margin: 10px;
-  box-sizing: border-box;
-  overflow: hidden; 
+ 
+.dialog_container {
+  position: relative;
+  overflow: hidden;
+  .label_tag {
+    position: absolute;
+    top: 115px; // 调整位置使得标签部分超出容器顶部
+    right: -70px; // 调整位置使得标签部分超出容器右侧
+    padding: 5px 100px;
+    background-color: var(--color); // 标签背景颜色
+    color: white;
+    transform: rotate(45deg); // 旋转45度
+    transform-origin: top right; // 设置旋转中心为右上角 
+    white-space: nowrap; // 防止文本换行
+    cursor: pointer;
+  }
 }

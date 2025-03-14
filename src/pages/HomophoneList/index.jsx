@@ -3,13 +3,14 @@ import PageContainer from "./components/PageContainer";
 import { string1 } from "./str";
 import { queryDialectItemInfo } from "../../services";
 import { useEffect, useMemo, useState } from "react";
+import { TongYinZiBiao } from "../../utils/constant";
 
 export default () => {
   const [searchParams] = useSearchParams();
   const [dialectInfo, setDialectInfo] = useState()
   const dialectName = searchParams.get('dialectName') 
   const title = useMemo(() => {
-    const pageTitle = (dialectName ?? '??') + "同音字表"
+    const pageTitle = (dialectName ?? '??') + TongYinZiBiao
     document.title = pageTitle;
     return pageTitle
   }, [ dialectName])
@@ -74,7 +75,7 @@ export default () => {
       }}
     >
       <PageContainer title={title}>
-        {parseRimeString(dialectInfo?.["同音字表"] ?? '').map((item, itemIndex) => {
+        {parseRimeString(dialectInfo?.[TongYinZiBiao] ?? '').map((item, itemIndex) => {
           const key = item.ipa + itemIndex;
           return (
             <div key={key}>
