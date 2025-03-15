@@ -4,10 +4,13 @@ import { string1 } from "./str";
 import { queryDialectItemInfo } from "../../services";
 import { useEffect, useMemo, useState } from "react";
 import { TongYinZiBiao } from "../../utils/constant";
+import MobilePageContainer from "./components/MobilePageContainer";
+import { useMobile } from "../../utils/hooks";
 
 export default () => {
   const [searchParams] = useSearchParams();
   const [dialectInfo, setDialectInfo] = useState()
+  const isMobile =  useMobile()
   const dialectName = searchParams.get('dialectName') 
   const title = useMemo(() => {
     const pageTitle = (dialectName ?? '??') + TongYinZiBiao
@@ -61,8 +64,9 @@ export default () => {
     if (dialectName) {
       getDialectItemInfo(dialectName)
     }
-  }, [dialectName])
-  document.title = title;
+  }, [dialectName]) 
+
+  const Container = isMobile ? MobilePageContainer : PageContainer
 
   return (
     <div
@@ -71,10 +75,10 @@ export default () => {
         margin: "0 auto",
         fontFamily: "'FangSong', '仿宋', serif",
         fontSize: 18,
-        paddingTop: 20,
+        paddingTop: isMobile ? 0 : 20,
       }}
     >
-      <PageContainer title={title}>
+      <Container title={title}>
         {parseRimeString(dialectInfo?.[TongYinZiBiao] ?? '').map((item, itemIndex) => {
           const key = item.ipa + itemIndex;
           return (
@@ -101,7 +105,7 @@ export default () => {
             </div>
           );
         })}
-      </PageContainer>
+      </Container>
     </div>
   );
 };

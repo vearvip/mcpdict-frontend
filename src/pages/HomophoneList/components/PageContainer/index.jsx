@@ -113,6 +113,7 @@ const PageContainer = ({ children, title }) => {
             width: `${pageWidth}px`,
             height: `${pageHeight}px`,
             padding: `${pagePadding[0]}px ${pagePadding[1]}px`,
+            paddingLeft: "10vw",
             marginBottom: "20px",
             boxSizing: "border-box",
             position: "relative",
