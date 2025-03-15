@@ -134,7 +134,7 @@ const MobilePageContainer = ({ children, title }) => {
           display: 'grid',
           gridTemplateColumns: `1fr ${columnGap}px 1fr`,
           minHeight: `calc(100vh - ${titleHeight + pagePadding[0] * 2}px)`,
-          paddingLeft: '9vw'
+          paddingLeft: '10vw'
         }}>
           {/* 左列 */}
           <div style={{ position: 'relative' }}>
