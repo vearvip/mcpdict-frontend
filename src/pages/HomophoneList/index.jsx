@@ -15,6 +15,7 @@ export default () => {
   const title = useMemo(() => {
     const pageTitle = (dialectName ?? '??') + TongYinZiBiao
     document.title = pageTitle;
+    document.body.style.backgroundColor = '#dbdce0'
     return pageTitle
   }, [ dialectName])
 

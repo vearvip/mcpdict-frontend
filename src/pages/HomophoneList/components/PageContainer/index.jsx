@@ -118,7 +118,8 @@ const PageContainer = ({ children, title }) => {
             boxSizing: "border-box",
             position: "relative",
             backgroundColor: "white",
-            boxShadow: "0px 0px 22px 2px rgba(209,209,209,0.77)",
+            // boxShadow: "0px 0px 22px 2px rgba(209,209,209,0.77)",
+            // border: '1px solid red'
           }}
         >
           {/* 标题（仅第一页显示） */}
