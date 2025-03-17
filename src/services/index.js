@@ -17,6 +17,23 @@ export async function queryChars(data) {
   });
 }
 /**
+ * 查询字符信息 by QueryType 
+ * type QueryType = 'hanzi' | 'duyin' | 'zhushi' | 'cidian' 
+ *
+ * @param {Object} params - 查询参数对象。
+ * @param {string} params.queryStr - 要查询的字符（必需）。
+ * @param {string[]} [params.dialectList] - 方言选项（可选）。
+ * @param {'hanzi' | 'duyin' | 'zhushi' | 'cidian'} params.queryType - 方言选项。
+ * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
+ */
+export async function queryCharsByType(data) {
+  return request({
+    url: "/char/byType",
+    method: "POST",
+    data,
+  });
+}
+/**
  * 查询字符信息（按照信息key名查询）。
  *
  * @param {Object} params - 查询参数对象。

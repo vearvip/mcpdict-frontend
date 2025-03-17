@@ -21,7 +21,7 @@ const filterDefaultData = {
   dialectCustoms: undefined,
   dialectArea: undefined,
   dialectDistrict: undefined,
-  queryContent: "hanzi",
+  queryType: "hanzi",
 };
 
 export const getLocalFilterData = () => {
@@ -31,6 +31,13 @@ export const getLocalFilterData = () => {
       filterDataLocalStr && filterDataLocalStr != "undefined"
         ? JSON.parse(filterDataLocalStr)
         : filterDefaultData;
+
+    for (const key in filterDefaultData) {
+      const defaultFieldVal = filterDefaultData[key];
+      if (!filterData[key]) {
+        filterData[key] = defaultFieldVal
+      }
+    }
     return filterData;
   } catch (error) {
     console.error("获取筛选本地存储值失败：", error);
@@ -106,7 +113,7 @@ export const Filter = React.forwardRef(
     return (
       <Form form={form} onValuesChange={handleFormChange}>
         <Form.Item
-          name="queryContent"
+          name="queryType"
           style={{
             display: "flex",
             justifyContent: "center",
@@ -131,7 +138,7 @@ export const Filter = React.forwardRef(
                     读音
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "zhushi",
@@ -141,7 +148,7 @@ export const Filter = React.forwardRef(
                     注释
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "cidian",
@@ -151,7 +158,7 @@ export const Filter = React.forwardRef(
                     辞典
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
             ]}
           />

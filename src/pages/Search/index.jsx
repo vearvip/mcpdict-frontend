@@ -21,6 +21,7 @@ import { getSearchDialectList, groupVariants } from "../../utils";
 import useStore from "@/store";
 import { useAsyncEffect } from "ahooks";
 import { getLocalFilterData } from "../../components/Filter";
+import { queryCharsByType } from "../../services";
 
 const waitLoadDialectInfos = () => {
   return new Promise((resolve, reject) => {
@@ -56,13 +57,12 @@ const Search = (props) => {
    * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
    *
    * @param {string} value - 要搜索的值。
+   * @param {string} needSearch - 是否需直接搜索，而不是通过刷新页面的方式搜索
    */
   const onSearch = async (value, needSearch = false) => {
     const q = searchParams.get("q");
-    if (needSearch) {
-      searchByHanZi(value);
-    } else if (q === value) {
-      searchByHanZi(value);
+    if (needSearch || q === value) {
+      searchByType(value);
     } else {
       navigate(`/search?q=${value}`, { replace: true });
     }
@@ -73,15 +73,13 @@ const Search = (props) => {
    *
    * @param {string} value - 要搜索的值。
    */
-  const searchByHanZi = async (value) => {
+  const searchByType = async (value) => {
     if (!value) {
       setSearchData([]);
       return;
     }
 
-    NProgress.start();
-    // const charList = [...new Set(value.split(''))]
-    const charList = extractHanzi(value);
+    NProgress.start(); 
 
     const filterData = getLocalFilterData();
     let dialectList = getSearchDialectList(
@@ -89,33 +87,66 @@ const Search = (props) => {
       store.dialectCateTree,
       store.dialectDistrictTree
     );
+    // console.log('filterData', filterData)
 
     try {
-      const result = await queryChars({
-        charList,
-        dialectList,
-      });
-      const groupVariantList = groupVariants(
-        charList,
-        result?.data?.variants ?? []
-      );
-      const charGroupList = [];
-      groupVariantList.forEach((groupItem) => {
-        (groupItem.variants || []).forEach((variant) => {
-          const charInfo = (result?.data?.data ?? []).find(
-            (item) => item.char === variant
-          )?.charInfo;
-          if (charInfo) {
-            charGroupList.push({
-              char: variant,
-              originChar: groupItem.char,
-              charInfo: charInfo,
-            });
-          }
+      const charList = extractHanzi(value);
+      if (filterData.queryType === 'hanzi') {
+        const result = await queryChars({
+          charList,
+          dialectList,
+          queryType: filterData.queryType
         });
-      });
-      // console.log('charGroupList', charGroupList)
-      setSearchData(charGroupList);
+        const groupVariantList = groupVariants(
+          charList,
+          result?.data?.variants ?? []
+        );
+        const charGroupList = [];
+        groupVariantList.forEach((groupItem) => {
+          (groupItem.variants || []).forEach((variant) => {
+            const charInfo = (result?.data?.data ?? []).find(
+              (item) => item.char === variant
+            )?.charInfo;
+            if (charInfo) {
+              charGroupList.push({
+                char: variant,
+                originChar: groupItem.char,
+                charInfo: charInfo,
+              });
+            }
+          });
+        });
+        // console.log('charGroupList', charGroupList)
+        setSearchData(charGroupList);
+      } else {
+        const result = await queryCharsByType({
+          queryStr: value,
+          dialectList,
+          queryType: filterData.queryType
+        });
+        console.log(result)
+        const groupVariantList = groupVariants(
+          charList,
+          result?.data?.variants ?? []
+        );
+        const charGroupList = [];
+        groupVariantList.forEach((groupItem) => {
+          (groupItem.variants || []).forEach((variant) => {
+            const charInfo = (result?.data?.data ?? []).find(
+              (item) => item.char === variant
+            )?.charInfo;
+            if (charInfo) {
+              charGroupList.push({
+                char: variant,
+                originChar: groupItem.char,
+                charInfo: charInfo,
+              });
+            }
+          });
+        });
+        // console.log('charGroupList', charGroupList)
+        setSearchData(charGroupList);
+      }
     } catch (error) {
       console.error("error", error);
       // message.error(error.message)
@@ -123,6 +154,8 @@ const Search = (props) => {
       NProgress.done();
     }
   };
+
+ 
 
   useAsyncEffect(async () => {
     const q = searchParams.get("q");
@@ -137,7 +170,7 @@ const Search = (props) => {
         console.warn("⚠️ dialectInfos 尚未准备好");
         return;
       }
-      searchByHanZi(q);
+      searchByType(q);
     } else {
       setSearchData([]);
       NProgress.done();
