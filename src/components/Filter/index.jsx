@@ -1,69 +1,68 @@
-import React, { useState, useEffect, useImperativeHandle } from 'react';
-import { SettingOutlined } from '@ant-design/icons';
-import { usePad } from '../../utils/hooks';
-import { createRoot } from 'react-dom/client';
-import Dialog from '../Dialog';
+import React, { useState, useEffect, useImperativeHandle } from "react";
+import { SettingOutlined } from "@ant-design/icons";
+import { usePad } from "../../utils/hooks";
+import { createRoot } from "react-dom/client";
+import Dialog from "../Dialog";
 
-import { Select, Form, Radio, Button } from 'antd';
-import { TreeSelect } from 'antd';
-import useStore from '@/store';
-import { useRef } from 'react';
-import { clearPageCache } from '../../utils';
+import HanZiSVG from "./svgs/hanzi.svg?react";
+import CiDianSVG from "./svgs/cidian.svg?react";
+import ZhuShiSVG from "./svgs/zhushi.svg?react";
+import DuYinSVG from "./svgs/duyin.svg?react";
+
+import { Select, Form, Radio, Button, Flex } from "antd";
+import { TreeSelect } from "antd";
+import useStore from "@/store";
+import { useRef } from "react";
+import { clearPageCache } from "../../utils";
 
 const filterDefaultData = {
-  filterMode: 'lang',
+  filterMode: "lang",
   dialectName: undefined,
   dialectCustoms: undefined,
   dialectArea: undefined,
   dialectDistrict: undefined,
-}
+  queryContent: "hanzi",
+};
 
 export const getLocalFilterData = () => {
   try {
-    const filterDataLocalStr = localStorage.getItem('filterData')
-    const filterData = (filterDataLocalStr && filterDataLocalStr != 'undefined')
-      ? JSON.parse(filterDataLocalStr)
-      : filterDefaultData
-    return filterData
+    const filterDataLocalStr = localStorage.getItem("filterData");
+    const filterData =
+      filterDataLocalStr && filterDataLocalStr != "undefined"
+        ? JSON.parse(filterDataLocalStr)
+        : filterDefaultData;
+    return filterData;
   } catch (error) {
-    console.error('获取筛选本地存储值失败：', error)
-    return filterDefaultData
+    console.error("获取筛选本地存储值失败：", error);
+    return filterDefaultData;
   }
-}
+};
 
 export const setLocalFilterData = (filterData = filterDefaultData) => {
   try {
     if (filterData) {
-      localStorage.setItem('filterData', JSON.stringify(filterData))
+      localStorage.setItem("filterData", JSON.stringify(filterData));
     }
   } catch (error) {
-    console.error('设置筛选本地存储值失败：', error)
+    console.error("设置筛选本地存储值失败：", error);
   }
-}
-
-
-
+};
 
 export const Filter = React.forwardRef(
   /**
    * 搜索输入组件，用于处理用户搜索输入和设置对话框。
    *
-   * @param {Object} props - 组件属性。 
-   * @param {boolean} [props.tmpMode] - 临时模式  
+   * @param {Object} props - 组件属性。
+   * @param {boolean} [props.tmpMode] - 临时模式
    * @param {Object} [props.tmpFilterData] - 临时data
-   * @param {Function} [props.onChange] - 临时模式  
+   * @param {Function} [props.onChange] - 临时模式
    */
   (props, ref) => {
-    const {
-      tmpMode,
-      tmpFilterData,
-      onChange,
-    } = props;
-
+    const { tmpMode, tmpFilterData, onChange } = props;
 
     const [form] = Form.useForm();
-    const filterMode = Form.useWatch('filterMode', form);
-    const { store, setStore } = useStore()
+    const filterMode = Form.useWatch("filterMode", form);
+    const { store, setStore } = useStore();
 
     useImperativeHandle(ref, () => {
       // 需要将暴露的接口返回出去
@@ -75,111 +74,158 @@ export const Filter = React.forwardRef(
 
     const handleFormChange = (changedValues, allValues) => {
       // console.log('changedValues, allValues', changedValues, allValues)
-      onChange && onChange(allValues)
-    }
+      onChange && onChange(allValues);
+    };
 
     const getAllFormData = () => {
-      return form.getFieldsValue()
-    }
+      return form.getFieldsValue();
+    };
 
     const resetFormData = () => {
-      form.setFieldsValue(filterDefaultData)
-
-    }
-
+      form.setFieldsValue(filterDefaultData);
+    };
 
     useEffect(() => {
       setTimeout(() => {
-        const filterData = getLocalFilterData()
+        const filterData = getLocalFilterData();
         for (const key in filterDefaultData) {
           const defaultFieldVal = filterDefaultData[key];
           if (!filterData[key]) {
-            filterData[key] = defaultFieldVal
+            filterData[key] = defaultFieldVal;
           }
         }
-        if (tmpMode) { 
-          
-          form.setFieldsValue(tmpFilterData)
+        if (tmpMode) {
+          form.setFieldsValue(tmpFilterData);
         } else {
           // console.log('🍉', filterData)
-          form.setFieldsValue(filterData)
-
+          form.setFieldsValue(filterData);
         }
-      }, 0)
-    }, [])
+      }, 0);
+    }, []);
 
     return (
       <Form form={form} onValuesChange={handleFormChange}>
-        <Form.Item name="filterMode" >
+        <Form.Item
+          name="queryContent"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Radio.Group
+            options={[
+              {
+                value: "hanzi",
+                label: (
+                  <Flex gap="small" justify="center" align="center" vertical>
+                    <HanZiSVG />
+                    汉字
+                  </Flex>
+                ),
+              },
+              {
+                value: "duyin",
+                label: (
+                  <Flex gap="small" justify="center" align="center" vertical>
+                    <DuYinSVG />
+                    读音
+                  </Flex>
+                ),
+                disabled: true,
+              },
+              {
+                value: "zhushi",
+                label: (
+                  <Flex gap="small" justify="center" align="center" vertical>
+                    <ZhuShiSVG />
+                    注释
+                  </Flex>
+                ),
+                disabled: true,
+              },
+              {
+                value: "cidian",
+                label: (
+                  <Flex gap="small" justify="center" align="center" vertical>
+                    <CiDianSVG />
+                    辞典
+                  </Flex>
+                ),
+                disabled: true,
+              },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item name="filterMode">
           <Radio.Group
             block
             options={[
-              { label: '语言', value: 'lang' },
-              ...(
-                tmpMode ? [] : [
-                  { label: '自选', value: 'custom' },
-                  { label: '分区', value: 'area' },
-                  { label: '行政区', value: 'district' },
-                ]
-              )
+              { label: "语言", value: "lang" },
+              ...(tmpMode
+                ? []
+                : [
+                    { label: "自选", value: "custom" },
+                    { label: "分区", value: "area" },
+                    { label: "行政区", value: "district" },
+                  ]),
             ]}
             optionType="button"
             buttonStyle="solid"
           />
         </Form.Item>
-        <Form.Item name="dialectName" hidden={filterMode !== 'lang'}>
+        <Form.Item name="dialectName" hidden={filterMode !== "lang"}>
           <Select
             showSearch
             allowClear
             placeholder="请选择语言（单选）"
-            options={(store?.dialectNames ?? []).map(name => {
+            options={(store?.dialectNames ?? []).map((name) => {
               return {
                 label: name,
                 value: name,
-              }
+              };
             })}
           />
         </Form.Item>
-        <Form.Item name="dialectCustoms" hidden={filterMode !== 'custom'}>
+        <Form.Item name="dialectCustoms" hidden={filterMode !== "custom"}>
           <Select
             showSearch
             allowClear
             placeholder="请自选语言（多选）"
             mode="multiple"
-            options={(store?.dialectNames ?? []).map(name => {
+            options={(store?.dialectNames ?? []).map((name) => {
               return {
                 label: name,
                 value: name,
-              }
+              };
             })}
           />
         </Form.Item>
-        <Form.Item name="dialectArea" hidden={filterMode !== 'area'}>
+        <Form.Item name="dialectArea" hidden={filterMode !== "area"}>
           <TreeSelect
             showSearch
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             placeholder="请选择语言分区"
-            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
+            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             allowClear
             treeDefaultExpandAll
-            treeData={(store?.dialectCateTree ?? [])} 
+            treeData={store?.dialectCateTree ?? []}
           />
         </Form.Item>
-        <Form.Item name="dialectDistrict" hidden={filterMode !== 'district'}>
+        <Form.Item name="dialectDistrict" hidden={filterMode !== "district"}>
           <TreeSelect
             showSearch
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             placeholder="请选择行政区"
-            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} 
+            // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             allowClear
             treeDefaultExpandAll
-            treeData={(store?.dialectDistrictTree ?? []).map(item => {
+            treeData={(store?.dialectDistrictTree ?? []).map((item) => {
               const { value, title, dialects } = item;
-              return { 
+              return {
                 value,
-                title: title + `(${dialects.length})`,  
-              }
-            })}  
+                title: title + `(${dialects.length})`,
+              };
+            })}
           />
         </Form.Item>
       </Form>
@@ -187,72 +233,72 @@ export const Filter = React.forwardRef(
   }
 );
 
-
 /**
  * 搜索输入组件Dialog，用于处理用户搜索输入和设置对话框。
  *
- * @param {Object} props - 组件属性。 
- * @param {boolean} [props.tmpMode] - 临时模式 
- * @param {Object} [props.tmpFilterData] - 临时data 
+ * @param {Object} props - 组件属性。
+ * @param {boolean} [props.tmpMode] - 临时模式
+ * @param {Object} [props.tmpFilterData] - 临时data
  * @param {Function} [props.onOk] - ok时的回调函数。
  * @param {Function} [props.onClose] - close时的回调函数。
  */
 const FilterDialog = (props) => {
-  const {
-    tmpMode,
-    onOk,
-    tmpFilterData,
-    onClose
-  } = props;
+  const { tmpMode, onOk, tmpFilterData, onClose } = props;
   const [open, setOpen] = useState(true);
   // const [formData, setFormData] = useState()
-  const formRef = useRef()
+  const formRef = useRef();
 
   const handleDialogOk = () => {
-    const formData = formRef.current.getValues()
+    const formData = formRef.current.getValues();
     // console.log('🍓', formData, formRef.current.getValues())
-    setOpen(false)
-    onOk && onOk(formData)
+    setOpen(false);
+    onOk && onOk(formData);
     if (!tmpMode) {
-      setLocalFilterData(formData)
+      setLocalFilterData(formData);
     }
-  }
+  };
 
   const handleDialogClose = () => {
-    setOpen(false)
-    onClose && onClose()
-
-  }
+    setOpen(false);
+    onClose && onClose();
+  };
 
   const handleDialogCancel = () => {
-    formRef.current.reset()
-  }
+    formRef.current.reset();
+  };
 
-  const handleFilterChange = allValues => {
+  const handleFilterChange = (allValues) => {
     // setFormData(allValues)
-  }
-
+  };
 
   return (
-
     <Dialog
-      title={<div>
-        筛选<span
-          style={{
-            fontSize: 12,
-            color: '#999',
-            fontWeight: 'normal'
-          }}
-        >
-          （如遇搜索异常，请<span style={{ color: 'var(--color)', cursor: 'pointer' }} onClick={() => clearPageCache()}>点击此处</span>）
-        </span>
-      </div>}
+      title={
+        <div>
+          筛选
+          <span
+            style={{
+              fontSize: 12,
+              color: "#999",
+              fontWeight: "normal",
+            }}
+          >
+            （如遇搜索异常，请
+            <span
+              style={{ color: "var(--color)", cursor: "pointer" }}
+              onClick={() => clearPageCache()}
+            >
+              点击此处
+            </span>
+            ）
+          </span>
+        </div>
+      }
       open={open}
       cancelText="重置"
       onOk={handleDialogOk}
       onCancel={handleDialogCancel}
       onClose={handleDialogClose}
-      
     >
       <Filter
         ref={formRef}
@@ -266,20 +312,14 @@ const FilterDialog = (props) => {
 
 export default FilterDialog;
 
-
 let dialogContainer = null;
 let root = null;
 export const showFilterDialog = (props = {}) => {
-  const {
-    tmpMode,
-    tmpFilterData,
-    onClose,
-    onOk,
-  } = props;
+  const { tmpMode, tmpFilterData, onClose, onOk } = props;
 
   // 如果对话框容器已经存在，则不再创建新的容器
   if (!dialogContainer) {
-    dialogContainer = document.createElement('div');
+    dialogContainer = document.createElement("div");
     document.body.appendChild(dialogContainer);
     root = createRoot(dialogContainer); // 创建根实例
   }
@@ -291,23 +331,23 @@ export const showFilterDialog = (props = {}) => {
         dialogContainer = null; // 清空容器引用
         root = null; // 清空根实例引用
       }
-      callback()
+      callback();
     }, 380); // 这里的500ms是为了等待动画完成
-  }
+  };
 
   // 定义关闭对话框的方法
   const handleClose = (...args) => {
     remove(() => {
       // 调用传递的onClose回调，如果有的话
       onClose && onClose.call(this, ...args);
-    })
+    });
   };
   // 定义关闭对话框的方法
   const handleOk = (...args) => {
     remove(() => {
       // 调用传递的onOk回调，如果有的话
       onOk && onOk.call(this, ...args);
-    })
+    });
   };
 
   // 渲染对话框组件到根中
