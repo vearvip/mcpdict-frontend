@@ -38,6 +38,9 @@ function injectBaiduAnalyticsPlugin(mode) {
 
 export default defineConfig(({ command, mode }) => {
   return {
+    server: {
+      allowedHosts: true,
+    },
     optimizeDeps: {
       esbuildOptions: {
         plugins: [fixReactVirtualized],

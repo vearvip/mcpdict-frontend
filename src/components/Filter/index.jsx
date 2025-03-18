@@ -35,7 +35,7 @@ export const getLocalFilterData = () => {
     for (const key in filterDefaultData) {
       const defaultFieldVal = filterDefaultData[key];
       if (!filterData[key]) {
-        filterData[key] = defaultFieldVal
+        filterData[key] = defaultFieldVal;
       }
     }
     return filterData;
@@ -69,6 +69,7 @@ export const Filter = React.forwardRef(
 
     const [form] = Form.useForm();
     const filterMode = Form.useWatch("filterMode", form);
+    const queryType = Form.useWatch("queryType", form);
     const { store, setStore } = useStore();
 
     useImperativeHandle(ref, () => {

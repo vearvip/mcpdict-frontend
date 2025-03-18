@@ -79,7 +79,7 @@ const Search = (props) => {
       return;
     }
 
-    NProgress.start(); 
+    NProgress.start();
 
     const filterData = getLocalFilterData();
     let dialectList = getSearchDialectList(
@@ -90,63 +90,44 @@ const Search = (props) => {
     // console.log('filterData', filterData)
 
     try {
-      const charList = extractHanzi(value);
-      if (filterData.queryType === 'hanzi') {
-        const result = await queryChars({
+      let charList;
+      let result;
+      if (filterData.queryType === "hanzi") {
+        charList = extractHanzi(value);
+        result = await queryChars({
           charList,
           dialectList,
-          queryType: filterData.queryType
+          queryType: filterData.queryType,
         });
-        const groupVariantList = groupVariants(
-          charList,
-          result?.data?.variants ?? []
-        );
-        const charGroupList = [];
-        groupVariantList.forEach((groupItem) => {
-          (groupItem.variants || []).forEach((variant) => {
-            const charInfo = (result?.data?.data ?? []).find(
-              (item) => item.char === variant
-            )?.charInfo;
-            if (charInfo) {
-              charGroupList.push({
-                char: variant,
-                originChar: groupItem.char,
-                charInfo: charInfo,
-              });
-            }
-          });
-        });
-        // console.log('charGroupList', charGroupList)
-        setSearchData(charGroupList);
       } else {
-        const result = await queryCharsByType({
+        result = await queryCharsByType({
           queryStr: value,
           dialectList,
-          queryType: filterData.queryType
+          queryType: filterData.queryType,
         });
-        console.log(result)
-        const groupVariantList = groupVariants(
-          charList,
-          result?.data?.variants ?? []
-        );
-        const charGroupList = [];
-        groupVariantList.forEach((groupItem) => {
-          (groupItem.variants || []).forEach((variant) => {
-            const charInfo = (result?.data?.data ?? []).find(
-              (item) => item.char === variant
-            )?.charInfo;
-            if (charInfo) {
-              charGroupList.push({
-                char: variant,
-                originChar: groupItem.char,
-                charInfo: charInfo,
-              });
-            }
-          });
-        });
-        // console.log('charGroupList', charGroupList)
-        setSearchData(charGroupList);
+        charList = result?.data?.variants ?? [];
       }
+      const groupVariantList = groupVariants(
+        charList,
+        result?.data?.variants ?? []
+      );
+      const charGroupList = [];
+      groupVariantList.forEach((groupItem) => {
+        (groupItem.variants || []).forEach((variant) => {
+          const charInfo = (result?.data?.data ?? []).find(
+            (item) => item.char === variant
+          )?.charInfo;
+          if (charInfo) {
+            charGroupList.push({
+              char: variant,
+              originChar: groupItem.char,
+              charInfo: charInfo,
+            });
+          }
+        });
+      });
+      // console.log('charGroupList', charGroupList)
+      setSearchData(charGroupList);
     } catch (error) {
       console.error("error", error);
       // message.error(error.message)
@@ -154,8 +135,6 @@ const Search = (props) => {
       NProgress.done();
     }
   };
-
- 
 
   useAsyncEffect(async () => {
     const q = searchParams.get("q");
