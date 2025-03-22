@@ -63,6 +63,7 @@ export const Filter = React.forwardRef(
    * @param {boolean} [props.tmpMode] - 临时模式
    * @param {Object} [props.tmpFilterData] - 临时data
    * @param {Function} [props.onChange] - 临时模式
+   * @param {boolean} [props.hiddenQueryType] - 隐藏queryType字段，并默认赋值为hanzi
    */
   (props, ref) => {
     const { tmpMode, tmpFilterData, onChange } = props;
@@ -81,6 +82,9 @@ export const Filter = React.forwardRef(
 
     const handleFormChange = (changedValues, allValues) => {
       // console.log('changedValues, allValues', changedValues, allValues)
+      if (props.hiddenQueryType) {
+        allValues.queryType = 'hanzi'
+      }
       onChange && onChange(allValues);
     };
 
@@ -112,7 +116,8 @@ export const Filter = React.forwardRef(
 
     return (
       <Form form={form} onValuesChange={handleFormChange}>
-        <Form.Item
+        {
+          !props.hiddenQueryType && <Form.Item
           name="queryType"
           style={{
             display: "flex",
@@ -138,7 +143,7 @@ export const Filter = React.forwardRef(
                     读音
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "zhushi",
@@ -148,7 +153,7 @@ export const Filter = React.forwardRef(
                     注释
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "cidian",
@@ -163,6 +168,7 @@ export const Filter = React.forwardRef(
             ]}
           />
         </Form.Item>
+        }
         <Form.Item name="filterMode">
           <Radio.Group
             block
@@ -248,6 +254,7 @@ export const Filter = React.forwardRef(
  * @param {Object} [props.tmpFilterData] - 临时data
  * @param {Function} [props.onOk] - ok时的回调函数。
  * @param {Function} [props.onClose] - close时的回调函数。
+ * @param {boolean} [props.hiddenQueryType] - 隐藏queryType字段，并默认赋值为hanzi
  */
 const FilterDialog = (props) => {
   const { tmpMode, onOk, tmpFilterData, onClose } = props;

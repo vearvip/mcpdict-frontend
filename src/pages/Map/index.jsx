@@ -158,7 +158,7 @@ export default () => {
       }}
     >
 
-      <Filter onChange={handleFilterChange} />
+      <Filter onChange={handleFilterChange} hiddenQueryType />
       <Input.Search
         value={inputValue}
         placeholder="请输入单字"

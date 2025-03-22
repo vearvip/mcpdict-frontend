@@ -125,26 +125,21 @@ const Search = (props) => {
           queryType: filterData.queryType
         });
         console.log(result)
-        const groupVariantList = groupVariants(
-          charList,
-          result?.data?.variants ?? []
-        );
-        const charGroupList = [];
-        groupVariantList.forEach((groupItem) => {
-          (groupItem.variants || []).forEach((variant) => {
+        const variants  = result?.data?.variants ?? [] 
+        const charGroupList = []; 
+          ( variants || []).forEach((variant) => {
             const charInfo = (result?.data?.data ?? []).find(
               (item) => item.char === variant
             )?.charInfo;
             if (charInfo) {
               charGroupList.push({
                 char: variant,
-                originChar: groupItem.char,
+                originChar: variant,
                 charInfo: charInfo,
               });
             }
-          });
-        });
-        // console.log('charGroupList', charGroupList)
+          }); 
+        console.log('charGroupList33', charGroupList)
         setSearchData(charGroupList);
       }
     } catch (error) {
