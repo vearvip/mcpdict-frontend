@@ -4,7 +4,7 @@ import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { FloatButton, Skeleton, Descriptions, Collapse } from 'antd';
 import useStore from '@/store';
-import { JieXiRiZhi, JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv, TongYinZiBiao } from '../../utils/constant'
+import { JieXiRiZhi, JianCheng, YuYan, JingWeiDu, LuRuRen, LaiYuan, WenJianMing, BanBen, ZiShu, WuZhengZiShu, YinJieShu, BuDaiDiaoYinJieShu, DiTuJiErFenQv, YinDianFenQv, ChenFangFenQv, TongYinZiBiao, WeiHuRen, CanKaoWenXian, BuChongYueDu, YinXiShuoMing } from '../../utils/constant'
 // import ReactDOM from 'react-dom'
 import { CloseOutlined } from '@ant-design/icons';
 import { usePad, useMobile } from '../../utils/hooks';
@@ -65,19 +65,24 @@ const DialectInfo = (props) => {
 
 
   const descriptionItems = [
-    { key: '2', label: '地点', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YuYan] }} /> },
-    { key: '3', label: '经纬度', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[JingWeiDu] }} /> },
-    { key: '4', label: '录入人', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[LuRuRen] }} /> },
-    { key: '5', label: '来源', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: replaceLaiYuanATag(dialectInfo?.[LaiYuan]) }} /> },
-    { key: '6', label: '文件名', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[WenJianMing] }} /> },
-    { key: '7', label: '版本', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BanBen] }} /> },
-    { key: '8', label: '字数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[ZiShu] }} /> },
-    { key: '9', label: '□数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[WuZhengZiShu] }} /> },
-    { key: '10', label: '音節数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinJieShu] }} /> },
-    { key: '11', label: '不带调音节数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BuDaiDiaoYinJieShu] }} /> },
-    { key: '12', label: '地图集二分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[DiTuJiErFenQv] }} /> },
-    { key: '13', label: '音典分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinDianFenQv] }} /> }, 
-    // { key: '14', label: '陈邡分区', children: loading? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[ChenFangFenQv] }} /> },
+    { key: 'YuYan', label: '地点', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YuYan] }} /> },
+    { key: 'JingWeiDu', label: '经纬度', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[JingWeiDu] }} /> },
+    { key: 'LuRuRen', label: '录入人', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[LuRuRen] }} /> },
+    { key: 'WeiHuRen', label: '维护人', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[WeiHuRen] }} /> },
+    { key: 'LaiYuan', label: '来源', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: replaceLaiYuanATag(dialectInfo?.[LaiYuan]) }} /> },
+    { key: 'WenJianMing', label: '文件名', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[WenJianMing] }} /> },
+    { key: 'BanBen', label: '版本', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BanBen] }} /> },
+    { key: 'ZiShu', label: '字数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[ZiShu] }} /> },
+    { key: 'WuZhengZiShu', label: '□数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[WuZhengZiShu] }} /> },
+    { key: 'YinJieShu', label: '音節数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinJieShu] }} /> },
+    { key: 'BuDaiDiaoYinJieShu', label: '不带调音节数', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BuDaiDiaoYinJieShu] }} /> },
+    { key: 'DiTuJiErFenQv', label: '地图集二分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[DiTuJiErFenQv] }} /> },
+    { key: 'YinDianFenQv', label: '音典分区', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinDianFenQv] }} /> },
+    { key: 'CanKaoWenXian', label: '参考文献', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[CanKaoWenXian] }} /> },
+    { key: 'BuChongYueDu', label: '补充阅读', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[BuChongYueDu] }} /> },
+    { key: 'YinXiShuoMing', label: '音系说明', children: loading ? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[YinXiShuoMing] }} /> },
+ 
+    // { key: 'ChenFangFenQv', label: '陈邡分区', children: loading? <SkeletonBlock /> : <div dangerouslySetInnerHTML={{ __html: dialectInfo?.[ChenFangFenQv] }} /> },
   ]
 
   const handleClose = () => {

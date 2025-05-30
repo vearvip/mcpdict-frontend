@@ -3,6 +3,7 @@ export const YuYan = "語言";
 export const JianCheng = "簡稱";
 
 export const LuRuRen = "錄入人";
+export const WeiHuRen = "維護人";
 export const LaiYuan = "來源";
 export const WenJianMing = "文件名";
 export const BanBen = "版本";
@@ -10,6 +11,10 @@ export const ZiShu = "字數";
 export const WuZhengZiShu = "□數";
 export const YinJieShu = "音節數";
 export const BuDaiDiaoYinJieShu = "不帶調音節數";
+
+export const CanKaoWenXian = "參考文獻"
+export const BuChongYueDu = "補充閲讀"
+export const YinXiShuoMing = "音系說明"
 
 export const JingWeiDu = "經緯度";
 
@@ -25,8 +30,6 @@ export const ChenFangYanSe = "陳邡顏色";
 export const ChenFangFenQv = "陳邡分區";
 export const ChenFangPaiXv = "陳邡排序";
 
-export const TongYinZiBiao = "同音字表";
-
 export const ShengDiao = '聲調'
  
 export const Sheng = '省'
@@ -35,8 +38,7 @@ export const Xian = '縣'
 export const Zhen = '鎮'
 export const Cun = '村'
 export const ZiRanCun = '自然村'
-
-export const JieXiRiZhi = '解析日志'
+export const JieXiRiZhi = '解析日志' 
  
 
 export const FenQvEnum = {
