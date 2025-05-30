@@ -8,7 +8,7 @@ import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { BuDaiDiaoYinJieShu, Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, WuZhengZiShu, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YinJieShu, YuYan, Zhen, ZiRanCun, ZiShu } from '../utils/constant';
+import { BuChongYueDu, BuDaiDiaoYinJieShu, CanKaoWenXian, Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, WeiHuRen, WuZhengZiShu, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YinJieShu, YinXiShuoMing, YuYan, Zhen, ZiRanCun, ZiShu } from '../utils/constant';
 import { Badge } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
@@ -124,6 +124,10 @@ const Layout = (props) => {
             [WuZhengZiShu]: item[17], // [17] □數
             [YinJieShu]: item[18], // [18] 音節數
             [BuDaiDiaoYinJieShu]: item[19], // [19] 不帶調音節數
+            [WeiHuRen]: item[20], // [20] 維護人
+            [CanKaoWenXian]: item[21], // [21] 參考文獻
+            [BuChongYueDu]: item[22], // [22] 補充閲讀
+            [YinXiShuoMing]: item[23], // [23] 音系說明
           }
         })
         .filter(item => getBackgroundColorFromItem(item))
