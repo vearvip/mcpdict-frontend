@@ -131,7 +131,7 @@ const Layout = (props) => {
           }
         })
         .filter(item => getBackgroundColorFromItem(item))
-      // console.log('dialectInfos', dialectInfos)
+      console.log('dialectInfos', dialectInfos)
       return {
         dialectInfos: dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
