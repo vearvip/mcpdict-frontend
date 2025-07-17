@@ -101,6 +101,15 @@ const Layout = (props) => {
     try {
       const res = await queryDialectInfos();
       // console.log('setStore', setStore);
+      /**
+       * 格式化颜色
+       * @param {string} colorStr 
+       * @returns {string}
+       */
+      const parseColor = colorStr => {
+        if (!colorStr) return colorStr
+        return colorStr.replaceAll(',#FFFFFF', '')
+      }
       const dialectInfos = (res?.data ?? [])
         .map(item => {
           return {
@@ -108,10 +117,10 @@ const Layout = (props) => {
             [JianCheng]: item[1], // [1] 简称
             [JingWeiDu]: item[2], // [2] 经纬度
             [DiTuJiErFenQv]: item[3], // [3] 地图集二分区
-            [DiTuJiErYanSe]: item[4], // [4] 地图集二颜色
+            [DiTuJiErYanSe]: parseColor(item[4]), // [4] 地图集二颜色
             [DiTuJiErPaiXv]: item[5], // [5] 地图集二排序
             [YinDianFenQv]: item[6], // [6] 音典分区
-            [YinDianYanSe]: item[7], // [7] 音典颜色
+            [YinDianYanSe]: parseColor(item[7]), // [7] 音典颜色
             [YinDianPaiXv]: item[8], // [8] 音典排序
             [ShengDiao]: item[9], // [9] 声调
             [Sheng]: item[10], // [10] 声
@@ -141,7 +150,7 @@ const Layout = (props) => {
       return false
     }
   };
-
+  
   /**
    * 获取方言Geo信息并更新 store。
    */
