@@ -18,7 +18,7 @@ const openInNewTab = (path, params) => {
   const currentDomain = window.location.origin;
   
   // 构造完整的URL
-  let url = `${currentDomain}/#${path}`;
+  let url = `${currentDomain}${path}`;
   
   // 如果有参数，则将其添加到URL后面
   if (params) {

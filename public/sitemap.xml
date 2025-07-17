@@ -10,7 +10,7 @@
 
    <!-- 字音查询 -->
    <url>
-      <loc>https://mcpdict.vear.vip/#/search</loc>
+      <loc>https://mcpdict.vear.vip/search</loc>
       <lastmod>2025-01-15</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
    <!-- 长文注音 -->
    <url>
-      <loc>https://mcpdict.vear.vip/#/long-search</loc>
+      <loc>https://mcpdict.vear.vip/long-search</loc>
       <lastmod>2025-01-15</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.7</priority>
@@ -26,7 +26,7 @@
 
    <!-- 语言地图 -->
    <url>
-      <loc>https://mcpdict.vear.vip/#/map</loc>
+      <loc>https://mcpdict.vear.vip/map</loc>
       <lastmod>2025-01-15</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.6</priority>
@@ -34,7 +34,7 @@
 
    <!-- 设置 -->
    <url>
-      <loc>https://mcpdict.vear.vip/#/setting</loc>
+      <loc>https://mcpdict.vear.vip/setting</loc>
       <lastmod>2025-01-15</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.5</priority>
@@ -42,7 +42,7 @@
 
    <!-- 推荐资源 -->
    <url>
-      <loc>https://mcpdict.vear.vip/#/information</loc>
+      <loc>https://mcpdict.vear.vip/information</loc>
       <lastmod>2025-01-15</lastmod>
       <changefreq>yearly</changefreq>
       <priority>0.4</priority>
