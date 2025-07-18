@@ -3,7 +3,7 @@ import styles from "./index.module.less";
 import Menu from '@/components/Menu';
 import { queryDialectInfos, queryDialectGeo } from '@/services';
 import useStore from '@/store';
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router";
+import { Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
 import { FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';

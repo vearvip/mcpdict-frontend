@@ -3,11 +3,11 @@ import Layout from './layout';
 import 'nprogress/nprogress.css'
 
 import './index.less'
-import { HashRouter } from 'react-router';
+import { HashRouter, BrowserRouter } from 'react-router';
 
 
 createRoot(document.getElementById('root')).render(
-  <HashRouter>
+  <BrowserRouter>
     <Layout />
-  </HashRouter>,
+  </BrowserRouter>,
 )
