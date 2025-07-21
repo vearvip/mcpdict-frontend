@@ -5,14 +5,16 @@ import { queryDialectInfos, queryDialectGeo } from '@/services';
 import useStore from '@/store';
 import { Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
-import { FloatButton, message } from 'antd';
+import { Button, FloatButton, message } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { BuChongYueDu, BuDaiDiaoYinJieShu, CanKaoWenXian, Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, WeiHuRen, WuZhengZiShu, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YinJieShu, YinXiShuoMing, YuYan, Zhen, ZiRanCun, ZiShu } from '../utils/constant';
-import { Badge } from 'antd';
+import { Badge, notification } from 'antd';
 import { useMobile, usePad } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
 import { getLocalPageSettingData } from '../pages/Setting';
+import { SmileOutlined } from '@ant-design/icons';
+import MiniAppQRCode from '../assets/webp/miniapp_qrcode.webp';
 
 
 
@@ -150,7 +152,7 @@ const Layout = (props) => {
       return false
     }
   };
-  
+
   /**
    * 获取方言Geo信息并更新 store。
    */
@@ -190,8 +192,25 @@ const Layout = (props) => {
       window.dialectInfosWasReady = true
     })
     // getDialectGeo()
+    if (localStorage.getItem('mcpdict-miniapp-notice') !== 'yes') {
+      notification.open({
+        // placement: 'top',
+        message: '小程序来了，尝尝鲜吧！',
+        description: <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <img src={MiniAppQRCode} alt="小程序二维码" style={{ width: 120, height: 120, marginTop: 20 }} />
+        </div>,
+        // icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+        duration: false,
+      });
+      localStorage.setItem('mcpdict-miniapp-notice', 'yes')
+    }
+
   }, []);
-  
+
   // console.log({
   //   routes,
   //   path: location.pathname

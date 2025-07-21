@@ -1,20 +1,34 @@
 import { Avatar, List } from 'antd'
 import React from 'react'
 import styles from './index.module.less';
-import { ExportOutlined } from '@ant-design/icons';
+import { ExportOutlined, GlobalOutlined, WechatOutlined } from '@ant-design/icons';
+import MiniAppQRCode from '../../assets/webp/miniapp_qrcode.webp';
+import Logo from '../../assets/webp/logo.webp';
 
 const informationList = [
+  {
+    title: '漢字音典官方APP',
+    url: 'https://github.com/osfans/MCPDict/releases',
+    logo: 'https://img.alicdn.com/imgextra/i1/O1CN012C4sFq1groux7zc8i_!!6000000004196-2-tps-192-192.png',
+    description: <div>
+      本程序源自漢字古今中外讀音查詢，現收錄了數百種語言（方言）的漢字讀音，使用國際音標注音，可查詢漢字在古今中外多種語言中的讀音及釋義，也能給語言學習者提供有限的幫助。
+      <br />
+      另有<a href="https://mcpdict.sourceforge.io/" target="_blank"><GlobalOutlined style={{ marginRight: 2 }} />漢字音典官方網頁版</a> 
+    </div>
+  }, 
+  {
+    title: '汉字音典小程序', 
+    logo: Logo,
+    url: MiniAppQRCode,
+    description: <div>
+      目前实现比较简单，欢迎尝鲜：<a href={MiniAppQRCode}><WechatOutlined style={{ marginRight: 2 }} />点击前往微信小程序</a>
+    </div>
+  },
   {
     title: '中国语言资源保护工程',
     url: 'https://zhongguoyuyan.cn/',
     logo: 'https://img.alicdn.com/imgextra/i3/O1CN0100EtdX1PLRRyBQTXG_!!6000000001824-2-tps-64-64.png',
     description: "“中国语言资源保护工程”是由中国财政部立项，教育部和国家语言文字工作委员会领导实施的一项特大型语言文化类国家工程。"
-  },
-  {
-    title: '漢字音典官方APP',
-    url: 'https://github.com/osfans/MCPDict/releases',
-    logo: 'https://img.alicdn.com/imgextra/i1/O1CN012C4sFq1groux7zc8i_!!6000000004196-2-tps-192-192.png',
-    description: '本程序源自漢字古今中外讀音查詢，現收錄了數百種語言（方言）的漢字讀音，使用國際音標注音，可查詢漢字在古今中外多種語言中的讀音及釋義，也能給語言學習者提供有限的幫助。'
   },
   {
     title: '韵典网',
@@ -89,25 +103,32 @@ const informationList = [
     description: '本书是中国社会科学院2002-2008年A类重大课题研究成果，由中国社会科学院语言研究所、中国社会科学院民族学与人类学研究所、香港城市大学语言资讯科学研究中心合作编制，由我国著名语言学家、方言学家、中国社会科学院语言研究所方言研究室前主任、汉语方言学界权威刊物《方言》杂志前主编张振兴研究员总负责，国内50多位汉语方言学家和少数民族语言学家历经8年努力，鼎力合作而成。'
   },
 
-  
+
 ]
 
 const Information = () => {
   return <div className={`box ${styles.information}`}>
-    
-  <List
-    itemLayout="horizontal"
-    dataSource={informationList}
-    renderItem={(item, index) => (
-      <List.Item>
-        <List.Item.Meta
-          avatar={<Avatar shape="square" src={item.logo} />}
-          title={<a target="_blank" href={item.url}>{item.title}<ExportOutlined style={{ marginLeft: 3 }} /></a>}
-          description={item.description}
-        />
-      </List.Item>
-    )}
-  />
+
+    <List
+      itemLayout="horizontal"
+      dataSource={informationList}
+      renderItem={(item, index) => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar shape="square" src={item.logo} />}
+            title={ 
+                item.url
+                  ? <a target="_blank" href={item.url}>
+                    {item.title}<ExportOutlined style={{ marginLeft: 3 }} />
+                  </a>
+                  : <span>{item.title}</span> 
+
+            }
+            description={item.description}
+          />
+        </List.Item>
+      )}
+    />
   </div>
 }
 
