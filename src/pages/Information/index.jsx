@@ -13,7 +13,7 @@ const informationList = [
     description: <div>
       本程序源自漢字古今中外讀音查詢，現收錄了數百種語言（方言）的漢字讀音，使用國際音標注音，可查詢漢字在古今中外多種語言中的讀音及釋義，也能給語言學習者提供有限的幫助。
       <br />
-      另有<a href="https://mcpdict.sourceforge.io/" target="_blank"><GlobalOutlined style={{ marginRight: 2 }} />漢字音典官方網頁版</a> 
+      另有&nbsp;<a href="https://mcpdict.sourceforge.io/" target="_blank" ><GlobalOutlined style={{ marginRight: 2 }} />漢字音典官方網頁版</a> 
     </div>
   }, 
   {
@@ -21,7 +21,7 @@ const informationList = [
     logo: Logo,
     url: MiniAppQRCode,
     description: <div>
-      目前实现比较简单，欢迎尝鲜：<a href={MiniAppQRCode}><WechatOutlined style={{ marginRight: 2 }} />点击前往微信小程序</a>
+      目前实现比较简单，欢迎尝鲜：<a href={MiniAppQRCode} target="_blank"><WechatOutlined style={{ marginRight: 2 }} />点击前往微信小程序</a>
     </div>
   },
   {
