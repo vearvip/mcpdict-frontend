@@ -4,10 +4,11 @@ import 'nprogress/nprogress.css'
 
 import './index.less'
 import { HashRouter, BrowserRouter } from 'react-router';
-
+import HashRouterCompatibility from './components/HashRouterCompatibility';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+    <HashRouterCompatibility />
     <Layout />
   </BrowserRouter>,
 )
