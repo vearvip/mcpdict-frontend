@@ -44,7 +44,7 @@ export const routes = [
     path: "/map",
     component:  Map,
     // disabled: true,
-    beta: true,
+    // beta: true,
   },
   {
     title: "设置",
