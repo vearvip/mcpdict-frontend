@@ -19,6 +19,7 @@ import { useSearchParams } from 'react-router';
 import { useAsyncEffect } from 'ahooks';
 import { useNavigate } from 'react-router';
 import { getLocalPageSettingData } from '../Setting';
+import { extractHanzi, unicodeLengthIgnoreSequence } from '@vearvip/hanzi-utils';
 
 
 export default () => {
@@ -164,7 +165,20 @@ export default () => {
         placeholder="请输入单字"
         loading={loading}
         enterButton
-        maxLength={1}
+        count={{ 
+          // 最大字符数，不同于原生 `maxLength`，超出后标红但不会截断
+          max: 1,
+          // 自定义字符计数，例如标准 emoji 长度大于 1，可以自定义计数策略将其改为 1 
+          strategy: (value) => { 
+            return unicodeLengthIgnoreSequence(value)
+          }, 
+          // 当字符数超出 `count.max` 时的自定义裁剪逻辑，不配置时不进行裁剪
+          exceedFormatter: (value, config) => { 
+            let segments = new Intl.Segmenter().segment(value); 
+            const hanziList = [...segments].slice(0, config.max) 
+            return hanziList.map(ele => ele.segment).join('')
+          }
+        }}
         onChange={handleInputChange}
         onSearch={handleSearch}
       />

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Modal, Drawer, Button } from 'antd';
+import { Modal, Drawer, Button, ConfigProvider } from 'antd';
 import { usePad } from '../../utils/hooks';
+import { themeToken } from '../../layout';
 
 /** 
  * @param {Object} props - 组件属性。
@@ -54,36 +55,40 @@ const Dialog = (props) => {
 
   return (
     <div >
-
-      {
-        isPad
-          ? <Drawer
-            title={props.title}
-            open={props.open}
-            placement="top"
-            onClose={handleClose}
-            width={'100vw'}
-            destroyOnClose
-            style={{
-              height: '80vh',
-            }}
-            footer={footer}
-            {...(props.drawerProps || {})}
-          >
-            {props.children}
-          </Drawer>
-          : <Modal
-            title={props.title}
-            open={props.open} 
-            destroyOnClose 
-            onCancel={handleClose}
-            footer={footer}
-            {...(props.modalProps || {})}
-          >
-            {props.children}
-          </Modal>
-      }
-
+      <ConfigProvider
+        theme={{
+          token: themeToken,
+        }}
+      >
+        {
+          isPad
+            ? <Drawer
+              title={props.title}
+              open={props.open}
+              placement="top"
+              onClose={handleClose}
+              width={'100vw'}
+              destroyOnClose
+              style={{
+                height: '80vh',
+              }}
+              footer={footer}
+              {...(props.drawerProps || {})}
+            >
+              {props.children}
+            </Drawer>
+            : <Modal
+              title={props.title}
+              open={props.open}
+              destroyOnClose
+              onCancel={handleClose}
+              footer={footer}
+              {...(props.modalProps || {})}
+            >
+              {props.children}
+            </Modal>
+        }
+      </ConfigProvider>
     </div>
   );
 };

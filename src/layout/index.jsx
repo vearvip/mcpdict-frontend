@@ -54,6 +54,14 @@ function sortByYinDianPaiXv(data) {
 
 
 
+export const themeToken = {
+  colorPrimary: '#3273dc',
+  colorLink: '#3273dc',
+  borderRadius: 4,
+  fontFamily: `'Charis SIL', Arial, sans-serif`
+}
+
+
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
  */
@@ -211,6 +219,8 @@ const Layout = (props) => {
 
   }, []);
 
+
+
   // console.log({
   //   routes,
   //   path: location.pathname
@@ -232,14 +242,7 @@ const Layout = (props) => {
     <ConfigProvider
       locale={zhCN}
       theme={{
-        token: {
-          // Seed Token，影响范围大
-          colorPrimary: '#3273dc',
-          colorLink: '#3273dc',
-          // colorBgBase: '#3273dc',
-          borderRadius: 4,
-          fontFamily: `'Charis SIL', Arial, sans-serif`
-        },
+        token: themeToken,
       }}
     >
       {/* {
