@@ -80,9 +80,9 @@ const informationList = [
   },
   {
     title: '东方语言学',
-    url: 'http://118.24.95.172/',
-    logo: 'https://img.alicdn.com/imgextra/i1/O1CN01YEMXJ6252rExASeeH_!!6000000007469-1-tps-38-43.gif',
-    description: '东方语言学主站是：“https://www.eastling.org”，现在看来貌似挂了，这里能访问的是旧版站点。'
+    url: 'http://www.eastling.org/',
+    logo: 'https://img.alicdn.com/imgextra/i2/O1CN011pJDF221ObdZ19rHl_!!6000000006975-2-tps-100-100.png',
+    description: '东方语言学是上海師範大學語言研究所提供的汉语方言及古音的查询工具、资源下载等功能的站点，是研究汉语语音历史与多样性的宝贵在线平台。'
   },
   {
     title: '小学堂',
