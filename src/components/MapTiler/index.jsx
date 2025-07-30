@@ -9,6 +9,60 @@ import { getLocalPageSettingData } from "../../pages/Setting"
 
 const KEY = "HSnYXzpfPRlVp7fkOywW"
 
+const maptilerStyle = `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}` 
+// const maptilerStyle =  `https://api.maptiler.com/maps/basic-v2/style.json?key=${KEY}` 
+// const maptilerStyle =  `https://api.maptiler.com/maps/landscape/style.json?key=${KEY}` 
+// const maptilerStyle =  'https://tiles.stadiamaps.com/styles/osm_bright.json' 
+// const maptilerStyle =  'https://demotiles.maplibre.org/style.json' 
+// const maptilerStyle =  `https://api.maptiler.com/maps/streets/style.json?key=${KEY}` 
+
+const daoDeMapStyle = {
+  version: 8, // MapLibre样式版本
+  name: 'Gaode Map',
+  sources: {
+    gaode_tiles: { // 自定义源名称
+      type: 'raster',
+      tiles: [
+        'https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'
+      ],
+      tileSize: 256, // 确保与高德瓦片服务一致
+      maxzoom: 18, // 根据实际需求调整最大缩放级别
+      minzoom: 0 // 添加最小缩放级别
+    }
+  },
+  layers: [
+    {
+      id: 'gaode-layer', // 图层ID
+      type: 'raster',
+      source: 'gaode_tiles', // 关联到定义的源
+      paint: {
+        'raster-opacity': 1 // 确保图层完全可见
+      }
+    }
+  ]
+}
+
+const arcgisMapStyle = {
+  version: 8,
+  sources: {
+    arcgis_wmts_xyz: {
+      type: 'raster',
+      tiles: [
+        'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{x}/{y}'
+      ],
+      tileSize: 256,
+      maxzoom: 18
+    }
+  },
+  layers: [
+    {
+      id: 'arcgis-wmts-layer',
+      type: 'raster',
+      source: 'arcgis_wmts_xyz'
+    }
+  ]
+}
+
 function loadScript(url) {
   return new Promise((resolve, reject) => {
     // 创建一个新的 script 元素
@@ -61,13 +115,9 @@ export default function Amap({ dialectInfos, style }) {
 
         mapRef.current = new maplibregl.Map({
           container: 'map_container',
-          style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
-          // style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${KEY}`,
-          // style: `https://api.maptiler.com/maps/landscape/style.json?key=${KEY}`,
-          // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
-          // style: 'https://demotiles.maplibre.org/style.json',
-          // style: `https://api.maptiler.com/maps/streets/style.json?key=${KEY}`,
 
+          style: daoDeMapStyle,
+          // style: arcgisMapStyle,
  
           center: [105, 35],
           zoom: 4 // 设置为4以覆盖整个中国
