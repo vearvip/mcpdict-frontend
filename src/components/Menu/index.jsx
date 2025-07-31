@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.less';
 import { Menu as AntdMenu, Button, Drawer } from 'antd';
 import { useMobile } from '../../utils/hooks';
-import { GithubOutlined, MenuOutlined } from '@ant-design/icons';
+import { ExportOutlined, GithubOutlined, MenuOutlined, SearchOutlined } from '@ant-design/icons';
 import LogoBlock from '../LogoBlock';
+import SearchInput from '../SearchInput';
+import { Popover } from 'antd';
+import eventBus from '../../event/bus';
+import { useSearchParams } from 'react-router';
 
 
 /**
@@ -33,6 +37,7 @@ const Menu = (props) => {
   // console.log('props', props)
   const [showDrawer, setShowDrawer] = useState(false);
   const isMobile = useMobile();
+  const [searchParams] = useSearchParams();
 
   const handleGoGithub = () => {
     window.open('https://github.com/vearvip/mcpdict-frontend');
@@ -73,16 +78,39 @@ const Menu = (props) => {
                 }} />
             </div>
           )}
-        <GithubOutlined 
-        onClick={() => handleGoGithub()}
-        className={
-          styles.github_icon
-        } style={{
-          ...(isMobile ? {
-            marginTop: 12, 
-          } :{})
-        }} 
-        />
+        <div>
+          {
+            isMobile ?
+              <Popover
+              zIndex={100}
+                trigger={'click'}
+                placement="bottomRight"
+                title={false}
+                content={
+                  <SearchInput
+                    defaultValue={searchParams.get("q") || ""}
+                    onSearch={(...args) => {
+                      // console.log('searchEventBus 🐇', args)
+                      eventBus.emit('SEARCH_EVENT', ...args)
+                    }} />
+                }
+              >
+                <SearchOutlined className={styles.search_icon} />
+              </Popover>
+              : <GithubOutlined
+                onClick={() => handleGoGithub()}
+                className={
+                  styles.github_icon
+                } style={{
+                  ...(isMobile ? {
+                    marginTop: 12,
+                  } : {})
+                }}
+              />
+          }
+
+
+        </div>
 
       </div>
       <Drawer
@@ -99,30 +127,35 @@ const Menu = (props) => {
         }}
       >
 
-        <div style={{
-          // height: '100vh', backgroundColor: '#fff',
+        <div className="flex-center" style={{
+          marginTop: 30,
+          marginBottom: 20,
+          paddingLeft: 20,
         }}>
-
-          <div className="flex-center" style={{
-            marginTop: 30,
-            marginBottom: 20,
-            paddingLeft: 20,
-          }}>
-            <LogoBlock />
-          </div>
-          <AntdMenu
-            items={props.dataSource}
-            selectedKeys={[props.activeKey]}
-            onClick={(...args) => {
-              console.log('args', args)
-              props.onChange(...args);
-              setShowDrawer(false);
-            }}
-            style={{
-              marginTop: 6,
-              border: 'none',
-            }} />
+          <LogoBlock />
         </div>
+        <AntdMenu
+          items={[
+            ...props.dataSource,
+            {
+              label: <>Github仓库<ExportOutlined style={{ marginLeft: 3 }} /> </>,
+              key: "/github",
+            }
+          ]}
+          selectedKeys={[props.activeKey]}
+          onClick={(...args) => {
+            if (args[0].key === '/github') {
+              handleGoGithub();
+              return;
+            }
+            console.log('args', args)
+            props.onChange(...args);
+            setShowDrawer(false);
+          }}
+          style={{
+            marginTop: 6,
+            border: 'none',
+          }} />
       </Drawer>
     </>
   );

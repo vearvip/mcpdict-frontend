@@ -4,7 +4,7 @@ import AutoFitText from '@/components/AutoFitText';
 import { Button, notification } from 'antd';
 import NoData from '@/components/NoData';
 import { copy, parseSplitStr } from '@/utils';
-import { usePad, useWindowSize } from '@/utils/hooks';
+import { usePad, useWindowSize, useMobile } from '@/utils/hooks';
 import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
 import { useNavigate } from 'react-router';
@@ -42,8 +42,7 @@ import { getLocalPageSettingData } from '@/pages/Setting';
 import { useSize } from 'ahooks';
 
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
-import 'react-virtualized/styles.css'; // 不要忘记引入默认样式
-
+import 'react-virtualized/styles.css'; // 不要忘记引入默认样式 
 
 /**
  * 左侧盒子组件，用于展示搜索数据。
@@ -52,6 +51,7 @@ const CharList = (props) => {
   const { searchData } = props;
   const { store } = useStore()
   const isPad = usePad()
+  const isMobile = useMobile()
   const windowSize = useWindowSize();
   const charListBoxSize = useSize(document.querySelector('#char_list_box'))
   const [selectedCharItem, setSelectedCharItem] = useState()
@@ -228,7 +228,7 @@ const CharList = (props) => {
   function rowRenderer({ index: infoIndex, key, parent, style }) {
     const charInfo = selectedCharInfos[infoIndex];
     // console.log('🍓', height, width)
-    let itemElement 
+    let itemElement
     if (infoIndex === 0) {
       itemElement = <div>
         <div
@@ -326,7 +326,7 @@ const CharList = (props) => {
           </div>
         )}
       </CellMeasurer>
-    ); 
+    );
   }
 
   useEffect(() => {
@@ -360,7 +360,10 @@ const CharList = (props) => {
               justifyContent: 'flex-start',
               alignItems: 'flex-start',
             }
-          )
+          ),
+          height: isMobile
+            ? ' calc(100vh - 60px - 80px - 40px - 40px + 92px)' // 92px 是mobile模式下被隐藏的搜索bar的高度
+            : ' calc(100vh - 60px - 80px - 40px - 40px)'
         }}
       >
         <div className={isPad ? styles.char_list_box_left_mobile : styles.char_list_box_left} >
@@ -369,7 +372,7 @@ const CharList = (props) => {
             searchData.map(charItem => {
               return <Button
                 color={
-                  `${charItem?.char}_${charItem?.originChar}` === `${selectedCharItem?.char}_${selectedCharItem?.originChar}`  ? "primary" : 'default'
+                  `${charItem?.char}_${charItem?.originChar}` === `${selectedCharItem?.char}_${selectedCharItem?.originChar}` ? "primary" : 'default'
                 }
                 key={`${charItem.char}_${charItem.originChar}`}
                 variant="filled"
@@ -404,7 +407,7 @@ const CharList = (props) => {
         <div className={isPad ? styles.char_list_box_right_mobile : styles.char_list_box_right} >
           {
             (selectedCharInfos && Array.isArray(selectedCharInfos) && selectedCharInfos.length > 0)
-              ? <> 
+              ? <>
                 <div
                   style={{
                     boxSizing: 'border-box',
@@ -416,7 +419,7 @@ const CharList = (props) => {
                       ? charListBoxSize?.width
                       : charListBoxSize?.width - 90) || undefined
 
-                  }} 
+                  }}
                 >
                   <AutoSizer>
                     {({ height, width }) => (

@@ -68,10 +68,8 @@ export const themeToken = {
 const Layout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { store, setStore } = useStore()
-  const isPad = usePad()
-  const isMobile = useMobile()
-  const [messageApi, contextHolder] = message.useMessage();
+  const { store, setStore } = useStore() 
+  const isMobile = useMobile() 
   const localPageSettingData = getLocalPageSettingData()
 
   /**
@@ -244,12 +242,8 @@ const Layout = (props) => {
       theme={{
         token: themeToken,
       }}
-    >
-      {/* {
-        location.pathname
-      } */}
-      <div className={styles.layout}>
-        {contextHolder}
+    > 
+      <div className={styles.layout}> 
         <div className={`${styles.nav} box`}>
           <Menu
             dataSource={routes.filter(ele => !ele.hidden).map(ele => {
@@ -269,7 +263,7 @@ const Layout = (props) => {
               }
             })}
             activeKey={location.pathname}
-            onChange={handleMenuClick}
+            onChange={handleMenuClick} 
           />
         </div>
         <Routes>

@@ -266,10 +266,10 @@ const FilterDialog = (props) => {
     const formData = formRef.current.getValues();
     // console.log('🍓', formData, formRef.current.getValues())
     setOpen(false);
-    onOk && onOk(formData);
     if (!tmpMode) {
       setLocalFilterData(formData);
     }
+    onOk && onOk(formData);
   };
 
   const handleDialogClose = () => {
