@@ -80,7 +80,7 @@ const Menu = (props) => {
           )}
         <div>
           {
-            isMobile ?
+            isMobile && location.pathname === '/search' ?
               <Popover
               zIndex={100}
                 trigger={'click'}
