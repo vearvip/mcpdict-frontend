@@ -791,3 +791,22 @@ export const clearPageCache = async () => {
 
   window.location.reload(); // 刷新页面
 };
+
+
+
+ 
+
+export function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    // 创建一个新的 script 元素
+    const script = document.createElement('script');
+    // 设置其 src 属性为要加载的 URL
+    script.src = url;
+    // 加载完成后的回调函数
+    script.onload = () => resolve(script);
+    // 加载失败的错误处理
+    script.onerror = () => reject(new Error('Script failed to load: ' + url));
+    // 将 script 元素添加到 head 中以触发加载
+    document.head.appendChild(script);
+  });
+}

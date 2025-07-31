@@ -1,82 +1,12 @@
 import { useEffect, useRef } from "react";
 import styles from './index.module.less';
-import { copy, generateColorOrGradient, getBackgroundColorFromItem } from "../../utils";
+import { copy, generateColorOrGradient, getBackgroundColorFromItem, loadScript } from "../../utils";
 import { JianCheng, JingWeiDu } from "../../utils/constant";
 import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
 import { getLocalPageSettingData } from "../../pages/Setting"
-
-const KEY = "HSnYXzpfPRlVp7fkOywW"
-
-const maptilerStyle = `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}` 
-// const maptilerStyle =  `https://api.maptiler.com/maps/basic-v2/style.json?key=${KEY}` 
-// const maptilerStyle =  `https://api.maptiler.com/maps/landscape/style.json?key=${KEY}` 
-// const maptilerStyle =  'https://tiles.stadiamaps.com/styles/osm_bright.json' 
-// const maptilerStyle =  'https://demotiles.maplibre.org/style.json' 
-// const maptilerStyle =  `https://api.maptiler.com/maps/streets/style.json?key=${KEY}` 
-
-const daoDeMapStyle = {
-  version: 8, // MapLibre样式版本
-  name: 'Gaode Map',
-  sources: {
-    gaode_tiles: { // 自定义源名称
-      type: 'raster',
-      tiles: [
-        'https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}'
-      ],
-      tileSize: 256, // 确保与高德瓦片服务一致
-      maxzoom: 18, // 根据实际需求调整最大缩放级别
-      minzoom: 0 // 添加最小缩放级别
-    }
-  },
-  layers: [
-    {
-      id: 'gaode-layer', // 图层ID
-      type: 'raster',
-      source: 'gaode_tiles', // 关联到定义的源
-      paint: {
-        'raster-opacity': 1 // 确保图层完全可见
-      }
-    }
-  ]
-}
-
-const arcgisMapStyle = {
-  version: 8,
-  sources: {
-    arcgis_wmts_xyz: {
-      type: 'raster',
-      tiles: [
-        'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{x}/{y}'
-      ],
-      tileSize: 256,
-      maxzoom: 18
-    }
-  },
-  layers: [
-    {
-      id: 'arcgis-wmts-layer',
-      type: 'raster',
-      source: 'arcgis_wmts_xyz'
-    }
-  ]
-}
-
-function loadScript(url) {
-  return new Promise((resolve, reject) => {
-    // 创建一个新的 script 元素
-    const script = document.createElement('script');
-    // 设置其 src 属性为要加载的 URL
-    script.src = url;
-    // 加载完成后的回调函数
-    script.onload = () => resolve(script);
-    // 加载失败的错误处理
-    script.onerror = () => reject(new Error('Script failed to load: ' + url));
-    // 将 script 元素添加到 head 中以触发加载
-    document.head.appendChild(script);
-  });
-}
+import { mapStyle, mapStyleConfig } from "./style";
 
 /**
  * 地图容器组件，加载maptiler地图并绘制方言点
@@ -85,17 +15,27 @@ function loadScript(url) {
  * @param {Array<Object>} [props.dialectInfos] - dialectInfos
  * @returns {JSX.Element}
  */
-export default function Amap({ dialectInfos, style }) {
+export default function MapTiler({ dialectInfos, style }) {
   const localPageSettingData = getLocalPageSettingData()
   const [mapReady, setMapReady] = useState(false)
   const mapRef = useRef(null);
-  const [markerList, setMarkerList] = useState([]) 
+  const [markerList, setMarkerList] = useState([])
+  const [currentMapStyle, setCurrentMapStyle] = useState(() => {
+    // 从 localStorage 获取用户之前选择的样式，默认为高德地图
+    const savedStyle = localStorage.getItem('mapStyle') || 'gaode';
+    // 如果 localStorage 中没有保存的样式，则保存默认样式
+    if (!localStorage.getItem('mapStyle')) {
+      localStorage.setItem('mapStyle', 'gaode');
+    }
+    return savedStyle;
+  }) // 当前地图样式
+  const [styleSwitcherOpen, setStyleSwitcherOpen] = useState(false) // 样式切换器是否展开
 
   // 加载maptiler地图
   async function loadMap() {
     try {
       if (!window?.maplibregl?.Map) {
-        const scriptUrl = `https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js`
+        const scriptUrl = `https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js` 
 
         // 使用函数加载远程脚本
         await loadScript(scriptUrl);
@@ -114,13 +54,10 @@ export default function Amap({ dialectInfos, style }) {
       if (!isMapLoaded) {
 
         mapRef.current = new maplibregl.Map({
-          container: 'map_container',
-
-          style: daoDeMapStyle,
-          // style: arcgisMapStyle,
- 
+          container: 'map_container', 
           center: [105, 35],
-          zoom: 4 // 设置为4以覆盖整个中国
+          zoom: 4, // 设置为4以覆盖整个中国
+          style: mapStyle(currentMapStyle),
         });
 
         setTimeout(() => {
@@ -129,6 +66,10 @@ export default function Amap({ dialectInfos, style }) {
       }
     } catch (error) {
       console.error("地图初始化失败：", error);
+      // 重置为默认地图样式
+      switchMapStyle('gaode');
+      localStorage.setItem('mapStyle', 'gaode');
+      window.location.reload();
     }
   }
 
@@ -158,6 +99,42 @@ export default function Amap({ dialectInfos, style }) {
     if (mapRef.current) {
       mapRef.current.remove();
       mapRef.current = null;
+    }
+  };
+
+  // 切换地图样式
+  const switchMapStyle = (styleName) => {
+    if (mapRef.current && mapRef.current.isStyleLoaded()) {
+      setCurrentMapStyle(styleName);
+      const newStyle = mapStyle(styleName);
+      mapRef.current.setStyle(newStyle);
+      
+      // 保存用户选择到 localStorage
+      localStorage.setItem('mapStyle', styleName);
+      
+      // 自动收起切换器
+      setStyleSwitcherOpen(false);
+      
+      // 样式切换后重新添加标记
+      mapRef.current.on('style.load', () => {
+        if (dialectInfos && dialectInfos.length > 0) {
+          // 清除现有标记
+          markerList.forEach(marker => {
+            try {
+              marker.remove();
+            } catch (error) {
+              console.error('marker移除失败：', error)
+            }
+          });
+          
+          // 重新添加标记
+          const newMarkerList = dialectInfos.map(item => makeDialectMarker(item)).filter(item => item);
+          setMarkerList(newMarkerList);
+          newMarkerList.forEach(marker => {
+            marker.addTo(mapRef.current);
+          });
+        }
+      });
     }
   };
 
@@ -254,7 +231,6 @@ export default function Amap({ dialectInfos, style }) {
 
 
 
- 
     // 使用DOM元素创建Marker
     const marker = new maplibregl.Marker({ element: markerDOM })
       .setLngLat([longitude, latitude]) // 设置标记的经纬度 
@@ -302,12 +278,37 @@ export default function Amap({ dialectInfos, style }) {
 
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <div
         id="map_container"
         className={styles.container}
         style={style}
       />
+      
+      {/* 地图样式切换器 */}
+      <div className={`${styles.styleSwitcher} ${!styleSwitcherOpen ? styles.collapsed : ''}`}>
+        <div 
+          className={styles.styleSwitcherTitle}
+          onClick={() => setStyleSwitcherOpen(!styleSwitcherOpen)}
+          style={{ cursor: 'pointer' }}
+        >
+          <span>{styleSwitcherOpen ? '收起' : `当前: ${mapStyleConfig[currentMapStyle] || '未知'}`}</span>
+          <span style={{ marginLeft: '4px' }}>{styleSwitcherOpen ? '▼' : '▶'}</span>
+        </div>
+        {styleSwitcherOpen && (
+          <div className={styles.styleOptions}>
+            {Object.entries(mapStyleConfig).map(([key, name]) => (
+              <div
+                key={key}
+                className={`${styles.styleOption} ${currentMapStyle === key ? styles.active : ''}`}
+                onClick={() => switchMapStyle(key)}
+              >
+                {name}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 } 
