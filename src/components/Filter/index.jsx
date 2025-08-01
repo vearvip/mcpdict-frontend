@@ -79,7 +79,7 @@ export const Filter = React.forwardRef(
    * @param {boolean} [props.hiddenQueryType] - 隐藏queryType字段，并默认赋值为hanzi
    */
   (props, ref) => {
-    const { tmpMode, tmpFilterData, onChange } = props;
+    const { tmpMode, tmpFilterData, onChange, hiddenQueryType } = props;
 
     const [form] = Form.useForm();
     const filterMode = Form.useWatch("filterMode", form);
@@ -95,7 +95,7 @@ export const Filter = React.forwardRef(
 
     const handleFormChange = (changedValues, allValues) => {
       // console.log('changedValues, allValues', changedValues, allValues)
-      if (props.hiddenQueryType) {
+      if (hiddenQueryType) {
         allValues.queryType = 'hanzi'
       }
       onChange && onChange(allValues);
@@ -270,7 +270,7 @@ export const Filter = React.forwardRef(
  * @param {boolean} [props.hiddenQueryType] - 隐藏queryType字段，并默认赋值为hanzi
  */
 const FilterDialog = (props) => {
-  const { tmpMode, onOk, tmpFilterData, onClose } = props;
+  const { tmpMode, onOk, tmpFilterData, onClose, hiddenQueryType } = props;
   const [open, setOpen] = useState(true);
   // const [formData, setFormData] = useState()
   const formRef = useRef();
@@ -332,6 +332,7 @@ const FilterDialog = (props) => {
         tmpMode={tmpMode}
         tmpFilterData={tmpFilterData}
         onChange={handleFilterChange}
+        hiddenQueryType={hiddenQueryType}
       />
     </Dialog>
   );
@@ -342,7 +343,7 @@ export default FilterDialog;
 let dialogContainer = null;
 let root = null;
 export const showFilterDialog = (props = {}) => {
-  const { tmpMode, tmpFilterData, onClose, onOk } = props;
+  const { tmpMode, tmpFilterData, onClose, onOk, hiddenQueryType } = props;
 
   // 如果对话框容器已经存在，则不再创建新的容器
   if (!dialogContainer) {
@@ -384,6 +385,7 @@ export const showFilterDialog = (props = {}) => {
       tmpFilterData={tmpFilterData}
       onOk={handleOk}
       onClose={handleClose}
+      hiddenQueryType={hiddenQueryType}
     />
   );
 };

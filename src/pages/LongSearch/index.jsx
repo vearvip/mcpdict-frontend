@@ -50,6 +50,7 @@ const LongSearch = (props) => {
     filterData.filterMode = 'lang'
     showFilterDialog({
       tmpMode: true,
+      hiddenQueryType: true,
       tmpFilterData: filterData,
       onOk(filterData) {
         setFilterData({
