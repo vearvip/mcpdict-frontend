@@ -26,33 +26,49 @@ const defaultPageSettingData = {
 export const getLocalPageSettingData = () => {
   let pageSettingData
   try {
-    pageSettingData = JSON.parse(localStorage.getItem('pageSettingData')) || defaultPageSettingData
+    const storedData = localStorage.getItem('pageSettingData')
+    if (storedData) {
+      pageSettingData = JSON.parse(storedData)
+    } else {
+      // 深拷贝默认数据
+      pageSettingData = JSON.parse(JSON.stringify(defaultPageSettingData))
+    }
   } catch (err) {
     console.log('读取本地网页设置数据失败：', err)
-    pageSettingData = defaultPageSettingData
+    // 深拷贝默认数据
+    pageSettingData = JSON.parse(JSON.stringify(defaultPageSettingData))
   }
 
-  for (const key in defaultPageSettingData) {
-    const defaultFieldVal = defaultPageSettingData[key];
-    if (!pageSettingData[key]) {
-      pageSettingData[key] = defaultFieldVal
-    }
-  }
-  // 兼容写法
+  // 兼容性处理（在字段补全之前）
   if (pageSettingData.toneType === 'baShengShuZi') {
     pageSettingData.toneType = 'pinYin'
   }
+
+  // 字段补全
+  for (const key in defaultPageSettingData) {
+    const defaultFieldVal = defaultPageSettingData[key];
+    if (pageSettingData[key] === undefined) {
+      pageSettingData[key] = defaultFieldVal
+    }
+  }
+
   return pageSettingData
 }
 
 export const setLocalPageSettingData = (pageSettingData) => {
+  // 输入验证
+  if (!pageSettingData || typeof pageSettingData !== 'object') {
+    console.error('无效的页面设置数据')
+    return false
+  }
 
   try {
     localStorage.setItem('pageSettingData', JSON.stringify(pageSettingData))
+    return true
   } catch (err) {
     console.log('存储本地网页设置数据失败：', err)
+    return false
   }
-  return pageSettingData
 }
 
 

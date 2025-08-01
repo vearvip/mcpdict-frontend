@@ -6,7 +6,7 @@ import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
 import { getLocalPageSettingData } from "../../pages/Setting"
-import { mapStyle, mapStyleConfig } from "./style";
+import { mapStyle, mapStyleConfig, calculateDenseMapCenterAndZoom } from "./util";
 
 /**
  * 地图容器组件，加载maptiler地图并绘制方言点
@@ -255,7 +255,8 @@ export default function MapTiler({ dialectInfos, style }) {
 
 
   useAsyncEffect(async () => {
-    if (mapReady) {
+    if (mapReady && dialectInfos && dialectInfos.length > 0) {
+      // 清除现有标记
       markerList.forEach(marker => {
         try {
           marker.remove();
@@ -263,16 +264,51 @@ export default function MapTiler({ dialectInfos, style }) {
           console.error('marker移除失败：', error)
         }
       })
+      
+      // 创建新的标记列表
       const newMarkerList = dialectInfos.map(item => makeDialectMarker(item)).filter(item => item)
       setMarkerList(newMarkerList)
-      // console.log('markerList', newMarkerList)
+      
+      // 将新标记添加到地图上
       newMarkerList.forEach(marker => {
-
-        // 将Marker添加到地图上   
         marker.addTo(mapRef.current);
       })
-    }
 
+      // 计算地图中心点和缩放级别
+      try {
+        const coordinates = dialectInfos
+          .map(item => {
+            const [longitude, latitude] = item[JingWeiDu].split(',')
+            if (latitude && longitude) {
+              return [parseFloat(latitude), parseFloat(longitude)]
+            }
+            return null
+          })
+          .filter(coord => coord !== null)
+
+        if (coordinates.length > 0) { 
+          const { center, zoom } = calculateDenseMapCenterAndZoom(coordinates)
+          // 调整地图视图
+          mapRef.current.flyTo({
+            center: [center[1], center[0]], // 注意：maplibre 使用 [lng, lat] 格式
+            zoom: zoom,
+            duration: 1000 // 1秒的动画时间
+          })
+        }
+      } catch (error) {
+        console.error('计算地图中心点和缩放级别失败：', error)
+      }
+    } else if (mapReady && (!dialectInfos || dialectInfos.length === 0)) {
+      // 如果没有方言信息，清除所有标记
+      markerList.forEach(marker => {
+        try {
+          marker.remove();
+        } catch (error) {
+          console.error('marker移除失败：', error)
+        }
+      })
+      setMarkerList([])
+    }
   }, [dialectInfos, mapReady]);
 
 

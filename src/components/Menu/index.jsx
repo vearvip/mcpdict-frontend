@@ -5,9 +5,10 @@ import { useMobile } from '../../utils/hooks';
 import { ExportOutlined, GithubOutlined, MenuOutlined, SearchOutlined } from '@ant-design/icons';
 import LogoBlock from '../LogoBlock';
 import SearchInput from '../SearchInput';
+import MapFilter from '../MapFilter';
 import { Popover } from 'antd';
 import eventBus from '../../event/bus';
-import { useSearchParams } from 'react-router';
+import { useSearchParams, useLocation } from 'react-router';
 
 
 /**
@@ -38,6 +39,9 @@ const Menu = (props) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const isMobile = useMobile();
   const [searchParams] = useSearchParams();
+  const location = useLocation(); 
+  const [openSearchPopover, setOpenSearchPopover] = useState(false);
+  const [openMapPopover, setOpenMapPopover] = useState(false);
 
   const handleGoGithub = () => {
     window.open('https://github.com/vearvip/mcpdict-frontend');
@@ -49,6 +53,97 @@ const Menu = (props) => {
     }
   }, [isMobile]);
 
+  // 监听路由变化，控制 Popover 开关
+  useEffect(() => {
+    if (location.pathname === '/search') {
+      setOpenSearchPopover(true);
+      setOpenMapPopover(false);
+    } else if (location.pathname === '/map') {
+      setOpenMapPopover(true);
+      setOpenSearchPopover(false);
+    } else {
+      // 路由切走时关闭所有 Popover
+      setOpenSearchPopover(false);
+      setOpenMapPopover(false);
+    }
+  }, [location.pathname]);
+
+  /**
+   * 渲染右侧内容区域
+   * @returns {JSX.Element|null} 渲染的内容
+   */
+  const renderRightContent = () => {
+    if (isMobile) {
+      // 移动端逻辑
+      if (location.pathname === '/search') {
+        return (
+          <Popover
+            zIndex={100}
+            trigger={'click'}
+            placement="bottomRight"
+            title={false}
+            open={openSearchPopover}
+            onOpenChange={setOpenSearchPopover}
+            content={
+              <SearchInput
+                defaultValue={searchParams.get("q") || ""}
+                onSearch={(...args) => {
+                  eventBus.emit('SEARCH_EVENT', ...args)
+                }} />
+            }
+          >
+            <SearchOutlined className={styles.search_icon} />
+          </Popover>
+        );
+      }
+      
+      if (location.pathname === '/map') {
+        return (
+          <Popover
+            zIndex={100}
+            trigger={'click'}
+            placement="bottomRight"
+            title={false}
+            open={openMapPopover}
+            onOpenChange={setOpenMapPopover}
+            // fresh
+            content={
+              <div style={{
+                width: '80vw',
+              }}>
+                <MapFilter
+                defaultValue={searchParams.get('q')}
+                onSearchResultChange={(...args) => {
+                  eventBus.emit('MAP_SEARCH_EVENT', ...args)
+                }}
+                onRadioValueChange={(...args) => {
+                  eventBus.emit('MAP_RADIO_EVENT', ...args)
+                }}
+              />
+              </div>
+            }
+          >
+            <SearchOutlined className={styles.search_icon} />
+          </Popover>
+        );
+      }
+      
+      return null;
+    } else {
+      // 桌面端逻辑
+      return (
+        <GithubOutlined
+          onClick={() => handleGoGithub()}
+          className={styles.github_icon}
+          style={{
+            ...(isMobile ? {
+              marginTop: 12,
+            } : {})
+          }}
+        />
+      );
+    }
+  };
 
 
   return (
@@ -79,37 +174,7 @@ const Menu = (props) => {
             </div>
           )}
         <div>
-          {
-            isMobile && location.pathname === '/search' ?
-              <Popover
-              zIndex={100}
-                trigger={'click'}
-                placement="bottomRight"
-                title={false}
-                content={
-                  <SearchInput
-                    defaultValue={searchParams.get("q") || ""}
-                    onSearch={(...args) => {
-                      // console.log('searchEventBus 🐇', args)
-                      eventBus.emit('SEARCH_EVENT', ...args)
-                    }} />
-                }
-              >
-                <SearchOutlined className={styles.search_icon} />
-              </Popover>
-              : <GithubOutlined
-                onClick={() => handleGoGithub()}
-                className={
-                  styles.github_icon
-                } style={{
-                  ...(isMobile ? {
-                    marginTop: 12,
-                  } : {})
-                }}
-              />
-          }
-
-
+          {renderRightContent()}
         </div>
 
       </div>

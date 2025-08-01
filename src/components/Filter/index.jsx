@@ -27,31 +27,44 @@ const filterDefaultData = {
 export const getLocalFilterData = () => {
   try {
     const filterDataLocalStr = localStorage.getItem("filterData");
-    const filterData =
-      filterDataLocalStr && filterDataLocalStr != "undefined"
-        ? JSON.parse(filterDataLocalStr)
-        : filterDefaultData;
+    let filterData;
+    
+    if (filterDataLocalStr && filterDataLocalStr !== "undefined") {
+      filterData = JSON.parse(filterDataLocalStr);
+    } else {
+      // 深拷贝默认数据
+      filterData = JSON.parse(JSON.stringify(filterDefaultData));
+    }
 
+    // 字段补全
     for (const key in filterDefaultData) {
       const defaultFieldVal = filterDefaultData[key];
-      if (!filterData[key]) {
-        filterData[key] = defaultFieldVal
+      if (filterData[key] === undefined) {
+        filterData[key] = defaultFieldVal;
       }
     }
+    
     return filterData;
   } catch (error) {
     console.error("获取筛选本地存储值失败：", error);
-    return filterDefaultData;
+    // 深拷贝默认数据
+    return JSON.parse(JSON.stringify(filterDefaultData));
   }
 };
 
-export const setLocalFilterData = (filterData = filterDefaultData) => {
+export const setLocalFilterData = (filterData) => {
+  // 输入验证
+  if (!filterData || typeof filterData !== 'object') {
+    console.error('无效的筛选数据');
+    return false;
+  }
+
   try {
-    if (filterData) {
-      localStorage.setItem("filterData", JSON.stringify(filterData));
-    }
+    localStorage.setItem("filterData", JSON.stringify(filterData));
+    return true;
   } catch (error) {
     console.error("设置筛选本地存储值失败：", error);
+    return false;
   }
 };
 
