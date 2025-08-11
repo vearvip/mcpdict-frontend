@@ -31,7 +31,7 @@ const mapStyleConfigData = {
     name: '高德卫星图',
     custom: true,
     tiles: [
-      'http://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', // 卫星图
+      'http://webst04.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', // 卫星图
     ],
   },
 
