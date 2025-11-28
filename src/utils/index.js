@@ -11,6 +11,11 @@ import {
   Zhen,
   Cun,
   ZiRanCun,
+  ZiZu,
+  DuYin,
+  ZhuShi,
+  YuYan,
+  HanZi,
 } from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
@@ -792,21 +797,71 @@ export const clearPageCache = async () => {
   window.location.reload(); // 刷新页面
 };
 
-
-
- 
-
 export function loadScript(url) {
   return new Promise((resolve, reject) => {
     // 创建一个新的 script 元素
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     // 设置其 src 属性为要加载的 URL
     script.src = url;
     // 加载完成后的回调函数
     script.onload = () => resolve(script);
     // 加载失败的错误处理
-    script.onerror = () => reject(new Error('Script failed to load: ' + url));
+    script.onerror = () => reject(new Error("Script failed to load: " + url));
     // 将 script 元素添加到 head 中以触发加载
     document.head.appendChild(script);
   });
 }
+
+/**
+ *
+ * @param { { "字組": string; "語言": string; "讀音": string; "註釋": string; }[] } searchDataData
+ * @param { string[] } variants
+ * @param { string } originChar
+ * @param { string[] } dialectSort
+ */
+export const formatSearchData = (
+  searchDataData,
+  variants,
+  originChar,
+  dialectSort
+) => {
+  const charInfoList = [];
+  (variants || []).forEach((variant) => {
+    const items = (searchDataData || []).filter((item) =>
+      item[ZiZu].includes(variant)
+    );
+    const infoStruct = {};
+    (items || []).forEach((item) => {
+      const _item = { ...item };
+      delete _item[ZiZu];
+      _item[HanZi] = variant;
+      const info = {
+        phonetic: _item[DuYin],
+        explain: _item[ZhuShi],
+      };
+      if (!infoStruct[_item[YuYan]]) {
+        infoStruct[_item[YuYan]] = [info];
+      } else {
+        infoStruct[_item[YuYan]].push(info);
+      }
+    });
+    const charInfo = [];
+    const infoStructDialectNames = Object.keys(infoStruct);
+    (dialectSort || []).forEach((dialectName) => {
+      if (infoStructDialectNames.includes(dialectName)) {
+        charInfo.push({
+          dialectName,
+          infos: infoStruct[dialectName],
+        });
+      }
+    });
+
+    charInfoList.push({
+      char: variant,
+      originChar,
+      charInfo: charInfo,
+    });
+  });
+
+  return charInfoList;
+};

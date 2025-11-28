@@ -17,13 +17,18 @@ import {
 } from "@vearvip/hanzi-utils";
 import { Button, FloatButton, message } from "antd";
 import { showDialectMap } from "../../components/DialectMap";
-import { getSearchDialectList, groupVariants } from "../../utils";
+import {
+  formatSearchData,
+  getSearchDialectList,
+  groupVariants,
+} from "../../utils";
 import useStore from "@/store";
 import { useAsyncEffect } from "ahooks";
 import { getLocalFilterData } from "../../components/Filter";
 import { queryCharsByType } from "../../services";
 import { useMobile } from "../../utils/hooks";
-import eventBus from '../../event/bus';
+import eventBus from "../../event/bus";
+import { DuYin, HanZi, YuYan, ZhuShi, ZiZu } from "../../utils/constant";
 
 const waitLoadDialectInfos = () => {
   return new Promise((resolve, reject) => {
@@ -88,7 +93,7 @@ const Search = (props) => {
     // console.log('', JSON.parse(JSON.stringify({
     //   filterData,
     //     'store.dialectCateTree': store.dialectCateTree,
-    //     'store.dialectDistrictTree': store.dialectDistrictTree, 
+    //     'store.dialectDistrictTree': store.dialectDistrictTree,
     // })))
     let dialectList = getSearchDialectList(
       filterData,
@@ -99,46 +104,44 @@ const Search = (props) => {
     //   filterData: JSON.parse(JSON.stringify(filterData)),
     //   dialectList: JSON.parse(JSON.stringify(dialectList)),
     //   value,
-      
+
     // })
 
     try {
       const charList = extractHanzi(value);
-      if (filterData.queryType === 'hanzi') {
+      if (filterData.queryType === "hanzi") {
         const result = await queryChars({
           charList,
           dialectList,
-          queryType: filterData.queryType
+          queryType: filterData.queryType,
         });
         const groupVariantList = groupVariants(
           charList,
           result?.data?.variants ?? []
         );
-        const charGroupList = [];
+        let charGroupList = [];
+        // console.log("groupVariantList", groupVariantList);
         groupVariantList.forEach((groupItem) => {
-          (groupItem.variants || []).forEach((variant) => {
-            const charInfo = (result?.data?.data ?? []).find(
-              (item) => item.char === variant
-            )?.charInfo;
-            if (charInfo) {
-              charGroupList.push({
-                char: variant,
-                originChar: groupItem.char,
-                charInfo: charInfo,
-              });
-            }
-          });
+          charGroupList = [
+            ...charGroupList,
+            ...formatSearchData(
+              result?.data?.data,
+              groupItem.variants,
+              groupItem.char,
+              store.dialectSort
+            ),
+          ];
         });
-        // console.log('charGroupList', charGroupList)
+        // console.log("charGroupList", charGroupList);
         setSearchData(charGroupList);
       } else {
         const result = await queryCharsByType({
           queryStr: value,
           dialectList,
-          queryType: filterData.queryType
+          queryType: filterData.queryType,
         });
-        console.log(result)
-        const variants = result?.data?.variants ?? []
+        // console.log(result);
+        const variants = result?.data?.variants ?? [];
         const charGroupList = [];
         (variants || []).forEach((variant) => {
           const charInfo = (result?.data?.data ?? []).find(
@@ -152,7 +155,7 @@ const Search = (props) => {
             });
           }
         });
-        console.log('charGroupList33', charGroupList)
+        // console.log("charGroupList33", charGroupList);
         setSearchData(charGroupList);
       }
     } catch (error) {
@@ -162,8 +165,6 @@ const Search = (props) => {
       NProgress.done();
     }
   };
-
-
 
   useAsyncEffect(async () => {
     const q = searchParams.get("q");
@@ -193,33 +194,29 @@ const Search = (props) => {
     });
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     const handler = (...args) => {
       // console.log('searchEventBus', args)
       onSearch(...args);
-    }
-    eventBus.on('SEARCH_EVENT', handler)
-    return () => eventBus.off('SEARCH_EVENT', handler)
-  }, [store])
-
+    };
+    eventBus.on("SEARCH_EVENT", handler);
+    return () => eventBus.off("SEARCH_EVENT", handler);
+  }, [store]);
 
   return (
     <>
-      {
-        !isMobile && 
-        (
-          <div className={styles.search_bar}>
-            <div className={styles.logo_block}>
-              <LogoBlock />
-            </div>
-            <SearchInput
-              defaultValue={searchParams.get("q") || ""}
-              onSearch={onSearch}
-              style={{ width: "100%" }}
-            />
-
-          </div>)
-      }
+      {!isMobile && (
+        <div className={styles.search_bar}>
+          <div className={styles.logo_block}>
+            <LogoBlock />
+          </div>
+          <SearchInput
+            defaultValue={searchParams.get("q") || ""}
+            onSearch={onSearch}
+            style={{ width: "100%" }}
+          />
+        </div>
+      )}
       <div className={styles.search_content}>
         {!!searchParams.get("q") && !searchDataIsEmpty(searchData) ? (
           <LeftBox searchData={searchData} />
