@@ -1,231 +1,355 @@
-import React, { useState, useEffect } from "react";
-import styles from "./index.module.less";
-import SearchInput from "@/components/SearchInput";
+import React, { useEffect, useMemo, useState } from 'react';
+import styles from './index.module.less';
+import settingPng from '@/assets/svg/setting.svg';
+import NoData from '@/components/NoData';
 import LogoBlock from "@/components/LogoBlock";
-// import Skeleton from "@/components/Skeleton";
-import NoData from "@/components/NoData";
-import { makeBr, str2List } from "@/utils";
-import { fetcher } from "@/utils/request";
-import { queryChars } from "@/services";
-import { useNavigate, useParams, useSearchParams } from "react-router";
-import NProgress from "nprogress";
-import LeftBox from "./components/LeftBox";
-import RightBox from "./components/RightBox";
-import {
-  extractHanzi,
-  unicodeLengthIgnoreSequence,
-} from "@vearvip/hanzi-utils";
-import { Button, FloatButton, message } from "antd";
-import { showDialectMap } from "../../components/DialectMap";
-import {
-  formatSearchData,
-  getSearchDialectList,
-  groupVariants,
-} from "../../utils";
-import useStore from "@/store";
-import { useAsyncEffect } from "ahooks";
-import { getLocalFilterData } from "../../components/Filter";
-import { queryCharsByType } from "../../services";
-import { useMobile } from "../../utils/hooks";
-import eventBus from "../../event/bus";
-import { DuYin, HanZi, YuYan, ZhuShi, ZiZu } from "../../utils/constant";
-
-const waitLoadDialectInfos = () => {
-  return new Promise((resolve, reject) => {
-    const intervalId = setInterval(() => {
-      if (window.dialectInfosWasReady) {
-        clearInterval(intervalId);
-        resolve();
-      }
-    }, 80);
-  });
-};
+import { Button, Select, Form, Input, message, } from 'antd';
+import { extractHanzi } from '@vearvip/hanzi-utils'
+import useStore from '@/store';
+import NProgress from 'nprogress';
+import { queryChars, queryLongString } from '../../services';
+import { copy, delay, formatSearchData, generateColorOrGradient, getBackgroundColorByName, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import Char from './components/Char';
+import Dialog from '../../components/Dialog';
+import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
+import { SettingOutlined } from '@ant-design/icons';
+import { getLocalPageSettingData } from '../Setting';
+import { JianCheng, ShengDiao } from '../../utils/constant';
+import { useRef } from 'react';
+import { useAsyncEffect } from 'ahooks';
 
 /**
- * 搜索组件，用于展示和处理搜索功能。
+ * 长文搜索组件，用于处理长文本的注音搜索。
  *
  * @param {Object} props - 组件属性。
  */
-const Search = (props) => {
-  const navigate = useNavigate();
-  const isMobile = useMobile();
-  const { store, setStore } = useStore();
-  const [searchParams] = useSearchParams();
-  const [searchData, setSearchData] = useState([]);
+const LongSearch = (props) => {
+  const { store } = useStore()
 
-  /**
-   * 计算属性，用于检查搜索数据是否为空。
-   *
-   * @returns {boolean} 如果没有搜索数据或数据为空，则返回 true；否则返回 false。
-   */
-  const searchDataIsEmpty = (searchData) =>
-    !searchData || searchData.length === 0;
+  const styleTagRef = useRef()
 
-  /**
-   * 处理搜索动作，通过更新 URL 来设置新的搜索查询。
-   *
-   * @param {string} value - 要搜索的值。
-   * @param {string} needSearch - 是否需直接搜索，而不是通过刷新页面的方式搜索
-   */
-  const onSearch = async (value, needSearch = false) => {
-    const q = searchParams.get("q");
-    if (needSearch || q === value) {
-      searchByType(value);
-    } else {
-      navigate(`/search?q=${value}`, { replace: true });
+  const localPageSettingData = getLocalPageSettingData()
+  const [originTextAreaValue, setOriginTextAreaValue] = useState()
+  const [textAreaValue, setTextAreaValue] = useState()
+
+  const [filterData, setFilterData] = useState(
+    getLocalFilterData()
+  )
+  const [charVariantInfos, setCharVariantsInfos] = useState()
+  const [form] = Form.useForm();
+
+  const twoDimensionalCharListRef = useRef([])
+
+
+  const handleTextareaChange = (e) => {
+    const value = e?.target?.value
+    setOriginTextAreaValue(value)
+  }
+
+  const handleClickSetting = () => {
+    filterData.filterMode = 'lang'
+    showFilterDialog({
+      tmpMode: true,
+      hiddenQueryType: true,
+      tmpFilterData: filterData,
+      onOk(filterData) {
+        setFilterData({
+          ...filterData
+        })
+
+        const localFilterData = getLocalFilterData()
+        localFilterData.dialectName = filterData.dialectName
+        // console.log('localFilterData', filterData)
+        setLocalFilterData(localFilterData)
+        handleSearch(filterData)
+        showDialectNameTag(filterData.dialectName)
+      },
+      onClose() {
+        // setLocalFilterData()
+      }
+    })
+  }
+
+  function genCharVariantInfos(charGroupList = []) {
+    console.log('charGroupList', charGroupList);
+    const charVariantInfoStruct = {};
+    charGroupList
+      .filter(item => item.charInfo && Array.isArray(item.charInfo) && item.charInfo.length > 0)
+      .forEach(charItem => {
+        const charVariantInfoItem = {
+          "char": charItem.char,
+          "phonetics": (charItem.charInfo || []).map(charInfoItem => (charInfoItem.infos || []).map(info => info.phonetic)).flat(),
+        }
+        if (!charVariantInfoStruct[charItem.originChar]) {
+          charVariantInfoStruct[charItem.originChar] = [charVariantInfoItem]
+        } else {
+          charVariantInfoStruct[charItem.originChar].push(charVariantInfoItem)
+        }
+      })
+    return Object.keys(charVariantInfoStruct).map(char => ({
+      char,
+      charInfos: charVariantInfoStruct[char],
+    }));
+  }
+  const handleSearch = async (filterData) => {
+    setCharVariantsInfos(undefined)
+    twoDimensionalCharListRef.current = []
+    await delay(100)
+    if (!filterData?.dialectName) {
+      // message.warning('请点击⚙设置按钮选择语言')
+      message.warning('请选择语言')
+      handleClickSetting()
+      return
     }
-  };
-
-  /**
-   * 根据提供的值执行搜索。
-   *
-   * @param {string} value - 要搜索的值。
-   */
-  const searchByType = async (value) => {
-    if (!value) {
-      setSearchData([]);
-      return;
-    }
-
     NProgress.start();
 
-    const filterData = getLocalFilterData();
-    // console.log('', JSON.parse(JSON.stringify({
-    //   filterData,
-    //     'store.dialectCateTree': store.dialectCateTree,
-    //     'store.dialectDistrictTree': store.dialectDistrictTree,
-    // })))
-    let dialectList = getSearchDialectList(
-      filterData,
-      store.dialectCateTree,
-      store.dialectDistrictTree
-    );
-    // console.log('🐍', {
-    //   filterData: JSON.parse(JSON.stringify(filterData)),
-    //   dialectList: JSON.parse(JSON.stringify(dialectList)),
-    //   value,
-
-    // })
-
     try {
-      const charList = extractHanzi(value);
-      if (filterData.queryType === "hanzi") {
-        const result = await queryChars({
-          charList,
-          dialectList,
-          queryType: filterData.queryType,
-        });
-        const groupVariantList = groupVariants(
-          charList,
-          result?.data?.variants ?? []
-        );
-        let charGroupList = [];
-        // console.log("groupVariantList", groupVariantList);
-        groupVariantList.forEach((groupItem) => {
-          charGroupList = [
-            ...charGroupList,
-            ...formatSearchData(
-              result?.data?.data,
-              groupItem.variants,
-              groupItem.char,
-              store.dialectSort
-            ),
-          ];
-        });
-        // console.log("charGroupList", charGroupList);
-        setSearchData(charGroupList);
-      } else {
-        const result = await queryCharsByType({
-          queryStr: value,
-          dialectList,
-          queryType: filterData.queryType,
-        });
-        // console.log(result);
-        const variants = result?.data?.variants ?? [];
-        const charGroupList = [];
-        (variants || []).forEach((variant) => {
-          const charInfo = (result?.data?.data ?? []).find(
-            (item) => item.char === variant
-          )?.charInfo;
-          if (charInfo) {
-            charGroupList.push({
-              char: variant,
-              originChar: variant,
-              charInfo: charInfo,
-            });
-          }
-        });
-        // console.log("charGroupList33", charGroupList);
-        setSearchData(charGroupList);
+      const chars = extractHanzi(originTextAreaValue)
+      const result = await queryLongString({
+        charList: chars,
+        dialectName: filterData.dialectName
+      });
+  
+      const groupVariantList = groupVariants(chars, result?.data?.variants ?? [])
+      let charGroupList = [];
+      
+      groupVariantList.forEach((groupItem) => {
+        charGroupList = [
+          ...charGroupList,
+          ...formatSearchData(result?.data?.data, groupItem.variants, groupItem.char, store.dialectSort)
+        ]
+      });
+
+      const charVariantInfos = genCharVariantInfos(charGroupList);
+      
+      setCharVariantsInfos(charVariantInfos)
+      setTextAreaValue(originTextAreaValue)
+    } catch (e) {
+      console.error('长文搜索出错：', e)
+      if (!originTextAreaValue) {
+        setCharVariantsInfos(undefined)
       }
-    } catch (error) {
-      console.error("error", error);
-      // message.error(error.message)
     } finally {
       NProgress.done();
     }
-  };
 
-  useAsyncEffect(async () => {
-    const q = searchParams.get("q");
-    // await waitLoadDialectInfos();
-    NProgress.start();
-    if (q) {
-      if (
-        !store.dialectInfos ||
-        !Array.isArray(store.dialectInfos) ||
-        store.dialectInfos.length === 0
-      ) {
-        console.warn("⚠️ dialectInfos 尚未准备好");
-        return;
-      }
-      searchByType(q);
-    } else {
-      setSearchData([]);
-      NProgress.done();
+  }
+
+
+  const handleModalOk = () => {
+    const filterData = form.getFieldsValue()
+    setLocalFilterData(filterData)
+    // console.log('filterData', filterData)
+    props.onSearch(value, true)
+  }
+  const handleModalCancel = () => {
+
+  }
+
+  const handleCopy = () => {
+    const twoDimensionalCharList = twoDimensionalCharListRef.current
+    // console.log('twoDimensionalCharList', twoDimensionalCharList)
+    let textContent = ``
+    twoDimensionalCharList.forEach((level1Item, level1Index) => {
+      level1Item.forEach(
+        /**
+         * 
+         * @param {Object} level2Item 
+         * @param {string} level2Item.phonetic ipa国际音标
+         * @param {string} level2Item.tonePitch 调值
+         * @param {string} level2Item.tone 音类
+         * @param {string} level2Item.char 汉字
+         * @param {number} level2Index 
+         */
+        (level2Item, level2Index) => {
+          // console.log('level2Item', level2Item)
+          let { phonetic = '', tonePitch = '', tone = '', char = '' } = level2Item
+          textContent = `${textContent}${phonetic}${tonePitch}${tone} ${char} `
+
+        }
+      )
+      textContent = `${textContent}\n`
+    })
+    console.log('textContent', textContent)
+    copy(textContent)
+  }
+
+  const handleCharChange = (charItem, charItemLevel1Index, charItemLevel2Index) => {
+    // console.log('charItem, charItemLevel1Index, charItemLevel2Index', charItem, charItemLevel1Index, charItemLevel2Index)
+    const twoDimensionalCharList = twoDimensionalCharListRef.current
+    // console.log('twoDimensionalCharList', twoDimensionalCharList)
+    // 如果二维数据的第一层的指定下标为空，则创建一个空数组
+    if (
+      !Array.isArray(twoDimensionalCharList[charItemLevel1Index])
+    ) {
+      twoDimensionalCharList[charItemLevel1Index] = []
     }
-  }, [searchParams, store]);
+    // 然后开始赋值
+    twoDimensionalCharList[charItemLevel1Index][charItemLevel2Index] = charItem
+    twoDimensionalCharListRef.current = (twoDimensionalCharList)
+  }
+
+  function showDialectNameTag(dialectName) {
+    if (!dialectName) {
+      return
+    }
+    clearDialectNameTag()
+    const backgroundColor = generateColorOrGradient(getBackgroundColorByName(dialectName, store.dialectInfos))
+    // console.log('backgroundColor', backgroundColor)
+    // 创建 <style> 标签并设置其内容
+    styleTagRef.current = document.createElement('style');
+    styleTagRef.current.type = 'text/css';
+    styleTagRef.current.innerHTML = `
+      .long_search_textarea::after {
+        content: '${dialectName}';
+        display: block;
+        background: ${backgroundColor};
+        width: fit-content;
+        padding: 0 4px;
+        white-space: nowrap;
+        height: fit-content;
+        color: white;
+        border-radius: 4px;
+        font-size: 12px; 
+        position: absolute;
+        bottom: 25px;
+        right: 3px;
+        opacity: 70%;
+        user-select: none;
+      }
+    `;
+    document.head.appendChild(styleTagRef.current);
+
+  }
+
+  function clearDialectNameTag() {
+    if (styleTagRef.current) {
+      try {
+        document?.head?.removeChild && document.head.removeChild(styleTagRef.current);
+      } catch (error) {
+        console.error('⚠️ 移除 <style> 标签出错：', error)
+      }
+    }
+  }
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    // 清理函数：当组件卸载时移除 <style> 标签
+    return () => clearDialectNameTag();
   }, []);
 
-  useEffect(() => {
-    const handler = (...args) => {
-      // console.log('searchEventBus', args)
-      onSearch(...args);
-    };
-    eventBus.on("SEARCH_EVENT", handler);
-    return () => eventBus.off("SEARCH_EVENT", handler);
+
+  useAsyncEffect(async () => {
+    if (
+      !store.dialectInfos
+      || !Array.isArray(store.dialectInfos)
+      || store.dialectInfos.length === 0
+    ) {
+      console.warn('⚠️ dialectInfos 尚未准备好')
+      return
+    }
+    const localFilterData = getLocalFilterData()
+    showDialectNameTag(localFilterData.dialectName)
   }, [store]);
 
   return (
     <>
-      {!isMobile && (
-        <div className={styles.search_bar}>
-          <div className={styles.logo_block}>
-            <LogoBlock />
+      <div className={styles.search_bar}>
+        <div className={styles.logo_block}><LogoBlock /></div>
+        <Input.TextArea
+          value={originTextAreaValue}
+          maxLength={400}
+          placeholder="长文注音，单次查询限制400字，请在右侧设置按钮选择语言，多音字于下方显示蓝点标记提示。"
+          showCount
+          className="long_search_textarea"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+          style={{
+            width: '650px'
+          }}
+          styles={{
+            count: {
+              // border: '1px solid red',
+              // position: 'relative',
+              bottom: '2px',
+              paddingRight: '5px'
+            }
+          }}
+          onChange={handleTextareaChange} />
+        <div className={styles.btn_box}>
+          <div className={styles.setting_btn} onClick={() => handleClickSetting()}>
+            <SettingOutlined />
           </div>
-          <SearchInput
-            defaultValue={searchParams.get("q") || ""}
-            onSearch={onSearch}
-            style={{ width: "100%" }}
-          />
+          <br />
+          <button className={styles.search_btn} onClick={() => handleSearch(filterData)}>搜索</button>
         </div>
-      )}
-      <div className={styles.search_content}>
-        {!!searchParams.get("q") && !searchDataIsEmpty(searchData) ? (
-          <LeftBox searchData={searchData} />
+        {/* <div className={styles.dialect_name_tag}>
+          {filterData?.dialectName ?? '未選擇'}
+        </div> */}
+      </div>
+      <div className={styles.search_content} id="search_content">
+        {charVariantInfos ? (
+          <div className={styles.search_content_main}>
+            <Button type="link" style={{
+              // position: 'absolute',
+              // top: 0,
+              // right: '-10px'
+              padding: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+              // border: '1px solid red',
+              marginTop: -5,
+              marginRight: -3,
+              float: 'right'
+            }} onClick={handleCopy}>复制</Button>
+            {
+              textAreaValue ? splitStringInto2DArray(textAreaValue).map((line, lineIndex) => {
+                return <div key={`line${lineIndex}`}>
+                  {
+                    line.map((char, charIndex) => {
+                      const charInfos = charVariantInfos.find((info) => info.char === char)?.charInfos
+                      if (!charInfos || charInfos.length === 0) {
+                        handleCharChange({
+                          phonetic: '',
+                          tonePitch: '',
+                          tone: '',
+                          char: char,
+                        }, lineIndex, charIndex)
+                        return <span
+                          key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
+                          style={{
+                            color: '#666',
+                            textAlign: 'center',
+                            margin: '0 2px',
+                          }}
+                        >{char}</span>
+                      } else {
+                        // console.log('char', char, charInfos)
+                        return <Char
+                          key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
+                          charInfos={charInfos}
+                          localPageSettingData={localPageSettingData}
+                          toneMapConfig={store?.dialectInfos?.find(dialectItem => {
+                            return dialectItem[JianCheng] === filterData.dialectName
+                          })?.[ShengDiao]}
+                          onChange={charItem => handleCharChange(charItem, lineIndex, charIndex)}
+                        />
+
+                      }
+                    })
+                  }
+                </div>
+              }) : null
+            }
+          </div>
         ) : (
           <NoData />
         )}
       </div>
+
     </>
   );
 };
 
-export default Search;
+export default LongSearch;
+
+
+
