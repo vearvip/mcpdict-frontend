@@ -67,28 +67,6 @@ const CharList = (props) => {
     defaultHeight: 30, // 设置一个默认高度作为初始值
     fixedWidth: true,  // 如果宽度固定，则设置为true；否则为false
   })
-  /**
-   * 解析方言数据，根据提供的数据结构生成解析后的信息数组。
-   *
-   * @param {Object.<string, any>} data - 包含方言名称及其对应信息字符串的对象。
-   * @returns {Array<Object>} 解析后的方言信息数组。
-   */
-  function parseDialectData(data, dialectSort = []) {
-    const parsedData = [];
-
-    dialectSort.forEach(dialectName => {
-      const infoString = data[dialectName];
-      // 添加解析后的信息到最终结果数组中
-      if (infoString) {
-        parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
-      }
-    })
-    // for (const [dialectName, infoString] of Object.entries(data)) { 
-    //   parsedData.push({ dialectName, infos: parseSplitStr(infoString, dialectName) });
-    // }
-
-    return parsedData;
-  }
 
   const isEmptyCharInfo = (charInfo = []) => {
     let isEmpty = true
@@ -334,14 +312,12 @@ const CharList = (props) => {
     let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
     hasValIndex = hasValIndex === -1 ? 0 : hasValIndex
     // console.log('hasValIndex', hasValIndex)
-    setSelectedCharItem(searchData[hasValIndex])
-    const parsedDialectData = parseDialectData(searchData[hasValIndex].charInfo, store.dialectSort)
-    // console.log('parsedDialectData', parsedDialectData)
+    setSelectedCharItem(searchData[hasValIndex]) 
     setSelectedCharInfos([
       {
         char: searchData[hasValIndex].char,
       },
-      ...(parsedDialectData || [])
+      ...(searchData[hasValIndex].charInfo || [])
     ])
 
   }, [
@@ -388,14 +364,12 @@ const CharList = (props) => {
                   )
                 }}
                 onClick={() => {
-                  setSelectedCharItem(charItem)
-                  const parsedDialectData = parseDialectData(charItem.charInfo, store.dialectSort)
-                  // console.log('parsedDialectData', parsedDialectData)
+                  setSelectedCharItem(charItem) 
                   setSelectedCharInfos([
                     {
                       char: charItem.char,
                     },
-                    ...(parsedDialectData || [])
+                    ...(charItem.charInfo || [])
                   ])
                 }}
               >
@@ -426,11 +400,12 @@ const CharList = (props) => {
                       <List
                         width={width}
                         height={height}
+                        scrollToIndex={0}
                         rowCount={selectedCharInfos?.length}
                         rowHeight={virtualizedCache.rowHeight} // 使用缓存中的高度信息
                         deferredMeasurementCache={virtualizedCache} // 将缓存传递给List组件
                         style={{
-                          padding: 20
+                          padding: isMobile ? '5px 10px' : '10px 15px',
                         }}
                         rowRenderer={rowRenderer}
                       />

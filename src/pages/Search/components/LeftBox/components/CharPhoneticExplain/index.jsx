@@ -14,6 +14,11 @@ import { replaceWithCircled, convertPitchNum2Curve, getRealPhoneticAndToneKey } 
  */
 const CharPhoneticExplain = (props) => {
   let { phonetic, explain, toneMapConfig = {}, localPageSettingData } = props;
+  /**
+   * 根据音标和设置渲染音标显示
+   * @param {string} originPhonetic 
+   * @returns React.ReactNode
+   */
   function renderPhonetic(originPhonetic = '') {
     const toneType = localPageSettingData.toneType;
     const tonePitchType = localPageSettingData.tonePitchType;
@@ -73,13 +78,21 @@ const CharPhoneticExplain = (props) => {
 
     return phonetic
   }
+  /**
+   * 替换解释中的星号标记为波浪号
+   * @param {string} str 
+   * @returns string
+   */
+  function renderExplain(str) {
+    return str.replace(/\*([^*])\*/gu, '～').replaceAll(' ', '');
+  }
 
   return <div className={styles.phonetic_explain}>
     {
       phonetic && <span className={styles.phonetic}>{renderPhonetic(phonetic)}</span>
     }
     {
-      explain && <span className={styles.explain}>{explain}</span>
+      explain && <span className={styles.explain}>{renderExplain(explain)}</span>
     }
   </div>
 }

@@ -28,7 +28,7 @@ export const getLocalFilterData = () => {
   try {
     const filterDataLocalStr = localStorage.getItem("filterData");
     let filterData;
-    
+
     if (filterDataLocalStr && filterDataLocalStr !== "undefined") {
       filterData = JSON.parse(filterDataLocalStr);
     } else {
@@ -43,7 +43,7 @@ export const getLocalFilterData = () => {
         filterData[key] = defaultFieldVal;
       }
     }
-    
+
     return filterData;
   } catch (error) {
     console.error("获取筛选本地存储值失败：", error);
@@ -54,8 +54,8 @@ export const getLocalFilterData = () => {
 
 export const setLocalFilterData = (filterData) => {
   // 输入验证
-  if (!filterData || typeof filterData !== 'object') {
-    console.error('无效的筛选数据');
+  if (!filterData || typeof filterData !== "object") {
+    console.error("无效的筛选数据");
     return false;
   }
 
@@ -96,7 +96,7 @@ export const Filter = React.forwardRef(
     const handleFormChange = (changedValues, allValues) => {
       // console.log('changedValues, allValues', changedValues, allValues)
       if (hiddenQueryType) {
-        allValues.queryType = 'hanzi'
+        allValues.queryType = "hanzi";
       }
       onChange && onChange(allValues);
     };
@@ -129,59 +129,59 @@ export const Filter = React.forwardRef(
 
     return (
       <Form form={form} onValuesChange={handleFormChange}>
-        {
-          !props.hiddenQueryType && <Form.Item
-          name="queryType"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Radio.Group
-            options={[
-              {
-                value: "hanzi",
-                label: (
-                  <Flex gap="small" justify="center" align="center" vertical>
-                    <HanZiSVG />
-                    汉字
-                  </Flex>
-                ),
-              },
-              {
-                value: "duyin",
-                label: (
-                  <Flex gap="small" justify="center" align="center" vertical>
-                    <DuYinSVG />
-                    读音
-                  </Flex>
-                ),
-                // disabled: true,
-              },
-              {
-                value: "zhushi",
-                label: (
-                  <Flex gap="small" justify="center" align="center" vertical>
-                    <ZhuShiSVG />
-                    注释
-                  </Flex>
-                ),
-                // disabled: true,
-              },
-              {
-                value: "cidian",
-                label: (
-                  <Flex gap="small" justify="center" align="center" vertical>
-                    <CiDianSVG />
-                    辞典
-                  </Flex>
-                ),
-                disabled: true,
-              },
-            ]}
-          />
-        </Form.Item>
-        }
+        {!props.hiddenQueryType && (
+          <Form.Item
+            name="queryType"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Radio.Group
+              options={[
+                {
+                  value: "hanzi",
+                  label: (
+                    <Flex gap="small" justify="center" align="center" vertical>
+                      <HanZiSVG />
+                      汉字
+                    </Flex>
+                  ),
+                },
+                {
+                  value: "duyin",
+                  label: (
+                    <Flex gap="small" justify="center" align="center" vertical>
+                      <DuYinSVG />
+                      读音
+                    </Flex>
+                  ),
+                  disabled: true,
+                },
+                {
+                  value: "zhushi",
+                  label: (
+                    <Flex gap="small" justify="center" align="center" vertical>
+                      <ZhuShiSVG />
+                      注释
+                    </Flex>
+                  ),
+                  disabled: true,
+                },
+                {
+                  value: "cidian",
+                  label: (
+                    <Flex gap="small" justify="center" align="center" vertical>
+                      <CiDianSVG />
+                      辞典
+                    </Flex>
+                  ),
+                  disabled: true,
+                },
+              ]}
+            />
+          </Form.Item>
+        )}
         <Form.Item name="filterMode">
           <Radio.Group
             block

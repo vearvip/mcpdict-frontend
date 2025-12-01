@@ -11,6 +11,11 @@ import {
   Zhen,
   Cun,
   ZiRanCun,
+  ZiZu,
+  DuYin,
+  ZhuShi,
+  YuYan,
+  HanZi,
 } from "./constant";
 import { getLocalPageSettingData } from "../pages/Setting";
 
@@ -447,7 +452,7 @@ export function transformDialectInfosToTree(dialectInfos) {
 
   dialectInfos.forEach((dialectInfo) => {
     const pageSettingData = getLocalPageSettingData();
-    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split("-");
+    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split("－");
     const languageShortName = dialectInfo[JianCheng];
 
     function addDialectNode(levels, shortName, node, pathSoFar = "") {
@@ -794,7 +799,7 @@ export const clearPageCache = async () => {
 
 
 
- 
+
 
 export function loadScript(url) {
   return new Promise((resolve, reject) => {
@@ -810,3 +815,70 @@ export function loadScript(url) {
     document.head.appendChild(script);
   });
 }
+
+
+
+/**
+ * 
+ * @param { { "字組": string; "語言": string; "讀音": string; "註釋": string; }[] } searchDataData
+ * @param { string[] } variants
+ * @param { string } originChar
+ * @param { string[] } dialectSort
+ */
+export const formatSearchData = (searchDataData, variants, originChar, dialectSort) => {
+  const charInfoList = [];
+  (variants || []).forEach((variant) => {
+    const items = (searchDataData || []).filter((item) => item[ZiZu].includes(variant));
+    const infoStruct = {};
+    (items || []).forEach(item => {
+      const _item = { ...item };
+      delete _item[ZiZu];
+      _item[HanZi] = variant;
+      // 如果是拟音，特殊处理
+      if (isOnomatopoeia(_item[YuYan])) {
+
+        if (!infoStruct[_item[YuYan]]) {
+          infoStruct[_item[YuYan]] = [...parseOnomatopoeia(_item[DuYin], _item[YuYan])]
+        } else {
+          infoStruct[_item[YuYan]].push(...parseOnomatopoeia(_item[DuYin], _item[YuYan]));
+        }
+
+        if (_item[ZhuShi]) {
+          if (!infoStruct[_item[YuYan]]) {
+            infoStruct[_item[YuYan]] = [{ phonetic: "", explain: _item[ZhuShi] }]
+          } else {
+            infoStruct[_item[YuYan]].push({ phonetic: "", explain: _item[ZhuShi] })
+          }
+        }
+      } else {
+        const info = {
+          "phonetic": _item[DuYin],
+          "explain": _item[ZhuShi]
+        }
+        if (!infoStruct[_item[YuYan]]) {
+          infoStruct[_item[YuYan]] = [info]
+        } else {
+          infoStruct[_item[YuYan]].push(info)
+        }
+      }
+    })
+    const charInfo = [];
+    const infoStructDialectNames = Object.keys(infoStruct);
+    (dialectSort || []).forEach(dialectName => {
+      if (infoStructDialectNames.includes(dialectName)) {
+        charInfo.push({
+          dialectName,
+          infos: infoStruct[dialectName]
+        })
+      }
+    })
+
+    charInfoList.push({
+      char: variant,
+      originChar,
+      charInfo: charInfo
+    });
+  })
+
+  return charInfoList;
+};

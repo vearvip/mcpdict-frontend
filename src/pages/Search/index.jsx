@@ -17,13 +17,14 @@ import {
 } from "@vearvip/hanzi-utils";
 import { Button, FloatButton, message } from "antd";
 import { showDialectMap } from "../../components/DialectMap";
-import { getSearchDialectList, groupVariants } from "../../utils";
+import { formatSearchData, getSearchDialectList, groupVariants } from "../../utils";
 import useStore from "@/store";
 import { useAsyncEffect } from "ahooks";
 import { getLocalFilterData } from "../../components/Filter";
 import { queryCharsByType } from "../../services";
 import { useMobile } from "../../utils/hooks";
 import eventBus from '../../event/bus';
+import { DuYin, HanZi, YuYan, ZhuShi, ZiZu } from "../../utils/constant";
 
 const waitLoadDialectInfos = () => {
   return new Promise((resolve, reject) => {
@@ -35,6 +36,7 @@ const waitLoadDialectInfos = () => {
     }, 80);
   });
 };
+
 
 /**
  * 搜索组件，用于展示和处理搜索功能。
@@ -71,6 +73,7 @@ const Search = (props) => {
     }
   };
 
+
   /**
    * 根据提供的值执行搜索。
    *
@@ -99,7 +102,7 @@ const Search = (props) => {
     //   filterData: JSON.parse(JSON.stringify(filterData)),
     //   dialectList: JSON.parse(JSON.stringify(dialectList)),
     //   value,
-      
+
     // })
 
     try {
@@ -114,22 +117,15 @@ const Search = (props) => {
           charList,
           result?.data?.variants ?? []
         );
-        const charGroupList = [];
+        let charGroupList = [];
+        console.log('groupVariantList', groupVariantList)
         groupVariantList.forEach((groupItem) => {
-          (groupItem.variants || []).forEach((variant) => {
-            const charInfo = (result?.data?.data ?? []).find(
-              (item) => item.char === variant
-            )?.charInfo;
-            if (charInfo) {
-              charGroupList.push({
-                char: variant,
-                originChar: groupItem.char,
-                charInfo: charInfo,
-              });
-            }
-          });
+          charGroupList = [
+            ...charGroupList,
+            ...formatSearchData(result?.data?.data, groupItem.variants, groupItem.char, store.dialectSort)
+          ] 
         });
-        // console.log('charGroupList', charGroupList)
+        console.log('charGroupList', charGroupList)
         setSearchData(charGroupList);
       } else {
         const result = await queryCharsByType({
@@ -193,7 +189,7 @@ const Search = (props) => {
     });
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     const handler = (...args) => {
       // console.log('searchEventBus', args)
       onSearch(...args);
@@ -206,7 +202,7 @@ const Search = (props) => {
   return (
     <>
       {
-        !isMobile && 
+        !isMobile &&
         (
           <div className={styles.search_bar}>
             <div className={styles.logo_block}>

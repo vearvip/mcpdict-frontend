@@ -8,7 +8,7 @@ import { extractHanzi } from '@vearvip/hanzi-utils'
 import useStore from '@/store';
 import NProgress from 'nprogress';
 import { queryChars, queryLongString } from '../../services';
-import { copy, delay, generateColorOrGradient, getBackgroundColorByName, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import { copy, delay, formatSearchData, generateColorOrGradient, getBackgroundColorByName, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
 import Dialog from '../../components/Dialog';
 import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
@@ -70,6 +70,27 @@ const LongSearch = (props) => {
     })
   }
 
+  function genCharVariantInfos(charGroupList = []) {
+    console.log('charGroupList', charGroupList);
+    const charVariantInfoStruct = {};
+    charGroupList
+      .filter(item => item.charInfo && Array.isArray(item.charInfo) && item.charInfo.length > 0)
+      .forEach(charItem => {
+        const charVariantInfoItem = {
+          "char": charItem.char,
+          "phonetics": (charItem.charInfo || []).map(charInfoItem => (charInfoItem.infos || []).map(info => info.phonetic)).flat(),
+        }
+        if (!charVariantInfoStruct[charItem.originChar]) {
+          charVariantInfoStruct[charItem.originChar] = [charVariantInfoItem]
+        } else {
+          charVariantInfoStruct[charItem.originChar].push(charVariantInfoItem)
+        }
+      })
+    return Object.keys(charVariantInfoStruct).map(char => ({
+      char,
+      charInfos: charVariantInfoStruct[char],
+    }));
+  }
   const handleSearch = async (filterData) => {
     setCharVariantsInfos(undefined)
     twoDimensionalCharListRef.current = []
@@ -84,43 +105,27 @@ const LongSearch = (props) => {
 
     try {
       const chars = extractHanzi(originTextAreaValue)
-      // console.log('charList:', originTextAreaValue, chars)
       const result = await queryLongString({
         charList: chars,
         dialectName: filterData.dialectName
       });
-      const charGroupList = groupVariants(chars, result?.data?.variants ?? [])
-      // console.log('charGroupList', charGroupList);
-      const charVariantInfos = []
-      charGroupList.forEach(charGroup => {
-        const variants = charGroup.variants
-        const charInfos = []
-        variants.forEach(variant => {
-          if (result?.data?.data?.[variant]) {
-            charInfos.push({
-              char: variant,
-              phonetics: parseSplitStr(
-                result?.data?.data?.[variant],
-                filterData.dialectName,
-                true,
-                store?.dialectInfos?.find(dialectItem => {
-                  return dialectItem[JianCheng] === filterData.dialectName
-                })?.[ShengDiao]
-              ).map(item => item.phonetic)
-                .filter(Boolean)
-            })
-          }
-        })
-        charVariantInfos.push({
-          char: charGroup.char,
-          charInfos: charInfos
-        })
-      })
-      // console.log('charVariantInfos', charVariantInfos)
+  
+      const groupVariantList = groupVariants(chars, result?.data?.variants ?? [])
+      let charGroupList = [];
+      
+      groupVariantList.forEach((groupItem) => {
+        charGroupList = [
+          ...charGroupList,
+          ...formatSearchData(result?.data?.data, groupItem.variants, groupItem.char, store.dialectSort)
+        ]
+      });
+
+      const charVariantInfos = genCharVariantInfos(charGroupList);
+      
       setCharVariantsInfos(charVariantInfos)
       setTextAreaValue(originTextAreaValue)
-      // console.log('charVariantInfos', charVariantInfos)
     } catch (e) {
+      console.error('长文搜索出错：', e)
       if (!originTextAreaValue) {
         setCharVariantsInfos(undefined)
       }
