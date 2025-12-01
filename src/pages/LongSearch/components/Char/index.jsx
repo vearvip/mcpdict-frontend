@@ -105,7 +105,7 @@ export default ({
       content={<div className={styles.popover_content_box}>
         {
           charInfos.map((charInfo, charInfoIdx) => {
-            return charInfo.phonetics.map((originPhonetic, phoneticIdx) => {
+            return charInfo.phonetics.filter(char => char).map((originPhonetic, phoneticIdx) => {
               let { phonetic, toneKey, tonePitch } = getRealPhoneticAndToneKey(originPhonetic, toneMapConfig)
               let tone = toneKey
               const isActived = charInfoIdx === charInfoIndex && phoneticIdx === phoneticIndex
@@ -132,15 +132,15 @@ export default ({
         }
       </div>}
       trigger="click"
-    > 
-        <CharItem
-          className={`${styles.char_info_box} ${hasMultiPhonetic ? styles.char_info_box_has_multi_phonetic : ''}`}
-          char={nowCharItem.char}
-          phonetic={nowCharItem.phonetic}
-          tonePitch={nowCharItem.tonePitch}
-          tone={nowCharItem.tone}
-          // onClick={() => console.log(charInfos)}
-        /> 
+    >
+      <CharItem
+        className={`${styles.char_info_box} ${hasMultiPhonetic ? styles.char_info_box_has_multi_phonetic : ''}`}
+        char={nowCharItem.char}
+        phonetic={nowCharItem.phonetic}
+        tonePitch={nowCharItem.tonePitch}
+        tone={nowCharItem.tone}
+      // onClick={() => console.log(charInfos)}
+      />
     </Popover>
     : null
 }
