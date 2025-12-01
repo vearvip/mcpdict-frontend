@@ -228,7 +228,7 @@ export default () => {
             ]} />
         </Form.Item>
         <Divider></Divider>
-        <Form.Item
+        {/* <Form.Item
           label="字音查询页格式"
           name="searchPageFormat"
           rules={[
@@ -246,7 +246,7 @@ export default () => {
             value: 'table',
             // disabled: true,
           }]} />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           label="长文注音页格式"
           name="longSearchPageFormat"
