@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styles from './index.module.less'; // 引入 CSS Module  
 import AutoFitText from '@/components/AutoFitText';
 import { Button, notification } from 'antd';
@@ -8,6 +8,7 @@ import { usePad, useWindowSize, useMobile } from '@/utils/hooks';
 import CharLabel from '../CharLabel';
 import CharPhoneticExplain from '../CharPhoneticExplain';
 import { useNavigate } from 'react-router';
+import { Virtuoso } from 'react-virtuoso';
 import { message } from 'antd';
 import {
   ShuoWen,
@@ -49,6 +50,7 @@ import 'react-virtualized/styles.css'; // 不要忘记引入默认样式
  */
 const CharList = (props) => {
   const { searchData } = props;
+  const virtuosoRef = useRef(null);
   const { store } = useStore()
   const isPad = usePad()
   const isMobile = useMobile()
@@ -203,6 +205,19 @@ const CharList = (props) => {
     requestAndShowCharInfoByKey(char, HanDa, () => setHandaLoading(false))
   }
 
+  // virtuosoRef滚动到顶部的函数
+  const virtuosoScrollToTop = () => {
+    if (virtuosoRef.current) {
+      // 滚动到索引为 0 的位置（列表顶部）
+      virtuosoRef.current.scrollToIndex({
+        index: 0,
+        behavior: 'smooth', // 可选 'auto' 或 'smooth'（平滑滚动）
+        align: 'start',    // 将目标项对齐到可视区域顶部
+      });
+    }
+  };
+
+
   function rowRenderer({ index: infoIndex, key, parent, style }) {
     const charInfo = selectedCharInfos[infoIndex];
     // console.log('🍓', height, width)
@@ -307,18 +322,120 @@ const CharList = (props) => {
     );
   }
 
+  const renderItem = (infoIndex, charInfo) => {
+    // console.log('🍓', height, width)
+    let itemElement
+    if (infoIndex === 0) {
+      itemElement = <div>
+        <div
+          className={styles.char_list_top_info}
+          style={{
+            width: `calc(100% - ${isMobile ? '20px' : '30px'})`,
+            paddingTop: isMobile ? '5px' : '10px',
+          }}
+        >
+          <div
+            className={styles.char_img_box}
+            onClick={() => handleImgClick(charInfo.char)}
+          > <img
+              src={`https://assets.mcpdict.vear.vip/imgs/other/田字格.png`}
+              className={styles.char_bg} alt="" />
+            <img
+              src={`https://assets.mcpdict.vear.vip/imgs/tianHeng/${charInfo.char}.png`}
+              className={styles.char_img}
+            />
+          </div>
+          <div className={styles.char_btns}>
+            <Spin spinning={uniCodeLoading} size="small">
+              <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
+                U+{hanzi2Unicode(charInfo.char)}
+              </div>
+            </Spin>
+            <Spin spinning={shuowenLoading} size="small">
+              <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
+                说文
+              </div>
+            </Spin>
+            <Spin spinning={kangxiLoading} size="small">
+              <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
+                康熙
+              </div>
+            </Spin>
+            <Spin spinning={huizuanLoading} size="small">
+              <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
+                汇纂
+              </div>
+            </Spin>
+            <Spin spinning={handaLoading} size="small">
+              <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
+                汉大
+              </div>
+            </Spin>
+            <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
+              🌎️
+            </div>
+          </div>
+
+        </div>
+
+        {
+          selectedCharInfos.length === 1 ?
+            <div className="flex-center" >
+              <NoData style={{
+                position: 'relative'
+              }} />
+            </div>
+            : null
+        }
+      </div>
+    } else {
+      itemElement = (
+        <div
+          key={`char_info_${infoIndex}`}
+          className={styles.char_info}
+          style={{
+            width: `calc(100% - ${isMobile ? '20px' : '30px'})`,
+          }}
+        >
+          <AutoFitText
+            char={selectedCharItem?.char}
+            dialectName={charInfo.dialectName}
+            phonetics={charInfo.infos.map(ele => ele.phonetic)}
+          />
+          <div>
+            {charInfo.infos.map((info, subIndex) => (
+              <CharPhoneticExplain
+                key={`info_item_${infoIndex}_${subIndex}`}
+                localPageSettingData={localPageSettingData}
+                phonetic={info.phonetic}
+                explain={info.explain}
+                toneMapConfig={store?.dialectInfos?.find(dialectItem => {
+                  return dialectItem[JianCheng] === charInfo.dialectName
+                })?.[ShengDiao]}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return itemElement
+  }
+
   useEffect(() => {
     // 搜索展示时默认跳过为空的项
     let hasValIndex = searchData.findIndex(item => Object.keys(item.charInfo).length > 0)
     hasValIndex = hasValIndex === -1 ? 0 : hasValIndex
     // console.log('hasValIndex', hasValIndex)
-    setSelectedCharItem(searchData[hasValIndex]) 
+    setSelectedCharItem(searchData[hasValIndex])
     setSelectedCharInfos([
       {
         char: searchData[hasValIndex].char,
       },
       ...(searchData[hasValIndex].charInfo || [])
     ])
+    setTimeout(() => {
+      virtuosoScrollToTop()
+    }, 100)
 
   }, [
     searchData
@@ -364,13 +481,16 @@ const CharList = (props) => {
                   )
                 }}
                 onClick={() => {
-                  setSelectedCharItem(charItem) 
+                  setSelectedCharItem(charItem)
                   setSelectedCharInfos([
                     {
                       char: charItem.char,
                     },
                     ...(charItem.charInfo || [])
                   ])
+                  setTimeout(() => {
+                    virtuosoScrollToTop()
+                  }, 100)
                 }}
               >
                 <CharLabel char={charItem.char} originChar={charItem.originChar} />
@@ -392,10 +512,25 @@ const CharList = (props) => {
                     width: (isPad
                       ? charListBoxSize?.width
                       : charListBoxSize?.width - 90) || undefined
-
                   }}
                 >
-                  <AutoSizer>
+                  <Virtuoso
+                    ref={virtuosoRef}
+                    style={{
+                      padding: isMobile ? '0 10px' : '0 15px',
+                      height: '100%',
+                      boxSizing: 'border-box',
+                      // 禁止横向滚动 
+                      overflowX: 'hidden',
+                    }}
+                    id="virtuoso"
+                    data={selectedCharInfos}
+                    totalCount={selectedCharInfos.length}
+                    overscan={300} // 预渲染区域，提高滚动性能
+                    increaseViewportBy={{ top: 300, bottom: 300 }}
+                    itemContent={renderItem}
+                  />
+                  {/* <AutoSizer>
                     {({ height, width }) => (
                       <List
                         width={width}
@@ -410,7 +545,7 @@ const CharList = (props) => {
                         rowRenderer={rowRenderer}
                       />
                     )}
-                  </AutoSizer>
+                  </AutoSizer> */}
                 </div>
 
               </>
