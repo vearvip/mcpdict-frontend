@@ -156,7 +156,7 @@ export const Filter = React.forwardRef(
                     读音
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "zhushi",
@@ -166,7 +166,7 @@ export const Filter = React.forwardRef(
                     注释
                   </Flex>
                 ),
-                disabled: true,
+                // disabled: true,
               },
               {
                 value: "cidian",

@@ -107,50 +107,41 @@ const Search = (props) => {
 
     try {
       const charList = extractHanzi(value);
+      let result = null; 
+      let groupVariantList = [];
+      let charGroupList = [];
       if (filterData.queryType === 'hanzi') {
-        const result = await queryChars({
+        result = await queryChars({
           charList,
           dialectList,
           queryType: filterData.queryType
         });
-        const groupVariantList = groupVariants(
+        groupVariantList = groupVariants(
           charList,
           result?.data?.variants ?? []
         );
-        let charGroupList = [];
-        console.log('groupVariantList', groupVariantList)
-        groupVariantList.forEach((groupItem) => {
-          charGroupList = [
-            ...charGroupList,
-            ...formatSearchData(result?.data?.data, groupItem.variants, groupItem.char, store.dialectSort)
-          ] 
-        });
-        console.log('charGroupList', charGroupList)
-        setSearchData(charGroupList);
       } else {
-        const result = await queryCharsByType({
+         result = await queryCharsByType({
           queryStr: value,
           dialectList,
           queryType: filterData.queryType
         });
         console.log(result)
         const variants = result?.data?.variants ?? []
-        const charGroupList = [];
-        (variants || []).forEach((variant) => {
-          const charInfo = (result?.data?.data ?? []).find(
-            (item) => item.char === variant
-          )?.charInfo;
-          if (charInfo) {
-            charGroupList.push({
-              char: variant,
-              originChar: variant,
-              charInfo: charInfo,
-            });
-          }
-        });
-        console.log('charGroupList33', charGroupList)
-        setSearchData(charGroupList);
+        groupVariantList = groupVariants(
+          variants,
+          variants
+        );
       }
+ 
+      groupVariantList.forEach((groupItem) => {
+        charGroupList = [
+          ...charGroupList,
+          ...formatSearchData(result?.data?.data, groupItem.variants, groupItem.char, store.dialectSort)
+        ]
+      });
+      console.log('charGroupList', charGroupList)
+      setSearchData(charGroupList);
     } catch (error) {
       console.error("error", error);
       // message.error(error.message)
