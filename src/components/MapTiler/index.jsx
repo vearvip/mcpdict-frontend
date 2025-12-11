@@ -35,7 +35,7 @@ export default function MapTiler({ dialectInfos, style }) {
   async function loadMap() {
     try {
       if (!window?.maplibregl?.Map) {
-        const scriptUrl = `https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js` 
+        const scriptUrl = `https://registry.npmmirror.com/maplibre-gl/5.14.0/files/dist/maplibre-gl.js` 
 
         // 使用函数加载远程脚本
         await loadScript(scriptUrl);
