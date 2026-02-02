@@ -214,6 +214,25 @@ const Layout = (props) => {
       });
       localStorage.setItem('mcpdict-miniapp-notice', 'yes')
     }
+    if (localStorage.getItem('dialects.yzup.top-notice') !== 'yes') {
+      notification.open({
+        // placement: 'top',
+        message: '推荐一位朋友制作的网站「方音圖鑑」！',
+        description: <div style={{
+          // display: 'flex',
+          // justifyContent: 'center',
+          // alignItems: 'center',
+        }}>
+          <div>「方音圖鑑」是一個專注於中古地位分析、方言比較、地理語言學的線上工具，致力於以清晰、互動的方式呈現各方言點聲韻層次及音位分合。</div>
+          <div>功能十分强大，强烈推荐大家前往体验！</div>
+          <img src="https://gw.alicdn.com/imgextra/i4/O1CN013LUitQ2723sWf1bJZ_!!6000000007738-0-tps-691-1278.jpg" alt="方音圖鑑网页截图" style={{ width: 240, height: 240, marginTop: 20, objectFit: 'cover', objectPosition: 'top' }} />
+        </div>,
+        // icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+        duration: false,
+      }); 
+      localStorage.setItem('dialects.yzup.top-notice', 'yes')
+      
+    }
 
   }, []);
 
