@@ -37,6 +37,12 @@ const informationList = [
     description: '韻典網是一個綜合韻書查詢工具，包含廣韻、中原音韻、洪武正韻牋、分韻撮要和上古音系。'
   },
   {
+    title: '方音圖鑑',
+    url: 'https://dialects.yzup.top/',
+    logo: 'https://img.alicdn.com/imgextra/i1/O1CN01EBveIU1VdCb6Mqg4c_!!6000000002675-2-tps-254-256.png',
+    description: '「方音圖鑑」是一個專注於中古地位分析、方言比較、地理語言學的線上工具，致力於以清晰、互動的方式呈現各方言點聲韻層次及音位分合。'
+  },
+  {
     title: '汉典',
     url: 'https://www.zdic.net/',
     logo: 'https://img.alicdn.com/imgextra/i3/O1CN01RReFKV1H93oe1ooK0_!!6000000000714-73-tps-32-32.ico',
