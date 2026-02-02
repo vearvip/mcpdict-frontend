@@ -68,8 +68,8 @@ export const themeToken = {
 const Layout = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { store, setStore } = useStore() 
-  const isMobile = useMobile() 
+  const { store, setStore } = useStore()
+  const isMobile = useMobile()
   const localPageSettingData = getLocalPageSettingData()
 
   /**
@@ -223,15 +223,18 @@ const Layout = (props) => {
           // justifyContent: 'center',
           // alignItems: 'center',
         }}>
-          <div>「方音圖鑑」是一個專注於中古地位分析、方言比較、地理語言學的線上工具，致力於以清晰、互動的方式呈現各方言點聲韻層次及音位分合。</div>
+          <div>「<a href="https://dialects.yzup.top" target="_blank">方音圖鑑</a>」是一個專注於中古地位分析、方言比較、地理語言學的線上工具，致力於以清晰、互動的方式呈現各方言點聲韻層次及音位分合。</div>
           <div>功能十分强大，强烈推荐大家前往体验！</div>
-          <img src="https://gw.alicdn.com/imgextra/i4/O1CN013LUitQ2723sWf1bJZ_!!6000000007738-0-tps-691-1278.jpg" alt="方音圖鑑网页截图" style={{ width: 240, height: 240, marginTop: 20, objectFit: 'cover', objectPosition: 'top' }} />
+          <a href="https://dialects.yzup.top" target="_blank">
+            <img src="https://gw.alicdn.com/imgextra/i4/O1CN013LUitQ2723sWf1bJZ_!!6000000007738-0-tps-691-1278.jpg" alt="方音圖鑑网页截图" style={{ width: 240, height: 240, marginTop: 20, objectFit: 'cover', objectPosition: 'top' }} />
+          </a>
+
         </div>,
         // icon: <SmileOutlined style={{ color: '#108ee9' }} />,
         duration: false,
-      }); 
+      });
       localStorage.setItem('dialects.yzup.top-notice', 'yes')
-      
+
     }
 
   }, []);
@@ -261,8 +264,8 @@ const Layout = (props) => {
       theme={{
         token: themeToken,
       }}
-    > 
-      <div className={styles.layout}> 
+    >
+      <div className={styles.layout}>
         <div className={`${styles.nav} box`}>
           <Menu
             dataSource={routes.filter(ele => !ele.hidden).map(ele => {
@@ -282,7 +285,7 @@ const Layout = (props) => {
               }
             })}
             activeKey={location.pathname}
-            onChange={handleMenuClick} 
+            onChange={handleMenuClick}
           />
         </div>
         <Routes>
