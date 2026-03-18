@@ -663,73 +663,58 @@ export const delay = (timeout) =>
 
 export function buildDistrictTree(data) {
   const provinces = [
-    "北京",
-    "天津",
-    "上海",
-    "重慶",
-    "河北",
-    "山西",
-    "遼寧",
-    "吉林",
-    "黑龍江",
-    "江蘇",
-    "浙江",
-    "安徽",
-    "福建",
-    "江西",
-    "山東",
-    "河南",
-    "湖北",
-    "湖南",
-    "廣東",
-    "海南",
-    "四川",
-    "貴州",
-    "雲南",
-    "陝西",
-    "甘肅",
-    "靑海",
-    "臺灣",
-    "內蒙古",
-    "廣西",
-    "西藏",
-    "寧夏",
-    "新疆",
-    "香港",
-    "澳門",
+    "北京", "天津", "上海", "重慶", "河北", "山西", "遼寧", "吉林", "黑龍江",
+    "江蘇", "浙江", "安徽", "福建", "江西", "山東", "河南", "湖北", "湖南",
+    "廣東", "海南", "四川", "貴州", "雲南", "陝西", "甘肅", "青海", "臺灣",
+    "内蒙古", "廣西", "西藏", "寧夏", "新疆", "香港", "澳門", "海外",
   ];
-  // Helper function to insert or find a node in the tree
+
+  // 辅助函数：把路径插入树结构，如果当前层级已经存在则直接复用节点
   function insertIntoTree(tree, path, dialect) {
     let currentNode = tree;
     for (let i = 0; i < path.length; i++) {
-      let level = path[i];
-      let foundNode = currentNode.find((node) => node.title === level);
+      const level = path[i];
+      let foundNode = currentNode.find(node => node.title === level);
+      
       if (!foundNode) {
-        let value = path.slice(0, i + 1).join("-");
-        foundNode = { title: level, value, dialects: [] };
-        // Only add children array if there is a deeper level
+        // 创建新节点
+        const value = path.slice(0, i + 1).join('-');
+        foundNode = { 
+          title: level, 
+          value, 
+          dialects: [] 
+        };
+        // 如果还有更深层级，创建 children 数组
         if (i < path.length - 1) {
           foundNode.children = [];
         }
         currentNode.push(foundNode);
+      } else {
+        // 如果节点已存在，但当前不是最后一级且它还没有 children，则需要为其创建 children
+        if (i < path.length - 1 && !foundNode.children) {
+          foundNode.children = [];
+        }
       }
-      // Add the dialect name only at the deepest level
+
+      // 只有最深层级的节点才存储方言短名
       if (i === path.length - 1 && !foundNode.dialects.includes(dialect)) {
         foundNode.dialects.push(dialect);
       }
+
+      // 准备进入下一层
       if (foundNode.children) {
         currentNode = foundNode.children;
       }
     }
   }
 
-  // Helper function to collect all dialect names under each districtistrative level
+  // 辅助函数：自底向上汇总每个节点下所有子节点的方言短名
   function collectDialectNames(node) {
     if (node.children) {
-      node.children.forEach((child) => {
+      node.children.forEach(child => {
         collectDialectNames(child);
-        // Add child's dialect names to parent's dialect names
-        child.dialects.forEach((dialect) => {
+        // 把子节点的方言短名合并到父节点方言列表
+        child.dialects.forEach(dialect => {
           if (!node.dialects.includes(dialect)) {
             node.dialects.push(dialect);
           }
@@ -738,42 +723,51 @@ export function buildDistrictTree(data) {
     }
   }
 
-  // Initialize the tree
-  let districtTree = [];
+  // 初始化结果树
+  const districtTree = [];
 
-  // Iterate over each data entry and build the tree
-  data.forEach((entry) => {
-    // Construct the path from the districtistrative divisions, ignoring empty entries
-    let path = [
+  // 遍历每条数据，构建树路径
+  data.forEach(entry => {
+    // 从省市县镇村自然村字段组合路径，过滤掉空值、null、undefined 以及 "/" 占位符
+    const path = [
       entry[Sheng],
       entry[Shi],
       entry[Xian],
       entry[Zhen],
       entry[Cun],
       entry[ZiRanCun],
-    ].filter(Boolean);
+    ].filter(v => v && v !== '/');  // 关键修复：排除无效占位符 "/"
 
-    // Insert this path into the tree and update dialects
+    // 有至少一层行政区划才插入树中
     if (path.length > 0) {
-      // Ensure there is at least one level of districtistrative division
       insertIntoTree(districtTree, path, entry[JianCheng]);
     }
   });
 
-  // Collect all dialect names for each districtistrative level
-  districtTree.forEach((rootNode) => {
+  // 遍历树每个根节点，向上聚合子节点中的方言短名
+  districtTree.forEach(rootNode => {
     collectDialectNames(rootNode);
   });
 
-  // Ensure all provinces are included in the tree
-  let existingProvinces = new Set(districtTree.map((node) => node.title));
-  provinces.forEach((province) => {
+  // 补齐空省份，保证全国省份都有节点
+  const existingProvinces = new Set(districtTree.map(node => node.title));
+  provinces.forEach(province => {
     if (!existingProvinces.has(province)) {
-      let newNode = { title: province, value: province, dialects: [] };
-      districtTree.push(newNode);
+      districtTree.push({ 
+        title: province, 
+        value: province, 
+        dialects: [] 
+      });
     }
   });
 
+  // 按照 provinces 顺序排序根节点，使输出更整齐（可选）
+  districtTree.sort((a, b) => {
+    const indexA = provinces.indexOf(a.title);
+    const indexB = provinces.indexOf(b.title);
+    return indexA - indexB;
+  });
+ 
   return districtTree;
 }
 
