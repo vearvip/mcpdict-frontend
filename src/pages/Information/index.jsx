@@ -67,7 +67,7 @@ const informationList = [
     description: '《康熙字典網上版》歡迎您！本站推出《康熙字典》已有十餘載，感謝全球各地網友的支持，讓我們仍有動力繼續努力！本站希望可以做到校對最完整的《康熙字典網上版》！'
   },
   {
-    title: '汉语大词典',
+    title: '汉语大字典',
     url: 'https://homeinmists.ilotus.org/hd/',
     logo: 'https://img.alicdn.com/imgextra/i4/O1CN01pYQdfa1GoRzeTwVFL_!!6000000000669-2-tps-768-644.png',
     description: '漢語大字典（第二版）共收錄 60,367 個漢字'
