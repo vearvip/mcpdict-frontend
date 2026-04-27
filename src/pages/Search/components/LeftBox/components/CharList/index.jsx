@@ -42,7 +42,7 @@ import useStore from '@/store';
 import { getLocalPageSettingData } from '@/pages/Setting';
 import { useSize } from 'ahooks';
 
-import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+import { List , AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
 import 'react-virtualized/styles.css'; // 不要忘记引入默认样式 
 
 /**
