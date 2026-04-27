@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { join } from "path";
-import { visualizer } from "rollup-plugin-visualizer";
+// import { visualizer } from "rollup-plugin-visualizer";
 import svgr from "vite-plugin-svgr";
 import cdn from "@vearvip/vite-plugin-cdn-import";
 import fixReactVirtualized from "esbuild-plugin-react-virtualized";
@@ -56,9 +56,9 @@ export default defineConfig(({ command, mode }) => {
       //   ],
       // }),
       svgr({ svgrOptions: { icon: true } }),
-      visualizer({
-        open: false,
-      }),
+      // visualizer({
+      //   open: false,
+      // }),
       injectBaiduAnalyticsPlugin(mode), // 注册自定义百度统计插件
     ],
     resolve: {
