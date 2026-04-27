@@ -42,8 +42,6 @@ import useStore from '@/store';
 import { getLocalPageSettingData } from '@/pages/Setting';
 import { useSize } from 'ahooks';
 
-import { List , AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
-import 'react-virtualized/styles.css'; // 不要忘记引入默认样式 
 
 /**
  * 左侧盒子组件，用于展示搜索数据。
@@ -65,11 +63,7 @@ const CharList = (props) => {
   const [huizuanLoading, setHuizuanLoading] = useState(false)
   const localPageSettingData = getLocalPageSettingData();
   let navigate = useNavigate();
-  const virtualizedCache = new CellMeasurerCache({
-    defaultHeight: 30, // 设置一个默认高度作为初始值
-    fixedWidth: true,  // 如果宽度固定，则设置为true；否则为false
-  })
-
+  
   const isEmptyCharInfo = (charInfo = []) => {
     let isEmpty = true
     charInfo.forEach(item => {
@@ -218,109 +212,6 @@ const CharList = (props) => {
   };
 
 
-  function rowRenderer({ index: infoIndex, key, parent, style }) {
-    const charInfo = selectedCharInfos[infoIndex];
-    // console.log('🍓', height, width)
-    let itemElement
-    if (infoIndex === 0) {
-      itemElement = <div>
-        <div
-          className={styles.char_list_top_info}
-        >
-          <div
-            className={styles.char_img_box}
-            onClick={() => handleImgClick(charInfo.char)}
-          > <img
-              src={`https://assets.mcpdict.vear.vip/imgs/other/田字格.png`}
-              className={styles.char_bg} alt="" />
-            <img
-              src={`https://assets.mcpdict.vear.vip/imgs/tianHeng/${charInfo.char}.png`}
-              className={styles.char_img}
-            />
-          </div>
-          <div className={styles.char_btns}>
-            <Spin spinning={uniCodeLoading} size="small">
-              <div className={styles.char_unicode} onClick={() => handleUnicodeClick(charInfo.char)}>
-                U+{hanzi2Unicode(charInfo.char)}
-              </div>
-            </Spin>
-            <Spin spinning={shuowenLoading} size="small">
-              <div className={styles.char_shuowen} onClick={() => handleShuowenClick(charInfo.char)}>
-                说文
-              </div>
-            </Spin>
-            <Spin spinning={kangxiLoading} size="small">
-              <div className={styles.char_kangxi} onClick={() => handleKangxiClick(charInfo.char)}>
-                康熙
-              </div>
-            </Spin>
-            <Spin spinning={huizuanLoading} size="small">
-              <div className={styles.char_huizuan} onClick={() => handleHuizuanClick(charInfo.char)}>
-                汇纂
-              </div>
-            </Spin>
-            <Spin spinning={handaLoading} size="small">
-              <div className={styles.char_handa} onClick={() => handleHandaClick(charInfo.char)}>
-                汉大
-              </div>
-            </Spin>
-            <div className={styles.char_map} onClick={() => handleMapClick(charInfo.char)}>
-              🌎️
-            </div>
-          </div>
-
-        </div>
-
-        {
-          selectedCharInfos.length === 1 ?
-            <div className="flex-center" >
-              <NoData style={{
-                position: 'relative'
-              }} />
-            </div>
-            : null
-        }
-      </div>
-    } else {
-      itemElement = (
-        <div key={`char_info_${infoIndex}`} className={styles.char_info}>
-          <AutoFitText
-            char={selectedCharItem?.char}
-            dialectName={charInfo.dialectName}
-            phonetics={charInfo.infos.map(ele => ele.phonetic)}
-          />
-          <div>
-            {charInfo.infos.map((info, subIndex) => (
-              <CharPhoneticExplain
-                key={`info_item_${infoIndex}_${subIndex}`}
-                localPageSettingData={localPageSettingData}
-                phonetic={info.phonetic}
-                explain={info.explain}
-                toneMapConfig={store?.dialectInfos?.find(dialectItem => {
-                  return dialectItem[JianCheng] === charInfo.dialectName
-                })?.[ShengDiao]}
-              />
-            ))}
-          </div>
-        </div>
-      );
-    }
-    return (
-      <CellMeasurer
-        key={key}
-        cache={virtualizedCache}
-        parent={parent}
-        columnIndex={0} // 对于列表来说，这个参数通常为0
-        rowIndex={infoIndex}
-      >
-        {({ registerChild }) => (
-          <div ref={registerChild} style={style}>
-            {itemElement}
-          </div>
-        )}
-      </CellMeasurer>
-    );
-  }
 
   const renderItem = (infoIndex, charInfo) => {
     // console.log('🍓', height, width)
