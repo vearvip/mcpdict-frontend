@@ -1,5 +1,13 @@
 import { request } from "../utils/request";
 
+function extraOptions(options = {}) {
+  return {
+    signal: options.signal,
+    silent: options.silent,
+    timeout: options.timeout,
+  };
+}
+
 
 /**
  * 查询字符信息。
@@ -9,11 +17,12 @@ import { request } from "../utils/request";
  * @param {string[]} [params.dialectList] - 方言选项（可选）。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
-export async function queryChars(data) {
+export async function queryChars(data, options = {}) {
   return request({
     url: "/char",
     method: "POST",
     data,
+    ...extraOptions(options),
   });
 }
 /**
@@ -26,11 +35,12 @@ export async function queryChars(data) {
  * @param {'hanzi' | 'duyin' | 'zhushi' | 'cidian'} params.queryType - 方言选项。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
-export async function queryCharsByType(data) {
+export async function queryCharsByType(data, options = {}) {
   return request({
     url: "/char/byType",
     method: "POST",
     data,
+    ...extraOptions(options),
   });
 }
 /**
@@ -41,11 +51,12 @@ export async function queryCharsByType(data) {
  * @param {string[]} params.infoKeyList - 方言选项（必需）。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
-export async function queryCharInfo(data) {
+export async function queryCharInfo(data, options = {}) {
   return request({
     url: "/char/info",
     method: "POST",
     data,
+    ...extraOptions(options),
   });
 }
 /**
@@ -56,11 +67,12 @@ export async function queryCharInfo(data) {
  * @param {string} [data.dialect] - 方言选项（可选）。
  * @returns {Promise<Array>} 包含查询结果的 Promise 对象。
  */
-export async function queryLongString(data) {
+export async function queryLongString(data, options = {}) {
   return request({
     url: "/char/long",
     method: "POST",
     data,
+    ...extraOptions(options),
   });
 }
 
@@ -69,9 +81,10 @@ export async function queryLongString(data) {
  *
  * @returns {Promise<Object>} 包含地理信息的 Promise 对象。
  */
-export async function queryDialectGeo() {
+export async function queryDialectGeo(options = {}) {
   return request({
     url: `/dialect/geo`,
+    ...extraOptions(options),
   });
 }
 
@@ -80,9 +93,10 @@ export async function queryDialectGeo() {
  *
  * @returns {Promise<Object>} 包含方言信息的 Promise 对象。
  */
-export async function queryDialectInfos() {
+export async function queryDialectInfos(options = {}) {
   return request({
     url: `/dialect`,
+    ...extraOptions(options),
   });
 }
 
@@ -92,9 +106,10 @@ export async function queryDialectInfos() {
  *
  * @returns {Promise<Object>} 包含方言item信息的 Promise 对象。
  */
-export async function queryDialectItemInfo(params) {
+export async function queryDialectItemInfo(params, options = {}) {
   return request({
     url: `/dialect/item`,
     params,
+    ...extraOptions(options),
   });
 }

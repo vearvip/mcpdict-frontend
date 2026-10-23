@@ -102,7 +102,8 @@ const SearchInput = (props) => {
             value={value}
             className={styles.input}
             onKeyUp={(event) => {
-              if (event.key === 'Enter') {
+              const native = event.nativeEvent || event
+              if (event.key === 'Enter' && !native.isComposing && event.keyCode !== 229) {
                 handleSearch(value)
               }
             }}

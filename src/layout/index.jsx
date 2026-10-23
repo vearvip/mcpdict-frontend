@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import styles from "./index.module.less";
 import Menu from '@/components/Menu';
-import { queryDialectInfos, queryDialectGeo } from '@/services';
+import { queryDialectInfos } from '@/services';
 import useStore from '@/store';
 import { Routes, Route, useNavigate, useLocation } from "react-router";
 import { routes } from '@/routes'
-import { Button, FloatButton, message } from 'antd';
+import { Button, FloatButton, Result } from 'antd';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { BuChongYueDu, BuDaiDiaoYinJieShu, CanKaoWenXian, Cun, DiTuJiErFenQv, DiTuJiErPaiXv, DiTuJiErYanSe, JianCheng, JingWeiDu, Sheng, ShengDiao, Shi, WeiHuRen, WuZhengZiShu, Xian, YinDianFenQv, YinDianPaiXv, YinDianYanSe, YinJieShu, YinXiShuoMing, YuYan, Zhen, ZiRanCun, ZiShu } from '../utils/constant';
 import { Badge, notification } from 'antd';
-import { useMobile, usePad } from '../utils/hooks';
+import { useMobile } from '../utils/hooks';
 import { buildDistrictTree, getBackgroundColorFromItem, transformDialectInfosToTree } from '../utils';
 import { getLocalPageSettingData } from '../pages/Setting';
-import { SmileOutlined } from '@ant-design/icons';
 import MiniAppQRCode from '../assets/webp/miniapp_qrcode.webp';
 
 
@@ -65,11 +64,12 @@ export const themeToken = {
 /**
  * 布局组件，用于包裹页面内容并提供导航和页脚。 
  */
-const Layout = (props) => {
+const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { store, setStore } = useStore()
+  const { setStore } = useStore()
   const isMobile = useMobile()
+  const [loadError, setLoadError] = useState(null)
   const localPageSettingData = getLocalPageSettingData()
 
   /**
@@ -77,21 +77,6 @@ const Layout = (props) => {
    */
   const handleMenuClick = (e) => {
     navigate(e.key);
-  };
-
-  /**
-   * 打开 Vear 页面。
-   */
-  const handleGoVearPage = () => {
-    window.open('https://vear.vip');
-  };
-
-  /**
-   * 显示微信号信息。
-   */
-  const handleGoWechatImg = () => {
-    // messageApi.info('微信号：vear-vip');
-    window.open('https://cdn.jsdelivr.net/gh/vearvip/cdn@v0.0.14/img/qrcode_wechat.png')
   };
 
   const handleGoOsfanMCPDict = () => {
@@ -106,9 +91,10 @@ const Layout = (props) => {
    * 获取方言信息并更新 store。
    */
   const getDialectInfos = async () => {
-    try {
-      const res = await queryDialectInfos();
-      // console.log('setStore', setStore);
+    const res = await queryDialectInfos();
+    if (!res || !Array.isArray(res.data)) {
+      throw new Error('方言数据格式异常');
+    }
       /**
        * 格式化颜色
        * @param {string} colorStr 
@@ -148,38 +134,23 @@ const Layout = (props) => {
           }
         })
         .filter(item => getBackgroundColorFromItem(item))
-      console.log('dialectInfos', dialectInfos)
       return {
-        dialectInfos: dialectInfos,
+        dialectInfos,
         dialectNames: dialectInfos.map(ele => ele[JianCheng])
       }
-    } catch (error) {
-      console.error('Failed to fetch dialect infos:', error);
-      return false
-    }
-  };
-
-  /**
-   * 获取方言Geo信息并更新 store。
-   */
-  const getDialectGeo = async (dialectInfos) => {
-    if (!dialectInfos) return
-    try {
-      const res = await queryDialectGeo();
-      setStore({
-        geo: res.data,
-      });
-    } catch (error) {
-      console.error('Failed to fetch dialect infos:', error);
-    }
   };
 
   useEffect(() => {
-    // console.log('🍓666')
+    let cancelled = false
     getDialectInfos().then(({
       dialectInfos,
       dialectNames
     }) => {
+      if (cancelled) return
+      if (dialectInfos.length === 0) {
+        setLoadError(new Error('没有可用的方言数据'))
+        return
+      }
       const dialectCateTree = transformDialectInfosToTree(dialectInfos)
       const dialectDistrictTree = buildDistrictTree(dialectInfos)
       const dialectSort = localPageSettingData.partitionMode === DiTuJiErFenQv
@@ -187,7 +158,6 @@ const Layout = (props) => {
         : localPageSettingData.partitionMode === YinDianFenQv
           ? sortByYinDianPaiXv(dialectInfos).map(ele => ele[JianCheng])
           : []
-      // console.log('dialectSort', dialectSort, localPageSettingData.partitionMode, DiTuJiErFenQv, YinDianPaiXv)
       setStore({
         dialectCateTree: dialectCateTree,
         dialectInfos: dialectInfos,
@@ -196,6 +166,10 @@ const Layout = (props) => {
         dialectSort: dialectSort,
       });
       window.dialectInfosWasReady = true
+    }).catch((error) => {
+      if (cancelled) return
+      console.error('Failed to fetch dialect infos:', error)
+      setLoadError(error)
     })
     // getDialectGeo()
     if (localStorage.getItem('mcpdict-miniapp-notice') !== 'yes') {
@@ -237,6 +211,7 @@ const Layout = (props) => {
 
     }
 
+    return () => { cancelled = true }
   }, []);
 
 
@@ -245,6 +220,23 @@ const Layout = (props) => {
   //   routes,
   //   path: location.pathname
   // })
+  if (loadError) {
+    return (
+      <ConfigProvider locale={zhCN} theme={{ token: themeToken }}>
+        <Result
+          status="error"
+          title="方言数据加载失败"
+          subTitle={loadError.message || '请检查网络后重试'}
+          extra={
+            <Button type="primary" onClick={() => window.location.reload()}>
+              重新加载
+            </Button>
+          }
+        />
+      </ConfigProvider>
+    )
+  }
+
   if (routes.find(ele => ele.path == location.pathname)?.needNotLayout) {
     return <>
 

@@ -1,7 +1,7 @@
 import { message } from "antd";
 import {
   JianCheng,
-  YinDianYanSe,
+  DiTuJiErFenQv,
   FenQvEnum,
   KangXi,
   HanDa,
@@ -99,7 +99,7 @@ export function splitStringInto2DArray(text) {
 export function groupVariants(chars, variants) {
   const result = chars.map((char) => ({ char: char, variants: [] }));
 
-  let currentCharIndex = -1;
+  let currentCharIndex = chars.length === 1 ? 0 : -1;
 
   for (let variant of variants) {
     // 查找当前变体是否是基础字符之一
@@ -294,12 +294,15 @@ export async function copy(textContent, showMessage = true) {
  * @param {string} dialectName - 文本内容。
  * @returns {string} 对应的背景颜色。
  */
-export const getBackgroundColorByName = (dialectName, dialectInfos) => {
+const getPartitionConfig = () => {
   const pageSettingData = getLocalPageSettingData();
-  const colorKey = FenQvEnum[pageSettingData.partitionMode].color;
-  return dialectName
-    ? dialectInfos.find((ele) => ele[JianCheng] === dialectName)?.[colorKey]
-    : undefined;
+  return FenQvEnum[pageSettingData.partitionMode] ?? FenQvEnum[DiTuJiErFenQv];
+};
+
+export const getBackgroundColorByName = (dialectName, dialectInfos) => {
+  if (!dialectName || !Array.isArray(dialectInfos)) return undefined;
+  const colorKey = getPartitionConfig().color;
+  return dialectInfos.find((ele) => ele[JianCheng] === dialectName)?.[colorKey];
 };
 
 /**
@@ -309,9 +312,8 @@ export const getBackgroundColorByName = (dialectName, dialectInfos) => {
  * @returns {string} 对应的背景颜色。
  */
 export const getBackgroundColorFromItem = (dialectItem) => {
-  const pageSettingData = getLocalPageSettingData();
-  const colorKey = FenQvEnum[pageSettingData.partitionMode].color;
-  return dialectItem[colorKey];
+  if (!dialectItem) return undefined;
+  return dialectItem[getPartitionConfig().color];
 };
 
 /**
@@ -452,7 +454,9 @@ export function transformDialectInfosToTree(dialectInfos) {
 
   dialectInfos.forEach((dialectInfo) => {
     const pageSettingData = getLocalPageSettingData();
-    const dialectLevels = dialectInfo[pageSettingData.partitionMode].split("－");
+    const partitionValue = dialectInfo?.[pageSettingData.partitionMode];
+    if (!partitionValue) return;
+    const dialectLevels = String(partitionValue).split("－");
     const languageShortName = dialectInfo[JianCheng];
 
     function addDialectNode(levels, shortName, node, pathSoFar = "") {

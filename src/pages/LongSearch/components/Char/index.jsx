@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './index.module.less';
 import { Popover } from 'antd';
 import { convertPitchNum2Curve, getRealPhoneticAndToneKey } from '../../../../utils';
@@ -91,9 +91,12 @@ export default ({
       tone: genFinallyTone(localPageSettingData, toneKey),
       char: genFinallyChar(localPageSettingData, char),
     }
-    onChange && onChange(charItem)
     return charItem
   }, [charInfos, charInfoIndex, phoneticIndex])
+
+  useEffect(() => {
+    onChange && onChange(nowCharItem)
+  }, [nowCharItem, onChange])
 
   const hasMultiPhonetic = useMemo(() => {
     return (charInfos || []).map(ele => ele?.phonetics ?? []).flat().length > 1

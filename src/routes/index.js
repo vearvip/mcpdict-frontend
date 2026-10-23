@@ -1,11 +1,9 @@
 import Index from '@/pages/Index';
 import Search from '@/pages/Search';
 import LongSearch from '@/pages/LongSearch';
-import Dict from '@/pages/Dict';
 // import Join from '@/pages/Join'; 
 import Map from '@/pages/Map'; 
 import Setting from '../pages/Setting';
-import Ceshi from '../pages/Ceshi';
 import Information from '../pages/Information'; 
 import HomophoneList from '../pages/HomophoneList';
 /**
@@ -28,17 +26,6 @@ export const routes = [
     component:  LongSearch,
     // disabled: true,
   }, 
-  // {
-  //   title: "字典模式",
-  //   path: "/dict",
-  //   component:  Dict,
-  //   disabled: true,
-  // }, 
-  // {
-  //   title: "参与注音",
-  //   path: "/join",
-  //   component:  Join
-  // },
   {
     title: "语言地图",
     path: "/map",
@@ -51,12 +38,6 @@ export const routes = [
     path: "/setting",
     component:  Setting,
     // disabled: true,
-  },
-  {
-    title: "测试",
-    path: "/ceshi",
-    component:  Ceshi,
-    hidden: true,
   },
   {
     title: "推荐资源",

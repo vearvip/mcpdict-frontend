@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Amap from '../AMap'
 import styles from './index.module.less';
 import Dialog from '../../components/Dialog'
 import { FloatButton, Skeleton, Descriptions, Collapse } from 'antd';
@@ -58,8 +57,8 @@ const DialectInfo = (props) => {
 
   const replaceLaiYuanATag = (htmlStr = '') => {
     return htmlStr.replaceAll(
-      '\<a',
-      '\<a target=\"_blank\"'
+      '<a',
+      '<a target="_blank"'
     )
   }
 

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useImperativeHandle } from "react";
-import { SettingOutlined } from "@ant-design/icons";
-import { usePad } from "../../utils/hooks";
 import { createRoot } from "react-dom/client";
 import Dialog from "../Dialog";
 
@@ -9,7 +7,7 @@ import CiDianSVG from "./svgs/cidian.svg?react";
 import ZhuShiSVG from "./svgs/zhushi.svg?react";
 import DuYinSVG from "./svgs/duyin.svg?react";
 
-import { Select, Form, Radio, Button, Flex } from "antd";
+import { Select, Form, Radio, Flex } from "antd";
 import { TreeSelect } from "antd";
 import useStore from "@/store";
 import { useRef } from "react";
@@ -68,6 +66,18 @@ export const setLocalFilterData = (filterData) => {
   }
 };
 
+const toDistrictTreeData = (nodes = []) =>
+  nodes.map((node) => {
+    const children = Array.isArray(node.children)
+      ? toDistrictTreeData(node.children)
+      : undefined
+    return {
+      value: node.value,
+      title: `${node.title}(${node.dialects?.length ?? 0})`,
+      children,
+    }
+  })
+
 export const Filter = React.forwardRef(
   /**
    * 搜索输入组件，用于处理用户搜索输入和设置对话框。
@@ -83,7 +93,7 @@ export const Filter = React.forwardRef(
 
     const [form] = Form.useForm();
     const filterMode = Form.useWatch("filterMode", form);
-    const { store, setStore } = useStore();
+    const { store } = useStore();
 
     useImperativeHandle(ref, () => {
       // 需要将暴露的接口返回出去
@@ -246,13 +256,7 @@ export const Filter = React.forwardRef(
             // dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             allowClear
             treeDefaultExpandAll
-            treeData={(store?.dialectDistrictTree ?? []).map((item) => {
-              const { value, title, dialects } = item;
-              return {
-                value,
-                title: title + `(${dialects.length})`,
-              };
-            })}
+            treeData={toDistrictTreeData(store?.dialectDistrictTree ?? [])}
           />
         </Form.Item>
       </Form>
@@ -295,9 +299,7 @@ const FilterDialog = (props) => {
     formRef.current.reset();
   };
 
-  const handleFilterChange = (allValues) => {
-    // setFormData(allValues)
-  };
+  const handleFilterChange = () => {};
 
   return (
     <Dialog
@@ -353,29 +355,31 @@ export const showFilterDialog = (props = {}) => {
     root = createRoot(dialogContainer); // 创建根实例
   }
   const remove = (callback) => {
-    // console.log('dialogContainer', dialogContainer)
     setTimeout(() => {
-      if (dialogContainer.parentNode) {
-        dialogContainer.parentNode.removeChild(dialogContainer);
-        dialogContainer = null; // 清空容器引用
-        root = null; // 清空根实例引用
+      if (root) {
+        root.unmount();
+        root = null;
       }
+      if (dialogContainer?.parentNode) {
+        dialogContainer.parentNode.removeChild(dialogContainer);
+      }
+      dialogContainer = null;
       callback();
-    }, 380); // 这里的500ms是为了等待动画完成
+    }, 380); // 等待关闭动画
   };
 
   // 定义关闭对话框的方法
   const handleClose = (...args) => {
     remove(() => {
       // 调用传递的onClose回调，如果有的话
-      onClose && onClose.call(this, ...args);
+      onClose && onClose(...args);
     });
   };
   // 定义关闭对话框的方法
   const handleOk = (...args) => {
     remove(() => {
       // 调用传递的onOk回调，如果有的话
-      onOk && onOk.call(this, ...args);
+      onOk && onOk(...args);
     });
   };
 

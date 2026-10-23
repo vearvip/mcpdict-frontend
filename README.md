@@ -62,6 +62,12 @@ npm run dev
 ```bash
 npm run build
 ```
+
+代码检查与测试
+```bash
+npm run lint
+npm test
+```
 ## 已实现功能
   - 字音查询（可以按照如下方式进行筛选）
     - 单选语言

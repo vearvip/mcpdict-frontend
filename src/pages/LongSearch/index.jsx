@@ -1,16 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.less';
-import settingPng from '@/assets/svg/setting.svg';
 import NoData from '@/components/NoData';
 import LogoBlock from "@/components/LogoBlock";
-import { Button, Select, Form, Input, message, } from 'antd';
+import { Button, Input, message } from 'antd';
 import { extractHanzi } from '@vearvip/hanzi-utils'
 import useStore from '@/store';
 import NProgress from 'nprogress';
-import { queryChars, queryLongString } from '../../services';
-import { copy, delay, formatSearchData, generateColorOrGradient, getBackgroundColorByName, groupVariants, parseSplitStr, splitStringInto2DArray } from '../../utils';
+import { queryLongString } from '../../services';
+import { copy, formatSearchData, generateColorOrGradient, getBackgroundColorByName, groupVariants, splitStringInto2DArray } from '../../utils';
 import Char from './components/Char';
-import Dialog from '../../components/Dialog';
 import { getLocalFilterData, setLocalFilterData, showFilterDialog } from '../../components/Filter';
 import { SettingOutlined } from '@ant-design/icons';
 import { getLocalPageSettingData } from '../Setting';
@@ -23,20 +21,19 @@ import { useAsyncEffect } from 'ahooks';
  *
  * @param {Object} props - 组件属性。
  */
-const LongSearch = (props) => {
+const LongSearch = () => {
   const { store } = useStore()
 
   const styleTagRef = useRef()
 
   const localPageSettingData = getLocalPageSettingData()
-  const [originTextAreaValue, setOriginTextAreaValue] = useState()
-  const [textAreaValue, setTextAreaValue] = useState()
+  const [originTextAreaValue, setOriginTextAreaValue] = useState('')
+  const [textAreaValue, setTextAreaValue] = useState('')
 
   const [filterData, setFilterData] = useState(
     getLocalFilterData()
   )
   const [charVariantInfos, setCharVariantsInfos] = useState()
-  const [form] = Form.useForm();
 
   const twoDimensionalCharListRef = useRef([])
 
@@ -92,27 +89,30 @@ const LongSearch = (props) => {
     }));
   }
   const handleSearch = async (filterData) => {
-    setCharVariantsInfos(undefined)
-    twoDimensionalCharListRef.current = []
-    await delay(100)
     if (!filterData?.dialectName) {
-      // message.warning('请点击⚙设置按钮选择语言')
       message.warning('请选择语言')
       handleClickSetting()
       return
     }
-    NProgress.start();
 
+    const chars = extractHanzi(originTextAreaValue || '')
+    if (chars.length === 0) {
+      setCharVariantsInfos(undefined)
+      setTextAreaValue('')
+      message.warning('请输入需要注音的汉字')
+      return
+    }
+
+    NProgress.start();
     try {
-      const chars = extractHanzi(originTextAreaValue)
       const result = await queryLongString({
         charList: chars,
         dialectName: filterData.dialectName
       });
-  
+
       const groupVariantList = groupVariants(chars, result?.data?.variants ?? [])
       let charGroupList = [];
-      
+
       groupVariantList.forEach((groupItem) => {
         charGroupList = [
           ...charGroupList,
@@ -120,37 +120,24 @@ const LongSearch = (props) => {
         ]
       });
 
-      const charVariantInfos = genCharVariantInfos(charGroupList);
-      
-      setCharVariantsInfos(charVariantInfos)
+      setCharVariantsInfos(genCharVariantInfos(charGroupList))
       setTextAreaValue(originTextAreaValue)
     } catch (e) {
       console.error('长文搜索出错：', e)
-      if (!originTextAreaValue) {
-        setCharVariantsInfos(undefined)
-      }
+      // request 层已经提示；保留上一次成功结果，避免出错时整页清空
     } finally {
       NProgress.done();
     }
-
   }
 
 
-  const handleModalOk = () => {
-    const filterData = form.getFieldsValue()
-    setLocalFilterData(filterData)
-    // console.log('filterData', filterData)
-    props.onSearch(value, true)
-  }
-  const handleModalCancel = () => {
 
-  }
 
   const handleCopy = () => {
     const twoDimensionalCharList = twoDimensionalCharListRef.current
     // console.log('twoDimensionalCharList', twoDimensionalCharList)
     let textContent = ``
-    twoDimensionalCharList.forEach((level1Item, level1Index) => {
+    twoDimensionalCharList.forEach((level1Item) => {
       level1Item.forEach(
         /**
          * 
@@ -161,7 +148,7 @@ const LongSearch = (props) => {
          * @param {string} level2Item.char 汉字
          * @param {number} level2Index 
          */
-        (level2Item, level2Index) => {
+        (level2Item) => {
           // console.log('level2Item', level2Item)
           let { phonetic = '', tonePitch = '', tone = '', char = '' } = level2Item
           textContent = `${textContent}${phonetic}${tonePitch}${tone} ${char} `
@@ -188,6 +175,29 @@ const LongSearch = (props) => {
     twoDimensionalCharList[charItemLevel1Index][charItemLevel2Index] = charItem
     twoDimensionalCharListRef.current = (twoDimensionalCharList)
   }
+
+  // 把没有读音的字也记录到二维数组里，保证“复制”不会漏字。
+  // 放在 effect 里做，避免在 render 期间修改 ref。
+  useEffect(() => {
+    if (!charVariantInfos || !textAreaValue) return
+    const lines = splitStringInto2DArray(textAreaValue)
+    const next = []
+    lines.forEach((line, lineIndex) => {
+      next[lineIndex] = []
+      line.forEach((char, charIndex) => {
+        const existing = twoDimensionalCharListRef.current[lineIndex]?.[charIndex]
+        if (existing && existing.char === char) {
+          next[lineIndex][charIndex] = existing
+          return
+        }
+        const infos = charVariantInfos.find((info) => info.char === char)?.charInfos
+        if (!infos || infos.length === 0) {
+          next[lineIndex][charIndex] = { phonetic: '', tonePitch: '', tone: '', char }
+        }
+      })
+    })
+    twoDimensionalCharListRef.current = next
+  }, [charVariantInfos, textAreaValue])
 
   function showDialectNameTag(dialectName) {
     if (!dialectName) {
@@ -307,12 +317,6 @@ const LongSearch = (props) => {
                     line.map((char, charIndex) => {
                       const charInfos = charVariantInfos.find((info) => info.char === char)?.charInfos
                       if (!charInfos || charInfos.length === 0) {
-                        handleCharChange({
-                          phonetic: '',
-                          tonePitch: '',
-                          tone: '',
-                          char: char,
-                        }, lineIndex, charIndex)
                         return <span
                           key={`lineIndex_${lineIndex}_charIndex_${charIndex}_char_${char}`}
                           style={{

@@ -1,28 +1,16 @@
-import React, { useState, useEffect } from "react";
-// import AMap from '../../components/AMap'
-// import TMap from '../../components/TMap'
+import { useState, useEffect } from "react";
 import MapTiler from "../../components/MapTiler";
 import MapFilter from "../../components/MapFilter";
 import styles from "./index.module.less";
-import Dialog from "../../components/Dialog";
-import { Button, Form, Select } from "antd";
 import useStore from "@/store";
 import { JianCheng } from "../../utils/constant";
-import { showDialectMap } from "../../components/DialectMap";
-import { parseSplitStr } from "../../utils";
 import { useMemo } from "react";
 import { useMobile, usePad } from "../../utils/hooks";
 import { useSearchParams } from "react-router";
-import { useNavigate } from "react-router";
-import { getLocalPageSettingData } from "../Setting";
-import {
-  extractHanzi,
-  unicodeLengthIgnoreSequence,
-} from "@vearvip/hanzi-utils";
 import eventBus from "../../event/bus";
 
 export default () => {
-  const { store, setStore } = useStore();
+  const { store } = useStore();
   const isPad = usePad();
   const isMobile = useMobile();
   const [searchResult, setSearchResult] = useState();
@@ -30,7 +18,9 @@ export default () => {
   const [searchParams] = useSearchParams();
 
   const mapDialectInfos = useMemo(() => {
-    const dialectInfos = JSON.parse(JSON.stringify(store?.dialectInfos));
+    const dialectInfos = store?.dialectInfos
+      ? JSON.parse(JSON.stringify(store.dialectInfos))
+      : [];
     if (
       radioValue &&
       searchResult &&
@@ -41,14 +31,14 @@ export default () => {
       dialectInfos.length > 0
     ) {
       const _mapDialectInfos = [];
-      const selectedCharItems = searchResult.find(
-        (ele) => ele.char === radioValue
-      ).charInfo;
+      const selected = searchResult.find((ele) => ele.char === radioValue)
+      const selectedCharItems = selected?.charInfo || [];
 
       (selectedCharItems || []).forEach((selectedCharItem) => {
         const dialectInfo = dialectInfos.find(
           (ele) => ele[JianCheng] === selectedCharItem.dialectName
         );
+        if (!dialectInfo) return;
         dialectInfo.phonetic = (selectedCharItem.infos || [])
           .map((ele) => ele.phonetic)
           .join(" ");
@@ -115,8 +105,6 @@ export default () => {
           />
         </div>
       )}
-      {/* <AMap */}
-      {/* <TMap */}
       <MapTiler
         dialectInfos={mapDialectInfos}
         style={{

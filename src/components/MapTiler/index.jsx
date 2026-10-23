@@ -6,7 +6,7 @@ import { showDialectInfo } from "../DialectInfo";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
 import { getLocalPageSettingData } from "../../pages/Setting"
-import { mapStyle, mapStyleConfig, calculateDenseMapCenterAndZoom } from "./util";
+import { mapStyle, mapStyleConfig, calculateDenseMapCenterAndZoom, parseLngLat } from "./util";
 
 /**
  * 地图容器组件，加载maptiler地图并绘制方言点
@@ -66,10 +66,10 @@ export default function MapTiler({ dialectInfos, style }) {
       }
     } catch (error) {
       console.error("地图初始化失败：", error);
-      // 重置为默认地图样式
-      switchMapStyle('gaode');
+      // 不回 reload（localStorage 里的旧 style 会导致无限刷新）；重置为高德即可。
       localStorage.setItem('mapStyle', 'gaode');
-      window.location.reload();
+      setCurrentMapStyle('gaode');
+      console.error('地图初始化失败，已回退到高德样式');
     }
   }
 
@@ -116,7 +116,7 @@ export default function MapTiler({ dialectInfos, style }) {
       setStyleSwitcherOpen(false);
       
       // 样式切换后重新添加标记
-      mapRef.current.on('style.load', () => {
+      mapRef.current.once('style.load', () => {
         if (dialectInfos && dialectInfos.length > 0) {
           // 清除现有标记
           markerList.forEach(marker => {
@@ -139,10 +139,9 @@ export default function MapTiler({ dialectInfos, style }) {
   };
 
   const makeDialectMarker = dialectItem => {
-    const [longitude, latitude] = dialectItem[JingWeiDu].split(',')
-    if (!latitude && !latitude) {
-      return
-    }
+    const lngLat = parseLngLat(dialectItem?.[JingWeiDu])
+    if (!lngLat) return null
+    const [longitude, latitude] = lngLat
     const markerDOM = document.createElement('div')
     const backgroundColor = generateColorOrGradient(getBackgroundColorFromItem(dialectItem))
 
@@ -278,11 +277,8 @@ export default function MapTiler({ dialectInfos, style }) {
       try {
         const coordinates = dialectInfos
           .map(item => {
-            const [longitude, latitude] = item[JingWeiDu].split(',')
-            if (latitude && longitude) {
-              return [parseFloat(latitude), parseFloat(longitude)]
-            }
-            return null
+            const lngLat = parseLngLat(item?.[JingWeiDu])
+            return lngLat ? [lngLat[1], lngLat[0]] : null
           })
           .filter(coord => coord !== null)
 

@@ -1,3 +1,16 @@
+/**
+ * 数据里的“經緯度”格式是 "lng,lat"。
+ * 返回 [lng, lat]；无效值返回 null。
+ */
+export function parseLngLat(value) {
+  if (typeof value !== 'string') return null
+  const parts = value.split(',').map((item) => Number(item.trim()))
+  if (parts.length !== 2 || parts.some((item) => !Number.isFinite(item))) return null
+  const [lng, lat] = parts
+  if (Math.abs(lng) > 180 || Math.abs(lat) > 90) return null
+  return [lng, lat]
+}
+
 const maptilerKey = "HSnYXzpfPRlVp7fkOywW"
 
 // 统一的地图样式配置

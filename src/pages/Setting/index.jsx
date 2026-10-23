@@ -1,16 +1,14 @@
-import React from 'react'
 import styles from './index.module.less'
-import { AppstoreOutlined, ClearOutlined, MailOutlined, SaveOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { ClearOutlined, SaveOutlined } from '@ant-design/icons';
+import { Button, Form } from 'antd';
 import { Radio } from 'antd';
-import { ChenFangFenQv, DiTuJiErFenQv, YinDianFenQv } from '../../utils/constant';
+import { DiTuJiErFenQv, YinDianFenQv } from '../../utils/constant';
 import { useEffect } from 'react';
 import { usePad } from '../../utils/hooks';
 import { message } from 'antd';
 import { getLocalFilterData, setLocalFilterData } from '../../components/Filter';
 import useStore from '@/store';
-import { clearPageCache, delay, transformDialectInfosToTree } from '../../utils';
+import { clearPageCache, transformDialectInfosToTree } from '../../utils';
 import { Divider } from 'antd';
 
 
@@ -22,6 +20,12 @@ const defaultPageSettingData = {
   longSearchPageFormat: 8,
   mapPageMarkerSize: 'small'
 }
+
+const VALID_PARTITION_MODES = [DiTuJiErFenQv, YinDianFenQv]
+const VALID_TONE_TYPES = ['pinYin', 'baSheng', 'siSheng', 'pingShangQvRu', 'siJiao', 'bingPai', 'hidden']
+const VALID_TONE_PITCH_TYPES = ['curve', 'number', 'hidden']
+const VALID_SEARCH_PAGE_FORMATS = ['labelList', 'table']
+const VALID_MAP_MARKER_SIZES = ['normal', 'small', 'ipa', 'point']
 
 export const getLocalPageSettingData = () => {
   let pageSettingData
@@ -39,6 +43,10 @@ export const getLocalPageSettingData = () => {
     pageSettingData = JSON.parse(JSON.stringify(defaultPageSettingData))
   }
 
+  if (!pageSettingData || typeof pageSettingData !== 'object' || Array.isArray(pageSettingData)) {
+    pageSettingData = JSON.parse(JSON.stringify(defaultPageSettingData))
+  }
+
   // 兼容性处理（在字段补全之前）
   if (pageSettingData.toneType === 'baShengShuZi') {
     pageSettingData.toneType = 'pinYin'
@@ -50,6 +58,28 @@ export const getLocalPageSettingData = () => {
     if (pageSettingData[key] === undefined) {
       pageSettingData[key] = defaultFieldVal
     }
+  }
+
+  // 值校验：旧版本/手改 localStorage 可能留下已废弃的值，直接回退默认值
+  if (!VALID_PARTITION_MODES.includes(pageSettingData.partitionMode)) {
+    pageSettingData.partitionMode = defaultPageSettingData.partitionMode
+  }
+  if (!VALID_TONE_TYPES.includes(pageSettingData.toneType)) {
+    pageSettingData.toneType = defaultPageSettingData.toneType
+  }
+  if (!VALID_TONE_PITCH_TYPES.includes(pageSettingData.tonePitchType)) {
+    pageSettingData.tonePitchType = defaultPageSettingData.tonePitchType
+  }
+  if (!VALID_SEARCH_PAGE_FORMATS.includes(pageSettingData.searchPageFormat)) {
+    pageSettingData.searchPageFormat = defaultPageSettingData.searchPageFormat
+  }
+  if (!VALID_MAP_MARKER_SIZES.includes(pageSettingData.mapPageMarkerSize)) {
+    pageSettingData.mapPageMarkerSize = defaultPageSettingData.mapPageMarkerSize
+  }
+  if (![1,2,3,4,5,6,7,8].includes(Number(pageSettingData.longSearchPageFormat))) {
+    pageSettingData.longSearchPageFormat = defaultPageSettingData.longSearchPageFormat
+  } else {
+    pageSettingData.longSearchPageFormat = Number(pageSettingData.longSearchPageFormat)
   }
 
   return pageSettingData

@@ -1,6 +1,5 @@
 import { useSearchParams } from "react-router";
 import PageContainer from "./components/PageContainer";
-import { string1 } from "./str";
 import { queryDialectItemInfo } from "../../services";
 import { useEffect, useMemo, useState } from "react";
 import { TongYinZiBiao } from "../../utils/constant";
