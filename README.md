@@ -33,6 +33,19 @@ src/
 
 ## 快速上手
 
+## 环境变量
+
+API 地址不再写死在源码里，默认：
+
+```bash
+VITE_API_BASE_URL=https://server.mcpdict.vear.vip
+```
+
+- 本地开发可设为 `http://localhost:3000`；
+- 预发/同源反代时设为空字符串，让请求走当前域名；
+- 参考 `.env.example`。
+
+
 安装依赖包
 
 ```bash

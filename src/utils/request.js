@@ -1,8 +1,9 @@
 import { message } from 'antd';
 import qs from 'qs';
 
-let baseURL = 'https://server.mcpdict.vear.vip'
-// baseURL = 'http://localhost:3000' 
+// 生产默认值；本地/预发通过 VITE_API_BASE_URL 覆盖。
+// pre 环境用同源反代时设为空字符串。
+const baseURL = import.meta.env.VITE_API_BASE_URL ?? 'https://server.mcpdict.vear.vip'
 
 // @ts-ignore
 export const fetcher = (url, ...args) => fetch(
